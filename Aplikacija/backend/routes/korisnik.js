@@ -6,6 +6,7 @@ const Trening=require("../models/Trening")
 const Trener=require("../models/Trener")
 const Napredak=require("../models/Napredak");
 const Usluga = require("../models/Usluga");
+const Zahtev=require("../models/Zahtev.js");
 
 
 //zakazi personalni trening
@@ -78,6 +79,23 @@ router.put("/izmeniTrening/:idKorisnika/:idTreninga", async(req, res)=>{
 })
 
 //ukini trening
+router.put("/ukiniTrening/:idTreninga", async (req, res) => {
+
+    try{
+        const trening=await Trening.findById(req.params.idTreninga)
+        if(trening!=null){
+            const zahtev=await Zahtev.findOneAndUpdate({treningId:req.params.idTreninga}, {$set: {status:"Ukinuto"}})
+            res.status(200).json(zahtev)
+        }
+        else{
+            res.status(400).json("Nije pronadjen trening")
+        }
+        
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+   });
 
 //pregledaj sve trenere
 router.get("/vidiTrenere", async(req, res)=>{

@@ -7,6 +7,7 @@ const { route } = require("./auth");
 const Trening = require("../models/Trening");
 const Napredak = require("../models/Napredak");
 const { resetWatchers } = require("nodemon/lib/monitor/watch");
+const Zahtev = require("../models/Zahtev");
 
 
 //dodaj korisnika
@@ -203,7 +204,28 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
 
    //prihvati trening
 
-   //odbij trening
+   router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
+
+    try{
+        const zahtev=await Zahtev.findOneAndUpdate(req.params.idZahteva,{$set:{status:"Odobreno"}})
+        res.status(200).json(zahtev)
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+   });
+
+   //odbij trening, ovo bi trebalo da bude funkcija koja se zove i za ukidanje treninga
+   router.put("/odbijTrening/:idZahteva", async (req, res) => {
+
+    try{
+        const zahtev=await Zahtev.findOneAndUpdate(req.params.idZahteva,{$set:{status:"Odbijeno"}})
+        res.status(200).json(zahtev)
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+   });
 
    //izmeni trening
    router.put("/izmeniTrening/:idTrenera/:idTreninga", async(req, res)=>{
@@ -237,8 +259,6 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
         res.status(500).json(err);
     }
 })
-
-   //ukini trening
 
    //dodaj napredak za klijenta
    router.post("/dodajNapredak/:idTrenera", async(req, res)=>{

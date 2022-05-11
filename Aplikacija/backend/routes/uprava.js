@@ -8,6 +8,9 @@ const RegistrovaniKorisnik=require("../models/RegistrovaniKorisnik")
 const Clanarina=require("../models/Clanarina")
 const Usluga=require("../models/Usluga")
 const Sertifikat=require("../models/Sertifikat")
+const Trening=require("../models/Trening")
+const Zahtev=require("../models/Zahtev")
+
 
 
 //dodaj registrovanog korisnika
@@ -244,7 +247,54 @@ router.delete("/obrisiUslugu/:idUsluge", async (req, res) => {
 
 })
 
- 
+//napravi zahtev za treningom i posalji treneru
+
+router.post("/napraviZahtev/:idTreninga", async(req, res)=>{
+
+  try{
+     const trening = await Trening.findById(req.params.idTreninga)
+     if(trening!=null){
+
+      const zahtev = await new Zahtev({
+        treningId:req.params.idTreninga
+      })
+
+      const zahtevSave=await zahtev.save()
+      res.status(200).json(zahtev)
+
+     }
+     else{
+       res.status(404).json("Trening nije pronadjen")
+     }
+    
+
+  }
+  catch(err){
+      res.status(500).json(err);
+  }
+
+})
+
+//obrisi odbijen trening
+router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
+
+  try{
+
+    const zahtev=await Zahtev.findById(req.params.idZahteva)
+    if(zahtev.status=="Odbijeno" || zahtev.status=="Ukinuto"){
+      await Trening.findByIdAndDelete(zahtev.treningId)
+      res.status(200).json("trening uspesno obrisan")
+    }
+    else{
+      res.status(400).json("Trening je prihvacen, ne treba ga brisati")
+    }
+
+  }
+  catch(err){
+      res.status(500).json(err);
+  }
+ });
+
 
 
 module.exports = router
