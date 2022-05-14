@@ -48,13 +48,13 @@ const Treneri = () => {
     const [zakazi, setZakazi] = useState(false);
 
     const prikaziVise = (ev) => {
-        setDetalji({ id: ev.target.id, state: !detalji.state });
+        setDetalji({ id: ev.target.id, state: false });
 
-        if (detalji.state)
-            ev.target.innerHTML = 'Sakrij'
-        else
-            ev.target.innerHTML = 'Prikazi vise'
+        setZakazi(false)
+    }
 
+    const prikaziManje = (ev) => {
+        setDetalji({ id: -1, state: true });
         setZakazi(false)
     }
 
@@ -80,9 +80,10 @@ const Treneri = () => {
                         {!detalji.state && detalji.id == i && <p>kalendar</p>}
 
                         {detalji.id !== i && <button id={i} onClick={prikaziVise}>Prikazi vise</button>}
-                        {!detalji.state && detalji.id == i && <button onClick={zakaziForma}>Zakazi</button>}
+                        {detalji.id == i && <button onClick={prikaziManje}>Sakrij</button>}
+                        {!detalji.state && detalji.id == i && <button onClick={zakaziForma}>Vidi raspored</button>}
 
-                        {!detalji.state && detalji.id == i && zakazi && <KalendarForma id={i} />}
+                        {!detalji.state && detalji.id == i && zakazi && <KalendarForma id={i} imeTrenera = {tr.ime} prezimeTrenera = {tr.prezime} />}
                     </div>
 
                 </div>

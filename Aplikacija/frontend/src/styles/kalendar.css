@@ -1,0 +1,20 @@
+.dani-u-nedelji{
+    display: flex;
+    gap: 1px;
+}
+.dan {
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.dugme {
+    border-radius: 0;
+}
+.termin {
+    display: flex;
+    gap: 5px;
+}

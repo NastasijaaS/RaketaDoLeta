@@ -2,7 +2,8 @@ import './App.css';
 import { Header, Footer, Pocetna } from './components/Pocetna';
 import LogIn from './components/LoginForma'
 import Treneri from './components/Treneri'
-import Onama from './components/ONama';
+import Onama from './components/ONama'
+import ScrollToTop from './components/ScrollToTop';
 import React, { Fragment } from "react";
 import {
   BrowserRouter as Router,
@@ -14,10 +15,13 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
+
       <Header />
 
       <Routes>
-        <Route path='/' element = {<Pocetna/>}>
+
+        <Route  path='/' element = {<Pocetna/>}>
         </Route>
 
         <Route path='/treneri' element={<Treneri />}>
