@@ -1,0 +1,37 @@
+.treneri{
+    justify-content: center;
+}
+
+.trener {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    border-radius: 12px;
+
+}
+div.trener:hover{
+    background-color: rgb(162, 172, 172);
+}
+
+img {
+    height: 40vh;
+    max-width: 40vw;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.ime:hover{
+    color: rgb(66, 29, 231);
+ cursor: pointer;
+}
+button {
+    height: 24px;
+    border-radius: 10px;
+    border: 1px;
+    margin: 6px;
+}
+button:hover{
+    background-color: blueviolet;
+    cursor: pointer;
+}

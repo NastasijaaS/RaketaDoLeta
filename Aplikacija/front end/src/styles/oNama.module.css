@@ -1,0 +1,21 @@
+.pozadina {
+    height: 300px;
+
+    background-image: url(https://image.shutterstock.com/image-photo/top-view-blue-fitness-mat-260nw-1782713462.jpg);
+
+    background-repeat: no-repeat;
+
+    background-position: center center;
+    background-size: cover;
+
+    display: flex;
+    justify-content: center;
+
+}
+.glavniNaslov{
+    margin-top: 10vw;
+}
+.opis {
+    margin: 5vw;
+    gap: 20px;
+}
