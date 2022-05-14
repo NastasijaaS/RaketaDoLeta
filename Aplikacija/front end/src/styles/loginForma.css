@@ -1,0 +1,17 @@
+.forma{
+    display: flex;
+    justify-content: center;
+    height: 80vh;
+    align-items: center;
+}
+.login{
+    justify-content: center;
+}
+input{
+    height: 24px;
+    border-radius: 10px;
+    margin: 6px;
+}
+input:hover{
+    background-color: rgb(226, 211, 239);
+}
