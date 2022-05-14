@@ -8,6 +8,7 @@ const Trening = require("../models/Trening");
 const Napredak = require("../models/Napredak");
 //const { resetWatchers } = require("nodemon/lib/monitor/watch");
 const Zahtev = require("../models/Zahtev");
+const Evidencija = require("../models/Evidencija");
 
 
 //dodaj korisnika
@@ -23,7 +24,12 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
 
                 const noviKorisnik=await new Korisnik({
                     registrovaniKorisnikId:kor._id,
-                    visina:req.body.visina
+                    visina:req.body.visina,
+                    zeljenaTezina:req.body.zeljenaTezina,
+                    zeljeniProcenatMasti:req.body.zeljeniProcenatMasti,
+                    zeljenaTezinaMisica:req.body.zeljenaTezinaMisica,
+                    zeljeniProcenatProteina:req.body.zeljeniProcenatProteina,
+                    brojGodina:req.body.brojGodina
                 })
 
                 const noviKorisnikSave=await noviKorisnik.save();
@@ -273,7 +279,16 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
 
                     const napredak=await new Napredak({
                         "korisnikId":req.body.korisnikId,
-                        "zeljenaKilaza":req.body.zeljenaKilaza
+                        "kilaza":req.body.kilaza,
+                        "tezina":req.body.tezina,
+                        "tezinaMisica":req.body.tezinaMisica,
+                        "procenatProteina":req.body.procenatProteina,
+                        "procenatMasti":req.body.procenatMasti,
+                        "BMI":req.body.BMI,
+                        "kostanaMasa":req.body.kostanaMasa,
+                        "procenatVode":req.body.procenatVode,
+                        "bodyAge":req.body.bodyAge
+                    
                     })
     
                     const napredakSave=await napredak.save();
@@ -340,6 +355,91 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
     }
 
 })
+
+//dodaj evidenciju
+router.post("/dodajEvidenciju/:idTrenera", async(req, res)=>{
+
+    try{
+        const trener=await Trener.findById(req.params.idTrenera)
+        if(trener!=null){
+            const korisnik=await Korisnik.findById(req.body.korisnikId)
+            if(korisnik!=null){
+
+                if(korisnik.trenerId==trener._id){
+
+                    const evidencija=await new Evidencija({
+                        "korisnikId":req.body.korisnikId,
+                        "brojTreninga":req.body.brojTreninga,
+                        "tipTreninga":req.body.tipTreninga,
+                        "nivo":req.body.nivo
+                    })
+    
+                    const evidencijaSave=await evidencija.save();
+                    res.status(200).json(evidencijaSave)
+
+                }
+                else{
+                    res.status(400).json("Mozete dodati evidenciju samo svom korisniku")
+                }
+
+            }
+            else{
+                res.status(404).json("Korisnik nije pronadjen")
+            }
+
+        }
+        else{
+            res.status(404).json("Trener nije pronadjen")
+        }
+
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+
+})
+
+//pregledaj evidenciju
+ router.get("/vidiEvidenciju/:idTrenera/:idKorisnika", async(req, res)=>{
+
+    try{
+
+        const trener=await Trener.findById(req.params.idTrenera)
+        if(trener!=null){
+            const korisnik=await Korisnik.findById(req.params.idKorisnika)
+            if(korisnik!=null){
+                if(korisnik.trenerId==trener._id){
+                    const evidencija=await Evidencija.findOne({korisnikId:req.params.idKorisnika})
+                    if(evidencija!=null){
+                        res.status(200).json(evidencija)
+                    }
+                    else{
+                        res.status(404).json("ne postoji dodata evidencija za ovog klijenta")
+                    }
+
+                }
+                else{
+                    res.status(400).json("mozete videti evidenciju samo svog klijenta")
+                }
+
+            }
+            else{
+                res.status(404).json("korisnik nije pronadjen")
+            }
+
+        }
+        else{
+            res.status(404).json("trener nije pronadjen")
+        }
+
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+
+})
+
+
 
 
 module.exports = router
