@@ -9,37 +9,37 @@ const KorisnikSchema = new mongoose.Schema({
     visina:{
         type: Number
     },
-    tezina:{
+    zeljenaTezina:{
         type: Number
     }, 
-    procenatMasti:{
+    zeljeniProcenatMasti:{
         type: Number
 
     }, 
-    BMI:{
+    //BMI:{
+        //type: Number
+
+    //},
+    zeljenaTezinaMisica:{
         type: Number
 
     },
-    tezinaMisica:{
+    zeljeniProcenatProteina:{
         type: Number
 
     },
-    procenatProteina:{
-        type: Number
+    //procenatVode:{
+        //type: Number
 
-    },
-    procenatVode:{
-        type: Number
+    //},
+    //kostanaMasa:{
+        //type: Number
 
-    },
-    kostanaMasa:{
-        type: Number
+    //},
+    //bodyAge:{
+        //type: Number
 
-    },
-    bodyAge:{
-        type: Number
-
-    },
+    //},
     brojGodina:{
         type: Number
 

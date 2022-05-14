@@ -22,13 +22,17 @@ const TreningSchema = new mongoose.Schema({
 
     },
     brojClanova:{
-        type:Number,
+        type:Number
     },
     trenerId:{
         type:String
     },
     clanovi:{
         type:Array
+    },
+    isOnline:{
+        type:Boolean,
+        default:false
     }
 
     

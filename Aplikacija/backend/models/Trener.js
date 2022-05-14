@@ -20,6 +20,9 @@ const TrenerSchema = new mongoose.Schema({
     listaTreninga:{
         type:Array,
         default:[]
+    },
+    slika:{
+        type:String
     }
     
 },

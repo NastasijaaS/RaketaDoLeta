@@ -2,26 +2,42 @@ const mongoose = require("mongoose");
 
 const NapredakSchema = new mongoose.Schema({
 
-    zeljenaKilaza:{
-        type:String
+    tezina:{
+        type:Number
 
     },
-    zeljeniProcenatMasti:{
-        type:String
+    tezinaMisica:{
+        type:Number
 
     },
-    zeljeniProcenatMisica:{
-        type:String
+    procenatProteina:{
+        type:Number
 
     },
-    zeljeniProcenatProteina:{
-        type:String
+    procenatMasti:{
+        type:Number
 
     },
     korisnikId:{
         type:String,
         required:true
+    },
+    BMI:{
+        type:Number
+
+    },
+    kostanaMasa:{
+        type:Number
+
+    },
+    procenatVode:{
+        type:Number
+
+    },
+    bodyAge:{
+        type:Number
     }
+
    
     
 },

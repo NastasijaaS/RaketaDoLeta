@@ -6,7 +6,7 @@ const Trener = require("../models/Trener");
 const { route } = require("./auth");
 const Trening = require("../models/Trening");
 const Napredak = require("../models/Napredak");
-const { resetWatchers } = require("nodemon/lib/monitor/watch");
+//const { resetWatchers } = require("nodemon/lib/monitor/watch");
 const Zahtev = require("../models/Zahtev");
 
 

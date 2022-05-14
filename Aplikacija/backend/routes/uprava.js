@@ -295,6 +295,8 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
  });
 
+ 
+
 
 
 module.exports = router
