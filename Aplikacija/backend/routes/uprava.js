@@ -10,6 +10,7 @@ const Usluga=require("../models/Usluga")
 const Sertifikat=require("../models/Sertifikat")
 const Trening=require("../models/Trening")
 const Zahtev=require("../models/Zahtev")
+const Blog=require("../models/Blog")
 
 
 
@@ -295,8 +296,63 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
  });
 
+ //dodajBlog
+
+ router.post("/dodajBlog", async(req, res)=>{
+
+  try{
+
+    const blog=await new Blog({
+      naslov:req.body.naslov,
+      Datum:req.body.Datum,
+      tekst:req.body.tekst,
+      tagovi:req.body.tagovi
+    })
+
+    const blogSave=await blog.save()
+    res.status(200).json(blogSave)
+
+  }
+  catch(err){
+      res.status(500).json(err);
+  }
+
+})
+
+//izmeniBlog
+router.put("/izmeniBlog/:idBloga", async(req, res)=>{
+  
+  try{
+    const blog=await Blog.findById(req.params.idBloga)
+    if(blog!=null){
+        await blog.updateOne({$set: req.body})
+        res.status(200).json(blog);
+
+    }
+    else{
+      res.status(404).json("Blog nije pronadjen")
+    }
+     
+  }
+  catch(err){
+      res.status(500).json(err);
+  }
+})
+
+//obrisiBlog
+router.delete("/obrisiBlog/:idBloga", async (req, res) => {
+
+  try{
+
+    await Blog.findOneAndDelete(req.params.idBloga)
+    res.status(200).json("Blog je uspesno obrisan")
+
+  }
+  catch(err){
+      res.status(500).json(err);
+  }
+ });
+
  
-
-
 
 module.exports = router
