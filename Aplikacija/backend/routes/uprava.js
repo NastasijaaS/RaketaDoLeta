@@ -104,22 +104,29 @@ router.post("/register", async (req, res) => {
 }
   });
 
-  //izmeni ove metode za clanarinu tako da se doda i usluga
   //dodaj clanarinu korisniku
 
-  router.post("/dodajClanarinu/:idKorisnika", async(req, res)=>{
+  router.post("/dodajClanarinu/:idKorisnika/:idUsluge", async(req, res)=>{
 
     try{
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if(korisnik!=null){
+          
+          const usluga=await Usluga.findById(req.params.idUsluge)
+          if(usluga!=null){
+            const clanarina=await new Clanarina({
+              cena:usluga.cena,
+              korisnikId:req.params.idKorisnika,
+              uslugaId:req.params.idUsluge
 
-          const clanarina=await new Clanarina({
-            cena:req.body.cena,
-            korisnikId:req.params.idKorisnika
           })
-
           const clanarinaSave=await clanarina.save()
           res.status(200).json(clanarinaSave)
+
+          }
+          else{
+            res.status(404).json("Usluga nije pronadjena")
+          }
 
         }
         else{
