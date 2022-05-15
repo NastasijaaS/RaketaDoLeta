@@ -1,12 +1,11 @@
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 20;
-  background-color: rgba(0, 0, 0, 0.75);
+.formaZakazi{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 17px;
 }
+
 
 .modal {
   background-color: rgb(255, 255, 255);
@@ -19,6 +18,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   z-index: 30;
   animation: slide-down 300ms ease-out forwards;
+
+  align-items: center;
 }
 
 @media (min-width: 768px) {
@@ -38,4 +39,14 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.btn , .opcija{
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px;
+}
+
+.btn:hover {
+  background-color: rgb(204, 195, 195);
 }

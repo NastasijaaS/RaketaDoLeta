@@ -67,7 +67,7 @@ const KalendarForma = (props) => {
     }
 
     const zakaziForma = () => {
-        setZakazi(true)
+        setZakazi(!zakazi)
     }
 
     return (
@@ -80,48 +80,48 @@ const KalendarForma = (props) => {
             <div className="dani-u-nedelji">
                 <span className='dan'>
                     {nadjiDan(dan)}
-                    <button id='0' className='dugme' onClick={prikaziTermine}>{datum}</button>
+                    <button id='0' className='dugmeDatum' onClick={prikaziTermine}>{datum}</button>
                 </span>
                 <span className='dan'>
                     {nadjiDan((dan + 1) % 7)}
-                    <button id='1' className='dugme' onClick={prikaziTermine}>{datum + 1}</button>
+                    <button id='1' className='dugmeDatum' onClick={prikaziTermine}>{datum + 1}</button>
                 </span>
                 <span className='dan'>
                     {nadjiDan((dan + 2) % 7)}
-                    <button id='2' className='dugme' onClick={prikaziTermine}>{datum + 2}</button>
+                    <button id='2' className='dugmeDatum' onClick={prikaziTermine}>{datum + 2}</button>
                 </span>
                 <span className='dan'>
                     {nadjiDan((dan + 3) % 7)}
-                    <button id='3' className='dugme' onClick={prikaziTermine}>{datum + 3}</button>
+                    <button id='3' className='dugmeDatum' onClick={prikaziTermine}>{datum + 3}</button>
                 </span>
                 <span className='dan'>
                     {nadjiDan((dan + 4) % 7)}
-                    <button id='4' className='dugme' onClick={prikaziTermine}>{datum + 4}</button>
+                    <button id='4' className='dugmeDatum' onClick={prikaziTermine}>{datum + 4}</button>
                 </span>
                 <span className='dan'>
                     {nadjiDan((dan + 5) % 7)}
-                    <button id='5' className='dugme' onClick={prikaziTermine}>{datum + 5}</button>
+                    <button id='5' className='dugmeDatum' onClick={prikaziTermine}>{datum + 5}</button>
                 </span>
                 <span className='dan'>
                     {nadjiDan((dan + 6) % 7)}
-                    <button id='6' className='dugme' onClick={prikaziTermine}>{datum + 6}</button>
+                    <button id='6' className='dugmeDatum' onClick={prikaziTermine}>{datum + 6}</button>
                 </span>
             </div>
 
-            {termin && <div>Slobodni termini: {ter.map((t, i) => (
-                <div className='termin'>
+            {termin && <div className='termini'>Slobodni termini: {ter.map((t, i) => (
+                <div key={i} className='termin'>
                     <div>
                         Vreme: {t.vreme}
                     </div>
                     <div>
                         Trajanje: {t.trajanje}
                     </div>
-                    <button onClick={zakaziForma}>Zakazi</button>
+                    <button className = 'btnZakazi' onClick={zakaziForma}>Zakazi</button>
                 </div>
             ))}
             </div>}
 
-            {zakazi && <FormaZakazi>
+            {zakazi && <FormaZakazi onClose={zakaziForma} idTrenera={props.id}>
                 <div>
                     <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
                     <span>Datum: </span><br />

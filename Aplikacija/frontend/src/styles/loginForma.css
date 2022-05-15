@@ -1,17 +1,28 @@
-.forma{
+.forma {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     height: 80vh;
+    align-content: center;
+}
+
+.login {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
-.login{
-    justify-content: center;
-}
-input{
+
+.loginInp {
     height: 24px;
     border-radius: 10px;
     margin: 6px;
 }
-input:hover{
+
+.loginInp:hover {
     background-color: rgb(226, 211, 239);
+}
+
+.greska{
+    color: red;
 }

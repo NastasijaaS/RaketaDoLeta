@@ -1,20 +1,46 @@
-.dani-u-nedelji{
+.dani-u-nedelji {
     display: flex;
     gap: 1px;
 }
+
 .dan {
     background-color: aliceblue;
     display: flex;
     flex-direction: column;
     justify-content: center;
-
     cursor: pointer;
 }
 
-.dugme {
-    border-radius: 0;
+.dan:hover{
+    background-color: rgb(192, 218, 241);
 }
+
+.dugmeDatum {
+    border-radius: 0;
+    background-color: inherit;
+    cursor: pointer;
+    border: none;
+    font-size: 17px;
+}
+
 .termin {
     display: flex;
+    gap: 5px;
+}
+
+.btnZakazi {
+    border-radius: 12px;
+    cursor: pointer;
+    border: 10px;
+    margin: 2px;
+}
+
+.btnZakazi:hover {
+    background-color: rgb(204, 195, 195);
+}
+
+.termini {
+    display: flex;
+    flex-direction: column;
     gap: 5px;
 }

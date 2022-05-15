@@ -46,15 +46,17 @@ const Treneri = () => {
 
     const [detalji, setDetalji] = useState({ id: -1, state: true });
     const [zakazi, setZakazi] = useState(false);
+    const [vise, setVise] = useState(-1);
 
     const prikaziVise = (ev) => {
         setDetalji({ id: ev.target.id, state: false });
-
+        setVise(ev.target.id)
         setZakazi(false)
     }
 
     const prikaziManje = (ev) => {
         setDetalji({ id: -1, state: true });
+        setVise(-1)
         setZakazi(false)
     }
 
@@ -72,18 +74,24 @@ const Treneri = () => {
                     <div id={i} className="divZaOpis">
                         <h3 className='ime'>{tr.ime} {tr.prezime}</h3>
 
-                        <p>Sertifikovan za: {tr.sertifikati.map((s, i) => (
-                            <span key={i}>{s.naziv} </span>
-                        ))} </p>
+                        <p>Sertifikovan za: {
+                            tr.sertifikati.map((s, i) => (
+                                <span key={i}>{s.naziv} </span>
+                            ))
+                        } </p>
 
                         {!detalji.state && detalji.id == i && <p>{tr.opis}</p>}
-                        {!detalji.state && detalji.id == i && <p>kalendar</p>}
 
-                        {detalji.id !== i && <button id={i} onClick={prikaziVise}>Prikazi vise</button>}
-                        {detalji.id == i && <button onClick={prikaziManje}>Sakrij</button>}
-                        {!detalji.state && detalji.id == i && <button onClick={zakaziForma}>Vidi raspored</button>}
+                        {!detalji.state && detalji.id == i && zakazi && <KalendarForma id={i} imeTrenera={tr.ime} prezimeTrenera={tr.prezime} />}
 
-                        {!detalji.state && detalji.id == i && zakazi && <KalendarForma id={i} imeTrenera = {tr.ime} prezimeTrenera = {tr.prezime} />}
+                        {/* {detalji.id !== i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>} */}
+                        {vise != i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>}
+
+
+                        {detalji.id == i && <button className='dugme' onClick={prikaziManje}>Sakrij</button>}
+                        {!detalji.state && detalji.id == i && <button className='dugme' onClick={zakaziForma}>Vidi raspored</button>}
+
+
                     </div>
 
                 </div>

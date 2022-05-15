@@ -1,11 +1,18 @@
+body {
+    margin: 0;
+}
+
 .zaglavlje {
     background-color: rgb(197, 170, 254);
     overflow: hidden;
+    /* padding: 20px 10px; */
     position: sticky;
     top: 0;
     width: 100%;
 }
-
+a{
+    text-decoration: none;
+}
 .zaglavlje span {
     float: left;
     display: block;
@@ -14,6 +21,7 @@
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
+
 }
 
 .zaglavlje span:hover {
@@ -31,24 +39,33 @@
 }
 
 @media screen and (max-width: 680px) {
-    /* .zaglavlje {
+    .zaglavlje {
         background-color: rgb(197, 170, 254);
-       height: 30px;
-    } */
+      
 
-    /* .zaglavlje span {
+        float: none;
+        display: block;
+        text-align: left;
+    }
+
+    .zaglavlje span {
+        /* display: none; */
+
+        float: none;
         display: none;
-    } */
+        text-align: left;
 
-    .zaglavlje span.active {
+        text-decoration: none;
+    }
+
+    /* .zaglavlje span.active {
         display: grid;
         width: 80%;
-    }
+    } */
 
     .zaglavlje span.icon {
         float: right;
         display: block;
-
     }
 
     .desno {
@@ -59,9 +76,6 @@
 }
 
 @media screen and (max-width: 680px) {
-    /* .navbar.show {
-        position: relative;
-    } */
 
     .zaglavlje.show span.icon {
         position: absolute;
@@ -98,21 +112,25 @@
     float: right;
 }
 
-.pozadina{
+.pozadina {
     height: 500px;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
 }
-.pocetnaSlika1{
+
+.pocetnaSlika1 {
     background-image: url(https://image.shutterstock.com/image-photo/dumbbells-boxing-gloves-sneakers-gift-260nw-1606209244.jpg);
 }
-.pocetnaSlika2{
+
+.pocetnaSlika2 {
     background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFm3LWasAbN2CuhcgoRTNQo29R9KCX-ArwlQ&usqp=CAU);
 }
-.pocetnaSlika3{
+
+.pocetnaSlika3 {
     background-image: url(https://image.shutterstock.com/image-photo/dumbbells-260nw-561980815.jpg);
 }
-.pocetnaSlika4{
+
+.pocetnaSlika4 {
     background-image: url(https://i.pinimg.com/originals/c7/2a/e9/c72ae9e852372295fb344aa4c69dce87.jpg);
 }

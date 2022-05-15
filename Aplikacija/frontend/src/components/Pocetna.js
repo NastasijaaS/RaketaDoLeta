@@ -1,9 +1,6 @@
 import '../styles/Pocetna.css'
-import React, { Fragment } from "react";
-
-import {
-    Link
-} from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
 
 function Header(props) {
@@ -17,43 +14,41 @@ function Header(props) {
         } else {
             x.className = "zaglavlje";
         }
-
         event.preventDefault();
     }
 
     return (
         <header className="zaglavlje" id="heder">
             <div id='zaglavlje' >
-
-                <Link to='/'>
-                    <span>Početna</span>
+                <Link to='/pocetna'>
+                    <span className='pocetna active'>Početna</span>
                 </Link>
                 <Link to='/treneri'>
-                    <span>Treneri</span>
+                    <span className='treneri'>Treneri</span>
                 </Link>
-                <Link to='/treninzi'>
-                    <span>Trenirajte sa nama</span>
+                <Link to='/usluge'>
+                    <span className='usluge'>Trenirajte sa nama</span>
                 </Link>
                 <Link to='/onama'>
-                    <span>O nama</span>
+                    <span className='onama'>O nama</span>
                 </Link>
                 <HashLink to='#kontakt'>
-                    <span>Kontakt</span>
+                    <span className='kontakt'>Kontakt</span>
                 </HashLink>
                 <Link to='/login'>
-                    <span>Log in</span>
+                    <span className='login'>Log in</span>
                 </Link>
                 <Link to='/signup'>
-                    <span>Sign up</span>
+                    <span className='signup'>Sign up</span>
                 </Link>
 
             </div>
 
-            <a href="" className="icon" onClick={meni}>
+            <span className="icon" onClick={meni}>
                 <div className='menu'></div>
                 <div className='menu'></div>
                 <div className='menu'></div>
-            </a>
+            </span>
         </header>
     )
 }

@@ -25,13 +25,13 @@ img {
     color: rgb(66, 29, 231);
  cursor: pointer;
 }
-button {
+.dugme {
     height: 24px;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 1px;
     margin: 6px;
 }
-button:hover{
+.dugme:hover{
     background-color: blueviolet;
     cursor: pointer;
 }
