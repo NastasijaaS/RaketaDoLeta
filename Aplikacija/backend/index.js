@@ -6,11 +6,11 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 //const multer = require("multer");
 const authRoute = require("./routes/auth");
-const registrovaniKorisnikRoute=require("./routes/registrovaniKorisnik");
-const trenerRoute=require("./routes/trener");
-const korisnikRoute=require("./routes/korisnik");
-const upravaRoute=require("./routes/uprava");
-const treningRoute=require("./routes/trening");
+const registrovaniKorisnikRoute = require("./routes/registrovaniKorisnik");
+const trenerRoute = require("./routes/trener");
+const korisnikRoute = require("./routes/korisnik");
+const upravaRoute = require("./routes/uprava");
+const treningRoute = require("./routes/trening");
 //const napredakRoute=require("./routes/napredak");
 
 
@@ -23,7 +23,7 @@ mongoose.connect(
   () => {
     console.log("Connected to MongoDB");
   }
-); 
+);
 
 app.use(express.json());
 app.use(helmet());
@@ -37,10 +37,25 @@ app.use("/api/uprava", upravaRoute);
 app.use("/api/trening", treningRoute);
 //app.use("/api/napredak", napredakRoute);
 
-
-
-
-
 app.listen(8800, () => {
-    console.log("Backend server is running!");
-  });
+  console.log("Backend server is running!");
+});
+
+
+// app.use(
+//   helmet({
+//     crossOriginEmbedderPolicy: false,
+//     // ...
+//   })
+//);
+
+
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
+
+
+// const cors = require('cors');
+// app.use(cors());
