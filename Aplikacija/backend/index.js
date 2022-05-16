@@ -12,8 +12,7 @@ const korisnikRoute = require("./routes/korisnik");
 const upravaRoute = require("./routes/uprava");
 const treningRoute = require("./routes/trening");
 //const napredakRoute=require("./routes/napredak");
-
-
+const cors = require('cors');
 
 dotenv.config();
 
@@ -27,6 +26,11 @@ mongoose.connect(
 
 app.use(express.json());
 app.use(helmet());
+
+
+app.use(cors())
+
+
 app.use(morgan("common"));
 
 app.use("/api/auth", authRoute);
@@ -37,25 +41,8 @@ app.use("/api/uprava", upravaRoute);
 app.use("/api/trening", treningRoute);
 //app.use("/api/napredak", napredakRoute);
 
+
 app.listen(8800, () => {
   console.log("Backend server is running!");
 });
 
-
-// app.use(
-//   helmet({
-//     crossOriginEmbedderPolicy: false,
-//     // ...
-//   })
-//);
-
-
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
-
-
-// const cors = require('cors');
-// app.use(cors());

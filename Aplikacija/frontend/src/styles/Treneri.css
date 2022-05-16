@@ -11,13 +11,13 @@
 
 }
 div.trener:hover{
-    background-color: rgb(162, 172, 172);
+    background-color: rgb(59, 63, 63);
 }
 
 img {
     height: 40vh;
     max-width: 40vw;
-    border-radius: 10px;
+    border-radius: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -35,3 +35,11 @@ img {
     background-color: blueviolet;
     cursor: pointer;
 }
+/* .divZaSliku{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+
+    background-position: 70% 50%;
+    background-size: 130%;
+} */

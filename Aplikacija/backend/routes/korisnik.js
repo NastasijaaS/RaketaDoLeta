@@ -8,7 +8,6 @@ const Napredak=require("../models/Napredak");
 const Usluga = require("../models/Usluga");
 const Zahtev=require("../models/Zahtev.js");
 
-
 //zakazi personalni trening
 router.post("/zakaziPersonalniTrening/:idKorisnika", async(req, res)=>{
 

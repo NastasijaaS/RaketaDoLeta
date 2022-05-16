@@ -4,6 +4,7 @@ import LogIn from './components/LoginForma'
 import Treneri from './components/Treneri'
 import Onama from './components/ONama'
 import Usluge from './components/Usluge'
+import Blog from './components/Blog'
 import ScrollToTop from './components/ScrollToTop';
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -30,6 +31,9 @@ function App() {
         </Route>
 
         <Route path='/usluge' element={<Usluge />}>
+        </Route>
+
+        <Route path='/blog' element={<Blog />}>
         </Route>
 
         <Route path='/login' element={<LogIn prijava='false' />}>

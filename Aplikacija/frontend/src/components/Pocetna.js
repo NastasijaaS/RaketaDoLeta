@@ -21,25 +21,30 @@ function Header(props) {
         <header className="zaglavlje" id="heder">
             <div id='zaglavlje' >
                 <Link to='/pocetna'>
-                    <span className='pocetna active'>Početna</span>
+                    <span className='levo pocetna active'>Početna</span>
                 </Link>
                 <Link to='/treneri'>
-                    <span className='treneri'>Treneri</span>
+                    <span className='levo treneri'>Treneri</span>
                 </Link>
                 <Link to='/usluge'>
-                    <span className='usluge'>Trenirajte sa nama</span>
+                    <span className='levo usluge'>Trenirajte sa nama</span>
                 </Link>
                 <Link to='/onama'>
-                    <span className='onama'>O nama</span>
+                    <span className='levo onama'>O nama</span>
                 </Link>
                 <HashLink to='#kontakt'>
-                    <span className='kontakt'>Kontakt</span>
+                    <span className='levo kontakt'>Kontakt</span>
                 </HashLink>
+
+                <Link to='/blog'>
+                    <span className='levo blog'>Blog</span>
+                </Link>
+                
                 <Link to='/login'>
-                    <span className='login'>Log in</span>
+                    <span className='desno login'>Log in</span>
                 </Link>
                 <Link to='/signup'>
-                    <span className='signup'>Sign up</span>
+                    <span className='desno signup'>Sign up</span>
                 </Link>
 
             </div>
@@ -54,8 +59,8 @@ function Header(props) {
 }
 const Footer = () => {
     return (
-        <footer id="kontakt">
-            <div className="footer">
+        <footer  className="footer" id="kontakt">
+            <div  className="fKontakt">
                 <span>Fitnes centar RaketaDoLeta</span>
                 <span>Pronađite nas na adresi: <a href="https://goo.gl/maps/Akp9XkeKBDunKv41A">Ul. "Neki kralj Zajebani"</a></span>
                 <span>✉ Pišite nam na mejl: <a href="mailto:gym@elfak.rs">gym@elfak.rs</a></span>
