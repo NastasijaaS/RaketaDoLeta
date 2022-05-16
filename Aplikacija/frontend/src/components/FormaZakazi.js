@@ -1,9 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import '../styles/formaZakazi.css'
-
-
-const modalRoot = document.getElementById("zakazi");
 
 // kontext koji cuva podatke o prijavljenom korsniku
 
@@ -12,7 +8,7 @@ const tip = [{ naziv: "Gornji deo tela" }, { naziv: "Donji deo tela" }, { naziv:
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
 const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
 
-const Forma = (props) => {
+const FormaZakazi = (props) => {
 
     const validacija = () => {
         console.log('ssss')
@@ -54,11 +50,6 @@ const Forma = (props) => {
             </div>
 
             <div >
-                <input type="radio" value='personalni' name="tipTreninga" />Personalni trening
-                <input type="radio" value='grupni' name="tipTreninga" /> Grupni trening
-            </div>
-
-            <div >
                 <input type="checkbox" value='online' name="online" />On-line trening
             </div>
 
@@ -78,18 +69,6 @@ const zakaziTrening = () => {
     //idkorisnika = ovo mozda kroz kontekst gde pamtim ko je ulogovan
     // isOnline
     //broj clanova
-}
-
-const FormaZakazi = (props) => {
-    return (
-        ReactDOM.createPortal(
-            <div className="modal">
-                {props.children}
-                <Forma onClose={props.onClose} />
-            </div>,
-            modalRoot
-        )
-    )
 }
 
 export default FormaZakazi

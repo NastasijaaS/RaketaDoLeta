@@ -10,7 +10,6 @@ const Zahtev=require("../models/Zahtev.js");
 const RegistrovaniKorisnik = require("../models/RegistrovaniKorisnik")
 
 
-
 //zakazi personalni trening
 router.post("/zakaziPersonalniTrening/:idKorisnika", async(req, res)=>{
 

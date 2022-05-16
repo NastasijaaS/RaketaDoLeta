@@ -1,9 +1,19 @@
+.sveUsluge{
+    align-content: center;
+
+    margin: 30vh 30vw;
+}
+
 .usluga {
     align-content: center;
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
+    border-bottom-style: outset;
+    justify-content: space-around;
+
+    height: 9vh;
 }
+
 .cenaUsluge{
     color: rgb(17, 146, 17);
 }

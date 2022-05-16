@@ -12,8 +12,7 @@ const Usluge = () => {
         <div className="sveUsluge">
             {nizUsluga.map((usl, i) => (
                 <div key={i} className="usluga">
-                    <h2 className="nazivUsluge">{usl.naziv}</h2>
-                    <p className="opisUsluge">{usl.opis}</p>
+                    <span className="nazivUsluge">{usl.naziv}</span>
                     <span className="cenaUsluge">Cena: {usl.cena}</span>
                 </div>
             ))}

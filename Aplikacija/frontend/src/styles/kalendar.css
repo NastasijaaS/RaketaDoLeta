@@ -1,18 +1,24 @@
 .dani-u-nedelji {
     display: flex;
     gap: 1px;
+
+    height: 10vh;
+    width: 50vw;
 }
 
 .dan {
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     cursor: pointer;
+
+    width: 10vh;
+    align-items: center;
 }
 
-.dan:hover{
-    background-color: rgb(192, 218, 241);
+.dan:hover {
+    background-color: rgb(79, 82, 85);
 }
 
 .dugmeDatum {
@@ -21,11 +27,17 @@
     cursor: pointer;
     border: none;
     font-size: 17px;
+    color: beige;
 }
 
 .termin {
     display: flex;
     gap: 5px;
+    height: 7vh;
+    align-items: center;
+
+    border-bottom-style: outset;
+    justify-content: space-between;
 }
 
 .btnZakazi {
@@ -36,7 +48,7 @@
 }
 
 .btnZakazi:hover {
-    background-color: rgb(204, 195, 195);
+    background-color: inherit;
 }
 
 .termini {
@@ -44,3 +56,12 @@
     flex-direction: column;
     gap: 5px;
 }
+
+.trTermini {
+    display: flex;
+    border-bottom-style: dotted;
+    justify-content: space-between;
+}
+/* .nevidljiviSpan{
+    visibility: hidden;
+} */

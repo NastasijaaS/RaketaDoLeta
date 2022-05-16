@@ -1,0 +1,14 @@
+.sviBlogovi, .blog{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    justify-content: center;
+    gap: 20px;
+}
+.blog{
+    gap: 0px;
+}
+button:active{
+    background-color: green;
+}

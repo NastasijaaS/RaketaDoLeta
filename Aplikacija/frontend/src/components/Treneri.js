@@ -47,16 +47,23 @@ const Treneri = () => {
 
     const tre = useEffect(() => {
         const treneri = async () => {
-            await fetch("http://localhost:8800/api/korisnik/vidiTrenere").then(p => {
+            await fetch("http://localhost:8800/api/korisnik/vidiTrenere", {
+                // mode:'no-cors',
+                // headers: {
+                //     "Access-Control-Allow-Origin": '*',
+                //     "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorisation",
+                //     'Access-Control-Request-Method': 'GET,POST,DELETE,PUT,OPTIONS'
+                // }
+            }).then(p => {
                 p.json().then
                     (data => {
                         if (p.ok) {
 
-                            console.log(data)
+                           // console.log(data)
 
-                            // data.forEach(element => {
-                            //     console.log(element)
-                            // });
+                            data.forEach(element => {
+                                console.log(element)
+                            });
 
                         }
                         else {
@@ -68,16 +75,8 @@ const Treneri = () => {
 
             });
         }
-        // //return
-
-        // const treneri = () => {
-        //     axios.get("http://localhost:8800/api/korisnik/vidiTrenere").then(data => {
-        //         console.log(data)
-
-        //     })
-        // }
-
-        treneri()
+       
+         treneri()
     }, [])
 
 
@@ -105,7 +104,7 @@ const Treneri = () => {
         <div className="treneri">
             {treneri.map((tr, i) => (
                 <div key={i} className="trener">
-                    <div className="divZaSliku">
+                    <div className="divZaSliku" >
                         <img src={tr.slika} />
                     </div>
                     <div id={i} className="divZaOpis">

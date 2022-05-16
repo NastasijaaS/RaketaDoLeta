@@ -17,15 +17,19 @@ a{
     text-decoration: none;
 }
 .zaglavlje span {
-    float: left;
+    /* float: left; */
     display: block;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
-
 }
+
+.zaglavlje .levo {
+    float: left;
+}
+
 
 .zaglavlje span:hover {
     background-color: rgb(62, 61, 61);
@@ -97,20 +101,25 @@ a{
 .menu {
     width: 30px;
     height: 5px;
-    background-color: black;
+    background-color: rgb(255, 255, 255);
     margin: 3px 0;
 }
 
-.footer {
+.footer, .fKontakt {
     background-color:rgb(34, 34, 35);
     overflow: hidden;
     bottom: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    
+    height: 40vh;
 }
-
+.fKontakt{
+    margin-left: 14vw;
+    gap: 13px;
+}
 .desno {
     float: right;
 }
