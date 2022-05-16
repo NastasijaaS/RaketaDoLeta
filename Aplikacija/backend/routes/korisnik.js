@@ -7,6 +7,8 @@ const Trener=require("../models/Trener")
 const Napredak=require("../models/Napredak");
 const Usluga = require("../models/Usluga");
 const Zahtev=require("../models/Zahtev.js");
+const RegistrovaniKorisnik = require("../models/RegistrovaniKorisnik")
+
 
 
 //zakazi personalni trening
@@ -101,10 +103,12 @@ router.put("/ukiniTrening/:idTreninga", async (req, res) => {
 router.get("/vidiTrenere", async(req, res)=>{
 
     try{
-        const treneri=await Trener.find()
+        const treneri=await RegistrovaniKorisnik.find({tipKorisnika:"Trener"})
         if(treneri.length!=0){
             res.status(200).json(treneri)
-        }
+            
+            }
+        
         else{
             res.status(400).json("Nema trenera za prikaz")
         }
