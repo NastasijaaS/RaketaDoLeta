@@ -5,11 +5,16 @@ import Treneri from './components/Treneri'
 import Onama from './components/ONama'
 import Usluge from './components/Usluge'
 import Blog from './components/Blog'
+import Register from './components/RegisterForma';
 import ScrollToTop from './components/ScrollToTop';
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserPocetna from './components/UserPocetna';
+import React, { useContext } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { UserContext } from './context/UserContext';
 
 function App() {
+
+  const { user } = useContext(UserContext);
 
   return (
     <Router>
@@ -36,11 +41,15 @@ function App() {
         <Route path='/blog' element={<Blog />}>
         </Route>
 
-        <Route path='/login' element={<LogIn prijava='false' />}>
+        <Route path='/login' element=
+          {user ? <Navigate replace to="/profil" /> : <LogIn />}>
         </Route>
 
-        <Route path='/signup' element={<LogIn prijava='true' />}>
+        <Route path='/signup' element=
+          {user ? <Navigate replace to="/profil" /> : <Register />}>
         </Route>
+
+        <Route path='/profil' element={<UserPocetna />} ></Route>
 
       </Routes>
 

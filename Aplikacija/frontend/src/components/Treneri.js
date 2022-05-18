@@ -14,7 +14,7 @@ const treneri = [{
         naziv: 'dva'
     }],
     opis: 'neki opis o treneru',
-    slika: 'https://www.kangoofitdreamgym.rs/wp-content/uploads/2019/08/68655273_404392670188122_6077563347304185856_n-400x600.jpg'
+    slika: 'https://media.istockphoto.com/photos/portrait-of-a-beautiful-woman-at-the-gym-picture-id856797530?k=20&m=856797530&s=612x612&w=0&h=kFFhoXpDoF6jCmerJe-cZzOMKRvpl2orilNip2t3McU='
 },
 {
     id: 5,
@@ -27,7 +27,7 @@ const treneri = [{
         naziv: 'dva'
     }],
     opis: 'neki opis o treneru',
-    slika: 'https://www.kangoofitdreamgym.rs/wp-content/uploads/2019/08/68655273_404392670188122_6077563347304185856_n-400x600.jpg'
+    slika: 'https://media.istockphoto.com/photos/portrait-of-a-beautiful-woman-at-the-gym-picture-id856797530?k=20&m=856797530&s=612x612&w=0&h=kFFhoXpDoF6jCmerJe-cZzOMKRvpl2orilNip2t3McU='
 },
 {
     id: 5,
@@ -40,43 +40,37 @@ const treneri = [{
         naziv: 'dva'
     }],
     opis: 'neki opis o treneru',
-    slika: 'https://www.kangoofitdreamgym.rs/wp-content/uploads/2019/08/68655273_404392670188122_6077563347304185856_n-400x600.jpg'
+    slika: 'https://media.istockphoto.com/photos/portrait-of-a-beautiful-woman-at-the-gym-picture-id856797530?k=20&m=856797530&s=612x612&w=0&h=kFFhoXpDoF6jCmerJe-cZzOMKRvpl2orilNip2t3McU='
 }]
 
 const Treneri = () => {
 
     const tre = useEffect(() => {
         const treneri = async () => {
-            await fetch("http://localhost:8800/api/korisnik/vidiTrenere", {
-                // mode:'no-cors',
-                // headers: {
-                //     "Access-Control-Allow-Origin": '*',
-                //     "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorisation",
-                //     'Access-Control-Request-Method': 'GET,POST,DELETE,PUT,OPTIONS'
-                // }
-            }).then(p => {
-                p.json().then
-                    (data => {
-                        if (p.ok) {
+            await fetch("http://localhost:8800/api/korisnik/vidiTrenere")
+                .then(p => {
+                    p.json().then
+                        (data => {
+                            if (p.ok) {
 
-                           // console.log(data)
+                                // console.log(data)
 
-                            data.forEach(element => {
-                                console.log(element)
-                            });
+                                data.forEach(element => {
+                                    console.log(element)
+                                });
 
-                        }
-                        else {
-                            console.log("Bad request");
-                            throw new Error("Lose ucitao zanrove!");
-                        }
+                            }
+                            else {
+                                console.log(p.statusText);
+                                throw new Error("Lose ucitao trenere!");
+                            }
 
-                    })
+                        })
 
-            });
+                });
         }
-       
-         treneri()
+
+        treneri()
     }, [])
 
 
@@ -117,16 +111,13 @@ const Treneri = () => {
                         } </p>
 
                         {!detalji.state && detalji.id == i && <p>{tr.opis}</p>}
-
                         {!detalji.state && detalji.id == i && zakazi && <KalendarForma id={i} imeTrenera={tr.ime} prezimeTrenera={tr.prezime} />}
 
                         {/* {detalji.id !== i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>} */}
                         {vise != i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>}
 
-
                         {detalji.id == i && <button className='dugme' onClick={prikaziManje}>Sakrij</button>}
                         {!detalji.state && detalji.id == i && <button className='dugme' onClick={zakaziForma}>Vidi raspored</button>}
-
 
                     </div>
 

@@ -1,98 +1,126 @@
 import '../styles/loginForma.css'
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from '../context/UserContext';
 
-const LogIn = (props) => {
 
-    const prijava = props.prijava === 'true';
+const prijaviKorisnika = async (username, pass, dispatch, user) => {
+    console.log(username + '    ' + pass)
 
-    const [ime, setIme] = useState({ naziv: '', greska: '' });
-    const [prezime, setPrezime] = useState({ naziv: '', greska: '' });
+    //milica@c.s   milica123
+    dispatch({ tip: "LOGIN_START" });
+
+    
+
+    await fetch("http://localhost:8800/api/auth/login", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: username,
+            password: pass
+        })
+    })
+        .then(p => {
+            p.json()
+                .then(data => {
+                    if (p.ok) {
+
+                        console.log('uspesno prijavljivanje')
+
+                        dispatch({ tip: "LOGIN_SUCCESS", payload: data });
+
+                    }
+                })
+
+        }).catch(error => {
+            dispatch({ tip: "LOGIN_FAIL", payload: error });
+            console.log(error)
+
+        });
+
+}
+
+const LogIn = () => {
+
+    const { user, ucitavaSe,  dispatch } = useContext(UserContext);
+
     const [email, setEmail] = useState({ naziv: '', greska: '' });
     const [lozinka, setLozinka] = useState({ naziv: '', greska: '' });
-    const [godine, setGodine] = useState({ god: -1, greska: '' });
+    // const [username, setUsername] = useState({ naziv: '', greska: '' });
 
     const upis = (ev) => {
 
+        ev.preventDefault()
         let pom = true;
 
-        // console.log(ime)
-        // console.log(prezime)
-        // console.log(email)
-        // console.log(lozinka)
-        // console.log(godine)
+        const mail = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 
-        if (prijava) {
-            ev.preventDefault();
-
-            if (ime.naziv === '' || ime.naziv.length < 5) {
-                setIme({ naziv: '', greska: 'Polje ime ne sme biti prazno i mora sadrzati najmanje 5 slova' })
-                pom = false
-            }
-
-            if (prezime.naziv === '' || prezime.naziv.length < 5) {
-                setPrezime({ naziv: '', greska: 'Polje prezime ne sme biti prazno i mora sadrzati najmanje 5 slova' })
-                pom = false
-            }
-
-            if (godine.god != -1 && godine.god != '' && parseInt(godine.god) < 15) {
-                setGodine({ god: -2, greska: 'Morate imati vise od 15 godina' })
-                pom = false
-            }
-
-        }
-
-        if (email.naziv === '') {
-            setEmail({ naziv: '', greska: 'Unesite ispravnu email adresu' })
+        if (email.naziv === '' || !email.naziv.match(mail)) {
+            setEmail({ naziv: email.naziv, greska: 'Unesite ispravnu email adresu' })
             pom = false
-            ev.preventDefault();
         }
 
         if (lozinka.naziv === '' || lozinka.naziv.length < 6) {
-            setLozinka({ naziv: '', greska: 'Polje lozinka ne sme biti prazno i mora sadrzati najmanje 6 karaktera ' })
+            setLozinka({ naziv: lozinka.naziv, greska: 'Polje lozinka ne sme biti prazno i mora sadrzati najmanje 6 karaktera ' })
             pom = false
-            ev.preventDefault();
         }
+
+        // if (username.naziv === '' || username.naziv.length < 6) {
+        //     setUsername({ naziv: username.naziv, greska: 'Polje username ne sme biti prazno i mora sadrzati najmanje 6 karaktera ' })
+        //     pom = false
+        // }
 
         if (pom === true) {
-            
-            console.log("ispravno")
-        }
-        //baza
+            //  console.log("ispravno")
 
+            prijaviKorisnika(email.naziv, lozinka.naziv, dispatch, user)
+
+            setEmail({ naziv: '', greska: '' })
+            setLozinka({ naziv: '', greska: '' })
+            //  setUsername({ naziv: '', greska: '' })
+
+            //  console.log(user)
+            // console.log(ucitavaSe)
+            // console.log(dispatch)
+        }
     }
 
     return (
         <div className="forma">
             <form className="login" id='prijava' onSubmit={upis}>
-                {prijava && <h2>Registrujte se:</h2>}
-                {!prijava && <h2>Prijavite se:</h2>}
 
-                {prijava && <label>Ime:
-                    <input className='loginInp' value={ime.naziv} onChange={e => setIme({ naziv: e.target.value, greska: '' })} type='text' placeholder='ime' /></label>}
+                <h2>Prijavite se:</h2>
 
-                {ime.greska !== '' && <p className='greska'> {ime.greska}</p>}
-
-                {prijava && <label>Prezime:
-                    <input className='loginInp' onBlur={e => setPrezime({ naziv: e.target.value, greska: '' })} type='text' placeholder='prezime' /></label>}
-
-                {prezime.greska !== '' && <p className='greska'> {prezime.greska}</p>}
-
-                <label>E-mail: <input className='loginInp' value={email.naziv } onChange={e => setEmail({ naziv: e.target.value, greska: '' })} type='mail' placeholder='e-mail' /></label>
+                <label>E-mail: <input className='loginInp' value={email.naziv}
+                    onChange={e => setEmail({ naziv: e.target.value, greska: '' })}
+                    type='email' placeholder='e-mail' />
+                </label>
 
                 {email.greska !== '' && <p className='greska'> {email.greska}</p>}
+                {/* 
+                <label>Username: <input className='loginInp' value={username.naziv}
+                    onChange={e => setUsername({ naziv: e.target.value, greska: '' })}
+                    type='text' placeholder='username' /></label>
 
-                <label>Lozinka: <input className='loginInp' onBlur={e => setLozinka({ naziv: e.target.value, greska: '' })} type='password' placeholder='lozinka' /></label>
+                {username.greska !== '' && <p className='greska'> {username.greska}</p>} */}
+
+                <label>Lozinka: <input className='loginInp' value={lozinka.naziv}
+                    onChange={e => setLozinka({ naziv: e.target.value, greska: '' })}
+                    minLength='6'
+                    type='password' placeholder='lozinka' />
+                </label>
 
                 {lozinka.greska !== '' && <p className='greska'> {lozinka.greska}</p>}
 
-                {prijava && <label>Broj godina:
-                    <input className='loginInp' onBlur={e => setGodine({ god: e.target.value, greska: '' })} type='number' placeholder='godine' /></label>}
+                {ucitavaSe ? (
+                    <p>ucitavanje</p>
+                ) : (
+                    <p>ucitano</p>
+                )}
 
-                {godine.god === -2 && <p className='greska'> {godine.greska}</p>}
-
-
-                {prijava && <button>Registruj se</button>}
-                {!prijava && <button>Prijavi se</button>}
+                <button>Prijavi se</button>
                 {/* <button>Otkazi</button> */}
             </form>
         </div >

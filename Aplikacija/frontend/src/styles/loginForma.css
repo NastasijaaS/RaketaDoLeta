@@ -4,6 +4,9 @@
     flex-direction: column;
     height: 80vh;
     align-content: center;
+
+    margin-top: 10vh;
+    margin-bottom: 30vh;
 }
 
 .login {
