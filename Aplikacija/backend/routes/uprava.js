@@ -360,6 +360,47 @@ router.delete("/obrisiBlog/:idBloga", async (req, res) => {
   }
  });
 
- 
+ //vrati sve blogove
+ router.get("/vratiBlogove", async (req, res) => {
+
+  try {
+      const blogovi = await Blog.find()
+      if (blogovi.length != 0) {
+          res.status(200).json(blogovi)
+      }
+      else {
+          res.status(400).json("Nema  za prikaz")
+      }
+
+
+  }
+  catch (err) {
+      res.status(500).json(err);
+  }
+})
+
+  //vrati blogove sa odredjenim tipom
+
+  /*router.get("/vratiBlogoveTip/:TipBloga", async (req, res) => {
+
+    try {
+        const blogovi = await Blog.find()
+        if (blogovi.length != 0) {
+            res.status(200).json(blogovi)
+        }
+        else {
+            res.status(400).json("Nema usluga za prikaz")
+        }
+  
+  
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+
+
+})*/
+
 
 module.exports = router
