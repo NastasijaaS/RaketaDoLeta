@@ -384,15 +384,15 @@ router.delete("/obrisiBlog/:idBloga", async (req, res) => {
 
   //vrati blogove sa odredjenim tipom
 
-  /*router.get("/vratiBlogoveTip/:TipBloga", async (req, res) => {
+  router.get("/vratiBlogoveTip/:TipBloga", async (req, res) => {
 
     try {
-        const blogovi = await Blog.find()
+      const blogovi = await Blog.find({ tagovi: {  } })
         if (blogovi.length != 0) {
             res.status(200).json(blogovi)
         }
         else {
-            res.status(400).json("Nema usluga za prikaz")
+            res.status(400).json("Nema bloga za prikaz")
         }
   
   
@@ -401,9 +401,30 @@ router.delete("/obrisiBlog/:idBloga", async (req, res) => {
         res.status(500).json(err);
     }
 
+})
 
-
-})*/
+//Metoda za vracanje bloga sa datim tagom:
+router.get( "/VratiBlogTag " ,async (req, res) => 
+{
+  try 
+  {
+      //Proveravamo da li smo poslali uslove za filtriranje?
+      if(!req.body.tag)
+          res.status(400).json("Nisu postavljeni parametri!");
+    
+      
+       let firstArray = await Blog.find({tagovi: req.body.tag}); 
+      if(firstArray.length === 0)
+          return res.status(404).json("Ne postoji blog sa zadatim tagom");
+      else 
+          return res.status(200).json(firstArray);
+      
+  } 
+  catch (err)
+  {
+      return res.status(500).json(err);
+  }
+});
 
 
 module.exports = router
