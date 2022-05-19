@@ -1,7 +1,8 @@
 import '../styles/Pocetna.css'
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
+import { UserContext } from '../context/UserContext';
 
 function Header(props) {
 
@@ -17,11 +18,13 @@ function Header(props) {
         event.preventDefault();
     }
 
+    const { user } = useContext(UserContext);
+
     return (
         <header className="zaglavlje" id="heder">
             <div id='zaglavlje' >
                 <Link to='/pocetna'>
-                    <span className='levo pocetna active'>Početna</span>
+                    <span className='levo pocetna'>Početna</span>
                 </Link>
                 <Link to='/treneri'>
                     <span className='levo treneri'>Treneri</span>
@@ -39,12 +42,16 @@ function Header(props) {
                 <Link to='/blog'>
                     <span className='levo blog'>Blog</span>
                 </Link>
-                
+
                 <Link to='/login'>
-                    <span className='desno login'>Log in</span>
+                    {!user && <span className='desno login'>Log in</span>}
                 </Link>
                 <Link to='/signup'>
-                    <span className='desno signup'>Sign up</span>
+                    {!user && <span className='desno signup'>Sign up</span>}
+                </Link>
+
+                <Link to='/profil'>
+                    {user && <span className='desno profil'>Profil</span>}
                 </Link>
 
             </div>
@@ -59,8 +66,8 @@ function Header(props) {
 }
 const Footer = () => {
     return (
-        <footer  className="footer" id="kontakt">
-            <div  className="fKontakt">
+        <footer className="footer" id="kontakt">
+            <div className="fKontakt">
                 <span>Fitnes centar RaketaDoLeta</span>
                 <span>Pronađite nas na adresi: <a href="https://goo.gl/maps/Akp9XkeKBDunKv41A">Ul. "Neki kralj Zajebani"</a></span>
                 <span>✉ Pišite nam na mejl: <a href="mailto:gym@elfak.rs">gym@elfak.rs</a></span>

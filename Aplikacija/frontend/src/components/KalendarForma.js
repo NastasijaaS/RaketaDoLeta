@@ -46,8 +46,9 @@ const KalendarForma = (props) => {
     dateDO.setDate(dateOD.getDate() + 7)
 
     const [ter, setTer] = useState([]);
-    const [termin, setTermin] = useState(false)
+    const [termin, setTermin] = useState({ status: false, datum: '', vreme: '', trajanje: '' })
     const [zakazi, setZakazi] = useState(false)
+
 
     const prikaziTermine = (ev) => {
 
@@ -64,11 +65,22 @@ const KalendarForma = (props) => {
             setTer(termini2)
         }
 
-        setTermin(true)
+        setTermin({ status: true, datum: { datumTreninga } })
+
+       // console.log(termin.datum)
     }
 
-    const zakaziForma = () => {
+    const zakaziForma = (ev) => {
+      //  console.log(ev.target.value)
+        const sat = ev.target.value
+
+        const [vreme,trajanje] = sat.split(' ')
+        
         setZakazi(!zakazi)
+
+        setTermin(termin => ({ ...termin, vreme: { vreme }, trajanje: {trajanje} }));
+
+      //  console.log(termin)
     }
 
     return (
@@ -109,7 +121,7 @@ const KalendarForma = (props) => {
                 </span>
             </div>
 
-            {termin && <div className='termini'>
+            {termin.status && <div className='termini'>
                 <div className='trTermini'>
                     <span>Termin</span>
                     <span>Trajanje</span>
@@ -119,22 +131,22 @@ const KalendarForma = (props) => {
                     ter.map((t, i) => (
                         <div key={i} className='termin'>
                             <div>
-                               {t.vreme} :00h
+                                {t.vreme} :00h
                             </div>
                             <div>
                                 {t.trajanje} min
                             </div>
-                            <button className='btnZakazi' onClick={zakaziForma}>Zakazi</button>
+                            <button className='btnZakazi' value={t.vreme +" "+t.trajanje} onClick={zakaziForma}>Zakazi</button>
                         </div>
                     ))}
             </div>}
 
-            {zakazi && <Modal>
+            {zakazi && <Modal onClose={zakaziForma}>
                 <div>
                     <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
                     <span>Datum: </span><br />
                 </div>
-                <FormaZakazi onClose={zakaziForma} idTrenera={props.id} />
+                <FormaZakazi vreme = {termin.vreme} trajanje = {termin.trajanje} datum = {termin.datum} onClose={zakaziForma} idTrenera={props.id} />
             </Modal>}
         </div>
     )

@@ -13,9 +13,11 @@ body {
     top: 0;
     width: 100%;
 }
-a{
+
+a {
     text-decoration: none;
 }
+
 .zaglavlje span {
     /* float: left; */
     display: block;
@@ -48,7 +50,7 @@ a{
 @media screen and (max-width: 680px) {
     .zaglavlje {
         /* background-color: rgb(197, 170, 254); */
-      
+
 
         float: none;
         display: block;
@@ -105,21 +107,26 @@ a{
     margin: 3px 0;
 }
 
-.footer, .fKontakt {
-    background-color:rgb(34, 34, 35);
+.footer,
+.fKontakt {
+    background-color: rgb(34, 34, 35);
     overflow: hidden;
     bottom: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
-    height: 40vh;
+
+    height: 38vh;
+
+    position:relative;
 }
-.fKontakt{
+
+.fKontakt {
     margin-left: 14vw;
     gap: 13px;
 }
+
 .desno {
     float: right;
 }

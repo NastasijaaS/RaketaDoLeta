@@ -1,7 +1,7 @@
 .sveUsluge{
     align-content: center;
 
-    margin: 30vh 30vw;
+    margin: 25vh 15vw 25vw 15vw ;
 }
 
 .usluga {
@@ -16,4 +16,7 @@
 
 .cenaUsluge{
     color: rgb(17, 146, 17);
+}
+.greska{
+    color: red;
 }
