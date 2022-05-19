@@ -201,7 +201,7 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
 })
 
 //pregledaj sve dostupne grupne treninge
-router.get("/vidiGrupneTreninge", async (req, res) => {
+/*router.get("/vidiGrupneTreninge", async (req, res) => {
 
     try {
         const treninzi = await Trening.find({ brojClanova: { $gte: 2 } })
@@ -218,7 +218,7 @@ router.get("/vidiGrupneTreninge", async (req, res) => {
         res.status(500).json(err);
     }
 
-})
+})*/
 
 //uplati clanarinu
 
@@ -281,6 +281,24 @@ router.get("/vidiClanarinu/:idKorisnika", async (req, res) => {
 
 })
 
+//pregledaj sve dostupne grupne treninge
+router.get("/vidiGrupneTreninge", async (req, res) => {
 
+    try {
+        const treninzi = await Trening.find({ brojClanova: { $gte: 2 } })
+        if (treninzi.length != 0) {
+            res.status(200).json(treninzi)
+        }
+        else {
+            res.status(400).json("Nema treninga za prikaz")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
 
 module.exports = router
