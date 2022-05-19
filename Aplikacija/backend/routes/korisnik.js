@@ -99,12 +99,19 @@ router.put("/ukiniTrening/:idTreninga", async (req, res) => {
    });
 
 //pregledaj sve trenere
+//ovo je da se korisniku prikazu osnovne informacije o trenerima, ime prezime itd.
+//informacije kao sto su lista klijenata, lista treninga i tako to nisu relevantne za korisnika
 router.get("/vidiTrenere", async(req, res)=>{
 
     try{
         const treneri=await RegistrovaniKorisnik.find({tipKorisnika:"Trener"})
         if(treneri.length!=0){
-            res.status(200).json(treneri)
+            //res.status(200).json(treneri)
+            treneri.forEach(trener=>{
+                const t = await Trener.find({registrovaniKorisnikId:trener._id})
+                
+                
+            })
             
             }
         
