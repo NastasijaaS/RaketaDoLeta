@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const RegistrovaniKorisnik = require("../models/RegistrovaniKorisnik");
+const Uprava = require("../models/Uprava")
+const Trener = require("../models/Trener")
+const Korisnik = require("../models/Korisnik");
 
 //REGISTER
 router.post("/register", async (req, res) => {
@@ -10,7 +13,7 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     //create new user
-    const newUser = new RegistrovaniKorisnik({
+    const newUser = await new RegistrovaniKorisnik({
       username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
@@ -19,7 +22,27 @@ router.post("/register", async (req, res) => {
 
     //save user and respond
     const user = await newUser.save();
-    res.status(200).json(user);
+
+    let novi = null;
+    if (req.body.tipKorisnika === "") {
+      novi = await new Korisnik({
+        registrovaniKorisnikId: user._id
+      })
+    }
+    else if (req.body.tipKorisnika === "Trener") {
+      novi = await new Trener({
+        registrovaniKorisnikId: user._id
+      })
+    }
+    else {
+      novi = await new Uprava({
+        registrovaniKorisnikId: user._id
+      })
+    }
+
+    const novi2 = await novi.save();
+
+    res.status(200).json(novi2);
   } catch (err) {
     res.status(500).json(err)
   }
@@ -28,13 +51,71 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await RegistrovaniKorisnik.findOne({ email: req.body.email });
-    !user && res.status(404).json("user not found");
+
+    if (!user)
+      res.status(404).json("Nema takvog korisnika");
 
     const validPassword = await bcrypt.compare(req.body.password, user.password)
-    !validPassword && res.status(400).json("wrong password")
 
-    res.status(200).json(user)
-  } catch (err) {
+    if (!validPassword)
+      res.status(400).json("Pogresna lozinka")
+
+    if (user.tipKorisnika == "Korisnik") {
+      const korisnik = await Korisnik.findOne({ registrovaniKorisnikId: user._id });
+      if (korisnik != null) {
+        let novi = {
+          ime: user.ime,
+          prezime: user.prezime,
+          email: user.emil,
+          brojTelefona: user.brojTelefona,
+          password: user.password,
+          tip: user.tipKorisnika,
+          korisnikId: korisnik._id
+        }
+        res.status(200).json(novi)
+      }
+      else {
+        res.status(404).json("Nema korisnika");
+      }
+    }
+    else if (user.tipKorisnika == "Uprava") {
+      const uprava = await Uprava.findOne({ registrovaniKorisnikId: user._id });
+      if (uprava != null) {
+        let novi = {
+          ime: user.ime,
+          prezime: user.prezime,
+          email: user.emil,
+          brojTelefona: user.brojTelefona,
+          password: user.password,
+          tip: user.tipKorisnika,
+          upravaId: uprava._id
+        }
+        res.status(200).json(novi)
+      }
+      else {
+        res.status(404).json("Nema uprave");
+      }
+    }
+    else {
+      const trener = await Uprava.findOne({ registrovaniKorisnikId: user._id });
+      if (trener != null) {
+        let novi = {
+          ime: user.ime,
+          prezime: user.prezime,
+          email: user.emil,
+          brojTelefona: user.brojTelefona,
+          password: user.password,
+          tip: user.tipKorisnika,
+          trenerId: trener._id
+        }
+        res.status(200).json(novi)
+      }
+      else {
+        res.status(404).json("Nema trenera");
+      }
+    }
+  }
+  catch (err) {
     res.status(500).json(err)
   }
 });

@@ -49,7 +49,11 @@ function App() {
           {user ? <Navigate replace to="/profil" /> : <Register />}>
         </Route>
 
-        <Route path='/profil' element={<UserPocetna />} ></Route>
+        <Route path='/profil' element=
+          {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />}>
+        </Route>
+
+        {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
 
       </Routes>
 

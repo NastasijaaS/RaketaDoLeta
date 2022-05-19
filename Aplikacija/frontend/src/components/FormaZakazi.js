@@ -27,9 +27,9 @@ const FormaZakazi = (props) => {
         // isOnline
 
 
-        const datum = props.datum
-        const vreme = props.vreme
-        const idTrenera = props.idTrenera
+        // const datum = props.datum
+        // const vreme = props.vreme
+        // const idTrenera = props.idTrenera
 
         console.log(intenzitetTreninga.value)
         console.log(tipTreninga.value)

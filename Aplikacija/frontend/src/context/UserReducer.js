@@ -19,6 +19,12 @@ const UserReducer = (state, action) => {
                 ucitavaSe: false,
                 greska: true,
             };
+        case "ODJAVI":
+            return {
+                user: null,
+                ucitavaSe: false,
+                greska: false,
+            };
 
         default:
             return state;

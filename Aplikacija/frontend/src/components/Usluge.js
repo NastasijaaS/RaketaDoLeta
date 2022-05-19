@@ -1,7 +1,7 @@
 import '../styles/usluge.css'
 import { useState, useEffect } from 'react'
 import Modal from './Modal'
-
+import { GetData } from './Fetch'
 //naziv
 //opis
 //cena
@@ -11,49 +11,18 @@ import Modal from './Modal'
 
 const Usluge = () => {
 
-
     const [nizUsluga, setUsluge] = useState([])
     const [greska, setGreska] = useState(false)
     const [zakazivanje, setZakazivanje] = useState(false)
 
     useEffect(() => {
-        const usluge = async () => {
-            await fetch("http://localhost:8800/api/korisnik/vidiUsluge")
-                .then(p => {
-                    p.json()
-                        .then(data => {
-                            const pomUsluge = []
-                            if (p.ok) {
 
-                                data.forEach(element => {
-                                    pomUsluge.push(element)
-                                    // console.log(element)
-                                });
-
-                                setUsluge(pomUsluge)
-                            }
-                            else {
-                                console.log("Bad request");
-                                setGreska(true)
-                                throw new Error("Lose ucitao usluge!");
-                            }
-
-                        })
-
-                }).catch(error => {
-                    console.log(error)
-                    setGreska(true)
-                });
-        }
-
-        usluge()
+        GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska)
 
     }, [])
 
     const zakaziGrupniTrening = () => {
-
         setZakazivanje(true)
-
     }
 
     const onClose = () => {

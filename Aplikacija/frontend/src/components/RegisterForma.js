@@ -1,110 +1,80 @@
 import '../styles/loginForma.css'
 import { useState } from "react";
-
-const noviNalog = async (ime, prezime, brojTelefona, mail, username, pass) => {
-    console.log('novi nalog')
-
-    await fetch("http://localhost:8800/api/auth/registe", {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: username,
-            password: pass
-        })
-    })
-        .then(p => {
-            p.json()
-                .then(data => {
-                    if (p.ok) {
-
-                        console.log('uspresno prijavljivanje')
-                    }
-                    else {
-                        console.log("Bad request");
-                        throw new Error("Nema korisnika sa tim registovanim username!");
-
-                    }
-
-                })
-
-        }).catch(error => {
-            console.log(error)
-
-        });
-
-}
+import { PostMetoda } from './Fetch';
+import { useContext, useRef } from 'react';
+import { UserContext } from '../context/UserContext';
 
 const Register = (props) => {
 
-    const [ime, setIme] = useState({ naziv: '', greska: '' });
-    const [prezime, setPrezime] = useState({ naziv: '', greska: '' });
-    const [email, setEmail] = useState({ naziv: '', greska: '' });
-    const [lozinka, setLozinka] = useState({ naziv: '', greska: '' });
-    const [brojTelefona, setBrojTelefona] = useState({ broj: '', greska: '' });
-    const [username, setUsername] = useState({ naziv: '', greska: '' });
+    const { user, ucitavaSe, dispatch } = useContext(UserContext);
+
+    const [greska, setGreska] = useState({ ime: false, prezime: false, mail: false, lozinka: false, brojTelefona: false, username: false });
+
+    const ime = useRef('')
+    const prezime = useRef('')
+    const email = useRef('')
+    const lozinka = useRef()
+    const brojTelefona = useRef()
+    const username = useRef()
 
     const upis = (ev) => {
 
         ev.preventDefault()
 
+        setGreska({ ime: false, prezime: false, mail: false, lozinka: false, brojTelefona: false, username: false })
+
         let pom = true;
 
-        // console.log(ime)
-        // console.log(prezime)
-        // console.log(email)
-        // console.log(lozinka)
-        // console.log(brojTelefona)
-
-
-
-        if (ime.naziv === '' || ime.naziv.length < 5) {
-            setIme({ naziv: ime.naziv, greska: 'Polje ime ne sme biti prazno i mora sadrzati najmanje 5 slova' })
+        if (ime.current.value === '' || ime.current.value.length < 5) {
+            setGreska((greska) => ({ ...greska, ime: true }))
             pom = false
         }
 
-        if (prezime.naziv === '' || prezime.naziv.length < 5) {
-            setPrezime({ naziv: prezime.naziv, greska: 'Polje prezime ne sme biti prazno i mora sadrzati najmanje 5 slova' })
+        if (prezime.current.value === '' || prezime.current.value.length < 5) {
+            setGreska((greska) => ({ ...greska, prezime: true }))
             pom = false
         }
 
-        if (brojTelefona.broj == -1 || brojTelefona.broj == '' || brojTelefona.broj.length < 9) {
-            setBrojTelefona({ broj: brojTelefona.broj, greska: 'Unesite ispravan broj' })
+        if (brojTelefona.current.value == '' || brojTelefona.current.value.length < 9) {
+            setGreska((greska) => ({ ...greska, brojTelefona: true }))
             pom = false
         }
 
         const mail = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 
-        if (email.naziv === '' || !email.naziv.match(mail)) {
-            setEmail({ naziv: email.naziv, greska: 'Unesite ispravnu email adresu' })
+        if (email.current.value === '' || !email.current.value.match(mail)) {
+            setGreska((greska) => ({ ...greska, mail: true }))
+            pom = false
+        }
+
+        if (lozinka.current.value === '' || lozinka.current.value.length < 6) {
+            setGreska((greska) => ({ ...greska, lozinka: true }))
             pom = false
         }
 
 
-
-        if (lozinka.naziv === '' || lozinka.naziv.length < 6) {
-            setLozinka({ naziv: lozinka.naziv, greska: 'Polje lozinka ne sme biti prazno i mora sadrzati najmanje 6 karaktera ' })
-            pom = false
-        }
-
-        if (username.naziv === '' || username.naziv.length < 6) {
-            setUsername({ naziv: username.naziv, greska: 'Polje username ne sme biti prazno i mora sadrzati najmanje 6 karaktera ' })
+        if (username.current.value === '' || username.current.value.length < 4) {
+            setGreska((greska) => ({ ...greska, username: true }))
             pom = false
         }
 
         if (pom === true) {
-            //  console.log("ispravno")
 
-            noviNalog(ime.naziv, prezime.naziv, brojTelefona.broj, email.naziv, username.naziv, lozinka.naziv)
+            const zahtev = {
+                url: 'http://localhost:8800/api/auth/register',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    'ime': ime, 'prezime': prezime,
+                    'brojTelefona': brojTelefona,
+                    'email': email, 'username': username, 'password': lozinka
+                }
+            }
 
-            setIme({ naziv: '', greska: '' })
-            setPrezime({ naziv: '', greska: '' })
-            setBrojTelefona({ broj: '', greska: '' })
-            setEmail({ naziv: '', greska: '' })
-            setLozinka({ naziv: '', greska: '' })
-            setUsername({ naziv: '', greska: '' })
+            PostMetoda(zahtev, dispatch)
+
         }
     }
 
@@ -113,55 +83,46 @@ const Register = (props) => {
             <form className="login" id='prijava' onSubmit={upis}>
                 <h2>Registrujte se:</h2>
 
-
                 <label>Ime:
-                    <input className='loginInp' value={ime.naziv}
-                        onChange={e => setIme({ naziv: e.target.value, greska: '' })}
+                    <input className='loginInp' ref={ime}
                         type='text' placeholder='ime' />
                 </label>
 
-                {ime.greska !== '' && <p className='greska'> {ime.greska}</p>}
+                {greska.ime && <p className='greska'>Polje ime ne sme biti prazno i mora sadrzati najmanje 5 slova</p>}
 
                 <label>Prezime:
-                    <input className='loginInp' value={prezime.naziv}
-                        onChange={e => setPrezime({ naziv: e.target.value, greska: '' })}
+                    <input className='loginInp' ref={prezime}
                         type='text' placeholder='prezime' />
                 </label>
 
-                {prezime.greska !== '' && <p className='greska'> {prezime.greska}</p>}
+                {greska.prezime && <p className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 5 slova</p>}
 
-                <label>E-mail: <input className='loginInp' value={email.naziv}
-                    onChange={e => setEmail({ naziv: e.target.value, greska: '' })}
+                <label>Username: <input className='loginInp' ref={username}
+                    type='text' placeholder='username' /></label>
+
+                {greska.username && <p className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</p>}
+
+                <label>E-mail: <input className='loginInp' ref={email}
                     type='email' placeholder='e-mail' />
                 </label>
 
-                {email.greska !== '' && <p className='greska'> {email.greska}</p>}
+                {greska.mail && <p className='greska'>Unesite ispravan mail</p>}
 
-                <label>Username: <input className='loginInp' value={username.naziv}
-                    onChange={e => setUsername({ naziv: e.target.value, greska: '' })}
-                    type='text' placeholder='username' /></label>
-
-                {username.greska !== '' && <p className='greska'> {username.greska}</p>}
-
-                <label>Lozinka: <input className='loginInp' value={lozinka.naziv}
-                    onChange={e => setLozinka({ naziv: e.target.value, greska: '' })}
+                <label>Lozinka: <input className='loginInp' ref={lozinka}
                     minLength='6'
                     type='password' placeholder='lozinka' />
                 </label>
 
-                {lozinka.greska !== '' && <p className='greska'> {lozinka.greska}</p>}
+                {greska.lozinka && <p className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</p>}
 
                 <label>Broj brojina:
-                    <input className='loginInp' value={brojTelefona.broj}
-                        onChange={e => setBrojTelefona({ broj: e.target.value, greska: '' })}
+                    <input className='loginInp' ref={brojTelefona}
                         type='number' placeholder='brojTelefona' /></label>
 
-                {brojTelefona.greska != '' && <p className='greska'> {brojTelefona.greska}</p>}
+                {greska.brojTelefona && <p className='greska'>Broj telefona mora imati najmanje 9 cifara</p>}
 
+                <button onClick={upis}>Registruj se</button>
 
-                <button>Registruj se</button>
-
-                {/* <button>Otkazi</button> */}
             </form>
         </div >
 

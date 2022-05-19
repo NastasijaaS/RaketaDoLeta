@@ -52,8 +52,6 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
         res.status(500).json(err);
     }
 
-
-    
 });
 
   //izmeni korisnika
@@ -272,10 +270,11 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
     try{
         const trener=await Trener.findById(req.params.idTrenera)
         if(trener!=null){
+
             const korisnik=await Korisnik.findById(req.body.korisnikId)
             if(korisnik!=null){
 
-                if(korisnik.trenerId==trener._id){
+               // if(korisnik.trenerId==trener._id){
 
                     const napredak=await new Napredak({
                         "korisnikId":req.body.korisnikId,
@@ -294,14 +293,14 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
                     const napredakSave=await napredak.save();
                     res.status(200).json(napredakSave)
 
-                }
-                else{
-                    res.status(400).json("Mozete dodati napredak samo svom korisniku")
-                }
+                // }
+                // else{
+                //     res.status(400).json("Mozete dodati napredak samo svom korisniku")
+                // }
 
             }
             else{
-                res.status(404).json("Korisnik nije pronadjen")
+                res.status(404).json(req.body.korisnikId + "  Korisnik nije pronadjen")
             }
 
         }

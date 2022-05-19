@@ -6,9 +6,19 @@
     justify-content: center;
     gap: 20px;
 }
+.sviBlogovi{
+    margin: 16vh 20vw;
+}
 .blog{
     gap: 0px;
 }
-button:active{
-    background-color: green;
+.divZaIzbor{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.btnBlog{
+    height: 5vh;
+    width: 30vw;
+    cursor: pointer;
 }
