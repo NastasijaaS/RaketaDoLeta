@@ -196,7 +196,7 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
 })
 
 //pregledaj sve dostupne grupne treninge
-router.get("/vidiGrupneTreninge", async (req, res) => {
+/*router.get("/vidiGrupneTreninge", async (req, res) => {
 
     try {
         const treninzi = await Trening.find({ brojClanova: { $gte: 2 } })
@@ -213,7 +213,7 @@ router.get("/vidiGrupneTreninge", async (req, res) => {
         res.status(500).json(err);
     }
 
-})
+})*/
 
 //uplati clanarinu
 

@@ -5,48 +5,6 @@ const Uprava = require("../models/Uprava")
 const Trener = require("../models/Trener")
 const Korisnik = require("../models/Korisnik");
 
-//REGISTER
-router.post("/register", async (req, res) => {
-  try {
-    //generate new password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-    //create new user
-    const newUser = await new RegistrovaniKorisnik({
-      username: req.body.username,
-      email: req.body.email,
-      password: hashedPassword,
-      tipKorisnika: req.body.tipKorisnika
-    });
-
-    //save user and respond
-    const user = await newUser.save();
-
-    let novi = null;
-    if (req.body.tipKorisnika === "") {
-      novi = await new Korisnik({
-        registrovaniKorisnikId: user._id
-      })
-    }
-    else if (req.body.tipKorisnika === "Trener") {
-      novi = await new Trener({
-        registrovaniKorisnikId: user._id
-      })
-    }
-    else {
-      novi = await new Uprava({
-        registrovaniKorisnikId: user._id
-      })
-    }
-
-    const novi2 = await novi.save();
-
-    res.status(200).json(novi2);
-  } catch (err) {
-    res.status(500).json(err)
-  }
-});
 
 router.post("/login", async (req, res) => {
   try {

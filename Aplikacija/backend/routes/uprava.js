@@ -13,7 +13,6 @@ const Zahtev = require("../models/Zahtev")
 const Blog = require("../models/Blog")
 
 
-
 //dodaj registrovanog korisnika
 router.post("/register", async (req, res) => {
   try {
