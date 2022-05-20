@@ -124,6 +124,8 @@ router.get("/vidiTrenere", async (req, res) => {
                 const tr = {
                     ime: t.ime,
                     prezime: t.prezime,
+                    opis: t.opis,
+                    slika: t.slika,
                     sertifikati: nizSertifikata,
                     email: t.email,
                 }

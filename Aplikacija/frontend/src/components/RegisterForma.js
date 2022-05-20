@@ -1,6 +1,6 @@
 import '../styles/loginForma.css'
 import { useState } from "react";
-import { PostMetoda } from './Fetch';
+import { LoginMetoda } from './Fetch';
 import { useContext, useRef } from 'react';
 import { UserContext } from '../context/UserContext';
 
@@ -73,7 +73,7 @@ const Register = (props) => {
                 }
             }
 
-            PostMetoda(zahtev, dispatch, setGreska)
+            LoginMetoda(zahtev, dispatch, setGreska)
 
         }
     }
@@ -108,7 +108,7 @@ const Register = (props) => {
 
                 <Info labela='Lozinka' tip='password' reff={lozinka} />
                 {greska.lozinka && <p className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</p>}
-                
+
                 <Info labela='Broj telefona' tip='text' reff={brojTelefona} />
                 {greska.brojTelefona && <p className='greska'>Broj telefona mora imati najmanje 9 cifara</p>}
 

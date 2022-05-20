@@ -21,6 +21,7 @@ router.post("/register", async (req, res) => {
     }
 
     const novi = await new RegistrovaniKorisnik({
+      id: user.id,
       ime: req.body.ime,
       prezime: req.body.prezime,
       brojTelefona: req.body.brojTelefona,
@@ -55,6 +56,7 @@ router.post("/login", async (req, res) => {
       const korisnik = await Korisnik.findOne({ registrovaniKorisnikId: user._id });
       if (korisnik != null) {
         let novi = {
+          id: user.id,
           ime: user.ime,
           prezime: user.prezime,
           email: user.email,
@@ -73,6 +75,7 @@ router.post("/login", async (req, res) => {
       const uprava = await Uprava.findOne({ registrovaniKorisnikId: user._id });
       if (uprava != null) {
         let novi = {
+          id: user.id,
           ime: user.ime,
           prezime: user.prezime,
           email: user.emil,
@@ -91,6 +94,7 @@ router.post("/login", async (req, res) => {
       const trener = await Uprava.findOne({ registrovaniKorisnikId: user._id });
       if (trener != null) {
         let novi = {
+          id: user.id,
           ime: user.ime,
           prezime: user.prezime,
           email: user.emil,
@@ -122,10 +126,10 @@ router.post("/proveriSifru", async (req, res) => {
 
     if (!validPassword)
       res.status(400).json("Pogresna lozinka")
-    else{
+    else {
       res.status(200).json("Dobra sifra")
     }
-  
+
   }
   catch (err) {
     res.status(500).json(err)

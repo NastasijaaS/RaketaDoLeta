@@ -1,7 +1,7 @@
 import '../styles/loginForma.css'
 import { useState, useContext, useRef } from "react";
 import { UserContext } from '../context/UserContext';
-import { PostMetoda } from './Fetch';
+import { LoginMetoda } from './Fetch';
 
 
 const LogIn = () => {
@@ -42,7 +42,7 @@ const LogIn = () => {
                 body: { 'email': mail.current.value, 'password': lozinka.current.value }
             }
 
-            PostMetoda(zahtev, dispatch,setError)
+            LoginMetoda(zahtev, dispatch,setError)
 
             if(error != ''){
                 alert(error)

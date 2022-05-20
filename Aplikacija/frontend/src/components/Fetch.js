@@ -1,15 +1,7 @@
-export const GetData = async (url, setData, setError, body) => {
+export const GetData = async (url, setData, setError) => {
 
-    console.log(JSON.stringify(body))
     try {
-        const response = await fetch(url, {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        })
+        const response = await fetch(url)
 
         if (response.ok) {
             const data = await response.json();
@@ -27,7 +19,7 @@ export const GetData = async (url, setData, setError, body) => {
     };
 }
 
-export const PostMetoda = async (zahtev, dispatch, setGreska) => {
+export const LoginMetoda = async (zahtev, dispatch, setGreska) => {
     // console.log(zahtev)
     dispatch({ tip: "LOGIN_START" });
     await fetch(zahtev.url, {
@@ -57,3 +49,26 @@ export const PostMetoda = async (zahtev, dispatch, setGreska) => {
 
 }
 
+// export const PostMetoda = async (zahtev, setData, setGreska) => {
+//     await fetch(zahtev.url, {
+//         method: "POST",
+//         headers: zahtev.headers,
+//         body: JSON.stringify(zahtev.body)
+//     }).then(p => {
+//         p.json()
+//             .then(data => {
+//                 if (p.ok) {
+//                    setData(data)
+//                 }
+//                 else if (p.status == 400) {
+//                     setGreska('Pogresna lozinka')
+//                 }
+//                 else {
+//                     setGreska(p.statusText)
+//                 }
+//             })
+//     }).catch(error => {
+//         // setGreska('Doslo je do greske!')
+//         console.log(error)
+//     })
+// }
