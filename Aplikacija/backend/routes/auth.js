@@ -111,4 +111,25 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/proveriSifru", async (req, res) => {
+  try {
+    const user = await RegistrovaniKorisnik.findOne({ _id: req.body.id });
+
+    if (!user)
+      res.status(404).json("Nema takvog korisnika");
+
+    const validPassword = await bcrypt.compare(req.body.password, user.password)
+
+    if (!validPassword)
+      res.status(400).json("Pogresna lozinka")
+    else{
+      res.status(200).json("Dobra sifra")
+    }
+  
+  }
+  catch (err) {
+    res.status(500).json(err)
+  }
+});
+
 module.exports = router;
