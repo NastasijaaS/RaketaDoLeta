@@ -23,6 +23,9 @@ const TrenerSchema = new mongoose.Schema({
     },
     slika:{
         type:String
+    },
+    opis:{
+        type:String
     }
     
 },

@@ -469,5 +469,33 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
     }
 })
 
+//dodaj profilnu sliku
+router.put("/dodajSliku/:idTrenera", async (req, res) => {
+
+    try {
+        const trener = await Trener.findOneAndUpdate(req.params.idTrenera, {$set:{slika:req.body.slika}})
+        res.status(200).json(trener)
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+});
+
+//dodaj opis
+router.put("/dodajOpis/:idTrenera", async (req, res) => {
+
+    try {
+        const trener = await Trener.findOneAndUpdate(req.params.idTrenera, {$set:{opis:req.body.opis}})
+        res.status(200).json(trener)
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+});
+
 
 module.exports = router

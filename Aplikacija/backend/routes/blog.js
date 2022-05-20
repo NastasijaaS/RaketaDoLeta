@@ -64,13 +64,10 @@ router.get("/vratiBlogove", async (req, res) => {
 
 
 //Metoda za vracanje bloga sa datim tagom:
-router.get("/VratiBlogTag ", async (req, res) => {
-    try {
-        //Proveravamo da li smo poslali uslove za filtriranje?
-        if (!req.body.tag)
-            res.status(400).json("Nisu postavljeni parametri!");
+router.get("/vratiBlogTag/:tag", async (req, res) => {
 
-        let firstArray = await Blog.find({ tagovi: req.body.tag });
+    try {
+        const firstArray = await Blog.find({ tagovi: req.params.tag});
         if (firstArray.length === 0)
             return res.status(404).json("Ne postoji blog sa zadatim tagom");
         else
