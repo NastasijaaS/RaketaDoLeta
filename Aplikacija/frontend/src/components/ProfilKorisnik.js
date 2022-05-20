@@ -79,6 +79,8 @@ const Korisnik = (props) => {
         setNoviTrening(true)
     }
 
+    let korisnik = user.tip === 'Korisnik'
+
     return (
         <div className='profilKorisnika'>
 
@@ -117,42 +119,48 @@ const Korisnik = (props) => {
                 {!izmena && <button onClick={otkaziIzmenu}>Otkazi</button>}
             </div>
 
-            <div className="infoNapredak">
-                <h3>Informacije sa poslednjeg merenja</h3>
-                <p>Tezina: {n.tezina}</p>
-                <p>Procenat masti: {n.procenatMasti}</p>
-                <p>Procenat proteina: {n.procenatProteina}</p>
-                <p>Tezina misica: {n.tezinaMisica}</p>
-                <p>Procenat vode: {n.procenatVode}</p>
-                <p>Kostana masa: {n.kostanaMasa}</p>
-                <p>BMI: {n.BMI}</p>
-                <p>BodyAge: {n.bodyAge}</p>
-            </div>
-
-            <div className="zakazaniTreninzi">
-
-                <h3>Vasi zakazani treninzi</h3>
-                <p>Trener:</p>
-                <p>Datum</p>
-                <p>Vreme:</p>
-                <p>Trajanje:</p>
-                <p>Tip:</p>
-                <p>Intenzitet:</p>
-                <p>Grupni/personalni:</p>
-                <p>online</p>
-
-
-                <div className="btnNoviTrening">
-                    <button onClick={zakaziTrening}>Zakazi novi trening</button>
+            {korisnik && <div>
+                <div className="infoNapredak">
+                    <h3>Informacije sa poslednjeg merenja</h3>
+                    <p>Tezina: {n.tezina}</p>
+                    <p>Procenat masti: {n.procenatMasti}</p>
+                    <p>Procenat proteina: {n.procenatProteina}</p>
+                    <p>Tezina misica: {n.tezinaMisica}</p>
+                    <p>Procenat vode: {n.procenatVode}</p>
+                    <p>Kostana masa: {n.kostanaMasa}</p>
+                    <p>BMI: {n.BMI}</p>
+                    <p>BodyAge: {n.bodyAge}</p>
                 </div>
 
-                {noviTrening && <Modal onClose={() => setNoviTrening(false)}>
-                    <div>
-                    </div>
-                    <FormaZakazi />
-                </Modal>}
+                <div className="zakazaniTreninzi">
 
-            </div>
+                    <h3>Vasi zakazani treninzi</h3>
+                    <p>Trener:</p>
+                    <p>Datum</p>
+                    <p>Vreme:</p>
+                    <p>Trajanje:</p>
+                    <p>Tip:</p>
+                    <p>Intenzitet:</p>
+                    <p>Grupni/personalni:</p>
+                    <p>online</p>
+
+
+                    <div className="btnNoviTrening">
+                        <button onClick={zakaziTrening}>Zakazi novi trening</button>
+                    </div>
+
+                    {noviTrening && <Modal onClose={() => setNoviTrening(false)}>
+                        <div>
+                        </div>
+                        <FormaZakazi />
+                    </Modal>}
+
+                </div>
+            </div>}
+
+            {!korisnik && <div>
+                <h3>Hvala na registraciji, sacekajte da Vam uprava verifikuje nalog</h3>
+            </div>}
 
         </div>
     )

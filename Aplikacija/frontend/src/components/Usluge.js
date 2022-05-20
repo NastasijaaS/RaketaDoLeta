@@ -2,12 +2,6 @@ import '../styles/usluge.css'
 import { useState, useEffect } from 'react'
 import Modal from './Modal'
 import { GetData } from './Fetch'
-//naziv
-//opis
-//cena
-// const nizUsluga = [{ naziv: 'naziv', opis: 'opis dugacak0', cena: 222 },
-// { naziv: 'naziv', opis: 'opis dugacak0', cena: 222 },
-// { naziv: 'naziv', opis: 'opis dugacak0', cena: 222 }];
 
 const Usluge = () => {
 

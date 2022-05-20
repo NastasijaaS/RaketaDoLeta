@@ -13,50 +13,6 @@ const Zahtev = require("../models/Zahtev")
 const Blog = require("../models/Blog")
 
 
-//dodaj registrovanog korisnika
-router.post("/register", async (req, res) => {
-  try {
-    //generate new password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-    //create new user
-    const newUser = await new RegistrovaniKorisnik({
-      username: req.body.username,
-      email: req.body.email,
-      password: hashedPassword,
-      tipKorisnika: req.body.tipKorisnika
-    });
-
-    //save user and respond
-    const user = await newUser.save();
-
-    let novi = null;
-    if (req.body.tipKorisnika === "Korisnik") {
-      novi = await new Korisnik({
-        registrovaniKorisnikId: user._id
-      })
-    }
-
-    else if (req.body.tipKorisnika === "Trener") {
-      novi = await new Trener({
-        registrovaniKorisnikId: user._id
-      })
-    }
-    else {
-      novi = await new Uprava({
-        registrovaniKorisnikId: user._id
-      })
-    }
-
-    const novi2 = await novi.save();
-
-    res.status(200).json(novi2);
-  } catch (err) {
-    res.status(500).json(err)
-  }
-});
-
 //update bilo kog korisnika
 router.put("/upravaUpdate/:id", async (req, res) => {
 
@@ -103,7 +59,6 @@ router.delete("/:id", async (req, res) => {
 });
 
 //dodaj clanarinu korisniku
-
 router.put("/dodajClanarinu/:idKorisnika/:idUsluge", async (req, res) => {
 
   try {
@@ -141,7 +96,6 @@ router.put("/dodajClanarinu/:idKorisnika/:idUsluge", async (req, res) => {
 })
 
 //dodaj uslugu
-
 router.post("/dodajUslugu", async (req, res) => {
 
   try {
@@ -162,7 +116,6 @@ router.post("/dodajUslugu", async (req, res) => {
 })
 
 //izmeni uslugu
-
 router.put("/izmeniUslugu/:idUsluge", async (req, res) => {
 
   try {
@@ -197,7 +150,6 @@ router.delete("/obrisiUslugu/:idUsluge", async (req, res) => {
 });
 
 //dodaj sertifikat treneru
-
 router.post("/dodajSertifikat/:idTrenera", async (req, res) => {
 
   try {
@@ -226,7 +178,6 @@ router.post("/dodajSertifikat/:idTrenera", async (req, res) => {
 })
 
 //napravi zahtev za treningom i posalji treneru
-
 router.post("/napraviZahtev/:idTreninga", async (req, res) => {
 
   try {
@@ -273,61 +224,5 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 });
 
-//dodajBlog
-
-router.post("/dodajBlog", async (req, res) => {
-
-  try {
-
-    const blog = await new Blog({
-      naslov: req.body.naslov,
-      Datum: req.body.Datum,
-      tekst: req.body.tekst,
-      tagovi: req.body.tagovi
-    })
-
-    const blogSave = await blog.save()
-    res.status(200).json(blogSave)
-
-  }
-  catch (err) {
-    res.status(500).json(err);
-  }
-
-})
-
-//izmeniBlog
-router.put("/izmeniBlog/:idBloga", async (req, res) => {
-
-  try {
-    const blog = await Blog.findById(req.params.idBloga)
-    if (blog != null) {
-      await blog.updateOne({ $set: req.body })
-      res.status(200).json(blog);
-
-    }
-    else {
-      res.status(404).json("Blog nije pronadjen")
-    }
-
-  }
-  catch (err) {
-    res.status(500).json(err);
-  }
-})
-
-//obrisiBlog
-router.delete("/obrisiBlog/:idBloga", async (req, res) => {
-
-  try {
-
-    await Blog.findOneAndDelete(req.params.idBloga)
-    res.status(200).json("Blog je uspesno obrisan")
-
-  }
-  catch (err) {
-    res.status(500).json(err);
-  }
-});
 
 module.exports = router

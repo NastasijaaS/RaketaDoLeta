@@ -44,8 +44,6 @@ const LogIn = () => {
 
             PostMetoda(zahtev, dispatch,setError)
 
-            console.log(error)
-
             if(error != ''){
                 alert(error)
                 return

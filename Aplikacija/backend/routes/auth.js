@@ -6,6 +6,39 @@ const Trener = require("../models/Trener")
 const Korisnik = require("../models/Korisnik");
 
 
+router.post("/register", async (req, res) => {
+  try {
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    let tipKorisnika = "Korisnik";
+    if (req.body.tipKorisnika === 'Uprava') {
+      tipKorisnika = 'Uprava'
+    }
+    else if (req.body.tipKorisnika === 'Trener') {
+      tipKorisnika = 'Trener'
+    }
+
+    const novi = await new RegistrovaniKorisnik({
+      ime: req.body.ime,
+      prezime: req.body.prezime,
+      brojTelefona: req.body.brojTelefona,
+      username: req.body.username,
+      email: req.body.email,
+      password: hashedPassword,
+      tip: tipKorisnika
+    });
+
+    const user = await novi.save();
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err)
+  }
+});
+
+
 router.post("/login", async (req, res) => {
   try {
     const user = await RegistrovaniKorisnik.findOne({ email: req.body.email });
@@ -24,7 +57,7 @@ router.post("/login", async (req, res) => {
         let novi = {
           ime: user.ime,
           prezime: user.prezime,
-          email: user.emil,
+          email: user.email,
           brojTelefona: user.brojTelefona,
           password: user.password,
           tip: user.tipKorisnika,
@@ -77,7 +110,5 @@ router.post("/login", async (req, res) => {
     res.status(500).json(err)
   }
 });
-
-
 
 module.exports = router;

@@ -1,7 +1,15 @@
 export const GetData = async (url, setData, setError, body) => {
 
+    console.log(JSON.stringify(body))
     try {
-        const response = await fetch(url)
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
 
         if (response.ok) {
             const data = await response.json();
@@ -34,10 +42,10 @@ export const PostMetoda = async (zahtev, dispatch, setGreska) => {
                     dispatch({ tip: "LOGIN_SUCCESS", payload: data });
                     // console.log(data)
                 }
-                else if(p.status == 400){
+                else if (p.status == 400) {
                     setGreska('Pogresna lozinka')
                 }
-                else{
+                else {
                     setGreska(p.statusText)
                 }
             })
