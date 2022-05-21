@@ -153,7 +153,7 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
    });
 
    //zakazi grupni trening
-   router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
+   /*router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
 
         try{
             const trener=await Trener.findById(req.params.id)
@@ -180,7 +180,7 @@ router.post("/dodajKorisnika/:id", async (req, res) => {
             res.status(500).json(err);
         }
 
-   })
+   })*/
 
    //vrati svoje treninge
    router.get("/vratiTreninge/:id", async (req, res) => {
@@ -470,6 +470,34 @@ router.post("/dodajEvidenciju/:idTrenera", async(req, res)=>{
         res.status(500).json(err);
     }
 })
+ //zakazi grupni trening
+ router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
 
+    try{
+        const trener=await Trener.findById(req.params.id)
+        if (trener!=null){
+
+            const novitrening=await new Trening({
+                datum:req.body.datum,
+                tip:req.body.tip,
+                intenzitet:req.body.intenzitet,
+                brojClanova:req.body.brojClanova,
+                trener:trener._id
+            })
+
+            const trening=await novitrening.save();
+            await trener.updateOne({$push:{listaTreninga: trening._id}});
+            res.status(200).json(trening);
+        }
+        else{
+            res.status(404).json("Trener nije pronadjen")
+        }
+
+    }
+    catch(err){
+        res.status(500).json(err);
+    }
+
+})
 
 module.exports = router
