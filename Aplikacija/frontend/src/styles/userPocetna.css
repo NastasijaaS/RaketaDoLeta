@@ -1,0 +1,23 @@
+.profilKorisnika {
+    display: flex;
+    margin: 15vh 15vw;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.infoOProfilu {
+    float: left;
+}
+
+.infoNapredak {
+margin: 20px;
+}
+
+.zakazaniTreninzi {
+    float: right;
+}
+input:disabled{
+    background-color: transparent;
+    border: none;
+    color: aliceblue;
+}

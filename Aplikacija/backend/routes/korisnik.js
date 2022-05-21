@@ -9,6 +9,9 @@ const Usluga = require("../models/Usluga");
 const Zahtev = require("../models/Zahtev.js");
 const RegistrovaniKorisnik = require("../models/RegistrovaniKorisnik")
 
+const Sertifikat = require("../models/Sertifikat.js");
+const Clanarina = require("../models/Clanarina.js");
+
 
 //zakazi personalni trening
 router.post("/zakaziPersonalniTrening/:idKorisnika", async (req, res) => {
@@ -98,57 +101,51 @@ router.put("/ukiniTrening/:idTreninga", async (req, res) => {
     }
 });
 
-//pregledaj sve trenere
-// <<<<<<< HEAD
-// //ovo je da se korisniku prikazu osnovne informacije o trenerima, ime prezime itd.
-// //informacije kao sto su lista klijenata, lista treninga i tako to nisu relevantne za korisnika
-// router.get("/vidiTrenere", async(req, res)=>{
 
-//     try{
-//         const treneri=await RegistrovaniKorisnik.find({tipKorisnika:"Trener"})
-//         if(treneri.length!=0){
-//             //res.status(200).json(treneri)
-//             treneri.forEach(trener=>{
-//                 const t = await Trener.find({registrovaniKorisnikId:trener._id})
-                
-                
-//             })
-            
-//             }
-        
-//         else{
-// =======
-// router.get("/vidiTrenere", async (req, res) => {
+router.get("/vidiTrenere", async (req, res) => {
 
-//     try {
-//         const treneri = await RegistrovaniKorisnik.find({ tipKorisnika: "Trener" })
-//         if (treneri.length != 0) {
-//             res.status(200).json(treneri)
+    try {
+        const trener = await Trener.find()
 
-//         }
+        if (trener.length != 0) {
 
-//         else {
-// >>>>>>> c318fa7f839ba10f3991a56b4a2eb778a83085f2
-//             res.status(400).json("Nema trenera za prikaz")
-//         }
+            let treneri = []
 
+            trener.forEach(async (tre) => {
 
-        // try {
-        //     const trener = await Trener.find().populate('registrovaniKorisnikId')
+                const t = await RegistrovaniKorisnik.findById({ _id: tre.registrovaniKorisnikId })
 
-        //     if (trener.length != 0) {
-        //         res.status(200).json(trener)
-        //     }
-        //     else {
-        //         res.status(400).json("Nema trenera za prikaz")
-        //     }
+                let nizSertifikata = []
+                tre.sertifikati.forEach(async sertifikat => {
+                    const ser = await Sertifikat.findById({ _id: sertifikat._id })
+                    nizSertifikata.push(ser)
+                })
 
-//     }
-//     catch (err) {
-//         res.status(500).json(err);
-//     }
+                const tr = {
+                    ime: t.ime,
+                    prezime: t.prezime,
+                    opis: t.opis,
+                    slika: t.slika,
+                    sertifikati: nizSertifikata,
+                    email: t.email,
+                }
 
-// })
+                treneri.push(tr)
+
+                res.status(200).json(treneri)
+            })
+
+        }
+        else {
+            res.status(400).json("Nema trenera za prikaz")
+        }
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
 
 //pregledaj sve usluge
 router.get("/vidiUsluge", async (req, res) => {
@@ -256,7 +253,6 @@ router.get("/vidiNapredak/:idKorisnika", async (req, res) => {
 router.get("/vidiClanarinu/:idKorisnika", async (req, res) => {
 
     try {
-
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if (korisnik != null) {
             const clanarina = await Clanarina.findOne({ korisnikId: req.params.idKorisnika })
@@ -271,26 +267,6 @@ router.get("/vidiClanarinu/:idKorisnika", async (req, res) => {
         }
         else {
             res.status(404).json("Nije pronadjen korisnik")
-        }
-
-
-    }
-    catch (err) {
-        res.status(500).json(err);
-    }
-
-})
-
-//pregledaj sve dostupne grupne treninge
-router.get("/vidiGrupneTreninge", async (req, res) => {
-
-    try {
-        const treninzi = await Trening.find({ brojClanova: { $gte: 2 } })
-        if (treninzi.length != 0) {
-            res.status(200).json(treninzi)
-        }
-        else {
-            res.status(400).json("Nema treninga za prikaz")
         }
 
 

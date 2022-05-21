@@ -1,7 +1,7 @@
 import '../styles/Treneri.css'
 import { useState, useEffect } from 'react'
 import KalendarForma from './KalendarForma';
-import axios from 'axios'
+import { GetData } from './Fetch'
 
 const treneri = [{
     id: 5,
@@ -45,34 +45,13 @@ const treneri = [{
 
 const Treneri = () => {
 
-    const tre = useEffect(() => {
-        const treneri = async () => {
-            await fetch("http://localhost:8800/api/korisnik/vidiTrenere")
-                .then(p => {
-                    p.json().then
-                        (data => {
-                            if (p.ok) {
+    const [sviTreneri, setTreneri] = useState([])
+    const [greska, setGreska] = useState(false)
 
-                                // console.log(data)
-
-                                data.forEach(element => {
-                                    console.log(element)
-                                });
-
-                            }
-                            else {
-                                console.log(p.statusText);
-                                throw new Error("Lose ucitao trenere!");
-                            }
-
-                        })
-
-                });
-        }
-
-        treneri()
+    useEffect(() => {
+        GetData("http://localhost:8800/api/korisnik/vidiTrenere", setTreneri, setGreska)
+      
     }, [])
-
 
     const [detalji, setDetalji] = useState({ id: -1, state: true });
     const [zakazi, setZakazi] = useState(false);

@@ -2,6 +2,7 @@ import '../styles/kalendar.css'
 import { useState } from 'react'
 import FormaZakazi from './FormaZakazi'
 import Modal from './Modal'
+import LogIn from './LoginForma'
 
 const termini1 = [{ trajanje: 60, vreme: 17 }, { trajanje: 45, vreme: 18 }]
 const termini2 = [{ trajanje: 45, vreme: 13 }, { trajanje: 30, vreme: 19 }]
@@ -67,20 +68,28 @@ const KalendarForma = (props) => {
 
         setTermin({ status: true, datum: { datumTreninga } })
 
-       // console.log(termin.datum)
+
     }
 
     const zakaziForma = (ev) => {
-      //  console.log(ev.target.value)
+        //  console.log(ev.target.value)
         const sat = ev.target.value
 
-        const [vreme,trajanje] = sat.split(' ')
-        
+        const [vreme, trajanje] = sat.split(' ')
+
         setZakazi(!zakazi)
 
-        setTermin(termin => ({ ...termin, vreme: { vreme }, trajanje: {trajanje} }));
+        setTermin(termin => ({ ...termin, vreme: { vreme }, trajanje: { trajanje } }));
 
-      //  console.log(termin)
+        //  console.log(termin)
+    }
+
+    const Day = (props) => {
+
+        return (<span className='dan' id={props.broj} >
+            {nadjiDan((dan + props.broj) % 7)}
+            <button className='dugmeDatum' >{datum + props.broj}</button>
+        </span>)
     }
 
     return (
@@ -91,34 +100,15 @@ const KalendarForma = (props) => {
             </div>
 
             <div onClick={prikaziTermine} className="dani-u-nedelji">
-                <span className='dan' id='0' >
-                    {nadjiDan(dan)}
-                    <button className='dugmeDatum' >{datum}</button>
-                </span>
-                <span className='dan' id='1' >
-                    {nadjiDan((dan + 1) % 7)}
-                    <button className='dugmeDatum' >{datum + 1}</button>
-                </span>
-                <span className='dan' id='2' >
-                    {nadjiDan((dan + 2) % 7)}
-                    <button className='dugmeDatum' >{datum + 2}</button>
-                </span>
-                <span className='dan' id='3' >
-                    {nadjiDan((dan + 3) % 7)}
-                    <button className='dugmeDatum' >{datum + 3}</button>
-                </span>
-                <span className='dan' id='4' >
-                    {nadjiDan((dan + 4) % 7)}
-                    <button className='dugmeDatum' >{datum + 4}</button>
-                </span>
-                <span className='dan' id='5' >
-                    {nadjiDan((dan + 5) % 7)}
-                    <button className='dugmeDatum' >{datum + 5}</button>
-                </span>
-                <span className='dan' id='6' >
-                    {nadjiDan((dan + 6) % 7)}
-                    <button className='dugmeDatum' >{datum + 6}</button>
-                </span>
+
+                <Day broj={0} />
+                <Day broj={1} />
+                <Day broj={2} />
+                <Day broj={3} />
+                <Day broj={4} />
+                <Day broj={5} />
+                <Day broj={6} />
+
             </div>
 
             {termin.status && <div className='termini'>
@@ -136,19 +126,32 @@ const KalendarForma = (props) => {
                             <div>
                                 {t.trajanje} min
                             </div>
-                            <button className='btnZakazi' value={t.vreme +" "+t.trajanje} onClick={zakaziForma}>Zakazi</button>
+                            <button className='btnZakazi' value={t.vreme + " " + t.trajanje} onClick={zakaziForma}>Zakazi</button>
                         </div>
                     ))}
             </div>}
 
-            {zakazi && <Modal onClose={zakaziForma}>
-                <div>
-                    <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
-                    <span>Datum: </span><br />
-                </div>
-                <FormaZakazi vreme = {termin.vreme} trajanje = {termin.trajanje} datum = {termin.datum} onClose={zakaziForma} idTrenera={props.id} />
-            </Modal>}
-        </div>
+            {
+                zakazi && <Modal onClose={zakaziForma}>
+                    <div>
+                        <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
+                        <span>Datum: </span><br />
+                    </div>
+                    <LogIn />
+                </Modal>
+            }
+
+            {/* {
+                zakazi && <Modal onClose={zakaziForma}>
+                    <div>
+                        <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
+                        <span>Datum: </span><br />
+                    </div>
+                    <FormaZakazi vreme={termin.vreme} trajanje={termin.trajanje} datum={termin.datum} onClose={zakaziForma} idTrenera={props.id} />
+                </Modal>
+            } */}
+
+        </div >
     )
 
 }

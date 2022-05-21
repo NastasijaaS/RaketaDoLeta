@@ -11,6 +11,7 @@ const trenerRoute = require("./routes/trener");
 const korisnikRoute = require("./routes/korisnik");
 const upravaRoute = require("./routes/uprava");
 const treningRoute = require("./routes/trening");
+const blogRoute = require("./routes/blog");
 //const napredakRoute=require("./routes/napredak");
 const cors = require('cors');
 
@@ -39,6 +40,7 @@ app.use("/api/trener", trenerRoute);
 app.use("/api/korisnik", korisnikRoute);
 app.use("/api/uprava", upravaRoute);
 app.use("/api/trening", treningRoute);
+app.use("/api/blog", blogRoute);
 //app.use("/api/napredak", napredakRoute);
 
 
