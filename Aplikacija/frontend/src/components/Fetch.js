@@ -4,6 +4,7 @@ export const GetData = async (url, setData, setError) => {
         const response = await fetch(url)
 
         if (response.ok) {
+
             const data = await response.json();
             setData(data);
         }
@@ -14,6 +15,7 @@ export const GetData = async (url, setData, setError) => {
         setError(false)
     }
     catch (error) {
+        setData([])
         console.log(error)
         setError(true + error)
     };

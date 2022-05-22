@@ -17,6 +17,8 @@ const n = {
     procenatProteina: '22', tezinaMisica: '22', procenatVode: '22', bodyAge: '22'
 }
 
+const treninzi = [{ id: 1 }, { id: 2 }, { id: 3 }]
+
 const Korisnik = (props) => {
 
     const { user, dispatch } = useContext(UserContext);
@@ -38,8 +40,8 @@ const Korisnik = (props) => {
 
     useEffect(() => {
         GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska)
-        //  GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId, setNapredak, setGreska)
-        // GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreninge/" + user.korisnikId, setZakazaniTreninzi, setGreska)
+        GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId, setNapredak, setGreska)
+        GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreninge/" + user.korisnikId, setZakazaniTreninzi, setGreska)
 
     }, [])
 
@@ -125,6 +127,38 @@ const Korisnik = (props) => {
             </div>)
     }
 
+    const izmeniTrening = (idTreninga) => {
+
+        // axios.put('http://localhost:8800/api/korisnik/izmeniTrening/' + user.korisnikId + '/' + idTreninga, {
+        //     //trening ?? sta menjam?? 
+        // }).then((p) => {
+        //     if (p.status === 200) {
+        //         console.log(p)
+        //         alert('Uspesno izmenjen trening')
+        //     }
+        // }).catch((error) => {
+        //     if (error.response.status)
+        //         alert(error.response.data)
+        //     else
+        //         alert('Doslo je do greske')
+        // });
+    }
+
+    const otkaziTrening = (idTreninga) => {
+        // axios.put('http://localhost:8800/api/korisnik/ukiniTrening/' + idTreninga,)
+        //     .then((p) => {
+        //         if (p.status === 200) {
+        //             console.log(p)
+        //             alert('Uspesno ukinut trening')
+        //         }
+        //     }).catch((error) => {
+        //         if (error.response.status)
+        //             alert(error.response.data)
+        //         else
+        //             alert('Doslo je do greske')
+        //     });
+    }
+
     let korisnik = user.tip === 'Korisnik'
 
     return (
@@ -182,6 +216,25 @@ const Korisnik = (props) => {
                         <p>Grupni/personalni:</p>
                         <p>online</p>
 
+                        <button onClick={izmeniTrening}>Izmeni trening</button>
+                        <button onClick={otkaziTrening}>Otkazi trening</button>
+
+
+                        {/* {treninzi.map((tr, i) => (
+                            <div key={i}>
+                                <p>Trener: {tr.trener}</p>
+                                <p>Datum: {tr.datum}</p>
+                                <p>Vreme: {tr.vreme}</p>
+                                <p>Trajanje: {tr.trajanje}</p>
+                                <p>Tip: {tr.tip}</p>
+                                <p>Intenzitet: {tr.intenzitet}</p>
+                                <p>Grupni/personalni: {tr.tip}</p>
+                                <p>online:</p>
+
+                                <button onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</button>
+                                <button onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</button>
+                            </div>
+                        ))} */}
 
                         <div className="btnNoviTrening">
                             <button onClick={zakaziTrening}>Zakazi novi trening</button>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { LoginMetoda } from './Fetch';
 import { useContext, useRef } from 'react';
 import { UserContext } from '../context/UserContext';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Register = (props) => {
 
@@ -111,6 +112,8 @@ const Register = (props) => {
 
                 <Info labela='Broj telefona' tip='text' reff={brojTelefona} />
                 {greska.brojTelefona && <p className='greska'>Broj telefona mora imati najmanje 9 cifara</p>}
+
+                {ucitavaSe && <CircularProgress size = '2rem' disableShrink />}
 
                 <button onClick={upis}>Registruj se</button>
 
