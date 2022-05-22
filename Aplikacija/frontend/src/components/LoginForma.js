@@ -2,7 +2,7 @@ import '../styles/loginForma.css'
 import { useState, useContext, useRef } from "react";
 import { UserContext } from '../context/UserContext';
 import { LoginMetoda } from './Fetch';
-
+import CircularProgress from '@mui/material/CircularProgress'
 
 const LogIn = () => {
 
@@ -42,9 +42,9 @@ const LogIn = () => {
                 body: { 'email': mail.current.value, 'password': lozinka.current.value }
             }
 
-            LoginMetoda(zahtev, dispatch,setError)
+            LoginMetoda(zahtev, dispatch, setError)
 
-            if(error != ''){
+            if (error != '') {
                 alert(error)
                 return
             }
@@ -74,11 +74,7 @@ const LogIn = () => {
 
                 {greska.lozinka && <p className='greska'>Lozinka mora imati najmanje 6 karaktera</p>}
 
-                {ucitavaSe ? (
-                    <p>ucitavanje</p>
-                ) : (
-                    <p>ucitano</p>
-                )}
+                {ucitavaSe && <CircularProgress size = '2rem' disableShrink />}
 
                 <button>Prijavi se</button>
 
