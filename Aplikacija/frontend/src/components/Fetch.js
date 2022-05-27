@@ -1,3 +1,6 @@
+
+import { LoginSuccess, LoginFailure, LoginStart } from '../context/UserActions.js'
+
 export const GetData = async (url, setData, setError) => {
 
     try {
@@ -21,9 +24,11 @@ export const GetData = async (url, setData, setError) => {
     };
 }
 
-export const LoginMetoda = async (zahtev, dispatch, setGreska) => {
+export const LoginMetoda = async (zahtev, dispatch) => {
     // console.log(zahtev)
-    dispatch({ tip: "LOGIN_START" });
+
+    dispatch(LoginStart())
+
     await fetch(zahtev.url, {
         method: "POST",
         headers: zahtev.headers,
@@ -33,19 +38,17 @@ export const LoginMetoda = async (zahtev, dispatch, setGreska) => {
             .then(data => {
                 if (p.ok) {
 
-                    dispatch({ tip: "LOGIN_SUCCESS", payload: data });
-                    // console.log(data)
+                    dispatch(LoginSuccess(data))
                 }
                 else if (p.status == 400) {
-                    setGreska('Pogresna lozinka')
+                    dispatch(LoginFailure('Pogresna lozinka'))
                 }
                 else {
-                    setGreska(p.statusText)
+                    dispatch(LoginFailure(p.statusText))
                 }
             })
     }).catch(error => {
-        // setGreska('Doslo je do greske!')
-        dispatch({ tip: "LOGIN_FAIL", payload: error });
+        dispatch(LoginFailure(error))
         console.log(error)
     })
 

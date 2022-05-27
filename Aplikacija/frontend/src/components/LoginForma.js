@@ -6,15 +6,14 @@ import CircularProgress from '@mui/material/CircularProgress'
 
 const LogIn = () => {
 
-    const { user, ucitavaSe, dispatch } = useContext(UserContext);
+    const { ucitavaSe, error, dispatch } = useContext(UserContext);
 
     const [greska, setGreska] = useState({ mail: false, lozinka: false });
-    const [error, setError] = useState('');
 
     const mail = useRef('')
     const lozinka = useRef('')
 
-    const upis = (ev) => {
+    const upis = async (ev) => {
 
         ev.preventDefault()
         let pom = true;
@@ -42,9 +41,9 @@ const LogIn = () => {
                 body: { 'email': mail.current.value, 'password': lozinka.current.value }
             }
 
-            LoginMetoda(zahtev, dispatch, setError)
+            await LoginMetoda(zahtev, dispatch)
 
-            if (error != '') {
+            if (error) {
                 alert(error)
                 return
             }
@@ -74,7 +73,7 @@ const LogIn = () => {
 
                 {greska.lozinka && <p className='greska'>Lozinka mora imati najmanje 6 karaktera</p>}
 
-                {ucitavaSe && <CircularProgress size = '2rem' disableShrink />}
+                {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 
                 <button>Prijavi se</button>
 

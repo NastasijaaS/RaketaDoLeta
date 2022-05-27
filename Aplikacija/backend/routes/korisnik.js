@@ -17,11 +17,14 @@ const Clanarina = require("../models/Clanarina.js");
 router.post("/zakaziPersonalniTrening/:idKorisnika", async (req, res) => {
 
     try {
-        const korisnik = await Korisnik.findById(req.params.id)
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
 
         if (korisnik != null) {
 
-            const trenerKorisnika = await Trener.findById(korisnik.trenerId);
+            // const trenerKorisnika = await Trener.findById(korisnik.trenerId);
+
+            const trenerKorisnika = await Trener.findById(req.body.trenerId);
+
             const novitrening = await new Trening({
                 datum: req.body.datum,
                 tip: req.body.tip,

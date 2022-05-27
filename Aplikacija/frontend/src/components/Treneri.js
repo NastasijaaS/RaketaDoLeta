@@ -50,7 +50,7 @@ const Treneri = () => {
 
     useEffect(() => {
         GetData("http://localhost:8800/api/korisnik/vidiTrenere", setTreneri, setGreska)
-      
+
     }, [])
 
     const [detalji, setDetalji] = useState({ id: -1, state: true });
@@ -96,7 +96,7 @@ const Treneri = () => {
                         {vise != i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>}
 
                         {detalji.id == i && <button className='dugme' onClick={prikaziManje}>Sakrij</button>}
-                        {!detalji.state && detalji.id == i && <button className='dugme' onClick={zakaziForma}>Vidi raspored</button>}
+                        {!detalji.state && detalji.id == i && !zakazi && <button className='dugme' onClick={zakaziForma}>Vidi raspored</button>}
 
                     </div>
 

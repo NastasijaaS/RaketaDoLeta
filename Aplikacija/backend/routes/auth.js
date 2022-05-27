@@ -21,7 +21,6 @@ router.post("/register", async (req, res) => {
     }
 
     const novi = await new RegistrovaniKorisnik({
-      id: user.id,
       ime: req.body.ime,
       prezime: req.body.prezime,
       brojTelefona: req.body.brojTelefona,

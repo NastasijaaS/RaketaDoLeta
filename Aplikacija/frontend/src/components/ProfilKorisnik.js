@@ -12,10 +12,10 @@ const k = {
     zeljenaTezina: '60', zeljeniProcenatMasti: '', zeljeniProcenatProteina: '', zeljenaTezinaMisica: ''
 }
 
-const n = {
-    tezina: '60', procenatMasti: '22', BMI: '22', kostanaMasa: '22',
-    procenatProteina: '22', tezinaMisica: '22', procenatVode: '22', bodyAge: '22'
-}
+// const n = {
+//     tezina: '60', procenatMasti: '22', BMI: '22', kostanaMasa: '22',
+//     procenatProteina: '22', tezinaMisica: '22', procenatVode: '22', bodyAge: '22'
+// }
 
 const treninzi = [{ id: 1 }, { id: 2 }, { id: 3 }]
 
@@ -24,9 +24,6 @@ const Korisnik = (props) => {
     const { user, dispatch } = useContext(UserContext);
     const [izmena, setIzmena] = useState(true)
     const [noviTrening, setNoviTrening] = useState(false)
-
-    const [brojTelefona, setBrojTelefona] = useState(user.brojTelefona)
-    const [lozinka, setLozinka] = useState(user.password)
 
     const [clanarina, setClanarina] = useState({ datumDo: '', cena: '' })
     const [napredak, setNapredak] = useState([])
@@ -43,17 +40,16 @@ const Korisnik = (props) => {
         GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId, setNapredak, setGreska)
         GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreninge/" + user.korisnikId, setZakazaniTreninzi, setGreska)
 
+        console.log(zakazaniTreninzi)
+
     }, [])
 
-    //otkazi/izmeni trening
 
     const odjaviKorisnika = () => {
         dispatch({ tip: "ODJAVI" })
     }
 
     const otkaziIzmenu = () => {
-        setBrojTelefona(user.brojTelefona)
-        setLozinka(user.password)
         setIzmena(true)
         setNova(false)
     }
@@ -194,14 +190,21 @@ const Korisnik = (props) => {
                 korisnik && <div>
                     <div className="infoNapredak">
                         <h3>Informacije sa poslednjeg merenja</h3>
-                        <p>Tezina: {n.tezina}</p>
-                        <p>Procenat masti: {n.procenatMasti}</p>
-                        <p>Procenat proteina: {n.procenatProteina}</p>
-                        <p>Tezina misica: {n.tezinaMisica}</p>
-                        <p>Procenat vode: {n.procenatVode}</p>
-                        <p>Kostana masa: {n.kostanaMasa}</p>
-                        <p>BMI: {n.BMI}</p>
-                        <p>BodyAge: {n.bodyAge}</p>
+
+                        {
+                            napredak &&
+                            <div >
+                                <p>Tezina: {napredak.tezina}</p>
+                                <p>Procenat masti: {napredak.procenatMasti}</p>
+                                <p>Procenat proteina: {napredak.procenatProteina}</p>
+                                <p>Tezina misica: {napredak.tezinaMisica}</p>
+                                <p>Procenat vode: {napredak.procenatVode}</p>
+                                <p>Kostana masa: {napredak.kostanaMasa}</p>
+                                <p>BMI: {napredak.BMI}</p>
+                                <p>BodyAge: {napredak.bodyAge}</p>
+                            </div>
+                        }
+
                     </div>
 
                     <div className="zakazaniTreninzi">
@@ -240,11 +243,12 @@ const Korisnik = (props) => {
                             <button onClick={zakaziTrening}>Zakazi novi trening</button>
                         </div>
 
-                        {noviTrening && <Modal onClose={() => setNoviTrening(false)}>
+                        {/* {noviTrening && <Modal onClose={() => setNoviTrening(false)}>
                             <div>
+                            ovede treba nekako trener i nesto to
                             </div>
-                            <FormaZakazi />
-                        </Modal>}
+                            <FormaZakazi onClose={() => setNoviTrening(false)} />
+                        </Modal>} */}
 
                     </div>
                 </div>

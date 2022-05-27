@@ -5,25 +5,25 @@ const UserReducer = (state, action) => {
             return {
                 user: null,
                 ucitavaSe: true,
-                greska: false,
+                error: null,
             };
         case "LOGIN_SUCCESS":
             return {
                 user: action.payload,
                 ucitavaSe: false,
-                greska: false,
+                error: null,
             };
         case "LOGIN_FAIL":
             return {
                 user: null,
                 ucitavaSe: false,
-                greska: true,
+                error: action.error,
             };
         case "ODJAVI":
             return {
                 user: null,
                 ucitavaSe: false,
-                greska: false,
+                error: null,
             };
 
         default:

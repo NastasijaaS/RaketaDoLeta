@@ -1,5 +1,8 @@
-import React, { useRef } from "react";
+import React, { useContext } from "react";
 import '../styles/formaZakazi.css'
+import axios from "axios";
+import { UserContext } from "../context/UserContext";
+
 
 // kontext koji cuva podatke o prijavljenom korsniku
 
@@ -10,6 +13,7 @@ const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
 
 const FormaZakazi = (props) => {
     //  console.log(props)
+    const { user } = useContext(UserContext);
 
     let tipTreninga = ''
     let tr = ''
@@ -35,6 +39,27 @@ const FormaZakazi = (props) => {
         console.log(tipTreninga.value)
         console.log(isOnline)
         console.log(tr.value)
+        console.log(props.datum.datumTreninga)
+
+        axios.post('http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId, {
+            // trenerId: props.idTrenera,
+            trenerId: "6273e6c7c1e2c23c29c8c1ba",
+            datum: props.datum.datumTreninga,
+            tip: tipTreninga.value,
+            intenzitet: intenzitetTreninga.value,
+            trajanje: tr.value,
+        }).then((p) => {
+            if (p.status === 200) {
+                console.log(p)
+                alert('Uspesno zakazan trening')
+            }
+        }).catch((error) => {
+            if (error.response.status)
+                alert(error.response.data)
+            else
+                alert('Doslo je do greske')
+        });
+
 
         ev.preventDefault();
 

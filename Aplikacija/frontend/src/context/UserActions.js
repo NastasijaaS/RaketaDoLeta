@@ -7,7 +7,8 @@ export const LoginSuccess = (user) => ({
     payload: user,
 });
 
-export const LoginFailure = () => ({
+export const LoginFailure = (error) => ({
     tip: "LOGIN_FAIL",
+    error: error
 });
 
