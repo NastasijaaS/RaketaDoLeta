@@ -1,7 +1,7 @@
-import '../styles/Treneri.css'
+import '../../styles/Treneri.css'
 import { useState, useEffect } from 'react'
-import KalendarForma from './KalendarForma';
-import { GetData } from './Fetch'
+import KalendarForma from '../komponente/KalendarForma';
+import { GetData } from '../komponente/Fetch'
 
 const treneri = [{
     id: 5,
@@ -90,13 +90,14 @@ const Treneri = () => {
                         } </p>
 
                         {!detalji.state && detalji.id == i && <p>{tr.opis}</p>}
-                        {!detalji.state && detalji.id == i && zakazi && <KalendarForma id={i} imeTrenera={tr.ime} prezimeTrenera={tr.prezime} />}
+
+                        {/* {!detalji.state && detalji.id == i && zakazi && <KalendarForma id={i} imeTrenera={tr.ime} prezimeTrenera={tr.prezime} />} */}
 
                         {/* {detalji.id !== i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>} */}
                         {vise != i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>}
 
                         {detalji.id == i && <button className='dugme' onClick={prikaziManje}>Sakrij</button>}
-                        {!detalji.state && detalji.id == i && !zakazi && <button className='dugme' onClick={zakaziForma}>Vidi raspored</button>}
+                        {/* {!detalji.state && detalji.id == i && !zakazi && <button className='dugme' onClick={zakaziForma}>Vidi raspored</button>} */}
 
                     </div>
 

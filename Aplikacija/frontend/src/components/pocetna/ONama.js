@@ -1,12 +1,12 @@
-import stil from '../styles/oNama.module.css'
+import stil from '../../styles/oNama.module.css'
 import React, { Fragment } from "react";
 
 const Onama = () => {
 
     return (
         <Fragment>
-            <div className={stil.pozadina}> 
-            <h1 className={stil.glavniNaslov}> O NAMA </h1>
+            <div className={stil.pozadina}>
+                <h1 className={stil.glavniNaslov}> O NAMA </h1>
             </div>
 
             <div className={stil.opis}>

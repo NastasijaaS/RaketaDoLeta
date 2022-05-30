@@ -1,9 +1,8 @@
-import Input from "./Input"
 import { useState, useContext, useEffect, useRef } from "react";
-import { UserContext } from '../context/UserContext';
-import { GetData } from './Fetch'
-import FormaZakazi from './FormaZakazi'
-import Modal from './Modal'
+import { UserContext } from '../../context/UserContext'
+import { GetData } from '../komponente/Fetch'
+import FormaZakazi from '../komponente/FormaZakazi'
+import Modal from '../komponente/Modal'
 import axios from 'axios'
 
 const k = {
@@ -40,10 +39,7 @@ const Korisnik = (props) => {
         GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId, setNapredak, setGreska)
         GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreninge/" + user.korisnikId, setZakazaniTreninzi, setGreska)
 
-        console.log(zakazaniTreninzi)
-
     }, [])
-
 
     const odjaviKorisnika = () => {
         dispatch({ tip: "ODJAVI" })

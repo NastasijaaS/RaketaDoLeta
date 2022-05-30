@@ -1,7 +1,7 @@
-import '../styles/loginForma.css'
+import '../../styles/loginForma.css'
 import { useState, useContext, useRef } from "react";
-import { UserContext } from '../context/UserContext';
-import { LoginMetoda } from './Fetch';
+import { UserContext } from '../../context/UserContext';
+import { LoginMetoda } from '../komponente/Fetch';
 import CircularProgress from '@mui/material/CircularProgress'
 
 const LogIn = () => {

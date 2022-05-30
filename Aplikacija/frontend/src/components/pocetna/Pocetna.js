@@ -1,10 +1,10 @@
-import '../styles/Pocetna.css'
+import '../../styles/Pocetna.css'
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 
-function Header(props) {
+function Header() {
 
     function meni(event) {
 
@@ -82,17 +82,8 @@ const Pocetna = () => {
 
     return (<div className='glavniDiv'>
         <h1> nesto.</h1>
-        <div className='pozadina pocetnaSlika1'>
-            {/* <img src = 'https://image.shutterstock.com/image-photo/dumbbells-boxing-gloves-sneakers-gift-260nw-1606209244.jpg'></img> */}
-        </div>
-        <div className='pozadina pocetnaSlika2'>
-            {/* <img src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFm3LWasAbN2CuhcgoRTNQo29R9KCX-ArwlQ&usqp=CAU'></img> */}
-        </div>
-        <div className='pozadina pocetnaSlika3'>
-            {/* <img src = 'https://i.pinimg.com/originals/c7/2a/e9/c72ae9e852372295fb344aa4c69dce87.jpg'></img> */}
-        </div>
-        <div className='pozadina pocetnaSlika4'>
-            {/* <img src = 'https://image.shutterstock.com/image-photo/dumbbells-260nw-561980815.jpg'></img> */}
+        <div>
+            <p> jos nesto </p>
         </div>
     </div>)
 }

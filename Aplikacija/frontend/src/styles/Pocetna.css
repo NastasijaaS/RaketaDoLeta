@@ -119,7 +119,7 @@ a {
 
     height: 38vh;
 
-    position:relative;
+    position: relative;
 }
 
 .fKontakt {
@@ -136,20 +136,4 @@ a {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-}
-
-.pocetnaSlika1 {
-    background-image: url(https://image.shutterstock.com/image-photo/dumbbells-boxing-gloves-sneakers-gift-260nw-1606209244.jpg);
-}
-
-.pocetnaSlika2 {
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFm3LWasAbN2CuhcgoRTNQo29R9KCX-ArwlQ&usqp=CAU);
-}
-
-.pocetnaSlika3 {
-    background-image: url(https://image.shutterstock.com/image-photo/dumbbells-260nw-561980815.jpg);
-}
-
-.pocetnaSlika4 {
-    background-image: url(https://i.pinimg.com/originals/c7/2a/e9/c72ae9e852372295fb344aa4c69dce87.jpg);
 }
