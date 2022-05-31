@@ -1,5 +1,5 @@
 import './App.css';
-import { Header, Footer, Pocetna } from './components/pocetna/Pocetna';
+import { Header, Pocetna } from './components/pocetna/Pocetna';
 import LogIn from './components/pocetna/LoginForma'
 import Treneri from './components/pocetna/Treneri'
 import Onama from './components/pocetna/ONama'
@@ -12,7 +12,8 @@ import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { UserContext } from './context/UserContext';
 import { CssBaseline } from '@mui/material';
-import Navbar from './components/Navbar';
+import Navbar from './components/komponente/Navbar';
+import Footer from './components/komponente/Footer';
 
 function App() {
 

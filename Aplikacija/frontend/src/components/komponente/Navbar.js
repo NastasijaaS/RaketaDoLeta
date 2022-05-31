@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,11 +12,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import LoginIcon from '@mui/icons-material/Login';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+
 
 
 const pages = [{val:'Trenirajte sa nama', link: '/usluge'}, {val:'Treneri', link:'/treneri'}, {val: 'O nama', link: '/onama'} ,{val:'Blog', link:'/blog'}, {val:'Kontakt', link:' '}];
-// const links = ['/usluge', '/treneri', '/onama' ,'/blog',' '}]
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
@@ -31,12 +34,14 @@ const Navbar = () => {
   };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setAnchorElNav();
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const { user } = useContext(UserContext);
 
   return (
     <AppBar position="static">
@@ -91,14 +96,17 @@ const Navbar = () => {
               }}
             >
               {pages.map((page, i) => (
-                <Link to = {page.link} >
+                 <Link to = {page.link} >
                     <MenuItem key={page.val} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page.val}</Typography>
+                      {/* <Link to = {page.link}>{page.val}</Link> */}
+                      <Typography textAlign="center">{page.val}</Typography>
                     </MenuItem>
-                </Link>
+                 </Link>
               ))}
+
             </Menu>
           </Box>
+          
           <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -118,24 +126,88 @@ const Navbar = () => {
           >
             RDL
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page.val}
-                onClick={handleCloseNavMenu}
+                key = {page.val}
+                href = {page.link}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page.val}
-              </Button>
+              </Button>             
             ))}
-          </Box>
 
+          </Box>
+          
+          {!user &&
+          <Box sx = {{flexGrow:0, display: { xs: 'flex', md: 'none' }}}>
+              <Tooltip title="Login">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <LoginIcon sx = {{ color:'white'}}/>
+                </IconButton>
+              </Tooltip>    
+
+          <Menu
+              sx={{ mt: '45px' }}
+              id="menu-login"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <Link to ='/login' >
+                <MenuItem key= 'Log in' onClick={handleCloseUserMenu}>      
+                  <Typography textAlign="center"> Log in</Typography>
+                </MenuItem>
+              </Link>
+              <Link to = '/signup' >
+                <MenuItem key='Sign up' onClick={handleCloseUserMenu}>      
+                  <Typography textAlign="center"> Sign up</Typography>
+                </MenuItem>
+              </Link>
+            </Menu>
+
+          </Box>
+          }
+          
+          
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+           {
+               !user &&
+               <Button
+               href = '/login'
+               sx={{ my: 2, color: 'white',display: {xs: 'none', md:'inline' }}}
+               >
+                Log in
+               </Button> 
+            }
+            
+            {
+              !user &&
+              <Button
+              href = '/signup'
+              sx={{ my: 2, color: 'white',display: { xs: 'none', md:'inline' } }}
+              >
+                Sign up
+              </Button> 
+
+            }
+            {user &&
+              <Tooltip title="Account">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <AccountCircleOutlinedIcon sx = {{ color:'white'}}/>
+                </IconButton>
+              </Tooltip> 
+             &&       
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -158,6 +230,7 @@ const Navbar = () => {
                 </MenuItem>
               ))}
             </Menu>
+        }     
           </Box>
         </Toolbar>
       </Container>

@@ -80,11 +80,9 @@ const Footer = () => {
 const Pocetna = () => {
     //const toTop = () => window.scrollTo(0,0)
 
-    return (<div className='glavniDiv'>
-        <h1> nesto.</h1>
-        <div>
-            <p> jos nesto </p>
-        </div>
+    return (
+    <div className='glavniDiv'>
+      
     </div>)
 }
 

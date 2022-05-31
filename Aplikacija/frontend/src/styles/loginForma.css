@@ -11,12 +11,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: primary;
 }
 
 .loginInp {
-    height: 24px;
-    border-radius: 10px;
-    margin: 6px;
+    /* height: 24px;
+    border-radius: 10px;*/
+    margin: 20px; 
 }
 
 .loginInp:hover {
