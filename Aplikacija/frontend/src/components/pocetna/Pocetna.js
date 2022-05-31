@@ -1,4 +1,4 @@
-import '../../styles/Pocetna.css'
+
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';

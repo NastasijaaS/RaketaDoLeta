@@ -12,12 +12,13 @@ import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { UserContext } from './context/UserContext';
 import { CssBaseline } from '@mui/material';
-import Navbar from './components/Navbar';
+import Navbar from './components/komponente/Navbar';
+import Uprava from './components/profil/ProfilUprava'
 
 function App() {
 
   const { user } = useContext(UserContext);
-  
+
   return (
     <Router>
       <CssBaseline />
@@ -55,6 +56,9 @@ function App() {
         <Route path='/profil' element=
           {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />}>
         </Route>
+
+        <Route path='/uprava' element={<Uprava />} />
+
 
         {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
 
