@@ -1,5 +1,5 @@
 import './App.css';
-import { Header, Footer, Pocetna } from './components/pocetna/Pocetna';
+import { Header, Pocetna } from './components/pocetna/Pocetna';
 import LogIn from './components/pocetna/LoginForma'
 import Treneri from './components/pocetna/Treneri'
 import Onama from './components/pocetna/ONama'
@@ -14,6 +14,7 @@ import { UserContext } from './context/UserContext';
 import { CssBaseline } from '@mui/material';
 import Navbar from './components/komponente/Navbar';
 import Uprava from './components/profil/ProfilUprava'
+import Footer from './components/komponente/Footer';
 
 function App() {
 

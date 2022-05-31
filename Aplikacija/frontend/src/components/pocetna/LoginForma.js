@@ -3,6 +3,8 @@ import { useState, useContext, useRef } from "react";
 import { UserContext } from '../../context/UserContext';
 import { LoginMetoda } from '../komponente/Fetch';
 import CircularProgress from '@mui/material/CircularProgress'
+import { Button, TextField } from '@mui/material';
+
 
 const LogIn = () => {
 
@@ -59,17 +61,19 @@ const LogIn = () => {
 
                 <h2>Prijavite se:</h2>
 
-                <label>E-mail: <input className='loginInp' ref={mail}
+                 <label>E-mail: <input className='loginInp' ref={mail}
                     type='email' placeholder='e-mail' />
-                </label>
+                </label> 
+                {/* "<TextField className='loginInp' ref={mail} label="E-mail" type = "email" color="primary"  size = "small" focused /> */}
 
                 {greska.mail && <p className='greska'>Molimo unesite ispravnu e-mail adresu</p>}
 
+                {/* <TextField className='loginInp' ref={lozinka} label="Lozinka" type = "password" minLenght = "6" color="primary"  size = "small" focused /> */}
 
                 <label>Lozinka: <input className='loginInp' ref={lozinka}
                     minLength='6'
                     type='password' placeholder='lozinka' />
-                </label>
+                </label> 
 
                 {greska.lozinka && <p className='greska'>Lozinka mora imati najmanje 6 karaktera</p>}
 
