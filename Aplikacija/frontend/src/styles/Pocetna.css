@@ -5,13 +5,23 @@ body {
 
     color: #f2f2f2;
 }
-.glavniDiv{
+.container{
 	background-image: url(https://www.planetfitness.com/sites/default/files/feature-image/xbreak-workout_602724.jpg.pagespeed.ic.v8byD7su-e.jpg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    width: 100vw;
     height: 100vh;
+}
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+#centralBtn{
+    background-color: white;
 }
 
 .zaglavlje {
