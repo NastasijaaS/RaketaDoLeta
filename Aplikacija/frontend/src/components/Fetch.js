@@ -5,11 +5,12 @@ export const GetData = async (url, setData, setError) => {
 
     try {
         const response = await fetch(url)
+        console.log(response)
 
         if (response.ok) {
 
             const data = await response.json();
-            setData(data);
+            setData(data);           
         }
         else {
             throw new Error("Greska prilikom ucitavanja --- " + response.statusText);

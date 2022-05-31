@@ -11,15 +11,18 @@ import UserPocetna from './components/UserPocetna';
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { UserContext } from './context/UserContext';
+import { CssBaseline } from '@mui/material';
+import Navbar from './components/Navbar';
 
 function App() {
 
   const { user } = useContext(UserContext);
-
+  
   return (
     <Router>
-      <ScrollToTop />
-      <Header />
+      <CssBaseline />
+      <ScrollToTop enableColorScheme />
+      <Navbar />
 
       <Routes>
 

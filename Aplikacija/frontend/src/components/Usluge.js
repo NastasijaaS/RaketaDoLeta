@@ -10,9 +10,7 @@ const Usluge = () => {
     const [zakazivanje, setZakazivanje] = useState(false)
 
     useEffect(() => {
-
         GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska)
-
     }, [])
 
     const zakaziGrupniTrening = () => {
