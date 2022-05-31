@@ -4,10 +4,11 @@
 //izmeni korisnika
 //obrisi klijenta
 //get klijente
+//napredak za klijenta
+
 //zakazi grupni trening
 //get treninzi
 //prihvati trening
-//napredak za klijenta
 //dodaj evidenciju
 //pogledaj evidenciju
 //izmeni trening

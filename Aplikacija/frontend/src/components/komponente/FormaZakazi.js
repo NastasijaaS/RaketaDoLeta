@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import '../styles/formaZakazi.css'
+import '../../styles/formaZakazi.css'
 import axios from "axios";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../../context/UserContext";
 
 
 // kontext koji cuva podatke o prijavljenom korsniku
@@ -22,6 +22,9 @@ const FormaZakazi = (props) => {
 
     const zakaziTrening = (ev) => {
 
+        // da li je personalni ili grupni 
+
+
         //datum i vreme -- kroz props
         //tip
         //intenzitet
@@ -40,6 +43,8 @@ const FormaZakazi = (props) => {
         console.log(isOnline)
         console.log(tr.value)
         console.log(props.datum.datumTreninga)
+
+
 
         axios.post('http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId, {
             // trenerId: props.idTrenera,

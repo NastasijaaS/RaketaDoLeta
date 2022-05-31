@@ -1,7 +1,8 @@
-import '../styles/usluge.css'
+import '../../styles/usluge.css'
 import { useState, useEffect } from 'react'
-import Modal from './Modal'
-import { GetData } from './Fetch'
+import Modal from '../komponente/Modal'
+import { GetData } from '../komponente/Fetch'
+import KalendarForma from '../komponente/KalendarForma';
 
 const Usluge = () => {
 
@@ -35,6 +36,8 @@ const Usluge = () => {
             ))}
 
             {zakazivanje && <Modal onClose={onClose}>
+                <KalendarForma />
+
             </Modal>}
         </div >
     )

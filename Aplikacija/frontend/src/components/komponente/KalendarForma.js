@@ -1,12 +1,11 @@
-import '../styles/kalendar.css'
+import '../../styles/kalendar.css'
 import { useState } from 'react'
 import FormaZakazi from './FormaZakazi'
 import Modal from './Modal'
-import LogIn from './LoginForma'
-import Register from './RegisterForma'
+import LogIn from '../pocetna/LoginForma'
+import Register from '../pocetna/RegisterForma'
 import { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
-import DatePicker from 'react-date-picker';
+import { UserContext } from '../../context/UserContext';
 
 
 const termini1 = [{ trajanje: 60, vreme: 17 }, { trajanje: 45, vreme: 18 }]
@@ -50,7 +49,7 @@ const format = (datum) => {
 const KalendarForma = (props) => {
 
     const dan = (new Date()).getDay();
-    const datum = new Date().getDate();
+    // const datum = new Date().getDate();
     const dateOD = new Date()
     let dateDO = new Date()
     dateDO.setDate(dateOD.getDate() + 7)
@@ -76,6 +75,8 @@ const KalendarForma = (props) => {
         else {
             setTer(termini2)
         }
+
+        //termine iz baze da ucitam
 
         setTermin({ status: true, datum: { datumTreninga } })
     }
@@ -167,14 +168,16 @@ const KalendarForma = (props) => {
             {
                 zakazi && user && <Modal onClose={zakaziForma}>
                     <div>
-                        <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
-                        <span>Datum: </span><br />
+                        {/* <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
+                        <span>Datum: </span><br /> */}
+                        <p>naslov koji saljem</p>
                     </div>
                     <FormaZakazi vreme={termin.vreme}
                         trajanje={termin.trajanje}
                         datum={termin.datum}
                         onClose={zakaziForma}
-                        idTrenera={props.id} />
+                    // idTrenera={props.id} 
+                    />
                 </Modal>
             }
 

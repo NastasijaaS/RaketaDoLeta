@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import '../styles/blog.css'
-import { GetData } from './Fetch';
+import '../../styles/blog.css'
+import { GetData } from '../komponente/Fetch';
 
 
 const blogovi = [{ naslov: 'naslov', text: 'text dugacak0', autor: 'mika mikic' },

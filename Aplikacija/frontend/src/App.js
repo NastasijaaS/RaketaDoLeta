@@ -1,13 +1,13 @@
 import './App.css';
-import { Header, Footer, Pocetna } from './components/Pocetna';
-import LogIn from './components/LoginForma'
-import Treneri from './components/Treneri'
-import Onama from './components/ONama'
-import Usluge from './components/Usluge'
-import Blog from './components/Blog'
-import Register from './components/RegisterForma';
+import { Header, Footer, Pocetna } from './components/pocetna/Pocetna';
+import LogIn from './components/pocetna/LoginForma'
+import Treneri from './components/pocetna/Treneri'
+import Onama from './components/pocetna/ONama'
+import Usluge from './components/pocetna/Usluge'
+import Blog from './components/pocetna/Blog'
+import Register from './components/pocetna/RegisterForma';
 import ScrollToTop from './components/ScrollToTop';
-import UserPocetna from './components/UserPocetna';
+import UserPocetna from './components/pocetna/UserPocetna';
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { UserContext } from './context/UserContext';
