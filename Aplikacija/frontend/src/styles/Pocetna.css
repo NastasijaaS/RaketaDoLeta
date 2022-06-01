@@ -1,8 +1,27 @@
 body {
+    height: 100%;
     margin: 0;
     background-color: rgb(46, 46, 49);
 
     color: #f2f2f2;
+}
+.container{
+	background-image: url(https://www.planetfitness.com/sites/default/files/feature-image/xbreak-workout_602724.jpg.pagespeed.ic.v8byD7su-e.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+#centralBtn{
+    background-color: white;
 }
 
 .zaglavlje {
@@ -18,86 +37,8 @@ a {
     text-decoration: none;
 }
 
-.zaglavlje span {
-    /* float: left; */
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
+Link{
     text-decoration: none;
-    font-size: 17px;
-}
-
-.zaglavlje .levo {
-    float: left;
-}
-
-
-.zaglavlje span:hover {
-    background-color: rgb(62, 61, 61);
-    /* color: rgb(119, 43, 82); */
-}
-
-.zaglavlje span.active {
-    background-color: #4a3b4a;
-    color: white;
-}
-
-.zaglavlje .icon {
-    display: none;
-}
-
-@media screen and (max-width: 680px) {
-    .zaglavlje {
-        /* background-color: rgb(197, 170, 254); */
-
-
-        float: none;
-        display: block;
-        text-align: left;
-    }
-
-    .zaglavlje span {
-        /* display: none; */
-
-        float: none;
-        display: none;
-        text-align: left;
-
-        text-decoration: none;
-    }
-
-    /* .zaglavlje span.active {
-        display: grid;
-        width: 80%;
-    } */
-
-    .zaglavlje span.icon {
-        float: right;
-        display: block;
-    }
-
-    .desno {
-        float: none;
-        display: block;
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 680px) {
-
-    .zaglavlje.show span.icon {
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-
-    .zaglavlje.show span {
-        float: none;
-        display: block;
-        text-align: left;
-    }
-
 }
 
 .menu {
@@ -119,7 +60,7 @@ a {
 
     height: 38vh;
 
-    position:relative;
+    position: relative;
 }
 
 .fKontakt {
@@ -136,20 +77,4 @@ a {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
-}
-
-.pocetnaSlika1 {
-    background-image: url(https://image.shutterstock.com/image-photo/dumbbells-boxing-gloves-sneakers-gift-260nw-1606209244.jpg);
-}
-
-.pocetnaSlika2 {
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFm3LWasAbN2CuhcgoRTNQo29R9KCX-ArwlQ&usqp=CAU);
-}
-
-.pocetnaSlika3 {
-    background-image: url(https://image.shutterstock.com/image-photo/dumbbells-260nw-561980815.jpg);
-}
-
-.pocetnaSlika4 {
-    background-image: url(https://i.pinimg.com/originals/c7/2a/e9/c72ae9e852372295fb344aa4c69dce87.jpg);
 }

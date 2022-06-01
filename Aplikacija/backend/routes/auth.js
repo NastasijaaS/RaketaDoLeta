@@ -21,7 +21,6 @@ router.post("/register", async (req, res) => {
     }
 
     const novi = await new RegistrovaniKorisnik({
-      id: user.id,
       ime: req.body.ime,
       prezime: req.body.prezime,
       brojTelefona: req.body.brojTelefona,
@@ -32,6 +31,16 @@ router.post("/register", async (req, res) => {
     });
 
     const user = await novi.save();
+
+    if (tipKorisnika=="Korisnik"){
+      const noviKorisnik=await new Korisnik({
+        registrovaniKorisnikId:user._id,
+        verifikovan:false
+      })
+
+      const noviKor=await noviKorisnik.save();
+      res.status(200).json(noviKor)
+    }
 
     res.status(200).json(user);
   } catch (err) {

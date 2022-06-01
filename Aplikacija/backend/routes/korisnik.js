@@ -17,11 +17,14 @@ const Clanarina = require("../models/Clanarina.js");
 router.post("/zakaziPersonalniTrening/:idKorisnika", async (req, res) => {
 
     try {
-        const korisnik = await Korisnik.findById(req.params.id)
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
 
         if (korisnik != null) {
 
-            const trenerKorisnika = await Trener.findById(korisnik.trenerId);
+            // const trenerKorisnika = await Trener.findById(korisnik.trenerId);
+
+            const trenerKorisnika = await Trener.findById(req.body.trenerId);
+
             const novitrening = await new Trening({
                 datum: req.body.datum,
                 tip: req.body.tip,
@@ -175,7 +178,7 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
 
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if (korisnik != null) {
-            const treninzi = await Trening.find({ clanovi: req.params.idKorisnika })
+            const treninzi = await Trening.find({ clanovi: korisnik._id })
 
             if (treninzi.length != 0) {
                 res.status(200).json(treninzi)

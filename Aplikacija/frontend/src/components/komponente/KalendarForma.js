@@ -1,8 +1,12 @@
-import '../styles/kalendar.css'
+import '../../styles/kalendar.css'
 import { useState } from 'react'
 import FormaZakazi from './FormaZakazi'
 import Modal from './Modal'
-import LogIn from './LoginForma'
+import LogIn from '../pocetna/LoginForma'
+import Register from '../pocetna/RegisterForma'
+import { useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
+import Button from '@mui/material/Button';
 
 const termini1 = [{ trajanje: 60, vreme: 17 }, { trajanje: 45, vreme: 18 }]
 const termini2 = [{ trajanje: 45, vreme: 13 }, { trajanje: 30, vreme: 19 }]
@@ -38,10 +42,14 @@ const nadjiDan = (broj) => {
     return pom
 }
 
+const format = (datum) => {
+    return datum.getDate() + "." + (+datum.getMonth() + 1) + "." + datum.getFullYear() + "."
+}
+
 const KalendarForma = (props) => {
 
     const dan = (new Date()).getDay();
-    const datum = new Date().getDate();
+    // const datum = new Date().getDate();
     const dateOD = new Date()
     let dateDO = new Date()
     dateDO.setDate(dateOD.getDate() + 7)
@@ -49,7 +57,9 @@ const KalendarForma = (props) => {
     const [ter, setTer] = useState([]);
     const [termin, setTermin] = useState({ status: false, datum: '', vreme: '', trajanje: '' })
     const [zakazi, setZakazi] = useState(false)
+    const [login, setLogin] = useState(true)
 
+    const { user } = useContext(UserContext);
 
     const prikaziTermine = (ev) => {
 
@@ -66,9 +76,9 @@ const KalendarForma = (props) => {
             setTer(termini2)
         }
 
+        //termine iz baze da ucitam
+
         setTermin({ status: true, datum: { datumTreninga } })
-
-
     }
 
     const zakaziForma = (ev) => {
@@ -86,17 +96,22 @@ const KalendarForma = (props) => {
 
     const Day = (props) => {
 
+        let pomDatum = new Date()
+        pomDatum.setDate(new Date().getDate() + parseInt(props.broj))
+        // console.log(pomDatum.getDate())
+
         return (<span className='dan' id={props.broj} >
             {nadjiDan((dan + props.broj) % 7)}
-            <button className='dugmeDatum' >{datum + props.broj}</button>
+            <button className='dugmeDatum' >{pomDatum.getDate()}</button>
         </span>)
     }
+
 
     return (
         <div className="kalendar">
 
             <div className='pocetni'>
-                {dateOD.toLocaleDateString() + ' - ' + dateDO.toLocaleDateString()}
+                {format(dateOD) + ' - ' + format(dateDO)}
             </div>
 
             <div onClick={prikaziTermine} className="dani-u-nedelji">
@@ -108,6 +123,7 @@ const KalendarForma = (props) => {
                 <Day broj={4} />
                 <Day broj={5} />
                 <Day broj={6} />
+
 
             </div>
 
@@ -132,24 +148,39 @@ const KalendarForma = (props) => {
             </div>}
 
             {
-                zakazi && <Modal onClose={zakaziForma}>
-                    <div>
-                        <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
-                        <span>Datum: </span><br />
-                    </div>
-                    <LogIn />
+                zakazi && !user && <Modal onClose={zakaziForma}>
+
+                    {login && <div><LogIn />
+                        <span>Nemate nalog:
+                            <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
+                        </span>
+                    </div>}
+
+                    {!login && <div><Register />
+                        <span>Imate nalog:
+                            <Button size='small' onClick={() => { setLogin(true) }}>Prijavi se</Button>
+                        </span>
+                    </div>}
+
                 </Modal>
             }
 
-            {/* {
-                zakazi && <Modal onClose={zakaziForma}>
+            {
+                zakazi && user &&
+                <Modal onClose={zakaziForma}>
                     <div>
-                        <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
-                        <span>Datum: </span><br />
+                        {/* <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
+                        <span>Datum: </span><br /> */}
+                        <p>naslov koji saljem</p>
                     </div>
-                    <FormaZakazi vreme={termin.vreme} trajanje={termin.trajanje} datum={termin.datum} onClose={zakaziForma} idTrenera={props.id} />
+                    <FormaZakazi vreme={termin.vreme}
+                        trajanje={termin.trajanje}
+                        datum={termin.datum}
+                        onClose={zakaziForma}
+                    // idTrenera={props.id} 
+                    />
                 </Modal>
-            } */}
+            }
 
         </div >
     )

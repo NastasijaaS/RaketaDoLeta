@@ -171,6 +171,10 @@ router.post("/zakaziGrupniTrening/:id", async (req, res) => {
         else {
             res.status(404).json("Trener nije pronadjen")
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
     }
     catch (err) {
         res.status(500).json(err);
@@ -439,7 +443,10 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
  //zakazi grupni trening
  router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
     try{
         const trener=await Trener.findById(req.params.id)
         if (trener!=null){
@@ -466,7 +473,10 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
     }
 
 })
+<<<<<<< HEAD
 
+=======
+>>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
 //dodaj profilnu sliku
 router.put("/dodajSliku/:idTrenera", async (req, res) => {
 
@@ -495,6 +505,9 @@ router.put("/dodajOpis/:idTrenera", async (req, res) => {
 
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
 
 module.exports = router

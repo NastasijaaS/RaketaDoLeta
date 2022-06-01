@@ -1,12 +1,14 @@
-import '../styles/loginForma.css'
+import '../../styles/loginForma.css'
 import { useState } from "react";
-import { LoginMetoda } from './Fetch';
+import { LoginMetoda } from '../komponente/Fetch';
 import { useContext, useRef } from 'react';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Button, TextField, Box } from '@mui/material';
 
-const Register = (props) => {
+const Register = () => {
 
-    const { user, ucitavaSe, dispatch } = useContext(UserContext);
+    const { ucitavaSe, error, dispatch } = useContext(UserContext);
 
     const [greska, setGreska] = useState({ ime: false, prezime: false, mail: false, lozinka: false, brojTelefona: false, username: false });
 
@@ -30,7 +32,7 @@ const Register = (props) => {
             pom = false
         }
 
-        if (prezime.current.value === '' || prezime.current.value.length < 5) {
+        if (prezime.current.value === '' || prezime.current.value.length < 4) {
             setGreska((greska) => ({ ...greska, prezime: true }))
             pom = false
         }
@@ -73,7 +75,12 @@ const Register = (props) => {
                 }
             }
 
-            LoginMetoda(zahtev, dispatch, setGreska)
+            LoginMetoda(zahtev, dispatch)
+
+            if (error) {
+                alert(error)
+                return
+            }
 
         }
     }
@@ -82,8 +89,19 @@ const Register = (props) => {
         return (
             <div>
                 <label>{labela}:
-                    <input className='loginInp' ref={reff}
-                        type={tip} placeholder={labela} />
+
+                    <TextField
+                        className='loginInp'
+                        inputRef={reff}
+                        label={labela}
+                        type={tip}
+                        color="primary"
+                        size="small"
+                        placeholder={labela}
+                        focused />
+
+                    {/* <input className='loginInp' ref={reff}
+                        type={tip} placeholder={labela} /> */}
                 </label>
             </div>
         )
@@ -112,7 +130,9 @@ const Register = (props) => {
                 <Info labela='Broj telefona' tip='text' reff={brojTelefona} />
                 {greska.brojTelefona && <p className='greska'>Broj telefona mora imati najmanje 9 cifara</p>}
 
-                <button onClick={upis}>Registruj se</button>
+                {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
+
+                <Button size='small' variant="contained" onClick={upis}>Registruj se</Button>
 
             </form>
         </div >

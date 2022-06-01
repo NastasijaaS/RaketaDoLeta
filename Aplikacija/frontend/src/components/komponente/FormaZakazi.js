@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
-import '../styles/formaZakazi.css'
-
-// kontext koji cuva podatke o prijavljenom korsniku
+import React, { useContext } from "react";
+import '../../styles/formaZakazi.css'
+import axios from "axios";
+import { UserContext } from "../../context/UserContext";
+import  Button  from "@mui/material/Button";
 
 
 const tip = [{ naziv: "Gornji deo tela" }, { naziv: "Donji deo tela" }, { naziv: "Kardio" }]
@@ -10,6 +11,7 @@ const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
 
 const FormaZakazi = (props) => {
     //  console.log(props)
+    const { user } = useContext(UserContext);
 
     let tipTreninga = ''
     let tr = ''
@@ -17,6 +19,9 @@ const FormaZakazi = (props) => {
     let isOnline = false
 
     const zakaziTrening = (ev) => {
+
+        // da li je personalni ili grupni 
+
 
         //datum i vreme -- kroz props
         //tip
@@ -35,6 +40,29 @@ const FormaZakazi = (props) => {
         console.log(tipTreninga.value)
         console.log(isOnline)
         console.log(tr.value)
+        console.log(props.datum.datumTreninga)
+
+
+
+        axios.post('http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId, {
+            // trenerId: props.idTrenera,
+            trenerId: "6273e6c7c1e2c23c29c8c1ba",
+            datum: props.datum.datumTreninga,
+            tip: tipTreninga.value,
+            intenzitet: intenzitetTreninga.value,
+            trajanje: tr.value,
+        }).then((p) => {
+            if (p.status === 200) {
+                console.log(p)
+                alert('Uspesno zakazan trening')
+            }
+        }).catch((error) => {
+            if (error.response.status)
+                alert(error.response.data)
+            else
+                alert('Doslo je do greske')
+        });
+
 
         ev.preventDefault();
 
@@ -84,8 +112,8 @@ const FormaZakazi = (props) => {
             </div>
 
             <div>
-                <button className="btn" onClick={zakaziTrening}>Potvrdi</button>
-                <button className="btn" onClick={props.onClose}>Otkazi</button>
+                <Button size = 'small' variant="outlined" className="btn" onClick={zakaziTrening}>Potvrdi</Button>
+                <Button size = 'small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
             </div>
         </form>
     )

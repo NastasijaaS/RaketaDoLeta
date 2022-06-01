@@ -224,6 +224,7 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 //dodaj trenera
 /*router.post("/dodajTrenera", async (req, res) => {
 
@@ -242,5 +243,63 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 
 })*/
+=======
+//dodaj korisnika, tj od registrovanog korisnika se napravi korisnik
+router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
+
+  try {
+
+         const korisnik = await Korisnik.findByIdAndUpdate(req.params.idKorisnika, {$set:{verifikovan:true}})
+         res.status(200).json(korisnik);
+
+      }
+  
+  catch (err) {
+      res.status(500).json(err);
+  }
+
+});
+
+//vrati verifikovane naloge
+router.get("/vratiVerifikovaneNaloge", async (req, res) => {
+
+  try {
+      
+    const korisnici = await Korisnik.find({verifikovan:true})
+    if(korisnici!=null){
+      res.status(200).json(korisnici)
+    }
+    else{
+      res.status(404).json("nema verifikovanih korisnika")
+    }
+
+  }
+  catch (err) {
+      res.status(500).json(err);
+  }
+
+})
+
+//vrati neverifikovane naloge
+router.get("/vratiNeverifikovaneNaloge", async (req, res) => {
+
+  try {
+      
+    const korisnici = await Korisnik.find({verifikovan:false})
+    if(korisnici!=null){
+      res.status(200).json(korisnici)
+    }
+    else{
+      res.status(404).json("nema neverifikovanih korisnika")
+    }
+
+  }
+  catch (err) {
+      res.status(500).json(err);
+  }
+
+})
+
+>>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
 
 module.exports = router

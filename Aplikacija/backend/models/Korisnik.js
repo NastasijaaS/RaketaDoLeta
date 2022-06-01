@@ -46,6 +46,9 @@ const KorisnikSchema = new mongoose.Schema({
     },
     trenerId:{
         type:String
+    },
+    verifikovan:{
+        type:Boolean
     }
     
 },

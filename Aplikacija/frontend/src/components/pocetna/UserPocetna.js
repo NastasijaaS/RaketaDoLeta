@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
-import { UserContext } from '../context/UserContext';
-import '../styles/userPocetna.css'
-import Korisnik from "./ProfilKorisnik";
-import Uprava from './ProfilUprava'
-import Trener from './ProfilTrener'
+import { UserContext } from '../../context/UserContext';
+import '../../styles/userPocetna.css'
+import Korisnik from '../profil/ProfilKorisnik'
+import Uprava from '../profil/ProfilUprava'
+import Trener from '../profil/ProfilTrener'
 
 const UserPocetna = () => {
 
