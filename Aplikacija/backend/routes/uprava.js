@@ -224,5 +224,42 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 });
 
+//dodaj korisnika, tj od registrovanog korisnika se napravi korisnik
+router.post("/verifikujNalog/:id", async (req, res) => {
+
+  try {
+
+      const trener = await Uprava.findById(req.params.id);
+      if (trener != null) {
+
+          const kor = await RegistrovaniKorisnik.findById(req.body.registrovaniKorisnikId);
+          if (kor != null) {
+
+              const noviKorisnik = await new Korisnik({
+                  registrovaniKorisnikId: kor._id
+                  
+                  
+              })
+
+              const noviKorisnikSave = await noviKorisnik.save();
+              res.status(200).json(noviKorisnikSave);
+
+          }
+          else {
+              res.status(404).json("Nije nadjen korisnik");
+          }
+
+      }
+      else {
+          res.status(404).json("Nije nadjen trener");
+      }
+
+  }
+  catch (err) {
+      res.status(500).json(err);
+  }
+
+});
+
 
 module.exports = router
