@@ -6,7 +6,7 @@ const BlogSchema = new mongoose.Schema({
         type:String
 
     },
-    Datum:{
+    datum:{
         type:Date
 
     },
@@ -17,6 +17,9 @@ const BlogSchema = new mongoose.Schema({
     tagovi:{
         type:String,
         enum:["Zdravlje","Ishrana","Fitness","Trening"]
+    },
+    slika:{
+        type:String
     }
 },
 {timestamps:true}

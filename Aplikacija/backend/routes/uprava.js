@@ -224,5 +224,23 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 });
 
+//dodaj trenera
+/*router.post("/dodajTrenera", async (req, res) => {
+
+  try {
+
+    const trener = await new Trener({
+
+    })
+
+    const trenerSave = await trener.save()
+    res.status(200).json(trenerSave)
+
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+
+})*/
 
 module.exports = router
