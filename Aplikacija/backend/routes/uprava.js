@@ -225,41 +225,60 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
 });
 
 //dodaj korisnika, tj od registrovanog korisnika se napravi korisnik
-router.post("/verifikujNalog/:id", async (req, res) => {
+router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
 
   try {
 
-      const trener = await Uprava.findById(req.params.id);
-      if (trener != null) {
-
-          const kor = await RegistrovaniKorisnik.findById(req.body.registrovaniKorisnikId);
-          if (kor != null) {
-
-              const noviKorisnik = await new Korisnik({
-                  registrovaniKorisnikId: kor._id
-                  
-                  
-              })
-
-              const noviKorisnikSave = await noviKorisnik.save();
-              res.status(200).json(noviKorisnikSave);
-
-          }
-          else {
-              res.status(404).json("Nije nadjen korisnik");
-          }
+         const korisnik = await Korisnik.findByIdAndUpdate(req.params.idKorisnika, {$set:{verifikovan:true}})
+         res.status(200).json(korisnik);
 
       }
-      else {
-          res.status(404).json("Nije nadjen trener");
-      }
+  
+  catch (err) {
+      res.status(500).json(err);
+  }
+
+});
+
+//vrati verifikovane naloge
+router.get("/vratiVerifikovaneNaloge", async (req, res) => {
+
+  try {
+      
+    const korisnici = await Korisnik.find({verifikovan:true})
+    if(korisnici!=null){
+      res.status(200).json(korisnici)
+    }
+    else{
+      res.status(404).json("nema verifikovanih korisnika")
+    }
 
   }
   catch (err) {
       res.status(500).json(err);
   }
 
-});
+})
+
+//vrati neverifikovane naloge
+router.get("/vratiNeverifikovaneNaloge", async (req, res) => {
+
+  try {
+      
+    const korisnici = await Korisnik.find({verifikovan:false})
+    if(korisnici!=null){
+      res.status(200).json(korisnici)
+    }
+    else{
+      res.status(404).json("nema neverifikovanih korisnika")
+    }
+
+  }
+  catch (err) {
+      res.status(500).json(err);
+  }
+
+})
 
 
 module.exports = router
