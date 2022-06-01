@@ -47,12 +47,13 @@ const Navbar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+            {/* POGLED ZA DESKTOP*/}
           <RocketLaunchOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/pocetna"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -66,6 +67,20 @@ const Navbar = () => {
             RaketaDoLeta
           </Typography>
 
+           {/*ZA DESKTOP SREDINA*/}
+           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                key = {page.val}
+                href = {page.link}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {page.val}
+              </Button>             
+            ))}
+          </Box>
+
+          {/*OVO JE ZA MOBILNI MENI LEVO */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -106,13 +121,13 @@ const Navbar = () => {
 
             </Menu>
           </Box>
-          
+          {/*ZA MOBILNI SREDINA */}
           <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/pocetna"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -127,19 +142,8 @@ const Navbar = () => {
             RDL
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key = {page.val}
-                href = {page.link}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page.val}
-              </Button>             
-            ))}
-
-          </Box>
-          
+         
+          {/*ZA MOBILNI DESNI MENI KAD KORISNIK NIJE LOGOVAN */}
           {!user &&
           <Box sx = {{flexGrow:0, display: { xs: 'flex', md: 'none' }}}>
               <Tooltip title="Login">

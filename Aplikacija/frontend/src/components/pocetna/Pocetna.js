@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
 import { UserContext } from '../../context/UserContext';
+import { Button } from '@mui/material';
+
 
 function Header() {
 
@@ -81,8 +83,14 @@ const Pocetna = () => {
     //const toTop = () => window.scrollTo(0,0)
 
     return (
-    <div className='glavniDiv'>
-      
+    <div className='container'>
+        <div className = 'center' >
+            <Link to = '/usluge'>
+                <Button variant="outlined" id = 'centralBtn' size = 'large'>         
+                        Krenimo zajedno u novu avanturu  
+                </Button>
+            </Link>
+        </div>
     </div>)
 }
 

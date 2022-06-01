@@ -1,3 +1,4 @@
+import { Button, ButtonGroup, FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import { useState, useEffect } from 'react';
 import '../../styles/blog.css'
 import { GetData } from '../komponente/Fetch';
@@ -24,12 +25,26 @@ const Blog = () => {
 
     return (
         <div className="sviBlogovi">
-            <div onClick={(ev) => { setNaslov(ev.target.value) }} className='divZaIzbor'>
-                <button value='Zdravlje' className='btnBlog zdravlje'>Zdravlje</button>
-                <button value='Ishrana' className='btnBlog ishrana'>Ishrana</button>
-                <button value='Trening' className='btnBlog treninzi'>Trening</button>
-                <button value='Fitness' className='btnBlog fitnes'>Fitnes</button>
-            </div>
+
+            <ButtonGroup  onClick={(ev) => { setNaslov(ev.target.value) }} className='divZaIzbor' size="large" sx = {{display: { xs: 'none', md: 'flex' }}}>
+                <Button value='Zdravlje' className='btnBlog zdravlje'>Zdravlje</Button>
+                <Button value='Ishrana' className='btnBlog ishrana'>Ishrana</Button>
+                <Button value='Trening' className='btnBlog treninzi'>Trening</Button>
+                <Button value='Fitness' className='btnBlog fitnes'>Fitnes</Button>
+            </ButtonGroup>
+            <FormControl fullWidth sx={{minWidth: 120,display: { xs: 'flex', md: 'none' }}}>
+                <InputLabel id="demo-simple-select-helper-label">Kategorija</InputLabel>
+                    <Select
+                    id="demo-simple-select-helper"
+                    label="Kategorija"
+                    onChange={(ev) => { setNaslov(ev.target.value) }}
+                    >
+                <MenuItem value='Zdravlje'>Zdravlje</MenuItem>
+                <MenuItem value='Ishrana'>Ishrana</MenuItem>
+                <MenuItem value='Trening'>Trening</MenuItem>
+                <MenuItem value='Fitness'>Fitness</MenuItem>
+                </Select>
+        </FormControl>
 
             <h2>{naslov}</h2>
 
