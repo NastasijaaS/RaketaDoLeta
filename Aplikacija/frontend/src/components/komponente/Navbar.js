@@ -19,7 +19,7 @@ import { UserContext } from '../../context/UserContext';
 
 
 
-const pages = [{val:'Trenirajte sa nama', link: '/usluge'}, {val:'Treneri', link:'/treneri'}, {val: 'O nama', link: '/onama'} ,{val:'Blog', link:'/blog'}, {val:'Kontakt', link:' '}];
+const pages = [{ val: 'Trenirajte sa nama', link: '/usluge' }, { val: 'Treneri', link: '/treneri' }, { val: 'O nama', link: '/onama' }, { val: 'Blog', link: '/blog' }, { val: 'Kontakt', link: ' ' }];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
@@ -47,7 +47,7 @@ const Navbar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-            {/* POGLED ZA DESKTOP*/}
+          {/* POGLED ZA DESKTOP*/}
           <RocketLaunchOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -67,16 +67,16 @@ const Navbar = () => {
             RaketaDoLeta
           </Typography>
 
-           {/*ZA DESKTOP SREDINA*/}
-           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          {/*ZA DESKTOP SREDINA*/}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key = {page.val}
-                href = {page.link}
+                key={page.val}
+                href={page.link}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page.val}
-              </Button>             
+              </Button>
             ))}
           </Box>
 
@@ -111,12 +111,14 @@ const Navbar = () => {
               }}
             >
               {pages.map((page, i) => (
-                 <Link to = {page.link} >
-                    <MenuItem key={page.val} onClick={handleCloseNavMenu}>
-                      {/* <Link to = {page.link}>{page.val}</Link> */}
-                      <Typography textAlign="center">{page.val}</Typography>
-                    </MenuItem>
-                 </Link>
+
+                <MenuItem key={page.val} onClick={handleCloseNavMenu}>
+                  <Link to={page.link} >
+                    {/* <Link to = {page.link}>{page.val}</Link> */}
+                    <Typography textAlign="center">{page.val}</Typography>
+                  </Link>
+                </MenuItem>
+
               ))}
 
             </Menu>
@@ -142,103 +144,103 @@ const Navbar = () => {
             RDL
           </Typography>
 
-         
+
           {/*ZA MOBILNI DESNI MENI KAD KORISNIK NIJE LOGOVAN */}
           {!user &&
-          <Box sx = {{flexGrow:0, display: { xs: 'flex', md: 'none' }}}>
+            <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
               <Tooltip title="Login">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <LoginIcon sx = {{ color:'white'}}/>
+                  <LoginIcon sx={{ color: 'white' }} />
                 </IconButton>
-              </Tooltip>    
+              </Tooltip>
 
-          <Menu
-              sx={{ mt: '45px' }}
-              id="menu-login"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <Link to ='/login' >
-                <MenuItem key= 'Log in' onClick={handleCloseUserMenu}>      
-                  <Typography textAlign="center"> Log in</Typography>
-                </MenuItem>
-              </Link>
-              <Link to = '/signup' >
-                <MenuItem key='Sign up' onClick={handleCloseUserMenu}>      
-                  <Typography textAlign="center"> Sign up</Typography>
-                </MenuItem>
-              </Link>
-            </Menu>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-login"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <Link to='/login' >
+                  <MenuItem key='Log in' onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center"> Log in</Typography>
+                  </MenuItem>
+                </Link>
+                <Link to='/signup' >
+                  <MenuItem key='Sign up' onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center"> Sign up</Typography>
+                  </MenuItem>
+                </Link>
+              </Menu>
 
-          </Box>
+            </Box>
           }
-          
-          
+
+
           <Box sx={{ flexGrow: 0 }}>
-           {
-               !user &&
-               <Button
-               href = '/login'
-               sx={{ my: 2, color: 'white',display: {xs: 'none', md:'inline' }}}
-               >
-                Log in
-               </Button> 
-            }
-            
             {
               !user &&
               <Button
-              href = '/signup'
-              sx={{ my: 2, color: 'white',display: { xs: 'none', md:'inline' } }}
+                href='/login'
+                sx={{ my: 2, color: 'white', display: { xs: 'none', md: 'inline' } }}
+              >
+                Log in
+              </Button>
+            }
+
+            {
+              !user &&
+              <Button
+                href='/signup'
+                sx={{ my: 2, color: 'white', display: { xs: 'none', md: 'inline' } }}
               >
                 Sign up
-              </Button> 
+              </Button>
 
             }
             {user &&
               <Tooltip title="Account">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <AccountCircleOutlinedIcon sx = {{ color:'white'}}/>
+                  <AccountCircleOutlinedIcon sx={{ color: 'white' }} />
                 </IconButton>
-              </Tooltip> 
-             &&       
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-        }     
+              </Tooltip>
+              &&
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            }
           </Box>
         </Toolbar>
       </Container>
-    </AppBar>
+    </AppBar >
   );
 };
 export default Navbar;

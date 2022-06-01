@@ -1,4 +1,4 @@
-.treneri{
+.treneri {
     justify-content: center;
 }
 
@@ -10,8 +10,9 @@
     border-radius: 12px;
 
 }
-div.trener:hover{
-    background-color: rgb(59, 63, 63);
+
+div.trener:hover {
+    background-color: rgb(192, 205, 205);
 }
 
 img {
@@ -21,20 +22,24 @@ img {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.ime:hover{
+
+.ime:hover {
     color: rgb(66, 29, 231);
- cursor: pointer;
+    cursor: pointer;
 }
+
 .dugme {
     height: 24px;
     border-radius: 12px;
     border: 1px;
     margin: 6px;
 }
-.dugme:hover{
-    background-color: blueviolet;
+
+.dugme:hover {
+    background-color: rgb(194, 183, 204);
     cursor: pointer;
 }
+
 /* .divZaSliku{
     width: 200px;
     height: 200px;

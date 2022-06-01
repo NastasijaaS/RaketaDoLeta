@@ -4,6 +4,8 @@ import { GetData } from '../komponente/Fetch'
 import FormaZakazi from '../komponente/FormaZakazi'
 import Modal from '../komponente/Modal'
 import axios from 'axios'
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const k = {
     ime: 'ime', prezime: 'prezime', brojTelefona: '0625454545', email: 'mail',
@@ -31,13 +33,13 @@ const Korisnik = (props) => {
 
     const [novaLozinka, setNova] = useState(false)
     const pass = useRef('')
-
+    const [isLoading, setIsLoading] = useState(false)
     //console.log(user)
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska)
-        GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId, setNapredak, setGreska)
-        GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreninge/" + user.korisnikId, setZakazaniTreninzi, setGreska)
+        GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId, setNapredak, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreninge/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
 
     }, [])
 
@@ -155,6 +157,7 @@ const Korisnik = (props) => {
 
     return (
         <div className='profilKorisnika'>
+            {isLoading && <CircularProgress size='2rem' disableShrink />}
 
             <div className="infoOProfilu" >
 

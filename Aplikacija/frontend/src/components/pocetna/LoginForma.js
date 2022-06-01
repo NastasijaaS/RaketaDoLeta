@@ -3,7 +3,7 @@ import { useState, useContext, useRef } from "react";
 import { UserContext } from '../../context/UserContext';
 import { LoginMetoda } from '../komponente/Fetch';
 import CircularProgress from '@mui/material/CircularProgress'
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Box } from '@mui/material';
 
 
 const LogIn = () => {
@@ -57,30 +57,66 @@ const LogIn = () => {
 
     return (
         <div className="forma">
-            <form className="login" id='prijava' onSubmit={upis}>
+            <form className="login" id='prijava'>
+
+                {/* <Box
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    dispay: 'flex',
+                    'flexDirection': 'column'
+                }}
+                noValidate
+                autoComplete="off"
+            > */}
 
                 <h2>Prijavite se:</h2>
 
-                 <label>E-mail: <input className='loginInp' ref={mail}
-                    type='email' placeholder='e-mail' />
-                </label> 
-                {/* "<TextField className='loginInp' ref={mail} label="E-mail" type = "email" color="primary"  size = "small" focused /> */}
+                <label>E-mail:
+
+                    <TextField
+                        className='loginInp'
+                        inputRef={mail}
+                        label="E-mail"
+                        type="email"
+                        color="primary"
+                        size="small"
+                        focused />
+
+                    {/* <input className='loginInp' ref={mail}
+                        type='email' placeholder='e-mail' /> */}
+                </label>
+
+
 
                 {greska.mail && <p className='greska'>Molimo unesite ispravnu e-mail adresu</p>}
 
-                {/* <TextField className='loginInp' ref={lozinka} label="Lozinka" type = "password" minLenght = "6" color="primary"  size = "small" focused /> */}
 
-                <label>Lozinka: <input className='loginInp' ref={lozinka}
-                    minLength='6'
-                    type='password' placeholder='lozinka' />
-                </label> 
+
+                <label>Lozinka:
+
+                    <TextField
+                        className='loginInp'
+                        inputRef={lozinka}
+                        label="Lozinka"
+                        type="password"
+                        minlenght="6"
+                        color="primary"
+                        size="small"
+                        focused />
+
+                    {/* <input className='loginInp' ref={lozinka}
+                        minLength='6'
+                        type='password' placeholder='lozinka' /> */}
+                </label>
 
                 {greska.lozinka && <p className='greska'>Lozinka mora imati najmanje 6 karaktera</p>}
 
                 {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 
-                <button>Prijavi se</button>
+                <Button size='small' variant="contained" onClick={upis}>Prijavi se</Button>
 
+                {/* </Box> */}
             </form>
         </div >
 

@@ -1,0 +1,11 @@
+div.divZaSearch {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5rem;
+}
+
+input.search {
+    border: none;
+    height: 100%;
+}

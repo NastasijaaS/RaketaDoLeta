@@ -1,7 +1,6 @@
-.sveUsluge{
+.sveUsluge {
     align-content: center;
-
-    margin: 25vh 15vw 25vw 15vw ;
+    margin: 25vh 15vw 25vw 15vw;
 }
 
 .usluga {
@@ -10,13 +9,21 @@
     flex-wrap: wrap;
     border-bottom-style: outset;
     justify-content: space-around;
-
     height: 9vh;
 }
 
-.cenaUsluge{
+.datumi {
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom-style: outset;
+    justify-content: space-around;
+}
+
+.cenaUsluge {
     color: rgb(17, 146, 17);
 }
-.greska{
+
+.greska {
     color: red;
 }

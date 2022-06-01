@@ -4,6 +4,7 @@ import { LoginMetoda } from '../komponente/Fetch';
 import { useContext, useRef } from 'react';
 import { UserContext } from '../../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Button, TextField, Box } from '@mui/material';
 
 const Register = () => {
 
@@ -88,8 +89,19 @@ const Register = () => {
         return (
             <div>
                 <label>{labela}:
-                    <input className='loginInp' ref={reff}
-                        type={tip} placeholder={labela} />
+
+                    <TextField
+                        className='loginInp'
+                        inputRef={reff}
+                        label={labela}
+                        type={tip}
+                        color="primary"
+                        size="small"
+                        placeholder={labela}
+                        focused />
+
+                    {/* <input className='loginInp' ref={reff}
+                        type={tip} placeholder={labela} /> */}
                 </label>
             </div>
         )
@@ -120,7 +132,7 @@ const Register = () => {
 
                 {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 
-                <button onClick={upis}>Registruj se</button>
+                <Button size='small' variant="contained" onClick={upis}>Registruj se</Button>
 
             </form>
         </div >

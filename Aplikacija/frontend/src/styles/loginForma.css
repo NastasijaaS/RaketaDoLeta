@@ -4,6 +4,8 @@
     flex-direction: column;
 
     align-content: center;
+
+
 }
 
 .login {
@@ -12,18 +14,19 @@
     flex-direction: column;
     align-items: center;
     background-color: primary;
+    gap: 2rem;
 }
 
 .loginInp {
     /* height: 24px;
     border-radius: 10px;*/
-    margin: 20px; 
+    margin: 20px;
 }
 
 .loginInp:hover {
     background-color: rgb(226, 211, 239);
 }
 
-.greska{
+.greska {
     color: red;
 }

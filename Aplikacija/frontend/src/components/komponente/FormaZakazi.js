@@ -2,9 +2,7 @@ import React, { useContext } from "react";
 import '../../styles/formaZakazi.css'
 import axios from "axios";
 import { UserContext } from "../../context/UserContext";
-
-
-// kontext koji cuva podatke o prijavljenom korsniku
+import  Button  from "@mui/material/Button";
 
 
 const tip = [{ naziv: "Gornji deo tela" }, { naziv: "Donji deo tela" }, { naziv: "Kardio" }]
@@ -114,8 +112,8 @@ const FormaZakazi = (props) => {
             </div>
 
             <div>
-                <button className="btn" onClick={zakaziTrening}>Potvrdi</button>
-                <button className="btn" onClick={props.onClose}>Otkazi</button>
+                <Button size = 'small' variant="outlined" className="btn" onClick={zakaziTrening}>Potvrdi</Button>
+                <Button size = 'small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
             </div>
         </form>
     )

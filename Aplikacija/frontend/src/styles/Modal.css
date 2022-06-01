@@ -1,16 +1,15 @@
 .modal {
-  background-color: rgb(38, 35, 35);
+  background-color: rgb(250, 247, 250);
   position: fixed;
   top: 15vh;
   padding: 1rem;
   border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 8px rgba(39, 38, 39, 0.25);
   z-index: 30;
   animation: slide-down 300ms ease-out forwards;
   align-items: center;
   gap: 15px;
   font-size: larger;
-
 }
 
 .btnZatvori {

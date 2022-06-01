@@ -2,6 +2,7 @@ import '../../styles/Treneri.css'
 import { useState, useEffect } from 'react'
 import KalendarForma from '../komponente/KalendarForma';
 import { GetData } from '../komponente/Fetch'
+import CircularProgress from '@mui/material/CircularProgress';
 
 const treneri = [{
     id: 5,
@@ -47,9 +48,10 @@ const Treneri = () => {
 
     const [sviTreneri, setTreneri] = useState([])
     const [greska, setGreska] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiTrenere", setTreneri, setGreska)
+        GetData("http://localhost:8800/api/korisnik/vidiTrenere", setTreneri, setGreska, setIsLoading)
 
     }, [])
 
@@ -75,6 +77,8 @@ const Treneri = () => {
 
     return (
         <div className="treneri">
+            {isLoading && <CircularProgress size='2rem' disableShrink />}
+
             {treneri.map((tr, i) => (
                 <div key={i} className="trener">
                     <div className="divZaSliku" >
@@ -91,7 +95,8 @@ const Treneri = () => {
 
                         {!detalji.state && detalji.id == i && <p>{tr.opis}</p>}
 
-                        {/* {!detalji.state && detalji.id == i && zakazi && <KalendarForma id={i} imeTrenera={tr.ime} prezimeTrenera={tr.prezime} />} */}
+                        {/* {!detalji.state && detalji.id == i && zakazi && 
+                            <KalendarForma id={i} imeTrenera={tr.ime} prezimeTrenera={tr.prezime} />} */}
 
                         {/* {detalji.id !== i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>} */}
                         {vise != i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>}

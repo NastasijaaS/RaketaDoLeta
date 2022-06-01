@@ -6,7 +6,7 @@ import LogIn from '../pocetna/LoginForma'
 import Register from '../pocetna/RegisterForma'
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
-
+import Button from '@mui/material/Button';
 
 const termini1 = [{ trajanje: 60, vreme: 17 }, { trajanje: 45, vreme: 18 }]
 const termini2 = [{ trajanje: 45, vreme: 13 }, { trajanje: 30, vreme: 19 }]
@@ -152,13 +152,13 @@ const KalendarForma = (props) => {
 
                     {login && <div><LogIn />
                         <span>Nemate nalog:
-                            <button onClick={() => { setLogin(false) }}>Registruj se</button>
+                            <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
                         </span>
                     </div>}
 
                     {!login && <div><Register />
                         <span>Imate nalog:
-                            <button onClick={() => { setLogin(true) }}>Prijavi se</button>
+                            <Button size='small' onClick={() => { setLogin(true) }}>Prijavi se</Button>
                         </span>
                     </div>}
 
@@ -166,7 +166,8 @@ const KalendarForma = (props) => {
             }
 
             {
-                zakazi && user && <Modal onClose={zakaziForma}>
+                zakazi && user &&
+                <Modal onClose={zakaziForma}>
                     <div>
                         {/* <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
                         <span>Datum: </span><br /> */}
