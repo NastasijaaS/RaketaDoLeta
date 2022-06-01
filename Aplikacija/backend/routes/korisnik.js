@@ -178,7 +178,7 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
 
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if (korisnik != null) {
-            const treninzi = await Trening.find({ clanovi: req.params.idKorisnika })
+            const treninzi = await Trening.find({ clanovi: korisnik._id })
 
             if (treninzi.length != 0) {
                 res.status(200).json(treninzi)
