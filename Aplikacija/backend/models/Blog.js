@@ -20,6 +20,9 @@ const BlogSchema = new mongoose.Schema({
     },
     slika:{
         type:String
+    },
+    kratakopis:{
+        type:String
     }
 },
 {timestamps:true}
