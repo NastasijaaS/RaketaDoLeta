@@ -171,7 +171,10 @@ router.post("/zakaziGrupniTrening/:id", async (req, res) => {
         else {
             res.status(404).json("Trener nije pronadjen")
         }
+<<<<<<< HEAD
+=======
 
+>>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
     }
     catch (err) {
         res.status(500).json(err);
@@ -230,38 +233,7 @@ router.put("/odbijTrening/:idZahteva", async (req, res) => {
     }
 });
 
-//izmeni trening
-/*router.put("/izmeniTrening/:idTrenera/:idTreninga", async(req, res)=>{
- try{
-     const trener=await Trener.findById(req.params.idTrenera);
-     //res.status(200).json(trener);
 
-     if (trener!=null){
-         const trening=await Trening.findById(req.params.idTreninga)
-         if(trening!=null){
-             if(trening.trenerId==trener._id){
-                 await trening.updateOne({$set: req.body})
-                 res.status(200).json(trening);
-             }
-             else{
-                 res.status(400).json("Mozete izmeniti samo svoj trening")
-             }
-
-         }
-         else{
-             res.status(404).json("Trening nije pronadjen")
-         }
-
-     }
-     else{
-         res.status(404).json("Trener nije pronadjen")
-     }
-
- }
- catch(err){
-     res.status(500).json(err);
- }
-})*/
 
 //dodaj napredak za klijenta
 router.post("/dodajNapredak/:idTrenera", async (req, res) => {
@@ -471,6 +443,10 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
  //zakazi grupni trening
  router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
     try{
         const trener=await Trener.findById(req.params.id)
         if (trener!=null){
@@ -497,6 +473,10 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
     }
 
 })
+<<<<<<< HEAD
+
+=======
+>>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
 //dodaj profilnu sliku
 router.put("/dodajSliku/:idTrenera", async (req, res) => {
 
@@ -525,5 +505,9 @@ router.put("/dodajOpis/:idTrenera", async (req, res) => {
 
 });
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
 
 module.exports = router
