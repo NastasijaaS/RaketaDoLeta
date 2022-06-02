@@ -315,7 +315,7 @@ router.get("/vratiVerifikovaneNaloge", async (req, res) => {
 router.get("/vratiNeverifikovaneNaloge", async (req, res) => {
 
   try {
-       
+
     const korisnici = await Korisnik.find({verifikovan:false})
     if(korisnici!=null){
       

@@ -118,19 +118,17 @@ router.get("/vidiTrenere", async (req, res) => {
 
                 const t = await RegistrovaniKorisnik.findById({ _id: tre.registrovaniKorisnikId })
 
-                let nizSertifikata = []
-                tre.sertifikati.forEach(async sertifikat => {
-                    const ser = await Sertifikat.findById({ _id: sertifikat._id })
-                    nizSertifikata.push(ser)
-                })
+              
+            
 
                 const tr = {
                     ime: t.ime,
                     prezime: t.prezime,
-                    opis: t.opis,
-                    slika: t.slika,
-                    sertifikati: nizSertifikata,
-                    email: t.email,
+                    opis: tre.opis,
+                    slika: tre.slika,
+                    sertifikati: tre.sertifikati,
+                    iskustvo:tre.iskustvo,
+                    email: t.email
                 }
 
                 treneri.push(tr)
