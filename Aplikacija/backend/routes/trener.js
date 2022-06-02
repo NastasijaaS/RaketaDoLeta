@@ -470,7 +470,6 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
  //zakazi grupni trening
  router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
 
-
     try{
         const trener=await Trener.findById(req.params.id)
         if (trener!=null){
@@ -497,7 +496,6 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
     }
 
 })
-
 //dodaj profilnu sliku
 router.put("/dodajSliku/:idTrenera", async (req, res) => {
 
@@ -525,7 +523,6 @@ router.put("/dodajOpis/:idTrenera", async (req, res) => {
     }
 
 });
-
 
 
 module.exports = router
