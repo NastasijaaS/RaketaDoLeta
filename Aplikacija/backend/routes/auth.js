@@ -43,13 +43,18 @@ router.post("/login", async (req, res) => {
   try {
     const user = await RegistrovaniKorisnik.findOne({ email: req.body.email });
 
-    if (!user)
+    if (!user) {
       res.status(404).json("Nema takvog korisnika");
+      return
+    }
+
 
     const validPassword = await bcrypt.compare(req.body.password, user.password)
 
-    if (!validPassword)
+    if (!validPassword) {
       res.status(400).json("Pogresna lozinka")
+      return
+    }
 
     if (user.tipKorisnika == "Korisnik") {
       const korisnik = await Korisnik.findOne({ registrovaniKorisnikId: user._id });
