@@ -224,26 +224,6 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-//dodaj trenera
-/*router.post("/dodajTrenera", async (req, res) => {
-
-  try {
-
-    const trener = await new Trener({
-
-    })
-
-    const trenerSave = await trener.save()
-    res.status(200).json(trenerSave)
-
-  }
-  catch (err) {
-    res.status(500).json(err);
-  }
-
-})*/
-=======
 //dodaj korisnika, tj od registrovanog korisnika se napravi korisnik
 router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
 
@@ -300,6 +280,5 @@ router.get("/vratiNeverifikovaneNaloge", async (req, res) => {
 
 })
 
->>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
 
 module.exports = router
