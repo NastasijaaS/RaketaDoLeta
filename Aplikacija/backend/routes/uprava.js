@@ -224,26 +224,6 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-//dodaj trenera
-/*router.post("/dodajTrenera", async (req, res) => {
-
-  try {
-
-    const trener = await new Trener({
-
-    })
-
-    const trenerSave = await trener.save()
-    res.status(200).json(trenerSave)
-
-  }
-  catch (err) {
-    res.status(500).json(err);
-  }
-
-})*/
-=======
 //dodaj korisnika, tj od registrovanog korisnika se napravi korisnik
 router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
 
@@ -267,7 +247,21 @@ router.get("/vratiVerifikovaneNaloge", async (req, res) => {
       
     const korisnici = await Korisnik.find({verifikovan:true})
     if(korisnici!=null){
-      res.status(200).json(korisnici)
+    
+      let vrati = []
+      for (let i=0; i<korisnici.length; i++){
+        const regKorisnik=await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
+        const clanarina=await Clanarina.find({korisnikId:korisnici[i]._id})
+        let kor = {
+          id:korisnici[i]._id,
+          ime:regKorisnik.ime,
+          prezime:regKorisnik.prezime,
+          email:regKorisnik.email,
+          datumUplate:clanarina.datumUplate
+        }
+        vrati.push(kor)
+      }
+      res.status(200).json(vrati)
     }
     else{
       res.status(404).json("nema verifikovanih korisnika")
@@ -287,7 +281,21 @@ router.get("/vratiNeverifikovaneNaloge", async (req, res) => {
       
     const korisnici = await Korisnik.find({verifikovan:false})
     if(korisnici!=null){
-      res.status(200).json(korisnici)
+    
+      let vrati = []
+      for (let i=0; i<korisnici.length; i++){
+        const regKorisnik=await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
+        const clanarina=await Clanarina.find({korisnikId:korisnici[i]._id})
+        let kor = {
+          id:korisnici[i]._id,
+          ime:regKorisnik.ime,
+          prezime:regKorisnik.prezime,
+          email:regKorisnik.email,
+          datumUplate:clanarina.datumUplate
+        }
+        vrati.push(kor)
+      }
+      res.status(200).json(vrati)
     }
     else{
       res.status(404).json("nema neverifikovanih korisnika")
@@ -300,6 +308,5 @@ router.get("/vratiNeverifikovaneNaloge", async (req, res) => {
 
 })
 
->>>>>>> aa80989bfc05169c3274dd748afd46e0dcc986ac
 
 module.exports = router
