@@ -7,7 +7,8 @@ const TrenerSchema = new mongoose.Schema({
         required:true
     },
     iskustvo:{
-        type:String
+        type:Array,
+        default:[]
     },
     sertifikati:{
         type:Array,
