@@ -46,7 +46,8 @@ router.post("/dodajBlog", async (req, res) => {
             datum: datum,
             tekst: req.body.tekst,
             tagovi: req.body.tagovi,
-            slika:req.body.slika
+            slika:req.body.slika,
+            kratakopis:req.body.kratakopis
         })
 
         const blogSave = await blog.save()
