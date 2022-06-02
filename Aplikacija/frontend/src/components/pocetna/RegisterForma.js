@@ -10,7 +10,15 @@ const Register = () => {
 
     const { ucitavaSe, error, dispatch } = useContext(UserContext);
 
-    const [greska, setGreska] = useState({ ime: false, prezime: false, mail: false, lozinka: false, brojTelefona: false, username: false });
+    const [greska, setGreska] = useState(
+        {
+            ime: false,
+            prezime: false,
+            mail: false,
+            lozinka: false,
+            brojTelefona: false,
+            username: false
+        });
 
     const ime = useRef('')
     const prezime = useRef('')

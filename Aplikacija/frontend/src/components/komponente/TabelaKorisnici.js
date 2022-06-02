@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../../styles/tabela.css'
 import { DeleteMetoda, PutMetoda, GetData } from './Fetch'
+import axios from 'axios'
 
 function TablePaginationActions(props) {
 
@@ -55,53 +56,46 @@ function TablePaginationActions(props) {
     );
 }
 
-// TablePaginationActions.propTypes = {
-//     count: PropTypes.number.isRequired,
-//     onPageChange: PropTypes.func.isRequired,
-//     page: PropTypes.number.isRequired,
-//     rowsPerPage: PropTypes.number.isRequired,
-// };
-
-const data = [
-    { ime: "ime", prezime: 'prezime', broj: 12, datum: '02.03.2022' },
-    { ime: "ime1", prezime: 'prezime1', broj: 3, datum: '22.03.2022' },
-    { ime: "ime2", prezime: 'prezime2', broj: 123, datum: '22.03.2022' },
-    { ime: "ime3", prezime: 'prezime3', broj: 55, datum: '22.03.2022' },
-    { ime: "ime4", prezime: 'prezime4', broj: 345, datum: '22.03.2022' },
-    { ime: "ime5", prezime: 'prezime5', broj: 13, datum: '22.03.2022' },
-]
-
-
 export default function Tabela(props) {
 
-    const [korisnici, setKorisnici] = useState('')
+    const [korisnici, setKorisnici] = useState([])
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
-        if (props.verifikovan) {
-            //get korisnici
 
-            GetData("http://localhost:8800/api/uprava/vratiVerifikovaneNaloge", setKorisnici, setGreska, setIsLoading)
+        const getKorisnici = async (url) => {
+            await axios.get(url).then(p => {
+
+                if (p.status === 200) {
+                    setKorisnici(p.data)
+                    setRows(p.data)
+                }
+            }).catch((error) => {
+                alert('Doslo je do greske')
+                console.log('greska prilko ucitavanja korisnika: ' + error)
+            });
+        }
+
+        if (props.verifikovan) {
+            getKorisnici("http://localhost:8800/api/uprava/vratiVerifikovaneNaloge")
         }
         else {
-            GetData("http://localhost:8800/api/uprava/vratiNeverifikovaneNaloge", setKorisnici, setGreska, setIsLoading)
-            //get neverifikovani
+            getKorisnici("http://localhost:8800/api/uprava/vratiNeverifikovaneNaloge")
         }
 
-    }, [])
+    }, [refresh])
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - korisnici.length) : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-
-        console.log(korisnici)
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -109,13 +103,13 @@ export default function Tabela(props) {
         setPage(0);
     };
 
-    const [rows, setRows] = useState(data);
+
+    const [rows, setRows] = useState(korisnici)
     const [searchName, setSearchName] = useState("");
     const [searchBroj, setSearchBroj] = useState("");
 
     const searchByName = (ev) => {
-
-        const filteredRows = data.filter((row) => {
+        const filteredRows = korisnici.filter((row) => {
             return (row.ime + ' ' + row.prezime).toLowerCase().includes(ev.target.value.toLowerCase());
         });
         setRows(filteredRows)
@@ -124,8 +118,8 @@ export default function Tabela(props) {
 
     const searchByBroj = (ev) => {
 
-        const filteredRows = data.filter((row) => {
-            return row.broj.toString().includes(ev.target.value.toLowerCase());
+        const filteredRows = korisnici.filter((row) => {
+            return row.email.toString().includes(ev.target.value.toLowerCase());
         })
 
         setRows(filteredRows)
@@ -135,23 +129,25 @@ export default function Tabela(props) {
     const cancelSearch = () => {
         setSearchBroj("");
         setSearchName('')
-        setRows(data)
+        setRows(korisnici)
     };
 
-    const obrisiKorisnika = async (props) => {
+    const obrisiKorisnika = async (id) => {
 
-        // const zahtev = {
-        //     url: 'http://localhost:8800/api/uprava/' + props.id
-        // }
+        const zahtev = {
+            url: 'http://localhost:8800/api/uprava/' + id
+        }
 
-        // await DeleteMetoda(zahtev, setGreska, setIsLoading)
+        await DeleteMetoda(zahtev, setGreska, setIsLoading)
 
-        // if (greska !== 'false') {
-        //     alert('doslo je do greske')
-        // }
+        if (greska !== 'false') {
+            alert('doslo je do greske')
+        } else {
+            setRefresh(!refresh)
+        }
     }
 
-    const unesiClanarinu = (props) => {
+    const unesiClanarinu = (id) => {
         ///dodajClanarinu/:idKorisnika/:idUsluge
 
         // const zahtev = {
@@ -165,19 +161,23 @@ export default function Tabela(props) {
         // }
     }
 
-    const verifikujNalog = (props) => {
+    const [updateNalog, setNalog] = useState('')
 
-        // const zahtev = {
-        //     url: 'http://localhost:8800/api/uprava/verifikuj/' + props.idKorisnika 
-        // }
+    const verifikujNalog = async (id) => {
 
-        // await PutMetoda(zahtev, setGreska, setIsLoading)
+        const zahtev = {
+            url: 'http://localhost:8800/api/uprava//verifikujNalog/' + id
+        }
 
-        // if (greska !== 'false') {
-        //     alert('doslo je do greske')
-        // }
+        await PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
+
+        if (greska !== false) {
+            alert('doslo je do greske')
+        } else {
+            setRefresh(!refresh)
+        }
+
     }
-
 
     return (
         <Paper>
@@ -190,7 +190,7 @@ export default function Tabela(props) {
 
                 <div>
                     <SearchIcon />
-                    <input onChange={searchByBroj} value={searchBroj} className='search' placeholder="broj clanske karte" />
+                    <input onChange={searchByBroj} value={searchBroj} className='search' placeholder="e-mail" />
                 </div>
 
                 <div>
@@ -206,75 +206,76 @@ export default function Tabela(props) {
                 <Table>
 
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx={{ 'borderBottom': '1px solid rgba(224, 224, 224, 1) ' }}>
 
-                            <TableCell>
+                            <TableCell sx={{ 'text-align': 'center' }}>
                                 Ime i prezime
                             </TableCell>
 
-                            <TableCell>
-                                Broj clanske karte
+                            <TableCell sx={{ 'textAlign': 'center' }}>
+                                E-mail
                             </TableCell>
 
-                            <TableCell>
+                            {props.verifikovan && <TableCell sx={{ 'text-align': 'center' }}>
                                 Datum isteka clanarine
-                            </TableCell>
+                            </TableCell>}
 
                         </TableRow>
                     </TableHead>
 
 
                     <TableBody>
-                        {(rowsPerPage > 0
-                            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            : rows
-                        ).map((row) => (
+                        {
+                            (rowsPerPage > 0
+                                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                : rows
+                            ).map((row) => (
 
-                            <TableRow key={row.ime}>
+                                <TableRow key={row.email}>
 
-                                <TableCell style={{ width: 160 }} component="th" scope="row">
-                                    {row.ime + ' ' + row.prezime}
-                                </TableCell>
+                                    <TableCell style={{ width: 160 }} component="th" scope="row">
+                                        {row.ime + ' ' + row.prezime}
+                                    </TableCell>
 
-                                <TableCell style={{ width: 160 }} align="right">
-                                    {row.broj}
-                                </TableCell>
+                                    <TableCell style={{ width: 160 }} align="right">
+                                        {row.email}
+                                    </TableCell>
 
-                                <TableCell style={{ width: 160 }} align="right">
-                                    {row.datum}
-                                </TableCell>
+                                    {!props.verifikovan && <TableCell style={{ width: 160 }} align="right">
+                                        {row.datumUplate}
+                                    </TableCell>}
 
-                                {!props.verifikovan && <TableCell style={{ width: 160 }} align="right">
-                                    <Button
-                                        onClick={() => verifikujNalog('row.id')}
-                                        size="medium"
-                                        variant="text">
-                                        Verifikuj
-                                    </Button>
-                                </TableCell>}
+                                    {!props.verifikovan && <TableCell style={{ width: 160 }} align="right">
+                                        <Button
+                                            onClick={() => verifikujNalog(row.id)}
+                                            size="medium"
+                                            variant="text">
+                                            Verifikuj
+                                        </Button>
+                                    </TableCell>}
 
-                                <TableCell style={{ width: 160 }} align="right">
-                                    <Button
-                                        onClick={() => unesiClanarinu('row.id', 'idUsluge')}
-                                        size="small"
-                                        variant="text">
-                                        Plati clanarinu
-                                    </Button>
-                                </TableCell>
+                                    <TableCell style={{ width: 160 }} align="right">
+                                        <Button
+                                            onClick={() => unesiClanarinu('row.id', 'idUsluge')}
+                                            size="small"
+                                            variant="text">
+                                            Plati clanarinu
+                                        </Button>
+                                    </TableCell>
 
-                                <TableCell style={{ width: 160 }} align="right">
-                                    <Button
-                                        onClick={() => obrisiKorisnika('row.id')}
-                                        size="medium"
-                                        variant="outlined"
-                                        color="error"
-                                        startIcon={<DeleteIcon />}>
-                                        Obrisi
-                                    </Button>
-                                </TableCell>
+                                    <TableCell style={{ width: 160 }} align="right">
+                                        <Button
+                                            onClick={() => obrisiKorisnika(row.id)}
+                                            size="medium"
+                                            variant="outlined"
+                                            color="error"
+                                            startIcon={<DeleteIcon />}>
+                                            Obrisi
+                                        </Button>
+                                    </TableCell>
 
-                            </TableRow>
-                        ))}
+                                </TableRow>
+                            ))}
 
                         {emptyRows > 0 && (
                             <TableRow style={{ height: 53 * emptyRows }}>

@@ -282,7 +282,6 @@ router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
 router.get("/vratiVerifikovaneNaloge", async (req, res) => {
 
   try {
-       
     const korisnici = await Korisnik.find({verifikovan:true})
     if(korisnici!=null){
       

@@ -40,6 +40,7 @@ router.post("/register", async (req, res) => {
 
       const noviKor=await noviKorisnik.save();
       res.status(200).json(noviKor)
+     
     }
 
     res.status(200).json(user);
