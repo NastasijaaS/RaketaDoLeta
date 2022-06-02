@@ -224,6 +224,44 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 });
 
+
+//dodaj trenera
+router.post("/dodajTrenera/:id", async (req, res) => {
+
+
+  try 
+  {
+
+        const kor = await RegistrovaniKorisnik.findById(req.params.id);
+        if (kor != null) 
+        {
+
+            const noviTrener = await new Trener({
+                registrovaniKorisnikId: kor._id,
+                iskustvo: req.body.iskustvo,
+                sertifikati: req.body.sertifikati,
+                slika: req.body.slika,
+                opis: req.body.opis
+                
+            })
+
+            const trenerSave = await noviTrener.save()
+            res.status(200).json(trenerSave)
+
+        }
+    
+
+    else {
+        res.status(404).json("Nije nadjen registrovani korisnik");
+    }
+
+}
+catch (err) {
+    res.status(500).json(err);
+}
+
+});
+
 //dodaj korisnika, tj od registrovanog korisnika se napravi korisnik
 router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
 
