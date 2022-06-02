@@ -12,6 +12,7 @@ const TrenerSchema = new mongoose.Schema({
     sertifikati:{
         type:Array,
         default:[]
+    
     },
     listaKlijenata:{
         type:Array,
