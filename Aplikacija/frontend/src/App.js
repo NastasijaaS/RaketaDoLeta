@@ -15,14 +15,32 @@ import { CssBaseline } from '@mui/material';
 import Navbar from './components/komponente/Navbar';
 import Uprava from './components/profil/ProfilUprava'
 import Footer from './components/komponente/Footer';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#f8af00',
+    },
+    secondary: {
+      main: '#004af8',
+    },
+    error: {
+      main: '#f83200',
+    },
+  },
+});
+
 
 function App() {
 
   const { user } = useContext(UserContext);
 
   return (
+    <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
     <Router>
-      <CssBaseline />
       <ScrollToTop enableColorScheme />
       <Navbar />
 
@@ -67,6 +85,7 @@ function App() {
 
       <Footer />
     </Router>
+    </ThemeProvider>
 
   );
 }

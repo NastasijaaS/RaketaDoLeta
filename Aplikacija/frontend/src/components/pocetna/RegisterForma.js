@@ -96,7 +96,7 @@ const Register = () => {
     const Info = ({ labela, tip, reff }) => {
         return (
             <div>
-                <label>{labela}:
+                {/* <label>{labela}: */}
 
                     <TextField
                         className='loginInp'
@@ -110,7 +110,7 @@ const Register = () => {
 
                     {/* <input className='loginInp' ref={reff}
                         type={tip} placeholder={labela} /> */}
-                </label>
+                {/* </label> */}
             </div>
         )
     }
@@ -126,11 +126,11 @@ const Register = () => {
                 <Info labela='Prezime' tip='text' reff={prezime} />
                 {greska.prezime && <p className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</p>}
 
-                <Info labela='Username' tip='text' reff={username} />
-                {greska.username && <p className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</p>}
-
                 <Info labela='E-mail' tip='email' reff={email} />
                 {greska.mail && <p className='greska'>Unesite ispravan mail</p>}
+
+                <Info labela='Username' tip='text' reff={username} />
+                {greska.username && <p className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</p>}
 
                 <Info labela='Lozinka' tip='password' reff={lozinka} />
                 {greska.lozinka && <p className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</p>}

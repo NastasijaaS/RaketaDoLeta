@@ -72,7 +72,7 @@ const LogIn = () => {
 
                 <h2>Prijavite se:</h2>
 
-                <label>E-mail:
+                {/* <label>E-mail: */}
 
                     <TextField
                         className='loginInp'
@@ -85,7 +85,7 @@ const LogIn = () => {
 
                     {/* <input className='loginInp' ref={mail}
                         type='email' placeholder='e-mail' /> */}
-                </label>
+                {/* </label> */}
 
 
 
@@ -93,7 +93,7 @@ const LogIn = () => {
 
 
 
-                <label>Lozinka:
+                {/* <label>Lozinka: */}
 
                     <TextField
                         className='loginInp'
@@ -108,7 +108,7 @@ const LogIn = () => {
                     {/* <input className='loginInp' ref={lozinka}
                         minLength='6'
                         type='password' placeholder='lozinka' /> */}
-                </label>
+                {/* </label> */}
 
                 {greska.lozinka && <p className='greska'>Lozinka mora imati najmanje 6 karaktera</p>}
 

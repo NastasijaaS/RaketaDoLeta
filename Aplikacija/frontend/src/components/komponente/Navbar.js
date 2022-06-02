@@ -44,7 +44,7 @@ const Navbar = () => {
   const { user } = useContext(UserContext);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="primary" enableColorOnDark>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* POGLED ZA DESKTOP*/}
@@ -73,7 +73,7 @@ const Navbar = () => {
               <Button
                 key={page.val}
                 href={page.link}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', textAlign:'center', display: 'block' }}
               >
                 {page.val}
               </Button>
@@ -149,8 +149,8 @@ const Navbar = () => {
           {!user &&
             <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
               <Tooltip title="Login">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <LoginIcon sx={{ color: 'white' }} />
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color:'inherit' }}>
+                  <LoginIcon />
                 </IconButton>
               </Tooltip>
 
@@ -190,8 +190,10 @@ const Navbar = () => {
             {
               !user &&
               <Button
+                variant='contained'
+                color ='secondary'
                 href='/login'
-                sx={{ my: 2, color: 'white', display: { xs: 'none', md: 'inline' } }}
+                sx={{  color: 'white', display: { xs: 'none', md: 'inline' } }}
               >
                 Log in
               </Button>
@@ -200,8 +202,10 @@ const Navbar = () => {
             {
               !user &&
               <Button
+                variant='contained'
+                color ='secondary'
                 href='/signup'
-                sx={{ my: 2, color: 'white', display: { xs: 'none', md: 'inline' } }}
+                sx={{m:1, color: 'white', display: { xs: 'none', md: 'inline' } }}
               >
                 Sign up
               </Button>
@@ -210,10 +214,11 @@ const Navbar = () => {
             {user &&
               <Tooltip title="Account">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <AccountCircleOutlinedIcon sx={{ color: 'white' }} />
+                  <AccountCircleOutlinedIcon/>
                 </IconButton>
               </Tooltip>
-              &&
+            }
+            {user &&
               <Menu
                 sx={{ mt: '45px' }}
                 id="menu-appbar"
