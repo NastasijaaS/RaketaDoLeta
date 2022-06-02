@@ -114,29 +114,29 @@ router.get("/vidiTrenere", async (req, res) => {
 
             let treneri = []
 
-            trener.forEach(async (tre) => {
+            for (let i=0; i<trener.length; i++){
 
-                const t = await RegistrovaniKorisnik.findById({ _id: tre.registrovaniKorisnikId })
+                const t = await RegistrovaniKorisnik.findById(trener[i].registrovaniKorisnikId)
 
-              
-            
 
                 const tr = {
                     ime: t.ime,
                     prezime: t.prezime,
-                    opis: tre.opis,
-                    slika: tre.slika,
-                    sertifikati: tre.sertifikati,
-                    iskustvo:tre.iskustvo,
+                    opis: trener[i].opis,
+                    slika: trener[i].slika,
+                    sertifikati: trener[i].sertifikati,
+                    iskustvo:trener[i].iskustvo,
                     email: t.email
                 }
 
                 treneri.push(tr)
-
+            }
                 res.status(200).json(treneri)
-            })
+                
+           
 
         }
+        
         else {
             res.status(400).json("Nema trenera za prikaz")
         }
