@@ -79,14 +79,13 @@ const Treneri = () => {
         <div className="treneri">
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
-            {treneri.map((tr, i) => (
+            {sviTreneri.map((tr, i) => (
                 <div key={i} className="trener">
                     <div className="divZaSliku" >
                         <img src={tr.slika} />
                     </div>
                     <div id={i} className="divZaOpis">
                         <h3 className='ime'>{tr.ime} {tr.prezime}</h3>
-
                         <p>Sertifikovan za: {
                             tr.sertifikati.map((s, i) => (
                                 <span key={i}>{s.naziv} </span>

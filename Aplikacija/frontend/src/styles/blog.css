@@ -1,17 +1,14 @@
-.sviBlogovi, .blog{
+ .sviBlogovi{
     display: flex;
     flex-direction: column;
     align-items: center;
 
     justify-content: center;
-    gap: 20px;
 }
 .sviBlogovi{
-    margin: 16vh 20vw;
+    margin: 5vh 5vw;
 }
-.blog{
-    gap: 0px;
-}
+
 .divZaIzbor{
     display: flex;
     justify-content: space-around;
@@ -22,3 +19,7 @@
     width: 30vw;
     cursor: pointer;
 }
+img{
+    height: 50vh;
+    width: 50vw;
+} 

@@ -1,9 +1,10 @@
-
+import '../../styles/Pocetna.css'
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
 import { UserContext } from '../../context/UserContext';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
+
 
 
 function Header() {
@@ -85,9 +86,10 @@ const Pocetna = () => {
     return (
     <div className='container'>
         <div className = 'center' >
+            <Typography> Krenimo zajedno u novu avanturu</Typography>
             <Link to = '/usluge'>
-                <Button variant="outlined" id = 'centralBtn' size = 'large'>         
-                        Krenimo zajedno u novu avanturu  
+                <Button variant="outlined" id = 'centralBtn' size = 'large'>
+                    Zakazite trening         
                 </Button>
             </Link>
         </div>
