@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useNavigate , Link} from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,21 +15,40 @@ import MenuItem from '@mui/material/MenuItem';
 import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LoginIcon from '@mui/icons-material/Login';
-import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 
 
-const pages = [{ val: 'Trenirajte sa nama', link: '/usluge' }, { val: 'Treneri', link: '/treneri' }, { val: 'O nama', link: '/onama' }, { val: 'Blog', link: '/blog' }, { val: 'Kontakt', link: ' ' }];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = [
+  { val: 'Trenirajte sa nama', link: '/usluge' },
+  { val: 'Treneri', link: '/treneri' },
+  { val: 'O nama', link: '/onama' },
+  { val: 'Blog', link: '/blog' },
+  { val: 'Kontakt', link: ' ' },
+];
+
+// const settings = [
+//   { val: 'Profil', link: '/profil' },
+//   { val: 'Napredak', link: '/napredak' },
+//   { val: 'Zakazani treninzi', link: '/treninzi' },
+//   { val: 'Odjavi se', link: '' },
+// ];
+
+
+const settings = ['Profil', 'Napredak', 'Treninzi', 'Odjavi se'];
 
 const Navbar = () => {
+
+  const { user, dispatch } = useContext(UserContext);
+
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -41,7 +61,30 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  const { user } = useContext(UserContext);
+  let navigate = useNavigate();
+
+  const handleUserMenu = (setting) => {
+    console.log(setting)
+    switch (setting) {
+      case 'Profil':
+        navigate("../profil", { replace: true });
+        break;
+      case 'Napredak':
+        navigate("../napredak", { replace: true });
+        break;
+      case 'Treninzi':
+        navigate("../treninzi", { replace: true });
+        break;
+
+      default:
+        dispatch({ tip: "ODJAVI" })
+        navigate('../pocetna')
+        break;
+    }
+    handleCloseUserMenu()
+  }
+
+
 
   return (
     <AppBar position="static" color="primary" enableColorOnDark>
@@ -73,7 +116,7 @@ const Navbar = () => {
               <Button
                 key={page.val}
                 href={page.link}
-                sx={{ my: 2, color: 'white', textAlign:'center', display: 'block' }}
+                sx={{ my: 2, color: 'white', textAlign: 'center', display: 'block' }}
               >
                 {page.val}
               </Button>
@@ -111,14 +154,11 @@ const Navbar = () => {
               }}
             >
               {pages.map((page, i) => (
-
-                <MenuItem key={page.val} onClick={handleCloseNavMenu}>
-                  <Link to={page.link} >
-                    {/* <Link to = {page.link}>{page.val}</Link> */}
+                <Link to={page.link} key={page.val} >
+                  <MenuItem onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page.val}</Typography>
-                  </Link>
-                </MenuItem>
-
+                  </MenuItem>
+                </Link>
               ))}
 
             </Menu>
@@ -149,7 +189,7 @@ const Navbar = () => {
           {!user &&
             <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
               <Tooltip title="Login">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color:'inherit' }}>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'inherit' }}>
                   <LoginIcon />
                 </IconButton>
               </Tooltip>
@@ -191,9 +231,9 @@ const Navbar = () => {
               !user &&
               <Button
                 variant='contained'
-                color ='secondary'
+                color='secondary'
                 href='/login'
-                sx={{  color: 'white', display: { xs: 'none', md: 'inline' } }}
+                sx={{ color: 'white', display: { xs: 'none', md: 'inline' } }}
               >
                 Log in
               </Button>
@@ -203,9 +243,9 @@ const Navbar = () => {
               !user &&
               <Button
                 variant='contained'
-                color ='secondary'
+                color='secondary'
                 href='/signup'
-                sx={{m:1, color: 'white', display: { xs: 'none', md: 'inline' } }}
+                sx={{ m: 1, color: 'white', display: { xs: 'none', md: 'inline' } }}
               >
                 Sign up
               </Button>
@@ -214,7 +254,7 @@ const Navbar = () => {
             {user &&
               <Tooltip title="Account">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <AccountCircleOutlinedIcon/>
+                  <AccountCircleOutlinedIcon />
                 </IconButton>
               </Tooltip>
             }
@@ -236,9 +276,11 @@ const Navbar = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+
+                  <MenuItem key={setting} onClick={() => { handleUserMenu(setting) }}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
+
                 ))}
               </Menu>
             }

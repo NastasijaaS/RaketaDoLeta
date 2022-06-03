@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -19,6 +19,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import '../../styles/tabela.css'
 import { DeleteMetoda, PutMetoda, GetData } from './Fetch'
 import axios from 'axios'
+import { UserContext } from '../../context/UserContext';
+
 
 function TablePaginationActions(props) {
 
@@ -57,6 +59,8 @@ function TablePaginationActions(props) {
 }
 
 export default function Tabela(props) {
+
+    const { user } = useContext(UserContext);
 
     const [korisnici, setKorisnici] = useState([])
     const [greska, setGreska] = useState(false)
@@ -135,16 +139,19 @@ export default function Tabela(props) {
     const obrisiKorisnika = async (id) => {
 
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava/' + id
+            url: 'http://localhost:8800/api/uprava/' + user.id,
+            body: {
+                korisnikId: id
+            }
         }
 
         await DeleteMetoda(zahtev, setGreska, setIsLoading)
 
-        if (greska !== 'false') {
+        if (greska !== false) {
             alert('doslo je do greske')
-        } else {
-            setRefresh(!refresh)
         }
+        setRefresh(!refresh)
+
     }
 
     const unesiClanarinu = (id) => {
@@ -208,7 +215,7 @@ export default function Tabela(props) {
                     <TableHead>
                         <TableRow sx={{ 'borderBottom': '1px solid rgba(224, 224, 224, 1) ' }}>
 
-                            <TableCell sx={{ 'text-align': 'center' }}>
+                            <TableCell sx={{ 'textAlign': 'center' }}>
                                 Ime i prezime
                             </TableCell>
 
@@ -216,7 +223,7 @@ export default function Tabela(props) {
                                 E-mail
                             </TableCell>
 
-                            {props.verifikovan && <TableCell sx={{ 'text-align': 'center' }}>
+                            {props.verifikovan && <TableCell sx={{ 'textAlign': 'center' }}>
                                 Datum isteka clanarine
                             </TableCell>}
 

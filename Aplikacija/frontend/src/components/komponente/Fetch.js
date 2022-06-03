@@ -12,6 +12,7 @@ export const GetData = async (url, setData, setError, setIsLoading) => {
         if (response.ok) {
 
             const data = await response.json();
+            console.log(data)
             setData(data);
         }
         else {
@@ -125,7 +126,7 @@ export const DeleteMetoda = async (zahtev, setGreska, setIsLoading) => {
     setGreska(false)
 
     await fetch(zahtev.url, {
-        method: "PUT",
+        method: "DELETE",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -135,6 +136,8 @@ export const DeleteMetoda = async (zahtev, setGreska, setIsLoading) => {
         p.json()
             .then(data => {
                 if (p.ok) {
+
+                    console.log(p)
                     // setData(data)
                     setIsLoading(false)
                     setGreska(false)

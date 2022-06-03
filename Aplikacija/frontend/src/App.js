@@ -16,6 +16,8 @@ import Navbar from './components/komponente/Navbar';
 import Uprava from './components/profil/ProfilUprava'
 import Footer from './components/komponente/Footer';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import ZakazaniTreninzi from './components/profil/Korisnik/ZakazaniTreninzi';
+import Napredak from './components/profil/Korisnik/Napredak';
 
 const darkTheme = createTheme({
   palette: {
@@ -39,52 +41,56 @@ function App() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-    <CssBaseline />
-    <Router>
-      <ScrollToTop enableColorScheme />
-      <Navbar />
+      <CssBaseline />
+      <Router>
+        <ScrollToTop enableColorScheme />
+        <Navbar />
 
-      <Routes>
+        <Routes>
 
-        <Route path='/' element={<Pocetna />}>
-        </Route>
+          <Route path='/' element={<Pocetna />}>
+          </Route>
 
-        <Route path='/pocetna' element={<Pocetna />}>
-        </Route>
+          <Route path='/pocetna' element={<Pocetna />}>
+          </Route>
 
-        <Route path='/treneri' element={<Treneri />}>
-        </Route>
+          <Route path='/treneri' element={<Treneri />}>
+          </Route>
 
-        <Route path='/onama' element={<Onama />}>
-        </Route>
+          <Route path='/onama' element={<Onama />}>
+          </Route>
 
-        <Route path='/usluge' element={<Usluge />}>
-        </Route>
+          <Route path='/usluge' element={<Usluge />}>
+          </Route>
 
-        <Route path='/blog' element={<Blog />}>
-        </Route>
+          <Route path='/blog' element={<Blog />}>
+          </Route>
 
-        <Route path='/login' element=
-          {user ? <Navigate replace to="/profil" /> : <LogIn />}>
-        </Route>
+          <Route path='/login' element=
+            {user ? <Navigate replace to="/profil" /> : <LogIn />}>
+          </Route>
 
-        <Route path='/signup' element=
-          {user ? <Navigate replace to="/profil" /> : <Register />}>
-        </Route>
+          <Route path='/signup' element=
+            {user ? <Navigate replace to="/profil" /> : <Register />}>
+          </Route>
 
-        <Route path='/profil' element=
-          {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />}>
-        </Route>
+          <Route path='/profil' element=
+            {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />}>
+          </Route>
 
-        <Route path='/uprava' element={<Uprava />} />
+          <Route path='/uprava' element={<Uprava />} />
+
+          <Route path='/napredak' element={<Napredak />} />
+          <Route path='/treninzi' element={<ZakazaniTreninzi />} />
 
 
-        {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
 
-      </Routes>
+          {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
 
-      <Footer />
-    </Router>
+        </Routes>
+
+        <Footer />
+      </Router>
     </ThemeProvider>
 
   );

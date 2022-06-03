@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer } from "react";
 import UserReducer from "./UserReducer";
 
 const defaultValue = {
-    user: null,
+    user: JSON.parse(localStorage.getItem("user")) || null,
     ucitavaSe: false,
     error: null,
     // setUser: (user) => { }
@@ -12,6 +12,10 @@ const UserContext = createContext(defaultValue);
 
 const UserContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(UserReducer, defaultValue);
+
+    useEffect(() => {
+        localStorage.setItem("user", JSON.stringify(state.user))
+    }, [state.user])
 
     return (
         <UserContext.Provider
