@@ -1,48 +1,13 @@
 import '../../styles/Treneri.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import KalendarForma from '../komponente/KalendarForma';
 import { GetData } from '../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';
+import { Card, CardMedia, CardContent, Typography,Button, Grid } from '@mui/material';
+import { Box } from '@mui/system';
+import { UserContext } from '../../context/UserContext';
 
-const treneri = [{
-    id: 5,
-    ime: 'mika',
-    prezime: 'mikic',
-    sertifikati: [{
-        naziv: 'jedan'
-    },
-    {
-        naziv: 'dva'
-    }],
-    opis: 'neki opis o treneru',
-    slika: 'https://media.istockphoto.com/photos/portrait-of-a-beautiful-woman-at-the-gym-picture-id856797530?k=20&m=856797530&s=612x612&w=0&h=kFFhoXpDoF6jCmerJe-cZzOMKRvpl2orilNip2t3McU='
-},
-{
-    id: 5,
-    ime: 'mika',
-    prezime: 'mikic',
-    sertifikati: [{
-        naziv: 'jedan'
-    },
-    {
-        naziv: 'dva'
-    }],
-    opis: 'neki opis o treneru',
-    slika: 'https://media.istockphoto.com/photos/portrait-of-a-beautiful-woman-at-the-gym-picture-id856797530?k=20&m=856797530&s=612x612&w=0&h=kFFhoXpDoF6jCmerJe-cZzOMKRvpl2orilNip2t3McU='
-},
-{
-    id: 5,
-    ime: 'mika',
-    prezime: 'mikic',
-    sertifikati: [{
-        naziv: 'jedan'
-    },
-    {
-        naziv: 'dva'
-    }],
-    opis: 'neki opis o treneru',
-    slika: 'https://media.istockphoto.com/photos/portrait-of-a-beautiful-woman-at-the-gym-picture-id856797530?k=20&m=856797530&s=612x612&w=0&h=kFFhoXpDoF6jCmerJe-cZzOMKRvpl2orilNip2t3McU='
-}]
+
 
 const Treneri = () => {
 
@@ -54,6 +19,8 @@ const Treneri = () => {
         GetData("http://localhost:8800/api/korisnik/vidiTrenere", setTreneri, setGreska, setIsLoading)
 
     }, [])
+
+    const { user, dispatch } = useContext(UserContext);
 
     const [detalji, setDetalji] = useState({ id: -1, state: true });
     const [zakazi, setZakazi] = useState(false);
@@ -79,33 +46,65 @@ const Treneri = () => {
         <div className="treneri">
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
-            {sviTreneri.map((tr, i) => (
-                <div key={i} className="trener">
-                    <div className="divZaSliku" >
-                        <img src={tr.slika} />
-                    </div>
-                    <div id={i} className="divZaOpis">
-                        <h3 className='ime'>{tr.ime} {tr.prezime}</h3>
-                        <p>Sertifikovan za: {
+            {sviTreneri.map((tr, i) => (       
+                <Card key={i} container className="trener" sx={{ margin:'5vh 5vw'}}>
+                    <Grid container >
+                    
+                    <Grid  item xs = {12} sm ={4}>
+                    <CardMedia
+                     component="img"
+                     src={tr.slika}
+                     alt ={tr.ime}            
+                     className="trImg"/>
+                    </Grid>
+                    <Grid  item xs = {12} sm ={8}>
+                    <CardContent id={i} className="divZaOpis" sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="h6">
+                            {tr.ime} {tr.prezime}
+                        </Typography>
+                        <Typography component="div" variant="subtitle2" >
+                            Sertifikovan za: {
                             tr.sertifikati.map((s, i) => (
-                                <span key={i}>{s.naziv} </span>
+                                <Typography variant="body2" key={i}>{s}</Typography >
                             ))
-                        } </p>
+                            }
+                        </Typography>
 
-                        {!detalji.state && detalji.id == i && <p>{tr.opis}</p>}
+                        <Typography component="div" variant="subtitle2" >
+                            Iskustvo: {
+                            tr.iskustvo.map((is, i) => (
+                                <Typography variant="body2" key={i}>{is}, </Typography>
+                            ))
+                            }
+                        </Typography>
+                        <Typography component="div" variant="subtitle2" >
+                            Opis:
+                            <Typography variant="body2"> {tr.opis}</Typography>
+                            
+                        </Typography>
+                        {user &&
+                        
+                        <Button fullWidth variant = "contained">Zakazi trening</Button>
+                        
+                        
+                        }
+
+                        {/* {!detalji.state && detalji.id == i && <p></p>} */}
 
                         {/* {!detalji.state && detalji.id == i && zakazi && 
                             <KalendarForma id={i} imeTrenera={tr.ime} prezimeTrenera={tr.prezime} />} */}
 
                         {/* {detalji.id !== i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>} */}
-                        {vise != i && <button className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</button>}
+                        {/* {vise != i && <Button variant="contained" size = "small" className='dugme' id={i} onClick={prikaziVise}>Prikazi vise</Button>} */}
 
-                        {detalji.id == i && <button className='dugme' onClick={prikaziManje}>Sakrij</button>}
+                        {/* {detalji.id == i && <Button variant="contained" size = "small" className='dugme' onClick={prikaziManje}>Sakrij</Button>} */}
                         {/* {!detalji.state && detalji.id == i && !zakazi && <button className='dugme' onClick={zakaziForma}>Vidi raspored</button>} */}
 
-                    </div>
-
-                </div>
+                    </CardContent>
+                    
+                    </Grid> 
+                    </Grid>              
+                </Card>
             ))}
 
         </div>

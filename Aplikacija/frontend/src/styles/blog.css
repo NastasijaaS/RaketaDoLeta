@@ -6,7 +6,7 @@
     justify-content: center;
 }
 .sviBlogovi{
-    margin: 5vh 5vw;
+    margin: 15vh 15vw;
 }
 
 .divZaIzbor{
@@ -19,7 +19,7 @@
     width: 30vw;
     cursor: pointer;
 }
-img{
+/* img{
     height: 50vh;
     width: 50vw;
-} 
+}  */
