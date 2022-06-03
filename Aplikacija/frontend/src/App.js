@@ -18,6 +18,7 @@ import Footer from './components/komponente/Footer';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ZakazaniTreninzi from './components/profil/Korisnik/ZakazaniTreninzi';
 import Napredak from './components/profil/Korisnik/Napredak';
+import GrupniTreninzi from './components/pocetna/GrupniTreninzi';
 
 const darkTheme = createTheme({
   palette: {
@@ -81,9 +82,9 @@ function App() {
           <Route path='/uprava' element={<Uprava />} />
 
           <Route path='/napredak' element={<Napredak />} />
-          <Route path='/treninzi' element={<ZakazaniTreninzi />} />
+          <Route path='/vasitreninzi' element={<ZakazaniTreninzi />} />
 
-
+          <Route path='/grupnitreninzi' element={<GrupniTreninzi />} />
 
           {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
 
