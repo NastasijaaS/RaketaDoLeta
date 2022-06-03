@@ -28,8 +28,11 @@ const TrenerSchema = new mongoose.Schema({
     },
     opis:{
         type:String
+    },
+    drzigrupne:{
+        type:Boolean
     }
-    
+ 
 },
 {timestamps:true}
 )

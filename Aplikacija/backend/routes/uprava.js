@@ -241,7 +241,8 @@ router.post("/dodajTrenera/:id", async (req, res) => {
                 iskustvo: req.body.iskustvo,
                 sertifikati: req.body.sertifikati,
                 slika: req.body.slika,
-                opis: req.body.opis
+                opis: req.body.opis,
+                drzigrupne:req.body.drzigrupne
                 
             })
 
