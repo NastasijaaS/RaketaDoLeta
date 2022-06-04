@@ -192,6 +192,7 @@ export default function Tabela(props) {
             alert('doslo je do greske')
             console.log(greska)
         }
+        setRefresh(!refresh)
     }
 
     const verifikujNalog = async (id) => {
@@ -232,8 +233,7 @@ export default function Tabela(props) {
                                 value={usl._id}
                                 control={<Radio />}
                                 onChange={handleRadioChange}
-                                label={usl.opis} />
-
+                                label={usl.naziv} />
                         ))}
                     </Grid>
                 </Grid>

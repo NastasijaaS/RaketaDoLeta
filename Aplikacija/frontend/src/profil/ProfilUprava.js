@@ -39,7 +39,7 @@ export const Uprava = () => {
     };
 
     return (
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex'}}>
             <Tabs
                 orientation="vertical"
                 variant="scrollable"
@@ -49,8 +49,6 @@ export const Uprava = () => {
 
                 <Tab label="Korisnici" />
                 <Tab label="Neverifikovani nalozi" />
-
-
                 <Tab label="Usluge" />
                 <Tab label="Treneri" />
                 <Tab label="Treninzi" />

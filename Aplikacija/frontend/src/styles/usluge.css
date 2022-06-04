@@ -1,6 +1,6 @@
 .sveUsluge {
     align-content: center;
-    margin: 25vh 15vw 25vw 15vw;
+    margin: 5vh 15vw 25vw 15vw;
 }
 
 .usluga {
@@ -9,9 +9,12 @@
     flex-wrap: wrap;
     border-bottom-style: outset;
     justify-content: space-around;
-    height: 9vh;
+    height: 7vh;
 }
-
+.usluga:hover{
+    cursor: pointer;
+    background-color: aliceblue;
+}
 .datumi {
     align-content: center;
     display: flex;

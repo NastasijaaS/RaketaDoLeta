@@ -103,7 +103,7 @@ router.post("/dodajUslugu", async (req, res) => {
     const usluga = await new Usluga({
       cena: req.body.cena,
       opis: req.body.opis,
-      naziv:req.body.naziv
+      naziv: req.body.naziv
     })
 
     const uslugaSave = await usluga.save()
@@ -283,14 +283,19 @@ router.get("/vratiVerifikovaneNaloge", async (req, res) => {
       for (let i = 0; i < korisnici.length; i++) {
         const regKorisnik = await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
         const clanarina = await Clanarina.findOne({ korisnikId: korisnici[i]._id })
-        const clanarinaDo = new Date(clanarina.datumUplate)
-        clanarinaDo.setDate(clanarinaDo.getDate() + parseInt(clanarina.trajanje))
+        let clanarinaDo = null
+        if (clanarina !== null) {
+          clanarinaDo = new Date(clanarina.datumUplate)
+          clanarinaDo.setDate(clanarinaDo.getDate() + parseInt(clanarina.trajanje))
+          clanarinaDo = clanarinaDo.toLocaleDateString()
+        }
+
         let kor = {
           id: korisnici[i]._id,
           ime: regKorisnik.ime,
           prezime: regKorisnik.prezime,
           email: regKorisnik.email,
-          clanarinaDo: clanarinaDo.toLocaleDateString()
+          clanarinaDo: clanarinaDo
         }
         vrati.push(kor)
       }
