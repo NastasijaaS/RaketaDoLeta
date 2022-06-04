@@ -20,7 +20,7 @@ const ClanarinaSchema = new mongoose.Schema({
     },
     uslugaId:{
         type:String,
-        required:true
+        //required:true
     }
    
     

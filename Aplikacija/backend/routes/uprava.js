@@ -95,6 +95,46 @@ router.put("/dodajClanarinu/:idKorisnika/:idUsluge", async (req, res) => {
 
 })
 
+//DODAJ CLANARINU KORISNIKU NE RADI
+/*router.put("/dodajClanarinu/:idKorisnika/:idUslugee:/trajanjeClanarine", async (req, res) => {
+  try {
+    const korisnik = await Korisnik.findById(req.params.idKorisnika)
+    if (korisnik != null) {
+        const clanarina = await Clanarina.find({ korisnikId: req.params.idKorisnika })
+        if (clanarina.trajanje==0) {
+
+          const usluga = await Usluga.findById(req.params.idUslugee)
+          if (usluga != null) {
+            await clanarina.updateOne( { $set: { cena: usluga.cena,datumUplate: newDate(),trajanje:req.params.trajanjeClanarine,uslugaId:req.params.idUslugee } })
+            res.status(200).json(clanarina);
+
+      }
+      else {
+        res.status(404).json("Usluga nije pronadjena")
+      }    
+
+        }
+        else {
+            res.status(404).json("Nije pronadjena clanarina za ovog korisnika")
+        }
+
+    }
+    else {
+        res.status(404).json("Nije pronadjen korisnik")
+    }
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+})*/
+
+
+
+
+
+
+
+
 //dodaj uslugu
 router.post("/dodajUslugu", async (req, res) => {
 
@@ -225,6 +265,42 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 });
 
+//vrati listu odbijenih  NE ZNAM STO NE RADI
+/*router.get("/vratiZahteveOdbijeni", async (req, res) => {
+
+  try {
+    
+    const zahtev = await Zahtev.find({ status:Ukinuto })
+  
+      if (zahtev.length != 0) 
+      {
+
+          let zahtevi = []
+
+          for (let i = 0; i < zahtev.length; i++) {
+
+              const zah = {
+
+                poruka:zahtevi[i].poruka
+
+              }
+
+              zahtevi.push(zah)
+          }
+          res.status(200).json(zahtevi)
+      }
+
+      else {
+          res.status(400).json("Nema zahteva za prikaz")
+      }
+
+  }
+  catch (err) {
+      res.status(500).json(err);
+  }
+
+})*/
+
 
 //dodaj trenera
 router.post("/dodajTrenera/:id", async (req, res) => {
@@ -271,6 +347,31 @@ router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
   }
 
 });
+
+//VERIFIKUJ I NAPRAVI CLANARINU (RADI)
+/*router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
+
+  try {
+
+    const korisnik = await Korisnik.findByIdAndUpdate(req.params.idKorisnika, { $set: { verifikovan: true } })
+    res.status(200).json(korisnik);
+    const clanarina = await new Clanarina({
+      datumUplate: new Date(),
+      trajanje: 0,
+      korisnikId: req.params.idKorisnika
+      
+
+    })
+    const clanarinaSave = await clanarina.save()
+    res.status(200).json(clanarinaSave)
+
+  }
+
+  catch (err) {
+    res.status(500).json(err);
+  }
+
+});*/
 
 //vrati verifikovane naloge
 router.get("/vratiVerifikovaneNaloge", async (req, res) => {
