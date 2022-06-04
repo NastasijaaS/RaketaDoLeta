@@ -12,6 +12,18 @@ const RegistrovaniKorisnik = require("../models/RegistrovaniKorisnik")
 const Sertifikat = require("../models/Sertifikat.js");
 const Clanarina = require("../models/Clanarina.js");
 
+//izmeni parametre
+router.put("/izmeniParametre/:idKorisnika", async (req, res) => {
+    try {
+
+        const korisnik=await Korisnik.findByIdAndUpdate(req.params.idKorisnika, {$set:req.body})
+        res.status(200).json(korisnik);
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+})
+
 
 //zakazi personalni trening
 router.post("/zakaziPersonalniTrening/:idKorisnika", async (req, res) => {
