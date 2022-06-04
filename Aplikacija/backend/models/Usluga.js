@@ -9,6 +9,9 @@ const UslugaSchema = new mongoose.Schema({
    opis:{
        type:String
 
+   },
+   naziv:{
+       type:String
    }
    
     
