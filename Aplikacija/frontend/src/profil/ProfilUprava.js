@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Tabela from './Uprava/TabelaKorisnici';
 import TabelaUsluge from './Uprava/TabelaUsluge';
 
-//dodaj izmeni obrisi uslugu
+
 //dodaj sertifikat treneru
 
 //zahtev za treningom

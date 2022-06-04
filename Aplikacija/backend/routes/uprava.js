@@ -140,7 +140,7 @@ router.delete("/obrisiUslugu/:idUsluge", async (req, res) => {
 
   try {
 
-    await Usluga.findOneAndDelete(req.params.idUsluge)
+    await Usluga.findByIdAndDelete(req.params.idUsluge)
     res.status(200).json("Usluga je uspesno obrisana")
 
   }

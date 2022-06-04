@@ -1,6 +1,5 @@
 
 
-//dodaj korisnika
 //izmeni korisnika
 //obrisi klijenta
 //get klijente
