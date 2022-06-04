@@ -2,7 +2,7 @@
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
 
-import '../../styles/Modal.css'
+import '../styles/Modal.css'
 
 const modalRoot = document.getElementById("forma");
 

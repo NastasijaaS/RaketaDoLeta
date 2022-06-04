@@ -227,27 +227,22 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
 
 //dodaj trenera
 router.post("/dodajTrenera/:id", async (req, res) => {
-
-
   try {
 
     const kor = await RegistrovaniKorisnik.findById(req.params.id);
     if (kor != null) {
-
       const noviTrener = await new Trener({
         registrovaniKorisnikId: kor._id,
         iskustvo: req.body.iskustvo,
         sertifikati: req.body.sertifikati,
         slika: req.body.slika,
-        opis: req.body.opis
+        opis: req.body.opis,
+        drzigrupne: req.body.drzigrupne
 
       })
-
       const trenerSave = await noviTrener.save()
       res.status(200).json(trenerSave)
-
     }
-
 
     else {
       res.status(404).json("Nije nadjen registrovani korisnik");
@@ -294,7 +289,7 @@ router.get("/vratiVerifikovaneNaloge", async (req, res) => {
           ime: regKorisnik.ime,
           prezime: regKorisnik.prezime,
           email: regKorisnik.email,
-          clanarinaDo: clanarinaDo
+          clanarinaDo: clanarinaDo.toLocaleDateString()
         }
         vrati.push(kor)
       }

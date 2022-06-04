@@ -32,15 +32,16 @@ router.post("/register", async (req, res) => {
 
     const user = await novi.save();
 
-    if (tipKorisnika=="Korisnik"){
-      const noviKorisnik=await new Korisnik({
-        registrovaniKorisnikId:user._id,
-        verifikovan:false
+    if (tipKorisnika == "Korisnik") {
+      const noviKorisnik = await new Korisnik({
+        registrovaniKorisnikId: user._id,
+        verifikovan: false
       })
 
-      const noviKor=await noviKorisnik.save();
+      const noviKor = await noviKorisnik.save();
       res.status(200).json(noviKor)
-     
+      return
+
     }
 
     res.status(200).json(user);

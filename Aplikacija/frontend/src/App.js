@@ -1,24 +1,24 @@
 import './App.css';
-import { Header, Pocetna } from './components/pocetna/Pocetna';
-import LogIn from './components/pocetna/LoginForma'
-import Treneri from './components/pocetna/Treneri'
-import Onama from './components/pocetna/ONama'
-import Usluge from './components/pocetna/Usluge'
-import Blog from './components/pocetna/Blog'
-import Register from './components/pocetna/RegisterForma';
-import ScrollToTop from './components/ScrollToTop';
-import UserPocetna from './components/pocetna/UserPocetna';
+import { Header, Pocetna } from './pocetna/Pocetna';
+import LogIn from './pocetna/LoginForma'
+import Treneri from './pocetna/Treneri'
+import Onama from './pocetna/ONama'
+import Usluge from './pocetna/Usluge'
+import Blog from './pocetna/Blog'
+import Register from './pocetna/RegisterForma';
+import ScrollToTop from './komponente/ScrollToTop';
+import UserPocetna from './pocetna/UserPocetna';
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { UserContext } from './context/UserContext';
 import { CssBaseline } from '@mui/material';
-import Navbar from './components/komponente/Navbar';
-import Uprava from './components/profil/ProfilUprava'
-import Footer from './components/komponente/Footer';
+import Navbar from './komponente/Navbar';
+import Uprava from './profil/ProfilUprava'
+import Footer from './komponente/Footer';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import ZakazaniTreninzi from './components/profil/Korisnik/ZakazaniTreninzi';
-import Napredak from './components/profil/Korisnik/Napredak';
-import GrupniTreninzi from './components/pocetna/GrupniTreninzi';
+import ZakazaniTreninzi from './profil/Korisnik/ZakazaniTreninzi';
+import Napredak from './profil/Korisnik/Napredak';
+import GrupniTreninzi from './pocetna/GrupniTreninzi';
 
 const darkTheme = createTheme({
   palette: {

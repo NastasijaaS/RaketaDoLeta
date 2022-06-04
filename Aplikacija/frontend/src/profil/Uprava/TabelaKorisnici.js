@@ -17,7 +17,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../../styles/tabela.css'
-import { DeleteMetoda, PutMetoda, GetData } from './Fetch'
+import { DeleteMetoda, PutMetoda, GetData } from '../../komponente/Fetch'
 import axios from 'axios'
 import { UserContext } from '../../context/UserContext';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -29,7 +29,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
 import Typography from '@mui/material/Typography';
 
-import Proba from './Proba'
+import Proba from '../../komponente/Proba'
 import { FormControl } from '@mui/material';
 
 function TablePaginationActions(props) {
@@ -90,6 +90,8 @@ export default function Tabela(props) {
             await axios.get(url).then(p => {
 
                 if (p.status === 200) {
+                    p.data.sort((a, b) => new Date(a.clanarinaDo) - new Date(b.clanarinaDo));
+
                     setKorisnici(p.data)
                     setRows(p.data)
                 }
@@ -173,8 +175,6 @@ export default function Tabela(props) {
         setRefresh(!refresh)
 
     }
-
-
 
     const unesiClanarinu = async (idKorisnika) => {
         // console.log(buttonSelected)
@@ -276,9 +276,14 @@ export default function Tabela(props) {
                     </TableCell>
 
                     {
-                        !props.verifikovan && <TableCell style={{ width: 160 }} align="right">
-                            {row.datumUplate}
+                        props.verifikovan &&
+                        <TableCell
+                            style={{ width: 160, color: new Date() > new Date(row.clanarinaDo) ? 'red' : 'inherit' }}
+                            align="right">
+
+                            {row.clanarinaDo}
                         </TableCell>
+
                     }
 
                     {
@@ -291,14 +296,7 @@ export default function Tabela(props) {
                             </Button>
                         </TableCell>
                     }
-                    <TableCell style={{ width: 160 }} align="right">
-                        <Button
-                            onClick={() => unesiClanarinu('row.id', 'idUsluge')}
-                            size="small"
-                            variant="text">
-                            Plati clanarinu
-                        </Button>
-                    </TableCell>
+
                     <TableCell style={{ width: 160 }} align="right">
                         <Button
                             onClick={() => obrisiKorisnika(row.id)}
@@ -314,10 +312,6 @@ export default function Tabela(props) {
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                         <Collapse in={open} timeout="auto" unmountOnExit>
                             <Box sx={{ margin: 1 }}>
-                                <Typography variant="h6" gutterBottom component="div">
-                                    Usluge
-                                </Typography>
-
                                 <Box size="small" sx={{ dispay: 'flex', justifyContent: 'center' }} >
                                     <RadioButtons idKorisnika={row.id} />
                                 </Box>
@@ -345,7 +339,6 @@ export default function Tabela(props) {
                     <Button onClick={cancelSearch} size="medium" variant="outlined" color="error" >
                         Otkazi
                     </Button>
-
                 </div>
 
             </div>

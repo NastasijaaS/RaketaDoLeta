@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import '../../styles/formaZakazi.css'
+import '../styles/formaZakazi.css'
 import axios from "axios";
-import { UserContext } from "../../context/UserContext";
-import  Button  from "@mui/material/Button";
+import { UserContext } from "../context/UserContext";
+import Button from "@mui/material/Button";
 
 
 const tip = [{ naziv: "Gornji deo tela" }, { naziv: "Donji deo tela" }, { naziv: "Kardio" }]
@@ -112,8 +112,8 @@ const FormaZakazi = (props) => {
             </div>
 
             <div>
-                <Button size = 'small' variant="outlined" className="btn" onClick={zakaziTrening}>Potvrdi</Button>
-                <Button size = 'small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
+                <Button size='small' variant="outlined" className="btn" onClick={zakaziTrening}>Potvrdi</Button>
+                <Button size='small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
             </div>
         </form>
     )

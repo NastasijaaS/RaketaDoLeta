@@ -104,11 +104,55 @@ router.put("/ukiniTrening/:idTreninga", async (req, res) => {
     }
 });
 
-
-router.get("/vidiTrenere", async (req, res) => {
+//vidi trenere koji drze grupne
+router.get("/vidiTrenereGrupni", async (req, res) => {
 
     try {
-        const trener = await Trener.find()
+        const trener = await Trener.find({drzigrupne:true})
+
+        if (trener.length != 0) {
+
+            let treneri = []
+
+            for (let i=0; i<trener.length; i++){
+
+                const t = await RegistrovaniKorisnik.findById(trener[i].registrovaniKorisnikId)
+
+
+                const tr = {
+                    ime: t.ime,
+                    prezime: t.prezime,
+                    opis: trener[i].opis,
+                    slika: trener[i].slika,
+                    sertifikati: trener[i].sertifikati,
+                    iskustvo:trener[i].iskustvo,
+                    email: t.email
+                }
+
+                treneri.push(tr)
+            }
+                res.status(200).json(treneri)
+                
+           
+
+        }
+        
+        else {
+            res.status(400).json("Nema trenera za prikaz")
+        }
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+//vidi trenere koji drze personalne
+
+router.get("/vidiTrenerePersonalni", async (req, res) => {
+
+    try {
+        const trener = await Trener.find({drzigrupne:false})
 
         if (trener.length != 0) {
 

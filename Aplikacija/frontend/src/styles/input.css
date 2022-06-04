@@ -1,0 +1,18 @@
+input.cenaUsluge {
+    background-color: transparent;
+    text-align: center;
+    padding: 8.5px 14px;
+    font: 1em sans-serif;
+}
+
+input.cenaUsluge:disabled {
+    background-color: transparent;
+    border: none;
+    text-align: center;
+}
+
+input.cenaUsluge:active {
+    background-color: transparent;
+    border: none;
+    text-align: center;
+}

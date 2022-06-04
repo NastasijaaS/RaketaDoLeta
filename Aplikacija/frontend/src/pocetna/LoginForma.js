@@ -1,6 +1,6 @@
-import '../../styles/loginForma.css'
+import '../styles/loginForma.css'
 import { useState, useContext, useRef } from "react";
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../context/UserContext';
 import { LoginMetoda } from '../komponente/Fetch';
 import CircularProgress from '@mui/material/CircularProgress'
 import { Button, TextField, Box } from '@mui/material';
@@ -74,16 +74,16 @@ const LogIn = () => {
 
                 {/* <label>E-mail: */}
 
-                    <TextField
-                        className='loginInp'
-                        inputRef={mail}
-                        label="E-mail"
-                        type="email"
-                        color="primary"
-                        size="small"
-                        focused />
+                <TextField
+                    className='loginInp'
+                    inputRef={mail}
+                    label="E-mail"
+                    type="email"
+                    color="primary"
+                    size="small"
+                    focused />
 
-                    {/* <input className='loginInp' ref={mail}
+                {/* <input className='loginInp' ref={mail}
                         type='email' placeholder='e-mail' /> */}
                 {/* </label> */}
 
@@ -95,17 +95,17 @@ const LogIn = () => {
 
                 {/* <label>Lozinka: */}
 
-                    <TextField
-                        className='loginInp'
-                        inputRef={lozinka}
-                        label="Lozinka"
-                        type="password"
-                        minlenght="6"
-                        color="primary"
-                        size="small"
-                        focused />
+                <TextField
+                    className='loginInp'
+                    inputRef={lozinka}
+                    label="Lozinka"
+                    type="password"
+                    minlenght="6"
+                    color="primary"
+                    size="small"
+                    focused />
 
-                    {/* <input className='loginInp' ref={lozinka}
+                {/* <input className='loginInp' ref={lozinka}
                         minLength='6'
                         type='password' placeholder='lozinka' /> */}
                 {/* </label> */}

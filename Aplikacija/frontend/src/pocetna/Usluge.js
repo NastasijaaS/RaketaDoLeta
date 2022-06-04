@@ -1,4 +1,4 @@
-import '../../styles/usluge.css'
+import '../styles/usluge.css'
 import { useState, useEffect } from 'react'
 import { GetData } from '../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';

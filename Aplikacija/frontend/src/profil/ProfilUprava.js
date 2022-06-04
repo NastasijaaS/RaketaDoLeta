@@ -4,14 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Tabela from '../komponente/TabelaKorisnici';
-import Proba from '../komponente/Proba'
-
-//dodaj clanarinu korisniku
-//obrisi korisnika
-//update bilo kog korisnika
-
-
+import Tabela from './Uprava/TabelaKorisnici';
+import TabelaUsluge from './Uprava/TabelaUsluge';
 
 //dodaj izmeni obrisi uslugu
 //dodaj sertifikat treneru
@@ -20,7 +14,6 @@ import Proba from '../komponente/Proba'
 //obrisi odbijen trening
 
 //dodaj obrisi izmeni blog
-
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
@@ -37,12 +30,6 @@ const TabPanel = (props) => {
         </div>
     );
 }
-
-// TabPanel.propTypes = {
-//     children: PropTypes.node,
-//     index: PropTypes.number.isRequired,
-//     value: PropTypes.number.isRequired,
-// };
 
 export const Uprava = () => {
     const [value, setValue] = React.useState(0);
@@ -79,7 +66,7 @@ export const Uprava = () => {
             </TabPanel>
 
             <TabPanel value={value} index={2}>
-                Usluge
+                <TabelaUsluge/>
             </TabPanel>
 
             <TabPanel value={value} index={3}>

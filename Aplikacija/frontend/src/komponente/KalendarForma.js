@@ -1,11 +1,11 @@
-import '../../styles/kalendar.css'
+import '../styles/kalendar.css'
 import { useState } from 'react'
 import FormaZakazi from './FormaZakazi'
 import Modal from './Modal'
 import LogIn from '../pocetna/LoginForma'
 import Register from '../pocetna/RegisterForma'
 import { useContext } from 'react';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../context/UserContext';
 import Button from '@mui/material/Button';
 
 const termini1 = [{ trajanje: 60, vreme: 17 }, { trajanje: 45, vreme: 18 }]

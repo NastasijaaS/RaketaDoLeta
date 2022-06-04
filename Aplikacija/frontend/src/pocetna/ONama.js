@@ -1,4 +1,4 @@
-import stil from '../../styles/oNama.module.css'
+import stil from '../styles/oNama.module.css'
 import React, { Fragment } from "react";
 
 const Onama = () => {

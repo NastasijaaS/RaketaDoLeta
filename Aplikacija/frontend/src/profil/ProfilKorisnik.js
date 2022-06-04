@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect, useRef } from "react";
-import { UserContext } from '../../context/UserContext'
+import { UserContext } from '../context/UserContext'
 import { GetData } from '../komponente/Fetch'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
@@ -39,8 +39,6 @@ const Korisnik = (props) => {
     useEffect(() => {
         GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading)
     }, [])
-
-
 
     const otkaziIzmenu = () => {
         setIzmena(true)
@@ -129,7 +127,7 @@ const Korisnik = (props) => {
         <div className='profilKorisnika'>
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
-            <Modal
+            {/* <Modal
                 sx={{ display: 'flex', justifyContent: 'center' }}
                 open={greska ? true : false}
                 onClose={() => navigate(-1)}
@@ -144,7 +142,7 @@ const Korisnik = (props) => {
                     }}
 
                 >Doslo je do greske prilikom ucitavanja ):</Alert>
-            </Modal>
+            </Modal> */}
 
             <div className="infoOProfilu" >
 

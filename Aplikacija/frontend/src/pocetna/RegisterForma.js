@@ -1,8 +1,8 @@
-import '../../styles/loginForma.css'
+import '../styles/loginForma.css'
 import { useState } from "react";
 import { LoginMetoda } from '../komponente/Fetch';
 import { useContext, useRef } from 'react';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, TextField, Box } from '@mui/material';
 
