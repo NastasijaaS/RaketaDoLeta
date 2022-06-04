@@ -229,36 +229,34 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
 router.post("/dodajTrenera/:id", async (req, res) => {
 
 
-  try 
-  {
+  try {
 
-        const kor = await RegistrovaniKorisnik.findById(req.params.id);
-        if (kor != null) 
-        {
+    const kor = await RegistrovaniKorisnik.findById(req.params.id);
+    if (kor != null) {
 
-            const noviTrener = await new Trener({
-                registrovaniKorisnikId: kor._id,
-                iskustvo: req.body.iskustvo,
-                sertifikati: req.body.sertifikati,
-                slika: req.body.slika,
-                opis: req.body.opis
-                
-            })
+      const noviTrener = await new Trener({
+        registrovaniKorisnikId: kor._id,
+        iskustvo: req.body.iskustvo,
+        sertifikati: req.body.sertifikati,
+        slika: req.body.slika,
+        opis: req.body.opis
 
-            const trenerSave = await noviTrener.save()
-            res.status(200).json(trenerSave)
+      })
 
-        }
-    
+      const trenerSave = await noviTrener.save()
+      res.status(200).json(trenerSave)
 
-    else {
-        res.status(404).json("Nije nadjen registrovani korisnik");
     }
 
-}
-catch (err) {
+
+    else {
+      res.status(404).json("Nije nadjen registrovani korisnik");
+    }
+
+  }
+  catch (err) {
     res.status(500).json(err);
-}
+  }
 
 });
 
@@ -267,13 +265,13 @@ router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
 
   try {
 
-         const korisnik = await Korisnik.findByIdAndUpdate(req.params.idKorisnika, {$set:{verifikovan:true}})
-         res.status(200).json(korisnik);
+    const korisnik = await Korisnik.findByIdAndUpdate(req.params.idKorisnika, { $set: { verifikovan: true } })
+    res.status(200).json(korisnik);
 
-      }
-  
+  }
+
   catch (err) {
-      res.status(500).json(err);
+    res.status(500).json(err);
   }
 
 });
@@ -282,31 +280,33 @@ router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
 router.get("/vratiVerifikovaneNaloge", async (req, res) => {
 
   try {
-    const korisnici = await Korisnik.find({verifikovan:true})
-    if(korisnici!=null){
-      
-     let vrati = []
-      for (let i=0; i<korisnici.length; i++){
-        const regKorisnik=await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
-        const clanarina=await Clanarina.find({korisnikId:korisnici[i]._id})
+    const korisnici = await Korisnik.find({ verifikovan: true })
+    if (korisnici != null) {
+
+      let vrati = []
+      for (let i = 0; i < korisnici.length; i++) {
+        const regKorisnik = await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
+        const clanarina = await Clanarina.findOne({ korisnikId: korisnici[i]._id })
+        const clanarinaDo = new Date(clanarina.datumUplate)
+        clanarinaDo.setDate(clanarinaDo.getDate() + parseInt(clanarina.trajanje))
         let kor = {
-         id:korisnici[i]._id,
-          ime:regKorisnik.ime,
-          prezime:regKorisnik.prezime,
-          email:regKorisnik.email,
-          datumUplate:clanarina.datumUplate
+          id: korisnici[i]._id,
+          ime: regKorisnik.ime,
+          prezime: regKorisnik.prezime,
+          email: regKorisnik.email,
+          clanarinaDo: clanarinaDo
         }
         vrati.push(kor)
       }
-     res.status(200).json(vrati)
+      res.status(200).json(vrati)
     }
-    else{
+    else {
       res.status(404).json("nema verifikovanih korisnika")
     }
 
   }
   catch (err) {
-      res.status(500).json(err);
+    res.status(500).json(err);
   }
 
 })
@@ -316,31 +316,31 @@ router.get("/vratiNeverifikovaneNaloge", async (req, res) => {
 
   try {
 
-    const korisnici = await Korisnik.find({verifikovan:false})
-    if(korisnici!=null){
-      
-     let vrati = []
-      for (let i=0; i<korisnici.length; i++){
-        const regKorisnik=await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
-        const clanarina=await Clanarina.find({korisnikId:korisnici[i]._id})
+    const korisnici = await Korisnik.find({ verifikovan: false })
+    if (korisnici != null) {
+
+      let vrati = []
+      for (let i = 0; i < korisnici.length; i++) {
+        const regKorisnik = await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
+        const clanarina = await Clanarina.find({ korisnikId: korisnici[i]._id })
         let kor = {
-         id:korisnici[i]._id,
-          ime:regKorisnik.ime,
-          prezime:regKorisnik.prezime,
-          email:regKorisnik.email,
-          datumUplate:clanarina.datumUplate
+          id: korisnici[i]._id,
+          ime: regKorisnik.ime,
+          prezime: regKorisnik.prezime,
+          email: regKorisnik.email,
+          datumUplate: clanarina.datumUplate
         }
         vrati.push(kor)
       }
-     res.status(200).json(vrati)
+      res.status(200).json(vrati)
     }
-    else{
+    else {
       res.status(404).json("nema neverifikovanih korisnika")
     }
 
   }
   catch (err) {
-      res.status(500).json(err);
+    res.status(500).json(err);
   }
 
 })

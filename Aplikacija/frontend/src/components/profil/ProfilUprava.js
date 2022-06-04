@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Tabela from '../komponente/TabelaKorisnici';
-
+import Proba from '../komponente/Proba'
 
 //dodaj clanarinu korisniku
 //obrisi korisnika
@@ -33,7 +33,7 @@ const TabPanel = (props) => {
                     {children}
                 </Box>
             )}
-            
+
         </div>
     );
 }

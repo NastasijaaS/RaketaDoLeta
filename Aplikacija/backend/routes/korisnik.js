@@ -114,7 +114,7 @@ router.get("/vidiTrenere", async (req, res) => {
 
             let treneri = []
 
-            for (let i=0; i<trener.length; i++){
+            for (let i = 0; i < trener.length; i++) {
 
                 const t = await RegistrovaniKorisnik.findById(trener[i].registrovaniKorisnikId)
 
@@ -125,18 +125,18 @@ router.get("/vidiTrenere", async (req, res) => {
                     opis: trener[i].opis,
                     slika: trener[i].slika,
                     sertifikati: trener[i].sertifikati,
-                    iskustvo:trener[i].iskustvo,
+                    iskustvo: trener[i].iskustvo,
                     email: t.email
                 }
 
                 treneri.push(tr)
             }
-                res.status(200).json(treneri)
-                
-           
+            res.status(200).json(treneri)
+
+
 
         }
-        
+
         else {
             res.status(400).json("Nema trenera za prikaz")
         }
@@ -199,7 +199,7 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
 })
 
 //pregledaj sve dostupne grupne treninge
-/*router.get("/vidiGrupneTreninge", async (req, res) => {
+router.get("/vidiGrupneTreninge", async (req, res) => {
 
     try {
         const treninzi = await Trening.find({ brojClanova: { $gte: 2 } })
@@ -216,7 +216,7 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
         res.status(500).json(err);
     }
 
-})*/
+})
 
 //uplati clanarinu
 
@@ -256,7 +256,7 @@ router.get("/vidiClanarinu/:idKorisnika", async (req, res) => {
     try {
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if (korisnik != null) {
-            const clanarina = await Clanarina.findOne({ korisnikId: req.params.idKorisnika })
+            const clanarina = await Clanarina.find({ korisnikId: req.params.idKorisnika })
             if (clanarina != null) {
                 res.status(200).json(clanarina)
 

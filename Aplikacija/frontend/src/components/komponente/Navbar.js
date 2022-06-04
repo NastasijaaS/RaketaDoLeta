@@ -20,10 +20,11 @@ import { UserContext } from '../../context/UserContext';
 
 
 const pages = [
-  { val: 'Trenirajte sa nama', link: '/usluge' },
   { val: 'Treneri', link: '/treneri' },
+  { val: 'Grupni treninzi', link: 'grupnitreninzi' },
   { val: 'O nama', link: '/onama' },
   { val: 'Blog', link: '/blog' },
+  { val: 'Cenovnik', link: '/usluge' },
   { val: 'Kontakt', link: ' ' },
 ];
 
@@ -73,7 +74,7 @@ const Navbar = () => {
         navigate("../napredak", { replace: true });
         break;
       case 'Treninzi':
-        navigate("../treninzi", { replace: true });
+        navigate("../vasitreninzi", { replace: true });
         break;
 
       default:
