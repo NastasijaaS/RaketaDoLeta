@@ -58,42 +58,41 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-//dodaj clanarinu korisniku
-router.put("/dodajClanarinu/:idKorisnika/:idUsluge", async (req, res) => {
+//dodaj clanarinu korisniku NE RADI HAHAHAH
+// router.put("/dodajClanarinu/:idKorisnika/:idUsluge", async (req, res) => {
 
-  try {
-    const korisnik = await Korisnik.findById(req.params.idKorisnika)
-    if (korisnik != null) {
+//   try {
+//     const korisnik = await Korisnik.findById(req.params.idKorisnika)
+//     if (korisnik != null) {
 
-      const usluga = await Usluga.findById(req.params.idUsluge)
-      if (usluga != null) {
-        const clanarina = await new Clanarina({
-          cena: usluga.cena,
-          datumUplate: new Date(),
-          trajanje: 30,
-          korisnikId: req.params.idKorisnika,
-          uslugaId: req.params.idUsluge
+//       const usluga = await Usluga.findById(req.params.idUsluge)
+//       if (usluga != null) {
 
-        })
-        const clanarinaSave = await clanarina.save()
-        res.status(200).json(clanarinaSave)
+        
 
-      }
-      else {
-        res.status(404).json("Usluga nije pronadjena")
-      }
+//         }
+//         else{
+//           res.status(404).json("Clanarina nije pronadjena")
+//         }
+        
+        
 
-    }
-    else {
-      res.status(404).json("Korisnik nije pronadjen")
-    }
+//       }
+//       else {
+//         res.status(404).json("Usluga nije pronadjena")
+//       }
 
-  }
-  catch (err) {
-    res.status(500).json(err);
-  }
+//     }
+//     else {
+//       res.status(404).json("Korisnik nije pronadjen")
+//     }
 
-})
+//   }
+//   catch (err) {
+//     res.status(500).json(err);
+//   }
+
+// })
 
 //DODAJ CLANARINU KORISNIKU NE RADI
 /*router.put("/dodajClanarinu/:idKorisnika/:idUslugee:/trajanjeClanarine", async (req, res) => {
@@ -266,27 +265,28 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
 });
 
 //vrati listu odbijenih  NE ZNAM STO NE RADI
-/*router.get("/vratiZahteveOdbijeni", async (req, res) => {
+router.get("/vratiZahteveOdbijeni", async (req, res) => {
 
   try {
-    
-    const zahtev = await Zahtev.find({ status:Ukinuto })
-  
+    const zahtev = await Zahtev.find({status: ("Ukinuto"|| "Odbijeno") })
+    res.status(200).json(zahtev)
       if (zahtev.length != 0) 
       {
 
           let zahtevi = []
+          
 
           for (let i = 0; i < zahtev.length; i++) {
 
               const zah = {
-
-                poruka:zahtevi[i].poruka
+                
+                poruka:zahtev[i].poruka
 
               }
-
+              
               zahtevi.push(zah)
           }
+
           res.status(200).json(zahtevi)
       }
 
@@ -299,7 +299,7 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
       res.status(500).json(err);
   }
 
-})*/
+})
 
 
 //dodaj trenera
