@@ -15,6 +15,9 @@ const UslugaSchema = new mongoose.Schema({
     },
     trajanje: {
         type: Number
+    },
+    treningGrupni:{
+        type:Boolean
     }
 
 },

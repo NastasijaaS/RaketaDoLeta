@@ -55,7 +55,9 @@ const TreningSchema = new mongoose.Schema({
     //brojTrenClanova:{
         //type:String
     //}
-
+    uslugaId:{
+        type:String
+    }
     
 },
 {timestamps:true}
