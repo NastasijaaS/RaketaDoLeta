@@ -28,9 +28,10 @@ const TreningSchema = new mongoose.Schema({
     brojMaxClanova:{
         type:Number
     },
-    brojTrenClanova:{
-        type:Number
-    },
+    //brojTrenClanova:{
+        //type:Number
+    //},
+    
     trenerId:{
         type:String
     },
@@ -41,12 +42,19 @@ const TreningSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    imeTrenera:{
-        type:String
+    imeT: {
+        type: String,
+        max: 20
+      
+
     },
-    prezimeTrenera:{
-        type:String
-    }
+    prezimeT: {
+        type: String,
+        max: 20
+    },
+    //brojTrenClanova:{
+        //type:String
+    //}
 
     
 },

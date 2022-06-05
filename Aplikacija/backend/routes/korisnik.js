@@ -255,46 +255,76 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
 
 })
 
+
+//prijavi se za grupni trening NE MENJA U BAZU 
+/*router.post("/prijavaGrupniTrening/:idKorisnika/:idTreninga", async (req, res) => {
+
+    try {
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
+
+        if (korisnik != null) {
+
+            const tr = await Trening.findById(req.params.idTreninga)
+             if(tr!=null)
+             {
+
+                let brojTren=tr.brojMaxClanova--;
+
+                 
+                await tr.updateOne({
+                $set:
+                    {
+                        brojMaxClanova:brojTren
+
+                    }
+                })
+               
+                await tr.updateOne({ $push: { clanovi: korisnik._id } })
+
+                 res.status(200).json(tr);
+
+             }
+
+             else
+             {
+                res.status(404).json("Trening nije pronadjen")
+
+             }
+   
+   
+        }
+  
+        else {
+            res.status(404).json("Korisnik nije pronadjen")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})*/
+
 //pregledaj sve dostupne grupne treninge
 router.get("/vidiGrupneTreninge", async (req, res) => {
 
     try {
-
         const treninzi = await Trening.find({ brojMaxClanova: { $gte: 2 } })
-        if (treninzi != null) {
-    
-          let vrati = []
-          for (let i = 0; i < treninzi.length; i++) {
-            const t = await Trener.findById(treninzi[i].trenerId)
-            const regT = await RegistrovaniKorisnik.find({_id:t.registrovaniKorisnikId})
-            
-    
-            let tren = {
-              ime: regT.ime,
-              prezime: regT.prezime,
-              datum: treninzi[i].datum,
-              nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
-              intenzitet: treninzi[i].intenzitet,
-              trajanje:treninzi[i].trajanje,
-              brojMaxClanova: treninzi[i].brojMaxClanova
-             
-            }
-            vrati.push(tren)
-          }
-          res.status(200).json(vrati)
+        if (treninzi.length != 0) {
+            res.status(200).json(treninzi)
         }
         else {
-          res.status(404).json("nema grupnih treninga")
+            res.status(400).json("Nema treninga za prikaz")
         }
-    
-      }
-      catch (err) {
+
+
+    }
+    catch (err) {
         res.status(500).json(err);
-      }
-    
-    })
+    }
 
-
+})
 
 //uplati clanarinu
 

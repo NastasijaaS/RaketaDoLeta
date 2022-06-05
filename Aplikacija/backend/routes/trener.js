@@ -14,6 +14,7 @@ const Evidencija = require("../models/Evidencija");
 //dodaj korisnika
 router.post("/dodajKorisnika/:id/:korid", async (req, res) => {
 
+    
     try {
 
 
@@ -157,15 +158,20 @@ router.post("/zakaziGrupniTrening/:id", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.id)
+        const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
+        //res.status(200).json(regT);
         if (trener != null) {
 
             const novitrening = await new Trening({
+                imeT:regT.ime,
+                prezimeT:regT.prezime,
                 datum: req.body.datum,
                 nazivGrupnogTreninga: req.body.nazivGrupnogTreninga,
                 intenzitet: req.body.intenzitet,
                 trajanje:req.body.trajanje,
                 brojMaxClanova: req.body.brojMaxClanova,
                 trenerId: trener._id
+
             })
 
             const trening = await novitrening.save();

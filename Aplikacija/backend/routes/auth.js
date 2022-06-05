@@ -35,9 +35,15 @@ router.post("/register", async (req, res) => {
     if (tipKorisnika == "Korisnik") {
       const noviKorisnik = await new Korisnik({
         registrovaniKorisnikId: user._id,
-        verifikovan: false
+        verifikovan: false,
+        visina:0,
+        zeljenaTezina:0,
+        zeljenaTezinaMisica:0,
+        zeljeniProcenatMasti:0,
+        zeljeniProcenatProteina:0
       })
 
+      
       const noviKor = await noviKorisnik.save();
       res.status(200).json(noviKor)
       return
