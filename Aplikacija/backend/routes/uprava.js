@@ -319,7 +319,7 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
   }
 });
 
-//vrati listu odbijenih  NE ZNAM STO NE RADI
+//vrati listu odbijenih  
 router.get("/vratiZahteveOdbijeni", async (req, res) => {
 
   try {

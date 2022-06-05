@@ -255,11 +255,92 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
 
 })
 
+
+//prijavi se za grupni trening NE MENJA U BAZU 
+router.put("/prijavaGrupniTrening/:idKorisnika/:idTreninga", async (req, res) => {
+
+    try {
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
+
+        if (korisnik != null) {
+
+            const tr = await Trening.findById(req.params.idTreninga)
+             if(tr!=null)
+             {
+
+                const brojTren=tr.brojMaxClanova-1;
+                //res.status(200).json(brojTren)
+                await tr.updateOne({ $push: { clanovi: korisnik._id } }, {$set:{brojMaxClanova:brojTren}})
+
+                 res.status(200).json(tr);
+
+             }
+
+             else
+             {
+                res.status(404).json("Trening nije pronadjen")
+
+             }
+   
+   
+        }
+  
+        else {
+            res.status(404).json("Korisnik nije pronadjen")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
 //pregledaj sve dostupne grupne treninge
 router.get("/vidiGrupneTreninge", async (req, res) => {
 
     try {
-        const treninzi = await Trening.find({ brojClanova: { $gte: 2 } })
+        const treninzi = await Trening.find({ brojMaxClanova: { $gte: 2 } })
+        if (treninzi.length != 0) {
+            res.status(200).json(treninzi)
+        }
+        else {
+            res.status(400).json("Nema treninga za prikaz")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
+//pregledaj grupne treninge, al tipove, po usluzi se vraca
+router.get("/vidiGrupneUsluge", async (req, res) => {
+
+    try {
+        const usluge = await Usluga.find({treningGrupni:true })
+        if (usluge.length != 0) {
+            res.status(200).json(usluge)
+        }
+        else {
+            res.status(400).json("Nema treninga za prikaz")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
+router.get("/vidiTreningeZaUslugu/:idUsluge/:datum", async (req, res) => {
+
+    try {
+        const treninzi = await Trening.find({$and:[{uslugaId:req.params.idUsluge}, {datum:req.params.datum}]})
         if (treninzi.length != 0) {
             res.status(200).json(treninzi)
         }
