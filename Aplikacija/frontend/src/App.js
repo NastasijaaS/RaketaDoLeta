@@ -78,7 +78,7 @@ function App() {
 
           <Route path='/signup' element={<Register />} />
 
-          <Route path='/registracija/podaci' element={<Zelje />}/>
+          <Route path='/registracija/podaci' element={<Zelje />} />
 
           <Route path='/profil' element=
             {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />}>
@@ -95,7 +95,7 @@ function App() {
 
         </Routes>
 
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </ThemeProvider >
 
