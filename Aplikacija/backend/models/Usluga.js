@@ -2,21 +2,23 @@ const mongoose = require("mongoose");
 
 const UslugaSchema = new mongoose.Schema({
 
-   cena:{
-       type:Number
+    cena: {
+        type: Number
 
-   },
-   opis:{
-       type:String
+    },
+    opis: {
+        type: String
 
-   },
-   naziv:{
-       type:String
-   }
-   
-    
+    },
+    naziv: {
+        type: String
+    },
+    trajanje: {
+        type: Number
+    }
+
 },
-{timestamps:true}
+    { timestamps: true }
 )
 
 module.exports = mongoose.model("Usluga", UslugaSchema);

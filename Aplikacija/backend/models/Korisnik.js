@@ -2,57 +2,60 @@ const mongoose = require("mongoose");
 
 const KorisnikSchema = new mongoose.Schema({
 
-    registrovaniKorisnikId:{
-        type:String,
-        required:true
+    registrovaniKorisnikId: {
+        type: String,
+        required: true
     },
-    visina:{
+    visina: {
         type: Number
     },
-    zeljenaTezina:{
+    zeljenaTezina: {
         type: Number
-    }, 
-    zeljeniProcenatMasti:{
-        type: Number
-
-    }, 
-    //BMI:{
-        //type: Number
-
-    //},
-    zeljenaTezinaMisica:{
+    },
+    zeljeniProcenatMasti: {
         type: Number
 
     },
-    zeljeniProcenatProteina:{
+    BMI:{
+    type: Number
+
+    },
+    zeljenaTezinaMisica: {
         type: Number
 
     },
-    //procenatVode:{
-        //type: Number
-
-    //},
-    //kostanaMasa:{
-        //type: Number
-
-    //},
-    //bodyAge:{
-        //type: Number
-
-    //},
-    brojGodina:{
+    zeljeniProcenatProteina: {
         type: Number
 
     },
-    trenerId:{
-        type:String
+    procenatVode:{
+    type: Number
+
     },
-    verifikovan:{
-        type:Boolean
+    kostanaMasa:{
+    type: Number
+
+    },
+    bodyAge:{
+    type: Number
+
+    },
+    brojGodina: {
+        type: Number
+
+    },
+    trenerId: {
+        type: String
+    },
+    clanarinaId: {
+        type: String
+    },
+    verifikovan: {
+        type: Boolean
     }
-    
+
 },
-{timestamps:true}
+    { timestamps: true }
 )
 
 module.exports = mongoose.model("Korisnik", KorisnikSchema);

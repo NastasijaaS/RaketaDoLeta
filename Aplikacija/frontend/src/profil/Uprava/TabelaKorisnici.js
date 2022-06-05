@@ -257,15 +257,15 @@ export default function Tabela(props) {
         return (
             <Fragment>
                 < TableRow >
-                    <TableCell>
+                    {props.verifikovan && <TableCell>
                         <IconButton
-                            aria-label="expand row"
+                           
                             size="small"
                             onClick={() => { setOpen(!open) }}
                         >
                             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         </IconButton>
-                    </TableCell>
+                    </TableCell>}
 
                     <TableCell style={{ width: 160 }} component="th" scope="row">
                         {row.ime + ' ' + row.prezime}
@@ -308,13 +308,13 @@ export default function Tabela(props) {
                         </Button>
                     </TableCell>
                 </TableRow>
-                <TableRow>
+                <TableRow >
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                         <Collapse in={open} timeout="auto" unmountOnExit>
-                            <Box sx={{ margin: 1 }}>
-                                <Box size="small" sx={{ dispay: 'flex', justifyContent: 'center' }} >
+                            
+                                <Box size="small" sx={{ margin: 1 , dispay: 'flex', justifyContent: 'center' }} >
                                     <RadioButtons idKorisnika={row.id} />
-                                </Box>
+                                
                             </Box>
                         </Collapse>
                     </TableCell>

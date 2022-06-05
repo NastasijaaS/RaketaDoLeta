@@ -1,11 +1,19 @@
-input.cenaUsluge {
+input.cenaUsluge,
+input.korisnik {
     background-color: transparent;
     text-align: center;
-    padding: 8.5px 14px;
     font: 1em sans-serif;
+    border: none;
 }
 
-input.cenaUsluge:disabled {
+input.korisnik {
+    border: 1px solid rgb(254, 197, 143);
+    border-radius: 7px;
+    padding: 8px 14px;
+}
+
+input.cenaUsluge:disabled,
+input.korisnik:disabled {
     background-color: transparent;
     border: none;
     text-align: center;
@@ -15,4 +23,31 @@ input.cenaUsluge:active {
     background-color: transparent;
     border: none;
     text-align: center;
+}
+
+input.cenaUsluge:focus {
+    outline: 1px solid rgb(255, 123, 0);
+    font-weight: bold;
+
+}
+
+input.korisnik:focus {
+    outline: 1px solid rgb(255, 123, 0);
+    font-weight: bold;
+
+}
+
+div.infoOProfilu {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    font-family: sans-serif;
+    gap: 5px;
+    align-items: center;
+    text-align: right;
+}
+
+div.infoOProfilu p {
+    text-align: left;
+    width: 200px;
 }

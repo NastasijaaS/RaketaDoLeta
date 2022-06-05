@@ -68,14 +68,14 @@ router.delete("/:id", async (req, res) => {
 //       const usluga = await Usluga.findById(req.params.idUsluge)
 //       if (usluga != null) {
 
-        
+
 
 //         }
 //         else{
 //           res.status(404).json("Clanarina nije pronadjena")
 //         }
-        
-        
+
+
 
 //       }
 //       else {
@@ -129,10 +129,64 @@ router.delete("/:id", async (req, res) => {
 
 
 
+///ova radi xd
+router.put("/dodajClanarinu/:idKorisnika/:idUsluge", async (req, res) => {
+  try {
+    const korisnik = await Korisnik.findById(req.params.idKorisnika)
+
+    if (korisnik != null) {
+
+      const usluga = await Usluga.findById(req.params.idUsluge)
+
+      if (usluga === null) {
+        res.status(404).json("Usluga nije pronadjena")
+        return
+      }
+
+      const clanarina = await Clanarina.findById(korisnik.clanarinaId)
+
+      if (clanarina === null) {
+        res.status(404).json("Clanarina nije pronadjena")
+        return
+      }
+
+      const danas = new Date()
+      let datumDo = new Date()
+
+      if (clanarina.vaziDo < danas) {
+        //ako je manja datum do ce da bude danas+trajanje
+        datumDo.setDate(danas.getDate() + usluga.trajanje)
+      }
+      else {
+        // ako nije onda se na prosli datum samo doda trajanje
+        datumDo = new Date(clanarina.vaziDo)
+        datumDo.setDate(clanarina.vaziDo.getDate() + usluga.trajanje)
+      }
 
 
+      await clanarina.updateOne({
+        $set:
+        {
+          cena: usluga.cena,
+          datumUplate: new Date(),
+          vaziDo: datumDo,
+          uslugaId: usluga._id
+        }
+      })
 
+      res.status(200).json(clanarina);
 
+    }
+
+    else {
+      res.status(404).json("Korisnik nije pronadjen")
+    }
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+
+})
 
 //dodaj uslugu
 router.post("/dodajUslugu", async (req, res) => {
@@ -142,7 +196,8 @@ router.post("/dodajUslugu", async (req, res) => {
     const usluga = await new Usluga({
       cena: req.body.cena,
       opis: req.body.opis,
-      naziv: req.body.naziv
+      naziv: req.body.naziv,
+      trajanje: req.body.trajanje
     })
 
     const uslugaSave = await usluga.save()
@@ -268,35 +323,34 @@ router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
 router.get("/vratiZahteveOdbijeni", async (req, res) => {
 
   try {
-    const zahtev = await Zahtev.find({status: ("Ukinuto"|| "Odbijeno") })
+    const zahtev = await Zahtev.find({ status: ("Ukinuto" || "Odbijeno") })
     res.status(200).json(zahtev)
-      if (zahtev.length != 0) 
-      {
+    if (zahtev.length != 0) {
 
-          let zahtevi = []
-          
+      let zahtevi = []
 
-          for (let i = 0; i < zahtev.length; i++) {
 
-              const zah = {
-                
-                poruka:zahtev[i].poruka
+      for (let i = 0; i < zahtev.length; i++) {
 
-              }
-              
-              zahtevi.push(zah)
-          }
+        const zah = {
 
-          res.status(200).json(zahtevi)
+          poruka: zahtev[i].poruka
+
+        }
+
+        zahtevi.push(zah)
       }
 
-      else {
-          res.status(400).json("Nema zahteva za prikaz")
-      }
+      res.status(200).json(zahtevi)
+    }
+
+    else {
+      res.status(400).json("Nema zahteva za prikaz")
+    }
 
   }
   catch (err) {
-      res.status(500).json(err);
+    res.status(500).json(err);
   }
 
 })
@@ -333,45 +387,47 @@ router.post("/dodajTrenera/:id", async (req, res) => {
 });
 
 //dodaj korisnika, tj od registrovanog korisnika se napravi korisnik
+// router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
+
+//   try {
+
+//     const korisnik = await Korisnik.findByIdAndUpdate(req.params.idKorisnika, { $set: { verifikovan: true } })
+//     res.status(200).json(korisnik);
+
+//   }
+
+//   catch (err) {
+//     res.status(500).json(err);
+//   }
+
+// });
+
+//VERIFIKUJ I NAPRAVI CLANARINU (RADI)
 router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
 
   try {
-
     const korisnik = await Korisnik.findByIdAndUpdate(req.params.idKorisnika, { $set: { verifikovan: true } })
-    res.status(200).json(korisnik);
 
-  }
-
-  catch (err) {
-    res.status(500).json(err);
-  }
-
-});
-
-//VERIFIKUJ I NAPRAVI CLANARINU (RADI)
-/*router.put("/verifikujNalog/:idKorisnika", async (req, res) => {
-
-  try {
-
-    const korisnik = await Korisnik.findByIdAndUpdate(req.params.idKorisnika, { $set: { verifikovan: true } })
-    res.status(200).json(korisnik);
     const clanarina = await new Clanarina({
       datumUplate: new Date(),
       trajanje: 0,
-      korisnikId: req.params.idKorisnika
-      
+      vaziDo: new Date(),
 
+      // korisnikId: req.params.idKorisnika
     })
     const clanarinaSave = await clanarina.save()
-    res.status(200).json(clanarinaSave)
+    //res.status(200).json(clanarinaSave)
 
+    await korisnik.updateOne({ $set: { clanarinaId: clanarinaSave._id } })
+
+    res.status(200).json(korisnik);
   }
 
   catch (err) {
     res.status(500).json(err);
   }
 
-});*/
+})
 
 //vrati verifikovane naloge
 router.get("/vratiVerifikovaneNaloge", async (req, res) => {
@@ -384,19 +440,19 @@ router.get("/vratiVerifikovaneNaloge", async (req, res) => {
       for (let i = 0; i < korisnici.length; i++) {
         const regKorisnik = await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
         const clanarina = await Clanarina.findOne({ korisnikId: korisnici[i]._id })
-        let clanarinaDo = null
-        if (clanarina !== null) {
-          clanarinaDo = new Date(clanarina.datumUplate)
-          clanarinaDo.setDate(clanarinaDo.getDate() + parseInt(clanarina.trajanje))
-          clanarinaDo = clanarinaDo.toLocaleDateString()
-        }
+        // let clanarinaDo = null
+        // if (clanarina !== null) {
+        //   clanarinaDo = new Date(clanarina.datumUplate)
+        //   clanarinaDo.setDate(clanarinaDo.getDate() + parseInt(clanarina.trajanje))
+        //   clanarinaDo = clanarinaDo.toLocaleDateString()
+        // }
 
         let kor = {
           id: korisnici[i]._id,
           ime: regKorisnik.ime,
           prezime: regKorisnik.prezime,
           email: regKorisnik.email,
-          clanarinaDo: clanarinaDo
+          clanarinaDo: clanarina.vaziDo
         }
         vrati.push(kor)
       }
@@ -424,13 +480,12 @@ router.get("/vratiNeverifikovaneNaloge", async (req, res) => {
       let vrati = []
       for (let i = 0; i < korisnici.length; i++) {
         const regKorisnik = await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
-        const clanarina = await Clanarina.find({ korisnikId: korisnici[i]._id })
+
         let kor = {
           id: korisnici[i]._id,
           ime: regKorisnik.ime,
           prezime: regKorisnik.prezime,
-          email: regKorisnik.email,
-          datumUplate: clanarina.datumUplate
+          email: regKorisnik.email
         }
         vrati.push(kor)
       }

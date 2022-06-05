@@ -79,7 +79,11 @@ router.post("/login", async (req, res) => {
           brojTelefona: user.brojTelefona,
           password: user.password,
           tip: user.tipKorisnika,
-          korisnikId: korisnik._id
+          korisnikId: korisnik._id,
+          zeljeniProcenatProteina: korisnik.zeljeniProcenatProteina,
+          zeljenaTezinaMisica: korisnik.zeljenaTezinaMisica,
+          zeljeniProcenatMasti: korisnik.zeljeniProcenatMasti,
+          zeljenaTezina: korisnik.zeljenaTezina
         }
         res.status(200).json(novi)
       }

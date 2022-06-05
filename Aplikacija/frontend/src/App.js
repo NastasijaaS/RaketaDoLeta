@@ -19,6 +19,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ZakazaniTreninzi from './profil/Korisnik/ZakazaniTreninzi';
 import Napredak from './profil/Korisnik/Napredak';
 import GrupniTreninzi from './pocetna/GrupniTreninzi';
+import Zelje from './pocetna/FormaZaZelje';
 
 const darkTheme = createTheme({
   palette: {
@@ -64,16 +65,20 @@ function App() {
           <Route path='/usluge' element={<Usluge />}>
           </Route>
 
-          <Route path='/blog' element={<Blog />}>
-          </Route>
+          <Route path='/blog' element={<Blog />} />
+
 
           <Route path='/login' element=
             {user ? <Navigate replace to="/profil" /> : <LogIn />}>
           </Route>
 
-          <Route path='/signup' element=
+          {/* <Route path='/signup' element=
             {user ? <Navigate replace to="/profil" /> : <Register />}>
-          </Route>
+          </Route> */}
+
+          <Route path='/signup' element={<Register />} />
+
+          <Route path='/registracija/podaci' element={<Zelje />}/>
 
           <Route path='/profil' element=
             {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />}>
@@ -92,7 +97,7 @@ function App() {
 
         <Footer />
       </Router>
-    </ThemeProvider>
+    </ThemeProvider >
 
   );
 }

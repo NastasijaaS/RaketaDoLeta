@@ -19,6 +19,12 @@ const UserReducer = (state, action) => {
                 ucitavaSe: false,
                 error: action.error,
             };
+        case "UPDATE_USER":
+            return {
+                user:   action.payload ,
+                ucitavaSe: false,
+                error: null,
+            };
         case "ODJAVI":
             return {
                 user: null,

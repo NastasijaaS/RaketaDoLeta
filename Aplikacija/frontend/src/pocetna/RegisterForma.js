@@ -5,6 +5,7 @@ import { useContext, useRef } from 'react';
 import { UserContext } from '../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, TextField, Box } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 
@@ -26,6 +27,8 @@ const Register = () => {
     const lozinka = useRef()
     const brojTelefona = useRef()
     const username = useRef()
+
+    let navigate = useNavigate()
 
     const upis = (ev) => {
 
@@ -89,6 +92,8 @@ const Register = () => {
                 alert(error)
                 return
             }
+            
+            navigate('../registracija/podaci')
 
         }
     }

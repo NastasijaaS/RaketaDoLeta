@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import { UserContext } from '../context/UserContext'
-import { GetData } from '../komponente/Fetch'
+import { GetData, PutMetoda } from '../komponente/Fetch'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
 import Modal from '@mui/material/Modal';
@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import { Button, TextField } from "@mui/material";
+import './../styles/input.css'
 
 const k = {
     ime: 'ime', prezime: 'prezime', brojTelefona: '0625454545', email: 'mail',
@@ -26,6 +27,7 @@ const Korisnik = (props) => {
 
     const { user, dispatch } = useContext(UserContext);
     const [izmena, setIzmena] = useState(true)
+    const [izmeniPodatke, setIzmeniPodatke] = useState(true)
 
     const [clanarina, setClanarina] = useState({ datumDo: '', cena: '' })
 
@@ -35,6 +37,12 @@ const Korisnik = (props) => {
     const pass = useRef('')
     const [isLoading, setIsLoading] = useState(false)
 
+    const [korisnik, setKorisnik] = useState({
+        zeljenaTezina: user.zeljenaTezina,
+        zeljenaTezinaMisica: user.zeljenaTezinaMisica,
+        zeljeniProcenatMasti: user.zeljeniProcenatMasti,
+        zeljeniProcenatProteina: user.zeljeniProcenatProteina
+    })
 
     useEffect(() => {
         GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading)
@@ -103,22 +111,55 @@ const Korisnik = (props) => {
     const Lozinka = ({ tekst, OKonClick }) => {
         return (
             <div>
-                <p>{tekst}
-                    <TextField
-                        className='loginInp'
-                        inputRef={pass}
-                        // label={tekst}
-                        type='password'
-                        color="primary"
-                        size="small"
-                        placeholder='lozinka'
-                        focused />
+                {tekst}
+                <TextField
+                    className='loginInp'
+                    inputRef={pass}
+                    // label={tekst}
+                    type='password'
+                    color="primary"
+                    size="small"
+                    placeholder='lozinka'
+                    focused />
 
-                    {/* <input type='password' placeholder="lozinka" ref={pass} /> */}
-                </p>
+                {/* <input type='password' placeholder="lozinka" ref={pass} /> */}
+
                 <Button variant="contained" size='small' onClick={OKonClick}>Ok</Button>
                 <Button variant="contained" size='small' onClick={otkaziIzmenu}>Otkazi</Button>
             </div>)
+    }
+
+    const [data, setData] = useState('')
+    const izmeniKorisnika = async () => {
+        ///izmeniParametre/:idKorisnika
+        // zeljeniProcenatProteina
+        // zeljenaTezinaMisica
+        // zeljeniProcenatMasti
+        // zeljenaTezina
+
+      
+
+        const zahtev = {
+            url: 'http://localhost:8800/api/korisnik/izmeniParametre/' + user.korisnikId,
+            body: {
+                zeljeniProcenatProteina: korisnik.zeljeniProcenatProteina,
+                zeljenaTezinaMisica: korisnik.zeljenaTezinaMisica,
+                zeljeniProcenatMasti: korisnik.zeljeniProcenatMasti,
+                zeljenaTezina: korisnik.zeljenaTezina
+            }
+        }
+
+        setGreska(false)
+        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        console.log(greska)
+
+        dispatch({ tip: "UPDATE_USER", payload: {...user, ...korisnik }})
+
+        setIzmeniPodatke(true)
+        // console.log(korisnik)
+        // console.log(user)
+
+        // window.location.reload()
     }
 
     let navigate = useNavigate()
@@ -153,14 +194,63 @@ const Korisnik = (props) => {
                 <p>Clanarina: {clanarina.cena}</p>
                 <p>Godine: {user.godine}</p>
                 <p>e-mail: {user.email}</p>
-                <p>Broj telefona: {user.brojTelefona}</p>
-                <p>Visina: {user.visina}</p>
-                <p>Zeljena tezina: {user.zeljenaTezina}</p>
-                <p>Zeljeni procenat masti: {user.zeljeniProcenatMasti}</p>
-                <p>Zeljeni procenat proteina: {user.zeljeniProcenatProteina}</p>
-                <p>Zeljena tezina misica: {user.zeljenaTezinaMisica}</p>
 
-                <Button variant="contained" size='small'>Izmeni podatke</Button>
+                <p>Visina: {user.visina}</p>
+
+                <div className="zelje">
+                    <span>Broj telefona: {user.brojTelefona}
+
+                    </span>
+                </div>
+
+                <div className="zelje">
+                    Zeljena tezina:
+                    <input className='korisnik'
+                        type='number'
+                        value={korisnik.zeljenaTezina}
+                        disabled={izmeniPodatke}
+                        onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezina: ev.target.value }))} />
+
+                </div>
+
+                <div className="zelje">
+                    Zeljena tezina misica:
+                    <input className='korisnik'
+                        type='number'
+                        value={korisnik.zeljenaTezinaMisica}
+                        disabled={izmeniPodatke}
+                        onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezinaMisica: ev.target.value }))} />
+                </div>
+
+                <div className="zelje">
+                    Zeljeni procenat masti:
+                    <input className='korisnik'
+                        type='number'
+                        value={korisnik.zeljeniProcenatMasti}
+                        disabled={izmeniPodatke}
+                        onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatMasti: ev.target.value }))} />
+                </div>
+
+                <div className="zelje">
+                    Zeljeni procenat proteina:
+                    <input className='korisnik'
+                        type='number'
+                        value={korisnik.zeljeniProcenatProteina}
+                        disabled={izmeniPodatke}
+                        onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatProteina: ev.target.value }))} />
+                </div>
+
+                {!izmeniPodatke && <Button onClick={izmeniKorisnika}>OK</Button>}
+                {!izmeniPodatke && <Button onClick={() => {
+                    setIzmeniPodatke(true); setKorisnik({
+                        zeljenaTezina: user.zeljenaTezina,
+                        zeljenaTezinaMisica: user.zeljenaTezinaMisica,
+                        zeljeniProcenatMasti: user.zeljeniProcenatMasti,
+                        zeljeniProcenatProteina: user.zeljeniProcenatProteina
+                    })
+                }}>otkazi</Button>}
+
+                {izmeniPodatke && <Button variant="contained" size='small' onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
 
                 {izmena && <Button variant="contained" size='small' onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
                 {!izmena && <div>

@@ -17,6 +17,7 @@ router.put("/izmeniParametre/:idKorisnika", async (req, res) => {
     try {
 
         const korisnik=await Korisnik.findByIdAndUpdate(req.params.idKorisnika, {$set:req.body})
+
         res.status(200).json(korisnik);
     }
     catch (err) {
@@ -312,10 +313,10 @@ router.get("/vidiClanarinu/:idKorisnika", async (req, res) => {
     try {
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if (korisnik != null) {
-            const clanarina = await Clanarina.find({ korisnikId: req.params.idKorisnika })
+            // const clanarina = await Clanarina.find({ korisnikId: req.params.idKorisnika })
+            const clanarina = await Clanarina.findById(korisnik.clanarinaId)
             if (clanarina != null) {
                 res.status(200).json(clanarina)
-
             }
             else {
                 res.status(404).json("Nije pronadjena clanarina za ovog korisnika")
