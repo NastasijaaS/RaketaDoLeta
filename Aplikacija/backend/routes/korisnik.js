@@ -266,10 +266,12 @@ router.get("/vidiGrupneTreninge", async (req, res) => {
           let vrati = []
           for (let i = 0; i < treninzi.length; i++) {
             const t = await Trener.findById(treninzi[i].trenerId)
+            const regT = await RegistrovaniKorisnik.find({_id:t.registrovaniKorisnikId})
+            
     
             let tren = {
-              imeTrenera: t.ime,
-              prezimeTrenera: t.prezime,
+              ime: regT.ime,
+              prezime: regT.prezime,
               datum: treninzi[i].datum,
               nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
               intenzitet: treninzi[i].intenzitet,
