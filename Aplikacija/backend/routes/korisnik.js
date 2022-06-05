@@ -259,21 +259,40 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
 router.get("/vidiGrupneTreninge", async (req, res) => {
 
     try {
-        const treninzi = await Trening.find({ brojClanova: { $gte: 2 } })
-        if (treninzi.length != 0) {
-            res.status(200).json(treninzi)
+
+        const treninzi = await Trening.find({ brojMaxClanova: { $gte: 2 } })
+        if (treninzi != null) {
+    
+          let vrati = []
+          for (let i = 0; i < treninzi.length; i++) {
+            const t = await Trener.findById(treninzi[i].trenerId)
+    
+            let tren = {
+              imeTrenera: t.ime,
+              prezimeTrenera: t.prezime,
+              datum: treninzi[i].datum,
+              nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
+              intenzitet: treninzi[i].intenzitet,
+              trajanje:treninzi[i].trajanje,
+              brojMaxClanova: treninzi[i].brojMaxClanova
+             
+            }
+            vrati.push(tren)
+          }
+          res.status(200).json(vrati)
         }
         else {
-            res.status(400).json("Nema treninga za prikaz")
+          res.status(404).json("nema grupnih treninga")
         }
-
-
-    }
-    catch (err) {
+    
+      }
+      catch (err) {
         res.status(500).json(err);
-    }
+      }
+    
+    })
 
-})
+
 
 //uplati clanarinu
 

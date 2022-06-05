@@ -12,30 +12,33 @@ const Evidencija = require("../models/Evidencija");
 
 
 //dodaj korisnika
-router.post("/dodajKorisnika/:id", async (req, res) => {
+router.post("/dodajKorisnika/:id/:korid", async (req, res) => {
 
     try {
+
 
         const trener = await Trener.findById(req.params.id);
         if (trener != null) {
 
-            const kor = await RegistrovaniKorisnik.findById(req.body.registrovaniKorisnikId);
+            const kor = await Korisnik.findById(req.params.korid);
             if (kor != null) {
+                await kor.updateOne({
+                    $set:
+                    {
+                        visina: req.body.visina,
+                        zeljenaTezina: req.body.zeljenaTezina,
+                        zeljeniProcenatMasti: req.body.zeljeniProcenatMasti,
+                        zeljenaTezinaMisica: req.body.zeljenaTezinaMisica,
+                        zeljeniProcenatProteina: req.body.zeljeniProcenatProteina,
+                        brojGodina: req.body.brojGodina
+                    }
+                  })
+            
+                
 
-                const noviKorisnik = await new Korisnik({
-                    registrovaniKorisnikId: kor._id,
-                    visina: req.body.visina,
-                    zeljenaTezina: req.body.zeljenaTezina,
-                    zeljeniProcenatMasti: req.body.zeljeniProcenatMasti,
-                    zeljenaTezinaMisica: req.body.zeljenaTezinaMisica,
-                    zeljeniProcenatProteina: req.body.zeljeniProcenatProteina,
-                    brojGodina: req.body.brojGodina
-                })
-
-                const noviKorisnikSave = await noviKorisnik.save();
-                await noviKorisnikSave.updateOne({ trenerId: trener._id })
-                await trener.updateOne({ $push: { listaKlijenata: noviKorisnikSave._id } });
-                res.status(200).json(noviKorisnikSave);
+                await kor.updateOne({ trenerId: trener._id })
+                await trener.updateOne({ $push: { listaKlijenata: kor._id } });
+                res.status(200).json(kor);
 
             }
             else {
@@ -158,10 +161,11 @@ router.post("/zakaziGrupniTrening/:id", async (req, res) => {
 
             const novitrening = await new Trening({
                 datum: req.body.datum,
-                tip: req.body.tip,
+                nazivGrupnogTreninga: req.body.nazivGrupnogTreninga,
                 intenzitet: req.body.intenzitet,
-                brojClanova: req.body.brojClanova,
-                trener: trener._id
+                trajanje:req.body.trajanje,
+                brojMaxClanova: req.body.brojMaxClanova,
+                trenerId: trener._id
             })
 
             const trening = await novitrening.save();
@@ -468,7 +472,7 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
     }
 })
  //zakazi grupni trening
- router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
+ /*router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
 
     try{
         const trener=await Trener.findById(req.params.id)
@@ -495,7 +499,7 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
         res.status(500).json(err);
     }
 
-})
+})*/
 //dodaj profilnu sliku
 router.put("/dodajSliku/:idTrenera", async (req, res) => {
 

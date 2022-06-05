@@ -6,6 +6,10 @@ const TreningSchema = new mongoose.Schema({
         type:Date
 
     },
+    nazivGrupnogTreninga:{
+        type:String
+
+    },
     tip:{
         type:String,
         enum:["Gornji deo tela", "Donji deo tela", "Kardio"]
@@ -21,7 +25,10 @@ const TreningSchema = new mongoose.Schema({
         enum:["30min", "45min", "1h", "1h30min", "2h"]
 
     },
-    brojClanova:{
+    brojMaxClanova:{
+        type:Number
+    },
+    brojTrenClanova:{
         type:Number
     },
     trenerId:{
@@ -33,6 +40,12 @@ const TreningSchema = new mongoose.Schema({
     isOnline:{
         type:Boolean,
         default:false
+    },
+    imeTrenera:{
+        type:String
+    },
+    prezimeTrenera:{
+        type:String
     }
 
     
