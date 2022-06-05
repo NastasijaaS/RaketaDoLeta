@@ -20,6 +20,7 @@ import ZakazaniTreninzi from './profil/Korisnik/ZakazaniTreninzi';
 import Napredak from './profil/Korisnik/Napredak';
 import GrupniTreninzi from './pocetna/GrupniTreninzi';
 import Zelje from './pocetna/FormaZaZelje';
+import VelikiBlog from './pocetna/VelikiBlog'
 
 const darkTheme = createTheme({
   palette: {
@@ -66,6 +67,8 @@ function App() {
           </Route>
 
           <Route path='/blog' element={<Blog />} />
+
+          <Route path='/blog/:tag/:naslov' element={<VelikiBlog />} />
 
 
           <Route path='/login' element=

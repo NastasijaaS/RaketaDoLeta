@@ -1,11 +1,13 @@
-import {Button, ButtonGroup, FormControl, Grid, InputLabel, MenuItem, Select, Card, CardActionArea, CardMedia, CardContent, Typography} from '@mui/material';
+import { Button, ButtonGroup, FormControl, Grid, InputLabel, MenuItem, Select, Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import '../styles/blog.css'
 import { GetData } from '../komponente/Fetch';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import { useNavigate } from "react-router-dom";
 
 const Blog = () => {
+
+    let navigate = useNavigate()
 
     const [nizBlogova, setBlogovi] = useState([])
     const [greska, setGreska] = useState(false)
@@ -24,7 +26,7 @@ const Blog = () => {
     return (
         <div className="sviBlogovi">
 
-            <ButtonGroup onClick={(ev) => { setNaslov(ev.target.value) }} className='divZaIzbor' size="large" sx={{ display: { xs: 'none', s:'none',md: 'flex' } }}>
+            <ButtonGroup onClick={(ev) => { setNaslov(ev.target.value) }} className='divZaIzbor' size="large" sx={{ display: { xs: 'none', s: 'none', md: 'flex' } }}>
                 <Button value='Zdravlje' className='btnBlog zdravlje'>Zdravlje</Button>
                 <Button value='Ishrana' className='btnBlog ishrana'>Ishrana</Button>
                 <Button value='Trening' className='btnBlog treninzi'>Trening</Button>
@@ -51,25 +53,29 @@ const Blog = () => {
 
             {greska && <p className='greska'>Doslo je do greske</p>}
 
-            <Grid container className='blogovi' spacing = {2} justify="flex-start"
+            <Grid container className='blogovi' spacing={2} justify="flex-start"
                 alignItems="flex-start">
                 {nizBlogova
                     .map((usl, i) => (
-                        <Grid item xs = {12} sm = {6} md = {4}>
-                            <Card key={i} className="blog" sx={{ maxWidth: 345 }}>
+                        <Grid key={i} item xs={12} sm={6} md={4}
+                            onClick={() => {
+                                navigate(`/blog/${usl.tagovi}/${usl.naslov}`, { state: usl });
+                            }}>
+
+                            <Card className="blog" sx={{ maxWidth: 345 }} >
                                 <CardActionArea>
                                     <CardMedia
-                                    component="img"
-                                    image={usl.slika}
-                                    alt={usl.naslov}
+                                        component="img"
+                                        image={usl.slika}
+                                        alt={usl.naslov}
                                     />
                                     <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        {usl.naslov}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {usl.kratakopis}
-                                    </Typography>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {usl.naslov}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {usl.kratakopis}
+                                        </Typography>
                                     </CardContent>
                                 </CardActionArea>
                             </Card>
@@ -78,7 +84,7 @@ const Blog = () => {
                         // <div key={i} className="blog">
                         //     <h2 className="naslovBloga">{usl.naslov}</h2>
                         //     <p className="textBloga">{usl.tekst}</p>
-                        //     <img src = {usl.slika}/>
+                        //     <img src={usl.slika} />
                         //     <p>{usl.datum}</p>
                         //     {/* <span className="autorBloga">Autor: {usl.autor}</span> */}
                         // </div>
