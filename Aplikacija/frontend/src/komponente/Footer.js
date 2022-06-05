@@ -24,9 +24,11 @@ function Copyright() {
 }
 
 function Footer() {
-  return (   
+  return ( 
+    
       <Box
         component="footer"
+        id = "kontakt"
         sx={{
           py: 3,
           px: 2,
@@ -37,9 +39,11 @@ function Footer() {
               : theme.palette.grey[800],
         }}
       >
+        
+          
       <Box>
         <Container maxWidth="lg">
-          <Grid container spacing = {5} alignItems= "flex-start">
+          <Grid container spacing = {5} alignItems= "flex-start"  mb = {2}>
             <Grid item xs = {12} sm ={4} >
               <RocketLaunchOutlinedIcon sx={{mr: 1 }} />
               <Typography
@@ -57,7 +61,7 @@ function Footer() {
               >
               RaketaDoLeta
               </Typography>
-              <Box sx = {{justify:"flex-start", alignItems:"flex-start", display:'flex'}}>
+              <Box sx = {{display:'flex'}}>
               <Box>
                 <Link href="https://instagram.com" target="_blank" rel="noopener" >
                 <InstagramIcon/>
@@ -122,16 +126,25 @@ function Footer() {
                 </Link>
               </Box>
               <Box>
-                <Link>
+                <Link >
                   Blog
                 </Link>
               </Box>
             </Grid>
           </Grid>
           
-          <Copyright />
         </Container>
       </Box>
+      <iframe
+                    title='myfeame'
+                    src="https://www.google.com/maps/d/u/0/embed?mid=19cj8tl1EbeOvv5qFskSkS0gjx2VSgMA&ehbc=2E312F"  
+                    width="100%"
+                    height="240"
+                    frameBorder="0"
+                    style={{border:2}}
+                    allowFullScreen/>   
+      <Copyright />
+
     </Box>
   )
 }

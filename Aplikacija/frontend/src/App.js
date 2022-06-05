@@ -43,7 +43,7 @@ function App() {
   const { user } = useContext(UserContext);
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <>    <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Router>
         <ScrollToTop enableColorScheme />
@@ -101,6 +101,8 @@ function App() {
         {/* <Footer /> */}
       </Router>
     </ThemeProvider >
+    
+    </>
 
   );
 }

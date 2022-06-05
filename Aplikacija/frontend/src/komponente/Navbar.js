@@ -25,7 +25,7 @@ const pages = [
   { val: 'O nama', link: '/onama' },
   { val: 'Blog', link: '/blog' },
   { val: 'Cenovnik', link: '/usluge' },
-  { val: 'Kontakt', link: ' ' },
+  { val: 'Kontakt', link: '#kontakt' },
 ];
 
 // const settings = [
@@ -88,11 +88,11 @@ const Navbar = () => {
 
 
   return (
-    <AppBar position="static" color="primary" enableColorOnDark>
+    <AppBar position="static" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* POGLED ZA DESKTOP*/}
-          <RocketLaunchOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <RocketLaunchOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 , color: 'white'}} />
           <Typography
             variant="h6"
             noWrap
@@ -103,8 +103,8 @@ const Navbar = () => {
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
+              letterSpacing: '.2rem',
+              color: 'white',
               textDecoration: 'none',
             }}
           >

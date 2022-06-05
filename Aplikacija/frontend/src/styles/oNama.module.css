@@ -1,7 +1,7 @@
 .pozadina {
     height: 300px;
 
-    background-image: url(https://image.shutterstock.com/image-photo/top-view-blue-fitness-mat-260nw-1782713462.jpg);
+    background-image: url(https://www.virginactive.com.au/images/library/Blog/Media/HandsUpYoga_730x411.jpg);
 
     background-repeat: no-repeat;
 
@@ -10,11 +10,12 @@
 
     display: flex;
     justify-content: center;
+    align-items: center;
 
 }
-.glavniNaslov{
+/* .glavniNaslov{
     margin-top: 10vw;
-}
+} */
 .opis {
     margin: 5vw;
     gap: 20px;
