@@ -139,7 +139,8 @@ router.get("/vidiTrenereGrupni", async (req, res) => {
                     slika: trener[i].slika,
                     sertifikati: trener[i].sertifikati,
                     iskustvo:trener[i].iskustvo,
-                    email: t.email
+                    email: t.email,
+                    registrovaniKorisnikId:trener[i].registrovaniKorisnikId
                 }
 
                 treneri.push(tr)
@@ -183,7 +184,8 @@ router.get("/vidiTrenerePersonalni", async (req, res) => {
                     slika: trener[i].slika,
                     sertifikati: trener[i].sertifikati,
                     iskustvo: trener[i].iskustvo,
-                    email: t.email
+                    email: t.email,
+                    registrovaniKorisnikId:trener[i].registrovaniKorisnikId
                 }
 
                 treneri.push(tr)
@@ -197,6 +199,26 @@ router.get("/vidiTrenerePersonalni", async (req, res) => {
         else {
             res.status(400).json("Nema trenera za prikaz")
         }
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
+//pogledaj sve trenere
+router.get("/vidiTrenereSvi", async (req, res) => {
+
+    try {
+        const trener = await Trener.find()
+        if (trener.length != 0) {
+            res.status(200).json(trener)
+        }
+        else {
+            res.status(400).json("Nema trenera za prikaz")
+        }
+
 
     }
     catch (err) {
