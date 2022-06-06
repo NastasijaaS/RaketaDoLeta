@@ -67,7 +67,7 @@ router.post("/register", async (req, res) => {
 
     }
 
-    // res.status(200).json(user);
+     res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err)
   }
@@ -136,7 +136,7 @@ router.post("/login", async (req, res) => {
       }
     }
     else {
-      const trener = await Uprava.findOne({ registrovaniKorisnikId: user._id });
+      const trener = await Trener.findOne({ registrovaniKorisnikId: user._id });
       if (trener != null) {
         let novi = {
           id: user.id,
