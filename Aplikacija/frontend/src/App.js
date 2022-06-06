@@ -21,6 +21,11 @@ import Napredak from './profil/Korisnik/Napredak';
 import GrupniTreninzi from './pocetna/GrupniTreninzi';
 import Zelje from './pocetna/FormaZaZelje';
 import VelikiBlog from './pocetna/VelikiBlog'
+import NavbarTrener from './komponente/NavbarTrener';
+import Tabela from './profil/Uprava/TabelaKorisnici';
+import ZahteviTrenera from './profil/Trener/Zahtevi';
+import TreninziTrenera from './profil/Trener/Treninzi';
+import TaboviLevo from './komponente/TaboviLevo';
 
 const darkTheme = createTheme({
   palette: {
@@ -47,7 +52,8 @@ function App() {
       <CssBaseline />
       <Router>
         <ScrollToTop enableColorScheme />
-        <Navbar />
+
+        {(user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar />}
 
         <Routes>
 
@@ -75,11 +81,11 @@ function App() {
             {user ? <Navigate replace to="/profil" /> : <LogIn />}>
           </Route>
 
-          {/* <Route path='/signup' element=
+          <Route path='/signup' element=
             {user ? <Navigate replace to="/profil" /> : <Register />}>
-          </Route> */}
+          </Route>
 
-          <Route path='/signup' element={<Register />} />
+          {/* <Route path='/signup' element={<Register />} /> */}
 
           <Route path='/registracija/podaci' element={<Zelje />} />
 
@@ -87,7 +93,7 @@ function App() {
             {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />}>
           </Route>
 
-          <Route path='/uprava' element={<Uprava />} />
+          {/* <Route path='/RDL/uprava/:username' element={<Uprava />} /> */}
 
           <Route path='/napredak' element={<Napredak />} />
           <Route path='/vasitreninzi' element={<ZakazaniTreninzi />} />
@@ -96,12 +102,17 @@ function App() {
 
           {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
 
+          <Route path='/RDL/trener/:username/korisnici' element={<Tabela verifikovan={true} trener={true} />} />
+          <Route path='/RDL/trener/:username/zahtevi' element={<ZahteviTrenera />} />
+          <Route path='/RDL/trener/:username/treninzi' element={<TreninziTrenera />} />
+
+
         </Routes>
 
         {/* <Footer /> */}
       </Router>
     </ThemeProvider >
-    
+
     </>
 
   );

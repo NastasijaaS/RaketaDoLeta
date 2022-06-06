@@ -10,8 +10,6 @@ import OdbijeniTreninzi from './Uprava/TabelaOdbijeniTreninzi';
 import TabelaTreneri from './Uprava/TabelaTreneri';
 
 
-//dodaj sertifikat treneru
-
 //zahtev za treningom
 //obrisi odbijen trening
 
@@ -41,8 +39,9 @@ export const Uprava = () => {
     };
 
     return (
-        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex'}}>
+        <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}>
             <Tabs
+                position="sticky"
                 orientation="vertical"
                 variant="scrollable"
                 value={value}
@@ -66,15 +65,15 @@ export const Uprava = () => {
             </TabPanel>
 
             <TabPanel value={value} index={2}>
-                <TabelaUsluge/>
+                <TabelaUsluge />
             </TabPanel>
 
             <TabPanel value={value} index={3}>
-               <TabelaTreneri/>
+                <TabelaTreneri />
             </TabPanel>
 
             <TabPanel value={value} index={4}>
-                <OdbijeniTreninzi/>
+                <OdbijeniTreninzi />
             </TabPanel>
 
         </Box>

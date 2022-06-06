@@ -86,13 +86,12 @@ const Navbar = () => {
   }
 
 
-
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="sticky" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* POGLED ZA DESKTOP*/}
-          <RocketLaunchOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 , color: 'white'}} />
+          <RocketLaunchOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'white' }} />
           <Typography
             variant="h6"
             noWrap

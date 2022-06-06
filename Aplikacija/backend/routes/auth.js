@@ -66,8 +66,8 @@ router.post("/register", async (req, res) => {
       res.status(200).json(novi)
 
     }
-
-     res.status(200).json(user);
+    else
+      res.status(200).json(user);
   } catch (err) {
     res.status(500).json(err)
   }
@@ -123,7 +123,7 @@ router.post("/login", async (req, res) => {
           id: user.id,
           ime: user.ime,
           prezime: user.prezime,
-          email: user.emil,
+          email: user.email,
           brojTelefona: user.brojTelefona,
           password: user.password,
           tip: user.tipKorisnika,
@@ -142,7 +142,7 @@ router.post("/login", async (req, res) => {
           id: user.id,
           ime: user.ime,
           prezime: user.prezime,
-          email: user.emil,
+          email: user.email,
           brojTelefona: user.brojTelefona,
           password: user.password,
           tip: user.tipKorisnika,

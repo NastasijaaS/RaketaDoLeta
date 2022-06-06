@@ -10,13 +10,23 @@ import { TextField, Box, Modal, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { FormControl, Grid, InputLabel, MenuItem, Select, } from '@mui/material';
 
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+// import TimePicker from 'react-time-picker';
+
+
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { ClockPicker } from '@mui/x-date-pickers/ClockPicker';
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
 const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
 
 const FormaZakaziPersonalni = (props) => {
-   
+
     const { user } = useContext(UserContext);
 
     // let tipTreninga = ''
@@ -33,7 +43,7 @@ const FormaZakaziPersonalni = (props) => {
         console.log(tipTreninga)
         console.log(intenzitetTreninga)
         console.log(trajanjeTreninga)
-        
+
         // da li je personalni ili grupni 
 
 
@@ -88,9 +98,16 @@ const FormaZakaziPersonalni = (props) => {
         isOnline = ev.target.checked
     }
 
+    const [startDate, setStartDate] = useState(new Date());
+    const [date, setDate] = useState(new Date());
+
+
+    // const [value, onChange] = useState('10:00');
+    const [value, setValue] = React.useState(null);
+
     const DropDown = ({ labela, set, niz, value }) => {
 
-        return (<FormControl  sx={{ minWidth: 150, }}>
+        return (<FormControl sx={{ minWidth: 150, }}>
             <InputLabel>{labela}</InputLabel>
             <Select
                 label={labela}
@@ -123,6 +140,33 @@ const FormaZakaziPersonalni = (props) => {
             </div> */}
 
             <div>ovde mozda kalendar za datum i vreme??</div>
+            {/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} /> */}
+
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                    label="Basic example"
+                    value={value}
+                    onChange={(newValue) => {
+                        setValue(newValue);
+                    }}
+                    minDate = {new Date()}
+                   
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <ClockPicker date={date}  minutesStep = {15} onChange={(newDate) => setDate(newDate)} />
+            </LocalizationProvider>
+
+            {/* <TimePicker
+                time="01:00"
+                placeholder="Start Time"
+                onSet={(val) => {
+                    alert('time is ' + JSON.stringify(val));
+                }} */}
+            {/* /> */}
+            {/* <TimePicker onChange={onChange} value={value} /> */}
 
             <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />
             <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />

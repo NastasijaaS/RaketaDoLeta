@@ -68,8 +68,6 @@ function TablePaginationActions(props) {
     );
 }
 
-
-
 export default function Tabela(props) {
 
     let buttonSelected = ''
@@ -260,7 +258,7 @@ export default function Tabela(props) {
                 < TableRow >
                     {props.verifikovan && <TableCell>
                         <IconButton
-                           
+
                             size="small"
                             onClick={() => { setOpen(!open) }}
                         >
@@ -312,11 +310,129 @@ export default function Tabela(props) {
                 <TableRow >
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                         <Collapse in={open} timeout="auto" unmountOnExit>
-                            
-                                <Box size="small" sx={{ margin: 1 , dispay: 'flex', justifyContent: 'center' }} >
-                                    <RadioButtons idKorisnika={row.id} />
-                                
+
+                            <Box size="small" sx={{ margin: 1, dispay: 'flex', justifyContent: 'center' }} >
+                                <RadioButtons idKorisnika={row.id} />
+
                             </Box>
+                        </Collapse>
+                    </TableCell>
+                </TableRow >
+            </Fragment>)
+    }
+
+const vidiNapredak = () => {
+    //.get("/vidiNapredak/:idTrenera/:idKorisnika
+}
+
+    const dodajNapredak = () => {
+//.post("/dodajNapredak/:idTrenera"
+/** "korisnikId": req.body.korisnikId,
+                    "kilaza": req.body.kilaza,
+                    "tezina": req.body.tezina,
+                    "tezinaMisica": req.body.tezinaMisica,
+                    "procenatProteina": req.body.procenatProteina,
+                    "procenatMasti": req.body.procenatMasti,
+                    "BMI": req.body.BMI,
+                    "kostanaMasa": req.body.kostanaMasa,
+                    "procenatVode": req.body.procenatVode,
+                    "bodyAge": req.body.bodyAge */
+    }
+
+    const dodajEvidenciju = () => {
+//post("/dodajEvidenciju/:idTrenera
+//"korisnikId": req.body.korisnikId,
+// "brojTreninga": req.body.brojTreninga,
+// "tipTreninga": req.body.tipTreninga,
+// "nivo": req.body.nivo
+    }
+
+    const vidiEvidenciju = () => {
+//get("trener/vidiEvidenciju/:idTrenera/:idKorisnika
+    }
+
+    const obrisiKlijenta = () => {
+
+    }
+
+    const RedTrener = ({ row }) => {
+
+        const [open, setOpen] = useState(false);
+
+        return (
+            <Fragment>
+                < TableRow >
+                    <TableCell style={{ width: 10 }}>
+                        <IconButton
+                            size="small"
+                            onClick={() => { setOpen(!open) }}
+                        >
+                            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        </IconButton>
+                    </TableCell>
+
+                    <TableCell style={{ width: 100 }} component="th" scope="row">
+                        {row.ime + ' ' + row.prezime}
+                    </TableCell>
+
+                    <TableCell style={{ width: 100 }} align="right">
+                        {row.email}
+                    </TableCell>
+
+
+                    <TableCell
+                        style={{ width: 100, color: new Date() > new Date(row.clanarinaDo) ? 'red' : 'inherit' }}
+                        align="right">
+                        {row.clanarinaDo}
+                    </TableCell>
+
+
+                    <TableCell style={{ width: 100 }} align="right">
+                        <Button
+                            onClick={() => dodajNapredak(row.id)}
+                            size="small"
+                            variant="outlined">
+                            dodaj napredak
+                        </Button>
+                    </TableCell>
+
+                    <TableCell style={{ width: 100 }} align="right">
+                        <Button
+                            onClick={() => vidiEvidenciju(row.id)}
+                            size="small"
+                            variant="outlined">
+                            vidi evidenciju
+                        </Button>
+                    </TableCell>
+
+                    <TableCell style={{ width: 100 }} align="right">
+                        <Button
+                            onClick={() => dodajEvidenciju(row.id)}
+                            size="small"
+                            variant="outlined">
+                            dodaj evidenciju
+                        </Button>
+                    </TableCell>
+
+                    <TableCell style={{ width: 100 }} align="right">
+                        <Button
+                            onClick={() => obrisiKlijenta(row.id)}
+                            size="small"
+                            variant="outlined"
+                            color="error"
+                            startIcon={<DeleteIcon />}>
+                            Obrisi
+                        </Button>
+                    </TableCell>
+
+
+                </TableRow>
+                <TableRow >
+                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+
+                            <div>ovde mozda da stavimo evidenciju ili napredak umesto dugme</div>
+
                         </Collapse>
                     </TableCell>
                 </TableRow >
@@ -344,7 +460,7 @@ export default function Tabela(props) {
 
             </div>
 
-            <TableContainer >
+            <TableContainer sx={{ maxWidth: '950px', alignSelf: 'center' }}>
                 <Table>
                     <TableHead>
                         {/* <TableRow sx={{ 'borderBottom': '1px solid rgba(224, 224, 224, 1) ' }}>
@@ -367,7 +483,7 @@ export default function Tabela(props) {
                                 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 : rows
                             ).map((row) => (
-                                <Red key={row.email} row={row} />
+                                props.trener ? <RedTrener key={row.email} row={row} /> : <Red key={row.email} row={row} />
                             ))}
 
                         {emptyRows > 0 && (

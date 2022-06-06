@@ -82,7 +82,7 @@ const Register = () => {
                 body: {
                     'ime': ime.current.value, 'prezime': prezime.current.value,
                     'brojTelefona': brojTelefona.current.value,
-                    'email': email.current.value, 'username': username.current.value, 'password': lozinka.current.value
+                    'email': email.current.value, 'username': username.current.value, 'password': lozinka.current.value,
                 }
             }
 
@@ -92,7 +92,7 @@ const Register = () => {
                 alert(error)
                 return
             }
-            
+
             // navigate('../registracija/podaci')
 
         }
@@ -103,17 +103,17 @@ const Register = () => {
             <div>
                 {/* <label>{labela}: */}
 
-                    <TextField
-                        className='loginInp'
-                        inputRef={reff}
-                        label={labela}
-                        type={tip}
-                        color="primary"
-                        size="small"
-                        placeholder={labela}
-                        focused />
+                <TextField
+                    className='loginInp'
+                    inputRef={reff}
+                    label={labela}
+                    type={tip}
+                    color="primary"
+                    size="small"
+                    placeholder={labela}
+                    focused />
 
-                    {/* <input className='loginInp' ref={reff}
+                {/* <input className='loginInp' ref={reff}
                         type={tip} placeholder={labela} /> */}
                 {/* </label> */}
             </div>
@@ -126,22 +126,22 @@ const Register = () => {
                 <h2>Registrujte se:</h2>
 
                 <Info labela='Ime' tip='text' reff={ime} />
-                {greska.ime && <p className='greska'>Polje ime ne sme biti prazno i mora sadrzati najmanje 3 slova</p>}
+                {greska.ime && <span className='greska'>Polje ime ne sme biti prazno i mora sadrzati najmanje 3 slova</span>}
 
                 <Info labela='Prezime' tip='text' reff={prezime} />
-                {greska.prezime && <p className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</p>}
+                {greska.prezime && <span className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</span>}
 
                 <Info labela='E-mail' tip='email' reff={email} />
-                {greska.mail && <p className='greska'>Unesite ispravan mail</p>}
+                {greska.mail && <span className='greska'>Unesite ispravan mail</span>}
 
                 <Info labela='Username' tip='text' reff={username} />
-                {greska.username && <p className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</p>}
+                {greska.username && <span className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</span>}
 
                 <Info labela='Lozinka' tip='password' reff={lozinka} />
-                {greska.lozinka && <p className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</p>}
+                {greska.lozinka && <span className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</span>}
 
                 <Info labela='Broj telefona' tip='text' reff={brojTelefona} />
-                {greska.brojTelefona && <p className='greska'>Broj telefona mora imati najmanje 9 cifara</p>}
+                {greska.brojTelefona && <span className='greska'>Broj telefona mora imati najmanje 9 cifara</span>}
 
                 {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 
