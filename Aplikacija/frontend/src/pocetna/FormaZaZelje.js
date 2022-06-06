@@ -1,6 +1,6 @@
 import '../styles/loginForma.css'
 import { PutMetoda } from '../komponente/Fetch';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useRef , useState} from 'react';
 import { UserContext } from '../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, TextField, Box } from '@mui/material';
@@ -22,6 +22,7 @@ const Info = ({ labela, tip, reff }) => {
         </div>
     )
 }
+
 
 const Zelje = () => {
     let navigate = useNavigate()
@@ -85,8 +86,6 @@ const Zelje = () => {
                 {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 
                 <Button size='small' variant="contained" onClick={upis}>Unesi</Button>
-
-                <Button size='small' variant="contained" onClick={() => navigate('/profil')}>Preskoci</Button>
 
             </form>
         </div >

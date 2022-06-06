@@ -22,8 +22,8 @@ const GrupniTreninzi = () => {
                 <div key={tr._id} >
 
                     <div className="usluga">
-                        {/* <span className="nazivUsluge">{tr.opis}</span>
-                        <span className="cenaUsluge">{tr.cena}</span> */}
+                        <span className="nazivUsluge">{tr.nazivGrupnogTreninga}</span>
+                        <span className="cenaUsluge">{tr.datum}</span> 
                     </div>
 
                 </div>
