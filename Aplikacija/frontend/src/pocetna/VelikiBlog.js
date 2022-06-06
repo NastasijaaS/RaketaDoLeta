@@ -1,5 +1,7 @@
 import { useLocation, } from "react-router-dom";
-import { CardMedia } from '@mui/material';
+import { Card, CardContent, CardMedia, Paper, Typography } from '@mui/material';
+import '../styles/blog.css'
+import { Box, Container } from "@mui/system";
 
 const VelikiBlog = (props) => {
     // const { state } = props.location
@@ -18,23 +20,27 @@ const VelikiBlog = (props) => {
     //kratakopis
     //tekst
 
-    return (<div>
-
-        <h2>{blog.tagovi}</h2>
-
-        <h1>{blog.naslov}</h1>
+    return (
+    
+        <Card className="marginaVeliki" elevation={3} >
         <CardMedia
-            component="img"
-            image={blog.slika}
-            alt={blog.naslov}
+        component="img"
+       
+        image= {blog.slika}
+        alt= {blog.naslov}
         />
+    
+        <CardContent>
+        {/* <Typography variant="caption" component="div"align="center" >{blog.tagovi}</Typography> */}
+        <Typography gutterBottom variant="h5" component="div" align="center">{blog.naslov}</Typography>
 
+        <Typography variant="body1" color="text.secondary" align = "justify" sx = {{padding: '2vh 3vw'}}> {blog.tekst} </Typography>
 
+        </CardContent>
+       
 
-        <div> <p>{blog.tekst}</p></div>
-
-
-    </div>)
+        </Card>
+        )
 }
 
 export default VelikiBlog

@@ -39,7 +39,14 @@ function Footer() {
               : theme.palette.grey[800],
         }}
       >
-        
+      <iframe
+                    title='myfeame'
+                    src="https://www.google.com/maps/d/u/0/embed?mid=19cj8tl1EbeOvv5qFskSkS0gjx2VSgMA&ehbc=2E312F"  
+                    width="100%"
+                    height="240"
+                    frameBorder="0"
+                    style={{border:2, marginBottom:'2vh'}}
+                    allowFullScreen/>          
           
       <Box>
         <Container maxWidth="lg">
@@ -135,14 +142,7 @@ function Footer() {
           
         </Container>
       </Box>
-      <iframe
-                    title='myfeame'
-                    src="https://www.google.com/maps/d/u/0/embed?mid=19cj8tl1EbeOvv5qFskSkS0gjx2VSgMA&ehbc=2E312F"  
-                    width="100%"
-                    height="240"
-                    frameBorder="0"
-                    style={{border:2}}
-                    allowFullScreen/>   
+ 
       <Copyright />
 
     </Box>

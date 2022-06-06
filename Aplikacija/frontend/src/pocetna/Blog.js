@@ -24,7 +24,7 @@ const Blog = () => {
     }, [naslov])
 
     return (
-        <div className="sviBlogovi">
+        <div className="sviBlogovi margina">
 
             <ButtonGroup onClick={(ev) => { setNaslov(ev.target.value) }} className='divZaIzbor' size="large" sx={{ display: { xs: 'none', s: 'none', md: 'flex' } }}>
                 <Button value='Zdravlje' className='btnBlog zdravlje'>Zdravlje</Button>

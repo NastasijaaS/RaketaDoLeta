@@ -4,9 +4,12 @@
     align-items: center;
 
     justify-content: center;
-}
-.sviBlogovi{
     margin: 15vh 15vw;
+
+}
+.marginaVeliki{
+    margin: 5vh 5vw;
+
 }
 
 .divZaIzbor{
