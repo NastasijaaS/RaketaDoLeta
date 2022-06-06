@@ -497,5 +497,19 @@ router.get("/vratiNeverifikovaneNaloge", async (req, res) => {
 
 })
 
+//obrisi trenera
+router.delete("/obrisiTrenera/:idTrenera", async (req, res) => {
+
+  try {
+
+    await Trener.findByIdAndDelete(req.params.idTrenera)
+    res.status(200).json("Trener je uspesno obrisan")
+
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 
 module.exports = router
