@@ -213,7 +213,6 @@ export default function Tabela(props) {
 
     }
 
-
     const handleRadioChange = (ev) => {
         ev.preventDefault();
 
@@ -301,7 +300,7 @@ export default function Tabela(props) {
 
                     <TableCell style={{ width: 160 }} align="right">
                         <Button
-                            onClick={() => console.log(typeof(row.clanarinaDo))}
+                            onClick={() => obrisiKorisnika(row.id)}
                             size="medium"
                             variant="outlined"
                             color="error"

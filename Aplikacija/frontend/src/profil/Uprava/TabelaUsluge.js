@@ -207,7 +207,7 @@ const TabelaUsluge = () => {
 
                 <TableBody>
                     {nizUsluga.map((usl, i) => (
-                        <Fragment>
+                        <Fragment key={usl._id}>
                             <TableRow key={usl._id} style={{ padding: 1 }}>
 
                                 <TableCell style={{ margin: 0, width: 70 }}>{usl.naziv}</TableCell>

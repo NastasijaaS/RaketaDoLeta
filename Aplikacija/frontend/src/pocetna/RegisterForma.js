@@ -93,7 +93,7 @@ const Register = () => {
                 return
             }
             
-            navigate('../registracija/podaci')
+            // navigate('../registracija/podaci')
 
         }
     }
@@ -122,7 +122,7 @@ const Register = () => {
 
     return (
         <div className="forma">
-            <form className="login" id='prijava' onSubmit={upis}>
+            <form className="login" onSubmit={upis}>
                 <h2>Registrujte se:</h2>
 
                 <Info labela='Ime' tip='text' reff={ime} />

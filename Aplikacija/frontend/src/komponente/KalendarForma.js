@@ -165,7 +165,7 @@ const KalendarForma = (props) => {
                 </Modal>
             }
 
-            {
+             {
                 zakazi && user &&
                 <Modal onClose={zakaziForma}>
                     <div>
@@ -180,7 +180,7 @@ const KalendarForma = (props) => {
                     // idTrenera={props.id} 
                     />
                 </Modal>
-            }
+            } 
 
         </div >
     )

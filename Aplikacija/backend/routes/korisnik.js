@@ -122,17 +122,13 @@ router.get("/vidiTrenereGrupni", async (req, res) => {
 
     try {
         const trener = await Trener.find({drzigrupne:true})
-
         if (trener.length != 0) {
-
             let treneri = []
-
             for (let i=0; i<trener.length; i++){
-
                 const t = await RegistrovaniKorisnik.findById(trener[i].registrovaniKorisnikId)
 
-
                 const tr = {
+                    id:trener[i]._id,
                     ime: t.ime,
                     prezime: t.prezime,
                     opis: trener[i].opis,
@@ -140,15 +136,12 @@ router.get("/vidiTrenereGrupni", async (req, res) => {
                     sertifikati: trener[i].sertifikati,
                     iskustvo:trener[i].iskustvo,
                     email: t.email,
-                    registrovaniKorisnikId:trener[i].registrovaniKorisnikId
+                    // registrovaniKorisnikId:trener[i].registrovaniKorisnikId
                 }
 
                 treneri.push(tr)
             }
                 res.status(200).json(treneri)
-                
-           
-
         }
         
         else {
@@ -167,17 +160,12 @@ router.get("/vidiTrenerePersonalni", async (req, res) => {
 
     try {
         const trener = await Trener.find({drzigrupne:false})
-
         if (trener.length != 0) {
-
             let treneri = []
-
             for (let i = 0; i < trener.length; i++) {
-
                 const t = await RegistrovaniKorisnik.findById(trener[i].registrovaniKorisnikId)
-
-
                 const tr = {
+                    id:trener[i]._id,
                     ime: t.ime,
                     prezime: t.prezime,
                     opis: trener[i].opis,
@@ -185,17 +173,13 @@ router.get("/vidiTrenerePersonalni", async (req, res) => {
                     sertifikati: trener[i].sertifikati,
                     iskustvo: trener[i].iskustvo,
                     email: t.email,
-                    registrovaniKorisnikId:trener[i].registrovaniKorisnikId
+                    // registrovaniKorisnikId:trener[i].registrovaniKorisnikId
                 }
 
                 treneri.push(tr)
             }
             res.status(200).json(treneri)
-
-
-
         }
-
         else {
             res.status(400).json("Nema trenera za prikaz")
         }
@@ -213,8 +197,25 @@ router.get("/vidiTrenereSvi", async (req, res) => {
     try {
         const trener = await Trener.find()
         if (trener.length != 0) {
-            res.status(200).json(trener)
+            let treneri = []
+            for (let i = 0; i < trener.length; i++) {
+                const t = await RegistrovaniKorisnik.findById(trener[i].registrovaniKorisnikId)
+                const tr = {
+                    id:trener[i]._id,
+                    ime: t.ime,
+                    prezime: t.prezime,
+                    opis: trener[i].opis,
+                    slika: trener[i].slika,
+                    sertifikati: trener[i].sertifikati,
+                    iskustvo: trener[i].iskustvo,
+                    email: t.email,
+                    // registrovaniKorisnikId:trener[i].registrovaniKorisnikId
+                }
+                treneri.push(tr)
+            }
+            res.status(200).json(treneri)
         }
+
         else {
             res.status(400).json("Nema trenera za prikaz")
         }

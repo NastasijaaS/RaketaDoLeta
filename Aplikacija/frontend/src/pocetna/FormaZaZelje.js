@@ -1,6 +1,6 @@
 import '../styles/loginForma.css'
 import { PutMetoda } from '../komponente/Fetch';
-import { useContext, useRef , useState} from 'react';
+import { useContext, useRef, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, TextField, Box } from '@mui/material';
@@ -66,26 +66,30 @@ const Zelje = () => {
         dispatch({ tip: "UPDATE_USER", payload: { ...user, ...korisnik } })
     }
 
+    const [show, setShow] = useState('flex')
+
     return (
-        <div className="forma">
+        <div className="forma" style={{ display: show }}>
             <form className="login" id='prijava' onSubmit={upis}>
                 <h2>Unesite vase podatke:</h2>
 
-                <Info labela='Godine' defaultValue = {0} tip='number' reff={godine} />
+                <Info labela='Godine' defaultValue={0} tip='number' reff={godine} />
 
-                <Info labela='Visina' defaultValue = {0} tip='number' reff={visina} />
+                <Info labela='Visina' defaultValue={0} tip='number' reff={visina} />
 
-                <Info labela='Zeljena tezina' defaultValue = {0} tip='number' reff={tezina} />
+                <Info labela='Zeljena tezina' defaultValue={0} tip='number' reff={tezina} />
 
-                <Info labela='Zeljeni procenat masti' defaultValue = {0} tip='email' reff={mast} />
+                <Info labela='Zeljeni procenat masti' defaultValue={0} tip='email' reff={mast} />
 
-                <Info labela='Zeljeni procenat proteina' defaultValue = {0} tip='number' reff={proteini} />
+                <Info labela='Zeljeni procenat proteina' defaultValue={0} tip='number' reff={proteini} />
 
-                <Info labela='Zeljeni tezina misica' defaultValue = {0} tip='number' reff={misici} />
+                <Info labela='Zeljeni tezina misica' defaultValue={0} tip='number' reff={misici} />
 
                 {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 
                 <Button size='small' variant="contained" onClick={upis}>Unesi</Button>
+
+                <Button size='small' variant="contained" onClick={() => setShow('none')}>Preskoci</Button>
 
             </form>
         </div >

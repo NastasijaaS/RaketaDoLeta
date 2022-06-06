@@ -3,10 +3,14 @@ import { useState, useEffect, useContext } from 'react'
 import KalendarForma from '../komponente/KalendarForma';
 import { GetData } from '../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';
-import { Card, CardMedia, CardContent, Typography, Button, Grid } from '@mui/material';
+import { Card, CardMedia, CardContent, Typography, Button, Grid, filledInputClasses } from '@mui/material';
 import { Box } from '@mui/system';
 import { UserContext } from '../context/UserContext';
-
+import Modal from '../komponente/Modal'
+import FormaZakazi from '../komponente/FormaZakazi';
+import LogIn from './LoginForma';
+import Register from './RegisterForma';
+import FormaZakaziPersonalni from '../komponente/FormaZakaziPersonalni';
 
 
 const Treneri = () => {
@@ -15,15 +19,18 @@ const Treneri = () => {
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading)
+    const [zakazi, setZakazi] = useState(false)
+    const [login, setLogin] = useState(true)
 
+    useEffect(() => {
+        const get = () => { GetData("http://localhost:8800/api/korisnik/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading) }
+        get()
     }, [])
 
     const { user, dispatch } = useContext(UserContext);
 
     const [detalji, setDetalji] = useState({ id: -1, state: true });
-    const [zakazi, setZakazi] = useState(false);
+
     const [vise, setVise] = useState(-1);
 
     const prikaziVise = (ev) => {
@@ -42,12 +49,14 @@ const Treneri = () => {
         setZakazi(true)
     }
 
+    const [trenerId, setTrenerId] = useState('')
+
     return (
         <div className="treneri">
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
             {sviTreneri.map((tr, i) => (
-                <Card key={i} container className="trener" sx={{ margin: '5vh 5vw' }}>
+                <Card key={i} className="trener" sx={{ margin: '5vh 5vw' }}>
                     <Grid container >
 
                         <Grid item xs={12} sm={4}>
@@ -82,12 +91,29 @@ const Treneri = () => {
                                     <Typography variant="body2"> {tr.opis}</Typography>
 
                                 </Typography>
-                                {user &&
 
-                                    <Button fullWidth variant="contained">Zakazi trening</Button>
+                                <Button fullWidth variant="contained" onClick={() => { setZakazi(true); setTrenerId(tr.id) }}>Zakazi trening</Button>
+
+                                {zakazi && <Modal onClose={() => { setZakazi(false) }}>
+
+                                    {user ? <FormaZakaziPersonalni idTrenera={trenerId} onClose={() => { setZakazi(false) }} /> : (login ? <div><LogIn />
+                                        <span>Nemate nalog:
+                                            <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
+                                        </span>
+                                    </div>
+
+                                        :
+
+                                        <div><Register />
+                                            <span>Imate nalog:
+                                                <Button size='small' onClick={() => { setLogin(true) }}>Prijavi se</Button>
+                                            </span>
+                                        </div>)
+                                    }
 
 
-                                }
+                                </Modal>}
+
 
                                 {/* {!detalji.state && detalji.id == i && <p></p>} */}
 

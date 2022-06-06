@@ -57,7 +57,7 @@ const LogIn = () => {
 
     return (
         <div className="forma">
-            <form className="login" id='prijava'>
+            <form className="login" >
 
                 {/* <Box
                 component="form"
