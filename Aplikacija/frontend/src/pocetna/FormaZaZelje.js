@@ -29,37 +29,40 @@ const Zelje = () => {
 
     const [ucitavaSe, setIsLoading] = useState(false)
     const [greska, setGreska] = useState(false)
+    const [data, setData] = useState(false)
 
-    const visina = useRef('')
-    const tezina = useRef('')
-    const mast = useRef('')
-    const proteini = useRef('')
-    const misici = useRef('')
+    const visina = useRef()
+    const tezina = useRef()
+    const mast = useRef()
+    const proteini = useRef()
+    const misici = useRef(0)
+    const godine = useRef(0)
 
-    const upis = () => {
-        navigate('../profil')
-        // const zahtev = {
-        //     url: 'http://localhost:8800/api/korisnik/izmeniParametre/' + user.korisnikId,
-        //     body: {
-        //         visina:visina.current.value,
-        //         zeljenaTezina: tezina.current.value,
-        //         zeljenaTezinaMisica: misici.current.value,
-        //         zeljeniProcenatMasti: mast.current.value,
-        //         zeljeniProcenatProteina: proteini.current.value
-        //     }
-        // }
+    const upis = async () => {
+        //   navigate('../profil')
+        const zahtev = {
+            url: 'http://localhost:8800/api/korisnik/izmeniParametre/' + user.korisnikId,
+            body: {
+                visina: visina.current.value,
+                zeljenaTezina: tezina.current.value,
+                zeljenaTezinaMisica: misici.current.value,
+                zeljeniProcenatMasti: mast.current.value,
+                zeljeniProcenatProteina: proteini.current.value
+            }
+        }
 
-        // await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        // const korisnik = {
-        //     visina:visina.current.value,
-        //     zeljenaTezina: tezina.current.value,
-        //     zeljenaTezinaMisica: misici.current.value,
-        //     zeljeniProcenatMasti: mast.current.value,
-        //     zeljeniProcenatProteina: proteini.current.value
-        // }
+        const korisnik = {
+            brojGodina: godine.current.value,
+            visina: visina.current.value,
+            zeljenaTezina: tezina.current.value,
+            zeljenaTezinaMisica: misici.current.value,
+            zeljeniProcenatMasti: mast.current.value,
+            zeljeniProcenatProteina: proteini.current.value
+        }
 
-        // dispatch({ tip: "UPDATE_USER", payload: { ...user, ...korisnik } })
+        dispatch({ tip: "UPDATE_USER", payload: { ...user, ...korisnik } })
     }
 
     return (
@@ -67,15 +70,17 @@ const Zelje = () => {
             <form className="login" id='prijava' onSubmit={upis}>
                 <h2>Unesite vase podatke:</h2>
 
-                <Info labela='Visina' tip='text' reff={visina} />
+                <Info labela='Godine' defaultValue = {0} tip='number' reff={godine} />
 
-                <Info labela='Zeljena tezina' tip='text' reff={tezina} />
+                <Info labela='Visina' defaultValue = {0} tip='number' reff={visina} />
 
-                <Info labela='Zeljeni procenat masti' tip='email' reff={mast} />
+                <Info labela='Zeljena tezina' defaultValue = {0} tip='number' reff={tezina} />
 
-                <Info labela='Zeljeni procenat proteina' tip='text' reff={proteini} />
+                <Info labela='Zeljeni procenat masti' defaultValue = {0} tip='email' reff={mast} />
 
-                <Info labela='Zeljeni tezina misica' tip='text' reff={misici} />
+                <Info labela='Zeljeni procenat proteina' defaultValue = {0} tip='number' reff={proteini} />
+
+                <Info labela='Zeljeni tezina misica' defaultValue = {0} tip='number' reff={misici} />
 
                 {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 

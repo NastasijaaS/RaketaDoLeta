@@ -38,6 +38,8 @@ const Korisnik = (props) => {
     const [isLoading, setIsLoading] = useState(false)
 
     const [korisnik, setKorisnik] = useState({
+        visina:user.visina,
+        brojGodina:user.brojGodina,
         zeljenaTezina: user.zeljenaTezina,
         zeljenaTezinaMisica: user.zeljenaTezinaMisica,
         zeljeniProcenatMasti: user.zeljeniProcenatMasti,
@@ -142,6 +144,8 @@ const Korisnik = (props) => {
         const zahtev = {
             url: 'http://localhost:8800/api/korisnik/izmeniParametre/' + user.korisnikId,
             body: {
+                visina:korisnik.visina,
+                brojGodina:korisnik.brojGodina,
                 zeljeniProcenatProteina: korisnik.zeljeniProcenatProteina,
                 zeljenaTezinaMisica: korisnik.zeljenaTezinaMisica,
                 zeljeniProcenatMasti: korisnik.zeljeniProcenatMasti,
@@ -190,17 +194,37 @@ const Korisnik = (props) => {
                 {!user && <p>nema korisnika</p>}
 
                 <h3>{user.ime} {user.prezime}</h3>
-                <p>Clanarina vazi do: {clanarina.trajanje}</p>
-                <p>Clanarina: {clanarina.cena}</p>
-                <p>Godine: {user.godine}</p>
+                <p>Clanarina vazi do: {clanarina.vaziDo}</p>
+              
+                {/* <p>Godine: {user.brojGodina}</p> */}
+
                 <p>e-mail: {user.email}</p>
 
-                <p>Visina: {user.visina}</p>
+                {/* <p>Visina: {user.visina}</p> */}
 
                 <div className="zelje">
                     <span>Broj telefona: {user.brojTelefona}
-
                     </span>
+                </div>
+
+                <div className="zelje">
+                    Godine:
+                    <input className='korisnik'
+                        type='number'
+                        value={korisnik.brojGodina}
+                        disabled={izmeniPodatke}
+                        onChange={(ev) => setKorisnik((k) => ({ ...k, brojGodina: ev.target.value }))} />
+
+                </div>
+
+                <div className="zelje">
+                    Visina:
+                    <input className='korisnik'
+                        type='number'
+                        value={korisnik.visina}
+                        disabled={izmeniPodatke}
+                        onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
+
                 </div>
 
                 <div className="zelje">

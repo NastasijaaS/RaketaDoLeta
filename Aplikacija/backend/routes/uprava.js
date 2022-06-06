@@ -341,7 +341,7 @@ router.get("/vratiZahteveOdbijeni", async (req, res) => {
         zahtevi.push(zah)
       }
 
-      res.status(200).json(zahtevi)
+      // res.status(200).json(zahtevi)
     }
 
     else {
@@ -439,20 +439,15 @@ router.get("/vratiVerifikovaneNaloge", async (req, res) => {
       let vrati = []
       for (let i = 0; i < korisnici.length; i++) {
         const regKorisnik = await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
-        const clanarina = await Clanarina.findOne({ korisnikId: korisnici[i]._id })
-        // let clanarinaDo = null
-        // if (clanarina !== null) {
-        //   clanarinaDo = new Date(clanarina.datumUplate)
-        //   clanarinaDo.setDate(clanarinaDo.getDate() + parseInt(clanarina.trajanje))
-        //   clanarinaDo = clanarinaDo.toLocaleDateString()
-        // }
+
+        const clanarina = await Clanarina.findById(korisnici[i].clanarinaId)
 
         let kor = {
           id: korisnici[i]._id,
           ime: regKorisnik.ime,
           prezime: regKorisnik.prezime,
           email: regKorisnik.email,
-          clanarinaDo: clanarina.vaziDo
+          clanarinaDo: clanarina.vaziDo ? clanarina.vaziDo.toLocaleDateString() : 0
         }
         vrati.push(kor)
       }

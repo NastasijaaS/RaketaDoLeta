@@ -92,6 +92,8 @@ export default function Tabela(props) {
                 if (p.status === 200) {
                     p.data.sort((a, b) => new Date(a.clanarinaDo) - new Date(b.clanarinaDo));
 
+                    console.log(p.data)
+
                     setKorisnici(p.data)
                     setRows(p.data)
                 }
@@ -299,7 +301,7 @@ export default function Tabela(props) {
 
                     <TableCell style={{ width: 160 }} align="right">
                         <Button
-                            onClick={() => obrisiKorisnika(row.id)}
+                            onClick={() => console.log(typeof(row.clanarinaDo))}
                             size="medium"
                             variant="outlined"
                             color="error"

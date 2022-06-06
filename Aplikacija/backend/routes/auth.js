@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
       username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
-      tip: tipKorisnika
+      tipKorisnika: tipKorisnika
     });
 
     const user = await novi.save();
@@ -36,17 +36,34 @@ router.post("/register", async (req, res) => {
       const noviKorisnik = await new Korisnik({
         registrovaniKorisnikId: user._id,
         verifikovan: false,
-        visina:0,
-        zeljenaTezina:0,
-        zeljenaTezinaMisica:0,
-        zeljeniProcenatMasti:0,
-        zeljeniProcenatProteina:0
+        visina: 0,
+        zeljenaTezina: 0,
+        zeljenaTezinaMisica: 0,
+        zeljeniProcenatMasti: 0,
+        zeljeniProcenatProteina: 0,
+        brojGodina: 0
       })
 
-      
       const noviKor = await noviKorisnik.save();
-      res.status(200).json(noviKor)
-      return
+
+      let novi = {
+        id: user.id,
+        ime: user.ime,
+        prezime: user.prezime,
+        email: user.email,
+        brojTelefona: user.brojTelefona,
+        password: user.password,
+        tip: user.tipKorisnika,
+        korisnikId: noviKor._id,
+        visina: noviKor.visina,
+        brojGodina: noviKor.brojGodina,
+        zeljeniProcenatProteina: noviKor.zeljeniProcenatProteina,
+        zeljenaTezinaMisica: noviKor.zeljenaTezinaMisica,
+        zeljeniProcenatMasti: noviKor.zeljeniProcenatMasti,
+        zeljenaTezina: noviKor.zeljenaTezina
+      }
+
+      res.status(200).json(novi)
 
     }
 
@@ -86,6 +103,8 @@ router.post("/login", async (req, res) => {
           password: user.password,
           tip: user.tipKorisnika,
           korisnikId: korisnik._id,
+          brojGodina: korisnik.brojGodina,
+          visina: korisnik.visina,
           zeljeniProcenatProteina: korisnik.zeljeniProcenatProteina,
           zeljenaTezinaMisica: korisnik.zeljenaTezinaMisica,
           zeljeniProcenatMasti: korisnik.zeljeniProcenatMasti,

@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Tabela from './Uprava/TabelaKorisnici';
 import TabelaUsluge from './Uprava/TabelaUsluge';
+import OdbijeniTreninzi from './Uprava/TabelaOdbijeniTreninzi';
+import TabelaTreneri from './Uprava/TabelaTreneri';
 
 
 //dodaj sertifikat treneru
@@ -68,11 +70,11 @@ export const Uprava = () => {
             </TabPanel>
 
             <TabPanel value={value} index={3}>
-                Treneri
+               <TabelaTreneri/>
             </TabPanel>
 
             <TabPanel value={value} index={4}>
-                Treninzi
+                <OdbijeniTreninzi/>
             </TabPanel>
 
         </Box>
