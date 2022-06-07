@@ -283,7 +283,8 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                   vreme:samovreme,
                   tip: treninzi[i].tip,
                   intenzitet: treninzi[i].intenzitet,
-                  trajanje: treninzi[i].trajanje
+                  trajanje: treninzi[i].trajanje,
+                  id:treninzi[i]._id
 
                   }
                   vrati.push(tr)
@@ -293,7 +294,7 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                 
             }
             else {
-                res.status(400).json("nema nijedan zakazani personalni trening")
+                res.status(404).json("nema nijedan zakazani personalni trening")
             }
 
         }
@@ -340,7 +341,8 @@ router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
                   vreme:samovreme,
                   nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
                   intenzitet: treninzi[i].intenzitet,
-                  trajanje:treninzi[i].trajanje
+                  trajanje:treninzi[i].trajanje,
+                  id:treninzi[i]._id
 
                   }
                   vrati.push(tr)
@@ -350,7 +352,7 @@ router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
                 
             }
             else {
-                res.status(400).json("nema nijedan zakazani personalni trening")
+                res.status(404).json("nema nijedan zakazani grupni trening")
             }
 
         }
