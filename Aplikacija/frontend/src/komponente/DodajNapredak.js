@@ -16,7 +16,9 @@ const Info = ({ labela, tip, reff }) => {
     return (
         <div>
             <TextField
+                style={{ margin: '1%' }}
                 inputRef={reff}
+                defaultValue={0}
                 label={labela}
                 type={tip}
                 color="primary"
@@ -29,6 +31,8 @@ const Info = ({ labela, tip, reff }) => {
 
 const DodajNapredak = (props) => {
 
+    const { user } = useContext(UserContext);
+
     const bodyAge = useRef()
     const procenatVode = useRef()
     const kostanaMasa = useRef()
@@ -39,41 +43,68 @@ const DodajNapredak = (props) => {
     const tezina = useRef()
 
 
-    const dodajNapredak = () => {
-        //.post("/dodajNapredak/:idTrenera"
-        /** "korisnikId": req.body.korisnikId,
-                            "kilaza": req.body.kilaza,
-                            "tezina": req.body.tezina,
-                            "tezinaMisica": req.body.tezinaMisica,
-                            "procenatProteina": req.body.procenatProteina,
-                            "procenatMasti": req.body.procenatMasti,
-                            "BMI": req.body.BMI,
-                            "kostanaMasa": req.body.kostanaMasa,
-                            "procenatVode": req.body.procenatVode,
-                            "bodyAge": req.body.bodyAge */
+    const [greska, setGreska] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [data, setData] = useState('')
+
+    const dodajNapredak = async () => {
+
+        console.log('napredak')
+
+        const zahtev = {
+            url: `http://localhost:8800/api/trener/dodajNapredak/${user.trenerId}`,
+            body: {
+                korisnikId: props.idKorisnika,
+                tezina: tezina.current.value,
+                tezinaMisica: tezinaMisica.current.value,
+                procenatProteina: procenatProteina.current.value,
+                procenatMasti: procenatMasti.current.value,
+                BMI: BMI.current.value,
+                kostanaMasa: kostanaMasa.current.value,
+                procenatVode: procenatVode.current.value,
+                bodyAge: bodyAge.current.value
+            }
+        }
+
+        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+
+        if (greska !== false) {
+            alert('doslo je do greske')
+
+        }
+        else {
+            alert('uspesno dodat napredak')
+        }
+
+        props.onClose()
+
+
     }
 
 
     return (
-        <Box>
-
-            <div style={{ gap: '1%' }}>
-                <Info labela='bodyAge' tip='number' reff={bodyAge} />
-                <Info labela='procenatVode' tip='number' reff={procenatVode} />
-                <Info labela='kostanaMasa' tip='number' reff={kostanaMasa} />
-                <Info labela='BMI' tip='number' reff={BMI} />
-                <Info labela='procenatMasti' tip='number' reff={procenatMasti} />
-                <Info labela='procenatProteina' tip='number' reff={procenatProteina} />
-                <Info labela='tezinaMisica' tip='number' reff={tezinaMisica} />
-                <Info labela='tezina' tip='number' reff={tezina} />
-            </div>
 
 
-            <div>
-                <Button size='small' variant="outlined" className="btn" >Potvrdi</Button>
-                <Button size='small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
-            </div>
-        </Box>
+        <div style={{ margin: '3%' }}>
+
+                        <Info labela='bodyAge' tip='number' reff={bodyAge} />
+            <Info labela='procenatVode' tip='number' reff={procenatVode} />
+            <Info labela='kostanaMasa' tip='number' reff={kostanaMasa} />
+            <Info labela='BMI' tip='number' reff={BMI} />
+            <Info labela='procenatMasti' tip='number' reff={procenatMasti} />
+            <Info labela='procenatProteina' tip='number' reff={procenatProteina} />
+            <Info labela='tezinaMisica' tip='number' reff={tezinaMisica} />
+            <Info labela='tezina' tip='number' reff={tezina} />
+           
+
+            {/* <div> */}
+            <Button size='small' variant="outlined" className="btn" onClick={dodajNapredak}>Unesi</Button>
+            <Button size='small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
+
+            {/* </div> */}
+        </div>
+
+
     )
 }
 export default DodajNapredak

@@ -25,8 +25,6 @@ const TreninziTrenera = () => {
     }, [])
 
 
-
-
     const dodajTrening = () => {
         console.log(treninzi)
 
@@ -41,12 +39,14 @@ const TreninziTrenera = () => {
                 trenerId: trener._id */
     }
 
-const izmeniTrening = () => {
-    console.log(treninzi)
-}
+    const izmeniTrening = () => {
+        console.log(treninzi)
+    }
+    
     return (<div>
-        <Button onClick = {dodajTrening}>Zakazi grupni trening</Button>
-       <div><h1>nesto</h1></div>
+        <Button onClick={dodajTrening}>Zakazi grupni trening</Button>
+        <div><h1>nesto</h1></div>
+
         {treninzi.map((tr) => (
             <div key={tr._id}>
 
@@ -54,7 +54,7 @@ const izmeniTrening = () => {
                 <p>{tr.intenzitet}</p>
                 <p>{tr.trajanje}</p>
 
-                <Button onClick = {izmeniTrening}>izmeni trening</Button>
+                <Button onClick={izmeniTrening}>izmeni trening</Button>
             </div>
         ))}
     </div>)

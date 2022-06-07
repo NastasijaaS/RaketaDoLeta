@@ -26,6 +26,7 @@ import Tabela from './profil/Uprava/TabelaKorisnici';
 import ZahteviTrenera from './profil/Trener/Zahtevi';
 import TreninziTrenera from './profil/Trener/Treninzi';
 import TaboviLevo from './komponente/TaboviLevo';
+import KorisniciTrenera from './profil/Trener/Korisnici';
 
 const darkTheme = createTheme({
   palette: {
@@ -102,7 +103,7 @@ function App() {
 
           {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
 
-          <Route path='/RDL/trener/:username/korisnici' element={<Tabela verifikovan={true} trener={true} />} />
+          <Route path='/RDL/trener/korisnici' element={<KorisniciTrenera/>} />
           <Route path='/RDL/trener/:username/zahtevi' element={<ZahteviTrenera />} />
           <Route path='/RDL/trener/:username/treninzi' element={<TreninziTrenera />} />
 

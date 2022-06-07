@@ -29,7 +29,7 @@ const FormaZakaziPersonalni = (props) => {
 
     const [error, setError] = useState(false)
 
-    const [data,setData] = useState()
+    const [data, setData] = useState()
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -47,12 +47,13 @@ const FormaZakaziPersonalni = (props) => {
             return
         }
 
+        const datum = new Date(date.getFullYear(),date.getMonth(), date.getDate(), vreme.getHours(), vreme.getMinutes())
+        
         const zahtev = {
             url: 'http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId,
             body: {
                 trenerId: props.idTrenera,
-                datum: date,
-                vreme: vreme.getTime(),
+                datum: datum,
                 tip: tipTreninga,
                 intenzitet: intenzitetTreninga,
                 trajanje: trajanjeTreninga,
@@ -60,22 +61,22 @@ const FormaZakaziPersonalni = (props) => {
             }
         }
 
-        console.log(zahtev.body)
-     
+        // console.log(zahtev.body)
+
         await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert(greska)
             // setError('Morate uneti sve podatke')
         }
-        else{
+        else {
             setError('Uspesno zakazan trening')
         }
-        
 
 
 
-        props.onClose()
+
+        // props.onClose()
 
     }
 
@@ -116,7 +117,7 @@ const FormaZakaziPersonalni = (props) => {
     return (
         <form className="formaZakazi" onSubmit={zakaziTrening}>
 
-            <Greska open={error} onClose={() => setError(false)} greska={error} />
+            <Greska open={Boolean(error)} onClose={() => setError(false)} greska={error} />
             {/* <div>
                 <label >Tip treninga:</label>
                 <select className="opcija" name="tip" id="tip" ref={(input) => tipTreninga = input}>

@@ -6,7 +6,7 @@ export const GetData = async (url, setData, setError, setIsLoading) => {
     setIsLoading(true)
     try {
         const response = await fetch(url)
-        // console.log(response)
+        console.log(response)
 
         if (response.ok) {
 

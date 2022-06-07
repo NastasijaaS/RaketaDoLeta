@@ -170,6 +170,7 @@ router.post("/zakaziGrupniTrening/:id/:idUsluge", async (req, res) => {
                 //imeT:regT.ime,
                 //prezimeT:regT.prezime,
                 datum: req.body.datum,
+                vreme:req.body.vreme,
                 nazivGrupnogTreninga: req.body.nazivGrupnogTreninga,
                 intenzitet: req.body.intenzitet,
                 trajanje:req.body.trajanje,
