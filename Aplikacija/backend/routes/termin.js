@@ -67,11 +67,12 @@ router.post("/dodajTerminTreneru/:idTrenera", async (req, res) => {
 router.put("/zakaziTermin/:idTermina", async (req, res) => {
     try {
         const zakazan = await Termin.findByIdAndUpdate(req.params.idTermina, {$set:{
-            datum:req.body.datum,
-                vremePocetka:req.body.vremePocetka,
-                vremeKraja:req.body.vremeKraja,
                 slobodan:false
         }})
+        res.status(200).json(zakazan)
+
+        // const zakazanSave=zakazan.save()
+        // res.status(200).json(zakazanSave)
 
     }
     catch (err) {
@@ -80,10 +81,10 @@ router.put("/zakaziTermin/:idTermina", async (req, res) => {
 })
 
 //obrisiBlog
-router.delete("/obrisiBlog/:idBloga", async (req, res) => {
+router.delete("/obrisiTermin/:idTermina", async (req, res) => {
     try {
-        
-
+        await Termin.findByIdAndDelete(req.params.idTermina)
+        res.status(200).json("Uspesno obrisan termin")
     }
     catch (err) {
         res.status(500).json(err);
