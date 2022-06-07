@@ -258,11 +258,12 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
     try {
 
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
+        //res.status(200).json(korisnik)
         if (korisnik != null) {
-            const treninzi = await Trening.find({ $and:[ {clanovi:korisnik._id} , { brojMaxClanova: 1 }  ]  })
-            //const treninzi = await Trening.find( {clanovi:korisnik._id })
-            //res.status(200).json(treninzi)
+            const treninzi = await Trening.find({ $and:[ {clanovi:req.params.idKorisnika} , { brojMaxClanova: 1 }  ]  })
+            //const treninzi = await Trening.find( {clanovi:req.params.idKorisnika })
             if (treninzi.length != 0) { 
+                //res.status(200).json(treninzi)
 
 
                 let vrati = []
@@ -292,7 +293,7 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                   treneri.push(trener)
                   vrati.push(tr)
                 }
-                res.status(200).json(treneri)
+                res.status(200).json(vrati)
  
                 
             }
