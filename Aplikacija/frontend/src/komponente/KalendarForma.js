@@ -7,6 +7,8 @@ import Register from '../pocetna/RegisterForma'
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import Button from '@mui/material/Button';
+import { Box } from '@mui/material'
+
 
 const termini1 = [{ trajanje: 60, vreme: 17 }, { trajanje: 45, vreme: 18 }]
 const termini2 = [{ trajanje: 45, vreme: 13 }, { trajanje: 30, vreme: 19 }]
@@ -135,15 +137,15 @@ const KalendarForma = (props) => {
                 </div>
                 {
                     ter.map((t, i) => (
-                        <div key={i} className='termin'>
+                        <Box key={i} fullWidth className='termin'>
                             <div>
                                 {t.vreme} :00h
                             </div>
                             <div>
                                 {t.trajanje} min
                             </div>
-                            <button className='btnZakazi' value={t.vreme + " " + t.trajanje} onClick={zakaziForma}>Zakazi</button>
-                        </div>
+                            <Button size = "small" variant = "contained" value={t.vreme + " " + t.trajanje} onClick={zakaziForma}>Zakazi</Button>
+                        </Box>
                     ))}
             </div>}
 

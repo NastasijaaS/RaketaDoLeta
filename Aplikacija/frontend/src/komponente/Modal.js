@@ -1,4 +1,5 @@
 
+import { Paper } from "@mui/material";
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
 
@@ -9,6 +10,7 @@ const modalRoot = document.getElementById("forma");
 const Modal = (props) => {
     return (
         ReactDOM.createPortal(
+            <Paper>
             <Fragment>
                 <div className="pozadina" onClick={props.onClose} />
               
@@ -20,7 +22,8 @@ const Modal = (props) => {
                     {props.children}
                     </div>
                 </div>
-            </Fragment>,
+            </Fragment>
+            </Paper>,
             modalRoot
         )
     )

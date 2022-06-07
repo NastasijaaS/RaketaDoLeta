@@ -2,7 +2,11 @@
     align-content: center;
     margin: 5vh 15vw 25vw 15vw;
 }
-
+.center{
+    display: flex;
+  justify-content: center;
+  align-items: center
+}
 .usluga {
     align-content: center;
     display: flex;

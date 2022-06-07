@@ -43,11 +43,6 @@ const Usluge = () => {
                 </AccordionDetails>
                 </Accordion>
 
-
-
-
-
-
                 // <div key={usl._id} >
 
                 //     {prikaziOpis !== i && <div className="usluga" onClick={() => setPrikaziOpis(i)}>

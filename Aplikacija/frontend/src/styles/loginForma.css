@@ -23,9 +23,10 @@
     margin: 20px;
 }
 
-.loginInp:hover {
+
+/* .loginInp:hover {
     background-color: rgb(226, 211, 239);
-}
+} */
 
 .greska {
     color: red;

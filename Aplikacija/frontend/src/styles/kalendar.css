@@ -1,9 +1,18 @@
+.kalendar{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+
+
+}
 .dani-u-nedelji {
     display: flex;
+    flex-direction: row;
     gap: 1px;
 
-    height: 10vh;
-    width: 50vw;
+    /* height: 10vh;
+    width: 50vw; */
 }
 
 .dan {
@@ -54,6 +63,7 @@
 .termini {
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 5px;
 }
 

@@ -4,6 +4,7 @@ import { GetData } from '../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';
 import { Card, CardActions, CardContent, CardMedia, Grid, Typography, Button } from '@mui/material';
 import KalendarForma from '../komponente/KalendarForma'
+import { Container } from '@mui/system';
 
 const GrupniTreninzi = () => {
     const [treninzi, setTreninzi] = useState([])
@@ -13,7 +14,7 @@ const GrupniTreninzi = () => {
 
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiGrupneTreninge", setTreninzi, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading)
     }, [])
 
 
@@ -26,32 +27,34 @@ const GrupniTreninzi = () => {
             {treninzi.map((tr, i) => (
                 <Card key={i} sx={{ marginBottom: '5%' }}>
                     <Grid container >
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} md={4}>
+                            <CardMedia
+                            component="img"
+                            src={tr.slika}
+                            alt={tr.naziv}
+                            className="trImg" />
+                            
+                        </Grid>
+                        <Grid item xs={12} md={8} >
                             <CardContent>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                    Usluga
-                                </Typography>
                                 <Typography variant="h5" component="div">
-                                    {tr.nazivGrupnogTreninga}
+                                    {tr.naziv}
                                 </Typography>
                                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                    {tr.imeT} {tr.prezimeT}
-                                </Typography>
-                                <Typography variant="body2">
-                                    Intenzitet trening: {tr.intenzitet}
+                                    {tr.opis}
                                 </Typography>
                             </CardContent>
-                        </Grid>
-                        <Grid item xs={12} sm={8} className="zakazi">
                             <CardActions >
                                 <Button fullWidth variant="contained" size="small" onClick={() => { setKalendar(i) }}>Zakazite termin</Button>
                             </CardActions>
                         </Grid>
                     </Grid>
 
-                    {kalendar === i && <div>
+                    {kalendar === i
+                    &&
+                    <Container>
                         <KalendarForma />
-                    </div>}
+                    </Container>}
                     
                 </Card>
 

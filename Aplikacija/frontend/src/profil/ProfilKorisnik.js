@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef, Fragment } from "react";
 import { UserContext } from '../context/UserContext'
 import { GetData, PutMetoda } from '../komponente/Fetch'
 import axios from 'axios'
@@ -7,21 +7,10 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Card, Paper, Typography, Grid, CardActions, CardContent } from "@mui/material";
 import './../styles/input.css'
+import { Container } from "@mui/system";
 
-const k = {
-    ime: 'ime', prezime: 'prezime', brojTelefona: '0625454545', email: 'mail',
-    clanarina: '22.3.2022', visina: '178', brojGodina: '22',
-    zeljenaTezina: '60', zeljeniProcenatMasti: '', zeljeniProcenatProteina: '', zeljenaTezinaMisica: ''
-}
-
-// const n = {
-//     tezina: '60', procenatMasti: '22', BMI: '22', kostanaMasa: '22',
-//     procenatProteina: '22', tezinaMisica: '22', procenatVode: '22', bodyAge: '22'
-// }
-
-const treninzi = [{ id: 1 }, { id: 2 }, { id: 3 }]
 
 const Korisnik = (props) => {
 
@@ -97,7 +86,7 @@ const Korisnik = (props) => {
             return
         }
 
-        await axios.put(' http://localhost:8800/api/registrovaniKorisnik/' + user.id, {
+        await axios.put('http://localhost:8800/api/registrovaniKorisnik/' + user.id, {
             registrovaniKorisnikId: user.id,
             password: pass.current.value
         }).then((p) => {
@@ -112,23 +101,29 @@ const Korisnik = (props) => {
 
     const Lozinka = ({ tekst, OKonClick }) => {
         return (
-            <div>
-                {tekst}
+            // <div>
+            //     {tekst}
+            <Fragment>
                 <TextField
-                    className='loginInp'
-                    inputRef={pass}
-                    // label={tekst}
+
+                    id="outlined-textarea"
+                    label={tekst}
+                    placeholder="Lozinka"
+                    variant="outlined"
                     type='password'
                     color="primary"
                     size="small"
-                    placeholder='lozinka'
-                    focused />
+                    inputRef={pass}
+                    />
 
                 {/* <input type='password' placeholder="lozinka" ref={pass} /> */}
-
-                <Button variant="contained" size='small' onClick={OKonClick}>Ok</Button>
-                <Button variant="contained" size='small' onClick={otkaziIzmenu}>Otkazi</Button>
-            </div>)
+                <Box>
+                    <Button variant="contained" size='small' onClick={OKonClick}>Ok</Button>
+                    <Button variant="contained" size='small' onClick={otkaziIzmenu}>Otkazi</Button>
+                </Box>
+            </Fragment>
+            // </div>
+            )
     }
 
     const [data, setData] = useState('')
@@ -169,8 +164,9 @@ const Korisnik = (props) => {
     let navigate = useNavigate()
 
     return (
-        <div className='profilKorisnika'>
+        <Box className='profilKorisnika' sx ={{margin: "10vh 10vw"}}>
             {isLoading && <CircularProgress size='2rem' disableShrink />}
+            <Grid container spacing={2}>
 
             {/* <Modal
                 sx={{ display: 'flex', justifyContent: 'center' }}
@@ -188,45 +184,52 @@ const Korisnik = (props) => {
 
                 >Doslo je do greske prilikom ucitavanja ):</Alert>
             </Modal> */}
+            <Grid item sm ={12} md = {6}>
+                <Card className="infoOProfilu" >
+                    <CardContent>
+                    {!user && <p>nema korisnika</p>}
 
-            <div className="infoOProfilu" >
+                    <Typography gutterBottom variant = "h4">{user.ime} {user.prezime}</Typography>
+                    <Typography mb = {2}>Clanarina vazi do: {clanarina.vaziDo}</Typography>
+                
+                    <Typography mb = {2}>e-mail: {user.email}</Typography>
 
-                {!user && <p>nema korisnika</p>}
+                    <Typography>Broj telefona: {user.brojTelefona}</Typography>
+                    </CardContent>
+                    <CardActions>
+                    {izmena && <Button mb = {2} variant="contained" size='small' onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
+                    {!izmena &&
+                    <Container className = 'lozinka'>
 
-                <h3>{user.ime} {user.prezime}</h3>
-                <p>Clanarina vazi do: {clanarina.vaziDo}</p>
-              
-                {/* <p>Godine: {user.brojGodina}</p> */}
+                        {!novaLozinka && <Lozinka tekst='Unesite staru lozinku' OKonClick={proveriLozinku} />}
+                        {novaLozinka && <Lozinka tekst='Unesite novu lozinku' OKonClick={izmeniLozinku} />}
 
-                <p>e-mail: {user.email}</p>
+                    </Container>}
+                    </CardActions>
+                </Card>
+            </Grid>
+            <Grid item sm ={12} md = {6}>           
+            <Card className="ZeljeKorisnika">
+                <CardContent>
+                    <div className="zelje">
+                        Godine:
+                        <input className='korisnik'
+                            type='number'
+                            value={korisnik.brojGodina}
+                            disabled={izmeniPodatke}
+                            onChange={(ev) => setKorisnik((k) => ({ ...k, brojGodina: ev.target.value }))} />
 
-                {/* <p>Visina: {user.visina}</p> */}
+                    </div>
 
-                <div className="zelje">
-                    <span>Broj telefona: {user.brojTelefona}
-                    </span>
-                </div>
+                    <div className="zelje">
+                        Visina:
+                        <input className='korisnik'
+                            type='number'
+                            value={korisnik.visina}
+                            disabled={izmeniPodatke}
+                            onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
 
-                <div className="zelje">
-                    Godine:
-                    <input className='korisnik'
-                        type='number'
-                        value={korisnik.brojGodina}
-                        disabled={izmeniPodatke}
-                        onChange={(ev) => setKorisnik((k) => ({ ...k, brojGodina: ev.target.value }))} />
-
-                </div>
-
-                <div className="zelje">
-                    Visina:
-                    <input className='korisnik'
-                        type='number'
-                        value={korisnik.visina}
-                        disabled={izmeniPodatke}
-                        onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
-
-                </div>
-
+                    </div>
                 <div className="zelje">
                     Zeljena tezina:
                     <input className='korisnik'
@@ -263,7 +266,8 @@ const Korisnik = (props) => {
                         disabled={izmeniPodatke}
                         onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatProteina: ev.target.value }))} />
                 </div>
-
+                </CardContent>
+                <CardActions>
                 {!izmeniPodatke && <Button onClick={izmeniKorisnika}>OK</Button>}
                 {!izmeniPodatke && <Button onClick={() => {
                     setIzmeniPodatke(true); setKorisnik({
@@ -275,18 +279,11 @@ const Korisnik = (props) => {
                 }}>otkazi</Button>}
 
                 {izmeniPodatke && <Button variant="contained" size='small' onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
-
-                {izmena && <Button variant="contained" size='small' onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
-                {!izmena && <div>
-
-                    {!novaLozinka && <Lozinka tekst='Unesite staru lozinku:' OKonClick={proveriLozinku} />}
-                    {novaLozinka && <Lozinka tekst='Unesite novu lozinku:' OKonClick={izmeniLozinku} />}
-
-                </div>}
-
-            </div>
-
-        </div >
+                </CardActions>
+            </Card>
+            </Grid>
+            </Grid>
+        </Box >
     )
 }
 
