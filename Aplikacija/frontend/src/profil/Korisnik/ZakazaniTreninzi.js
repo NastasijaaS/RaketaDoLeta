@@ -48,18 +48,18 @@ const ZakazaniTreninzi = () => {
     }
 
     const otkaziTrening = (idTreninga) => {
-        // axios.put('http://localhost:8800/api/korisnik/ukiniTrening/' + idTreninga,)
-        //     .then((p) => {
-        //         if (p.status === 200) {
-        //             console.log(p)
-        //             alert('Uspesno ukinut trening')
-        //         }
-        //     }).catch((error) => {
-        //         if (error.response.status)
-        //             alert(error.response.data)
-        //         else
-        //             alert('Doslo je do greske')
-        //     });
+        axios.put('http://localhost:8800/api/korisnik/ukiniTrening/' + idTreninga,)
+            .then((p) => {
+                if (p.status === 200) {
+                    console.log(p)
+                    alert('Uspesno ukinut trening')
+                }
+            }).catch((error) => {
+                if (error.response.status)
+                    alert(error.response.data)
+                else
+                    alert('Doslo je do greske')
+            });
     }
 
 
@@ -92,10 +92,10 @@ const ZakazaniTreninzi = () => {
                     <p>Tip: {tr.tip}</p>
                     <p>Intenzitet: {tr.intenzitet}</p>
                     <p>Grupni/personalni: {tr.tip}</p>
-                    <p>online:</p>
+                    <p>online: {tr.isOnline}</p>
 
-                    <Button variant="contained" size = 'small' onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</Button>
-                    <Button variant="contained" size = 'small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+                    <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr._id)}>Izmeni trening</Button>
+                    <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr._id)}>Otkazi trening</Button>
                 </div>
             ))}
             {

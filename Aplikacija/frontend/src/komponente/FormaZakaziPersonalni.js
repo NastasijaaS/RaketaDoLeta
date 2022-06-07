@@ -1,25 +1,17 @@
 import React, { useContext, useState } from "react";
 import '../styles/formaZakazi.css'
-import axios from "axios";
 import { UserContext } from "../context/UserContext";
 import Button from "@mui/material/Button";
-import { useEffect, useRef, Fragment } from 'react'
-import CircularProgress from '@mui/material/CircularProgress';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { TextField, Box, Modal, Typography } from '@mui/material';
-import { useNavigate } from "react-router-dom";
-import { FormControl, Grid, InputLabel, MenuItem, Select, } from '@mui/material';
-
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
-// import TimePicker from 'react-time-picker';
-
-
+import { TextField } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, FormControlLabel } from '@mui/material';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import Stack from '@mui/material/Stack';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { ClockPicker } from '@mui/x-date-pickers/ClockPicker';
+import { Checkbox } from "@mui/material";
+import Greska from './Alert'
+import { PostMetoda } from './Fetch'
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
@@ -29,66 +21,59 @@ const FormaZakaziPersonalni = (props) => {
 
     const { user } = useContext(UserContext);
 
-    // let tipTreninga = ''
-    let tr = ''
-
     let isOnline = false
 
     const [tipTreninga, setTip] = useState('')
     const [intenzitetTreninga, setIntenzitet] = useState('')
     const [trajanjeTreninga, setTrajanje] = useState('')
 
-    const zakaziTrening = (ev) => {
-        console.log(props.idTrenera)
-        console.log(tipTreninga)
-        console.log(intenzitetTreninga)
-        console.log(trajanjeTreninga)
+    const [error, setError] = useState(false)
 
-        // da li je personalni ili grupni 
+    const [data,setData] = useState()
+    const [greska, setGreska] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
-
-        //datum i vreme -- kroz props
-        //tip
-        //intenzitet
-        //trajanje
-        //idtrenera = ovo mi je u props.idTrenera
-        //idkorisnika = ovo mozda kroz kontekst gde pamtim ko je ulogovan
-        // isOnline
-
-
-        // const datum = props.datum
-        // const vreme = props.vreme
-        // const idTrenera = props.idTrenera
-
-        // console.log(intenzitetTreninga.value)
-        // console.log(tipTreninga.value)
+    const zakaziTrening = async (ev) => {
+        // console.log(props.idTrenera)
+        // console.log(tipTreninga)
+        // console.log(intenzitetTreninga)
+        // console.log(trajanjeTreninga)
+        // console.log(date)
+        // console.log(vreme)
         // console.log(isOnline)
-        // console.log(tr.value)
-        // console.log(props.datum.datumTreninga)
+
+        if (tipTreninga === '' || intenzitetTreninga === '' || trajanjeTreninga === '') {
+            setError('Morate uneti sve podatke')
+            return
+        }
+
+        const zahtev = {
+            url: 'http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId,
+            body: {
+                trenerId: props.idTrenera,
+                datum: date,
+                vreme: vreme.getTime(),
+                tip: tipTreninga,
+                intenzitet: intenzitetTreninga,
+                trajanje: trajanjeTreninga,
+                isOnline: isOnline
+            }
+        }
+
+        console.log(zahtev.body)
+     
+        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+
+        if (greska !== false) {
+            alert(greska)
+            // setError('Morate uneti sve podatke')
+        }
+        else{
+            setError('Uspesno zakazan trening')
+        }
+        
 
 
-
-        // axios.post('http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId, {
-        //     // trenerId: props.idTrenera,
-        //     trenerId: "6273e6c7c1e2c23c29c8c1ba",
-        //     datum: props.datum.datumTreninga,
-        //     tip: tipTreninga.value,
-        //     intenzitet: intenzitetTreninga.value,
-        //     trajanje: tr.value,
-        // }).then((p) => {
-        //     if (p.status === 200) {
-        //         console.log(p)
-        //         alert('Uspesno zakazan trening')
-        //     }
-        // }).catch((error) => {
-        //     if (error.response.status)
-        //         alert(error.response.data)
-        //     else
-        //         alert('Doslo je do greske')
-        // });
-
-
-        // ev.preventDefault();
 
         props.onClose()
 
@@ -100,10 +85,8 @@ const FormaZakaziPersonalni = (props) => {
 
     const [startDate, setStartDate] = useState(new Date());
     const [date, setDate] = useState(new Date());
+    const [vreme, setVreme] = useState(new Date());
 
-
-    // const [value, onChange] = useState('10:00');
-    const [value, setValue] = React.useState(null);
 
     const DropDown = ({ labela, set, niz, value }) => {
 
@@ -112,6 +95,7 @@ const FormaZakaziPersonalni = (props) => {
             <Select
                 label={labela}
                 value={value}
+                size='small'
                 onChange={(ev) => {
                     set(ev.target.value)
                 }}
@@ -126,8 +110,13 @@ const FormaZakaziPersonalni = (props) => {
         </FormControl>)
     }
 
+    let datumDo = new Date();
+    datumDo.setDate((new Date()).getDate() + 14)
+
     return (
         <form className="formaZakazi" onSubmit={zakaziTrening}>
+
+            <Greska open={error} onClose={() => setError(false)} greska={error} />
             {/* <div>
                 <label >Tip treninga:</label>
                 <select className="opcija" name="tip" id="tip" ref={(input) => tipTreninga = input}>
@@ -139,24 +128,46 @@ const FormaZakaziPersonalni = (props) => {
                 </select>
             </div> */}
 
-            <div>ovde mozda kalendar za datum i vreme??</div>
+            {/* <div>ovde mozda kalendar za datum i vreme??</div> */}
             {/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} /> */}
 
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
-                    label="Basic example"
-                    value={value}
+                    label="izaberite datum"
+                    value={date}
                     onChange={(newValue) => {
-                        setValue(newValue);
+                        setDate(newValue);
                     }}
-                    minDate = {new Date()}
-                   
-                    renderInput={(params) => <TextField {...params} />}
+                    minDate={new Date()}
+                    maxDate={datumDo}
+                    renderInput={(params) => <TextField size='small' {...params} />}
+                    focused
                 />
             </LocalizationProvider>
 
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <ClockPicker date={date}  minutesStep = {15} onChange={(newDate) => setDate(newDate)} />
+                {/* <ClockPicker date={date}
+                    minutesStep={15}
+                    onChange={(newDate) => setDate(newDate)}
+                    minTime={new Date(0, 0, 0, 8)}
+                    maxTime={new Date(0, 0, 0, 20, 0)}
+                /> */}
+                <Stack spacing={3}>
+                    <TimePicker
+                        renderInput={(params) => <TextField size='small' {...params} />}
+                        size='small'
+                        value={vreme}
+                        minutesStep={15}
+                        label="vreme treninga"
+                        onChange={(newValue) => {
+                            setVreme(newValue);
+                        }}
+                        minTime={new Date(0, 0, 0, 8)}
+                        maxTime={new Date(0, 0, 0, 18, 45)}
+                        focused
+                    />
+
+                </Stack>
             </LocalizationProvider>
 
             {/* <TimePicker
@@ -196,9 +207,17 @@ const FormaZakaziPersonalni = (props) => {
                 </select>
             </div> */}
 
-            <div >
+            {/* <div >
                 <input type="checkbox" value='online' name="online" onChange={onlineTrening} />On-line trening
-            </div>
+            </div> */}
+
+            <FormControlLabel
+                value="online"
+                onChange={onlineTrening}
+                control={<Checkbox />}
+                label="On-line trening"
+                labelPlacement="start"
+            />
 
             <div>
                 <Button size='small' variant="outlined" className="btn" onClick={zakaziTrening}>Potvrdi</Button>

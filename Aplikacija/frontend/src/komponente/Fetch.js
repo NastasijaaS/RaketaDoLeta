@@ -69,6 +69,7 @@ export const PostMetoda = async (zahtev, setData, setGreska) => {
     }).then(p => {
         p.json()
             .then(data => {
+                console.log(p)
                 if (p.ok) {
                     setData(data)
                 }

@@ -33,6 +33,7 @@
   .modal {
     width: 40rem;
     left: calc(50% - 20rem);
+    align-self: center;
   }
 }
 
@@ -57,12 +58,13 @@
   height: 100vh;
   z-index: 10;
   background: rgba(94, 91, 91, 0.2);
-
+  align-items: center;
 }
 
 .modal-body {
   max-height: 70vh;
   overflow-y: auto;
+  /* margin-top: 30px; */
 }
 
 /* .modal{
