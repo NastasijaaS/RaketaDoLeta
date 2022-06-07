@@ -392,8 +392,8 @@ router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
                   const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
                   let datum=treninzi[i].datum;
                   let samoDatum=datum.toLocaleDateString()
-                  let vreme=treninzi[i].datum;
-                  let samovreme=vreme.toLocaleTimeString()
+                  let vremee=treninzi[i].vreme;
+                  let samovreme=vremee.toLocaleTimeString()
             
                   let tr = {
   
