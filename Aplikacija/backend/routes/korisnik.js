@@ -259,7 +259,7 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
 
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if (korisnik != null) {
-            const treninzi = await Trening.find({ $and:[ {clanovi:korisnik._id} , { brojMaxClanova: { $lt: 2 } }  ]  })
+            const treninzi = await Trening.find({ $and:[ {clanovi:korisnik._id} , { brojMaxClanova: 1 }  ]  })
             //const treninzi = await Trening.find( {clanovi:korisnik._id })
 
             if (treninzi.length != 0) { 
@@ -271,8 +271,8 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                   const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
                   let datum=treninzi[i].datum;
                   let samoDatum=datum.toLocaleDateString()
-                  let vreme=treninzi[i].datum;
-                  let samovreme=vreme.toLocaleTimeString()
+                  let vremee=treninzi[i].datum;
+                  let samovreme=vremee.toLocaleTimeString()
             
                   let tr = {
   
@@ -284,7 +284,8 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                   tip: treninzi[i].tip,
                   intenzitet: treninzi[i].intenzitet,
                   trajanje: treninzi[i].trajanje,
-                  id:treninzi[i]._id
+                  id:treninzi[i]._id,
+                  isOnline:treninzi[i].isOnline
 
                   }
                   vrati.push(tr)
@@ -309,6 +310,67 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
     }
 
 })
+
+//vidi sve zakazane treninge 
+router.get("/vidiZakazaneTreningeSve/:idKorisnika", async (req, res) => {
+
+    try {
+
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
+        if (korisnik != null) {
+            const treninzi = await Trening.find({ clanovi:korisnik._id   })
+            //const treninzi = await Trening.find( {clanovi:korisnik._id })
+
+            if (treninzi.length != 0) { 
+
+
+                let vrati = []
+                for (let i = 0; i < treninzi.length; i++) {
+                  const trener = await Trener.findById(treninzi[i].trenerId)
+                  const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
+                  let datum=treninzi[i].datum;
+                  let samoDatum=datum.toLocaleDateString()
+                  let vremee=treninzi[i].datum;
+                  let samovreme=vremee.toLocaleTimeString()
+            
+                  let tr = {
+  
+                  imeT:regT.ime,
+                  prezimeT:regT.prezime,
+                  brojtelefonaT:regT.brojTelefona,
+                  datum: samoDatum,
+                  vreme:samovreme,
+                  tip: treninzi[i].tip,
+                  intenzitet: treninzi[i].intenzitet,
+                  trajanje: treninzi[i].trajanje,
+                  id:treninzi[i]._id,
+                  isOnline:treninzi[i].isOnline
+
+                  }
+                  vrati.push(tr)
+                }
+                res.status(200).json(vrati)
+ 
+                
+            }
+            else {
+                res.status(404).json("nema nijedan zakazani personalni trening")
+            }
+
+        }
+        else {
+            res.status(404).json("korisnik nije pronadjen")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
+
 
 //pregledaj sve zakazane treninge grupne
 router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
@@ -342,7 +404,8 @@ router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
                   nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
                   intenzitet: treninzi[i].intenzitet,
                   trajanje:treninzi[i].trajanje,
-                  id:treninzi[i]._id
+                  id:treninzi[i]._id,
+                  isOnline:treninzi[i].isOnline
 
                   }
                   vrati.push(tr)
