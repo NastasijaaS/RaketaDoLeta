@@ -2,7 +2,7 @@ div.divZaSearch {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 5rem;
+    gap: 1%;
 }
 
 input.search {

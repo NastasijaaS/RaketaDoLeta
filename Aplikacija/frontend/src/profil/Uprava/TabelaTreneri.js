@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Fragment } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { GetData, DeleteMetoda, PutMetoda, PostMetoda } from '../../komponente/Fetch'
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,11 +7,13 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import TableHead from '@mui/material/TableHead';
-
+import { UserContext } from '../../context/UserContext';
 import Modal from '../../komponente/Modal'
 
 
 const TabelaTreneri = () => {
+
+    const { user } = useContext(UserContext);
 
     const [refresh, setRefresh] = useState(false)
 
@@ -22,25 +24,23 @@ const TabelaTreneri = () => {
     const [dodaj, setDodaj] = useState(false)
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/korisnik/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
     }, [refresh])
 
+    const obrisiTrenera = async (id) => {
+        const zahtev = {
+            url: 'http://localhost:8800/api/uprava/obrisiTrenera/' + id,
+            
+        }
 
+        console.log(zahtev)
 
-    const obrisiTrenera = (id) => {
-        // const zahtev = {
-        //     url: 'http://localhost:8800/api/uprava/obrisiTrenera' + user.id,
-        //     body: {
-        //         trenerId: id
-        //     }
-        // }
+        await DeleteMetoda(zahtev, setGreska, setIsLoading)
 
-        // await DeleteMetoda(zahtev, setGreska, setIsLoading)
-
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-        // }
-        // setRefresh(!refresh)
+        if (greska !== false) {
+            alert('doslo je do greske')
+        }
+        setRefresh(!refresh)
     }
 
     const dodajTrenera = () => {
@@ -52,7 +52,7 @@ const TabelaTreneri = () => {
             Treneri
 
             <Button size="medium"
-                variant="outlined" 
+                variant="outlined"
                 onClick={() => setDodaj(true)}>novi trener</Button>
 
             <Table>

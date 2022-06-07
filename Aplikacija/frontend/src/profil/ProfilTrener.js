@@ -56,41 +56,7 @@ const Trener = (props) => {
     };
 
     return (<Box sx={{ bgcolor: 'background.paper' }}>
-        {/* <Tabs
-            style={{ position: 'sticky' }}
-            position="sticky"
-            orientation="vertical"
-            variant="scrollable"
-            value={value}
-            onChange={promeniTab}
-            sx={{ borderRight: 1, borderColor: 'divider' }} >
-
-            <Tab label="Profil" />
-            <Tab label="Korisnici" />
-            <Tab label="zahetevi" />
-            <Tab label="Treninzi" />
-
-        </Tabs>
-
-        <TabPanel value={value} index={0}>
-
-        </TabPanel>
-
-        <TabPanel value={value} index={1}>
-            <Tabela verifikovan={true} trener = {true}/>
-        </TabPanel>
-
-        <TabPanel value={value} index={2}>
-
-        </TabPanel>
-
-        <TabPanel value={value} index={3}>
-
-        </TabPanel>
-
-        <TabPanel value={value} index={4}>
-
-        </TabPanel> */}
+       
 
     </Box>
     );

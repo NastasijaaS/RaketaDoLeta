@@ -27,10 +27,8 @@ import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
-import Typography from '@mui/material/Typography';
-
-import Proba from '../../komponente/Proba'
-import { FormControl } from '@mui/material';
+import Modal from '../../komponente/Modal'
+import DodajNapredak from '../../komponente/DodajNapredak';
 
 function TablePaginationActions(props) {
 
@@ -133,6 +131,9 @@ export default function Tabela(props) {
     const [rows, setRows] = useState(korisnici)
     const [searchName, setSearchName] = useState("");
     const [searchBroj, setSearchBroj] = useState("");
+
+    const [napredak, setNapredak] = useState(false);
+
 
     const searchByName = (ev) => {
         const filteredRows = korisnici.filter((row) => {
@@ -321,34 +322,21 @@ export default function Tabela(props) {
             </Fragment>)
     }
 
-const vidiNapredak = () => {
-    //.get("/vidiNapredak/:idTrenera/:idKorisnika
-}
-
-    const dodajNapredak = () => {
-//.post("/dodajNapredak/:idTrenera"
-/** "korisnikId": req.body.korisnikId,
-                    "kilaza": req.body.kilaza,
-                    "tezina": req.body.tezina,
-                    "tezinaMisica": req.body.tezinaMisica,
-                    "procenatProteina": req.body.procenatProteina,
-                    "procenatMasti": req.body.procenatMasti,
-                    "BMI": req.body.BMI,
-                    "kostanaMasa": req.body.kostanaMasa,
-                    "procenatVode": req.body.procenatVode,
-                    "bodyAge": req.body.bodyAge */
+    const vidiNapredak = () => {
+        //.get("/vidiNapredak/:idTrenera/:idKorisnika
     }
 
+
     const dodajEvidenciju = () => {
-//post("/dodajEvidenciju/:idTrenera
-//"korisnikId": req.body.korisnikId,
-// "brojTreninga": req.body.brojTreninga,
-// "tipTreninga": req.body.tipTreninga,
-// "nivo": req.body.nivo
+        //post("/dodajEvidenciju/:idTrenera
+        //"korisnikId": req.body.korisnikId,
+        // "brojTreninga": req.body.brojTreninga,
+        // "tipTreninga": req.body.tipTreninga,
+        // "nivo": req.body.nivo
     }
 
     const vidiEvidenciju = () => {
-//get("trener/vidiEvidenciju/:idTrenera/:idKorisnika
+        //get("trener/vidiEvidenciju/:idTrenera/:idKorisnika
     }
 
     const obrisiKlijenta = () => {
@@ -389,7 +377,7 @@ const vidiNapredak = () => {
 
                     <TableCell style={{ width: 100 }} align="right">
                         <Button
-                            onClick={() => dodajNapredak(row.id)}
+                            onClick={() => setNapredak(true)}
                             size="small"
                             variant="outlined">
                             dodaj napredak
@@ -436,11 +424,18 @@ const vidiNapredak = () => {
                         </Collapse>
                     </TableCell>
                 </TableRow >
+
+
+                {napredak && <Modal onClose={() => setNapredak(false)}>
+                    <DodajNapredak idKorisnika={row.id} onClose={() => setNapredak(false)} />
+                </Modal>}
+
+
             </Fragment>)
     }
 
     return (
-        <Paper>
+        <Paper style={{ marginLeft: '10%', marginTop: '2%' }}>
             <div className='divZaSearch'>
                 <div>
                     <SearchIcon />
