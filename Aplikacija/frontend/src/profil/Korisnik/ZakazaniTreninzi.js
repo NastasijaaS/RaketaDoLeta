@@ -23,8 +23,11 @@ const ZakazaniTreninzi = () => {
     //console.log(user)
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreninge/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
+        const get = () => {
+            GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
+        }
 
+        get()
     }, [])
 
     let navigate = useNavigate();

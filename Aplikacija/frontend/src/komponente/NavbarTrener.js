@@ -25,7 +25,7 @@ const NavbarTrener = () => {
 
     const pages = [
         { val: 'Profil', link: '/profil' },
-        { val: 'Korisnici', link: `/RDL/trener/${user.ime}/korisnici` },
+        { val: 'Korisnici', link: `/RDL/trener/korisnici` },
         { val: 'zahtevi', link: `/RDL/trener/${user.ime}/zahtevi` },
         { val: 'Treninzi', link: `/RDL/trener/${user.ime}/treninzi` },
     ];
@@ -87,7 +87,7 @@ const NavbarTrener = () => {
                             </Button>
 
                         ))}
-                      
+
                     </Box>
 
                     {/*OVO JE ZA MOBILNI MENI LEVO */}
@@ -178,15 +178,15 @@ const NavbarTrener = () => {
                             <Typography textAlign="center">Profil</Typography>
                         </MenuItem>
 
-                        <MenuItem onClick={() => { dispatch({ tip: "ODJAVI" }); handleCloseNavMenu() }}>
-                            <Typography textAlign="center">Odjavi se</Typography>
-                        </MenuItem>
+                        <MenuItem onClick={() => { dispatch({ tip: "ODJAVI" }); handleCloseNavMenu(); navigate('../pocetna', {replace:true}) }}>
+                        <Typography textAlign="center">Odjavi se</Typography>
+                    </MenuItem>
 
 
-                    </Menu>
+                </Menu>
 
-                </Toolbar>
-            </Container>
+            </Toolbar>
+        </Container>
         </AppBar >
     );
 };

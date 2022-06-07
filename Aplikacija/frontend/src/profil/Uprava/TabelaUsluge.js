@@ -3,7 +3,7 @@ import { GetData, DeleteMetoda, PutMetoda, PostMetoda } from '../../komponente/F
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { TextField, Box, Modal, Typography } from '@mui/material';
+import { TextField, Box, Modal, Typography, Checkbox, FormControlLabel } from '@mui/material';
 import '../../styles/input.css'
 import { useNavigate } from "react-router-dom";
 import Table from '@mui/material/Table';
@@ -33,6 +33,7 @@ const TabelaUsluge = () => {
     const [refresh, setRefresh] = useState(false)
     const [novaUsluga, setNovaUsluga] = useState(false)
 
+    let grupniTrening = false
     //ovo je za unos
     const opisUsluge = useRef()
     const cenaUsluge = useRef()
@@ -102,7 +103,8 @@ const TabelaUsluge = () => {
                 naziv: nazivUsluge.current.value,
                 cena: cenaUsluge.current.value,
                 opis: opisUsluge.current.value,
-                trajanje: trajanjeUsluge.current.value
+                trajanje: trajanjeUsluge.current.value,
+                treningGrupni: grupniTrening
             }
         }
 
@@ -187,6 +189,15 @@ const TabelaUsluge = () => {
                         color="primary"
                         size="small"
                         focused />
+
+                    <FormControlLabel
+                        value="online"
+                        onChange={(ev) => { grupniTrening = ev.target.checked }}
+                        control={<Checkbox color="primary" />}
+                        label="Grupni trening"
+                        labelPlacement="start"
+                        color="primary"
+                    />
 
                     <div style={{ alignSelf: 'center' }}>
                         <Button sx={{ margin: 4 }} size='small' variant="contained" onClick={dodajUslugu}>ok</Button>

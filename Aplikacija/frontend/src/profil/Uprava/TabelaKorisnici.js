@@ -478,7 +478,7 @@ export default function Tabela(props) {
                                 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 : rows
                             ).map((row) => (
-                                props.trener ? <RedTrener key={row.email} row={row} /> : <Red key={row.email} row={row} />
+                                <Red key={row.email} row={row} />
                             ))}
 
                         {emptyRows > 0 && (
