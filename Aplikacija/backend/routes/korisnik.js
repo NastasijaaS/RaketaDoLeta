@@ -50,8 +50,10 @@ router.post("/zakaziPersonalniTrening/:idKorisnika", async (req, res) => {
             })
 
             const trening = await novitrening.save();
-            await trening.updateOne({ $push: { clanovi: korisnik._id } })
+            await trening.updateOne({ $push: { clanovi: req.params.idKorisnika } })// NE RADI??????????????????
             await trenerKorisnika.updateOne({ $push: { listaTreninga: trening._id } })
+            await trenerKorisnika.updateOne({ $push: { listaKlijenata: req.params.idKorisnika } })
+
             res.status(200).json(trening);
         }
         else {
@@ -372,17 +374,24 @@ router.put("/prijavaGrupniTrening/:idKorisnika/:idTreninga", async (req, res) =>
         if (korisnik != null) {
 
             const tr = await Trening.findById(req.params.idTreninga)
-             if(tr!=null)
+             if(tr!=null )
+             
              {
 
-                const brojTren=tr.brojMaxClanova-1;
+                if(tr.clanovi.length<tr.brojMaxClanova)
+                {
                 //res.status(200).json(brojTren)
-                await tr.updateOne({ $push: { clanovi: korisnik._id } }, {$set:{brojMaxClanova:brojTren}})
+                await tr.updateOne({ $push: { clanovi: korisnik._id } })
 
                  res.status(200).json(tr);
+                }
+                else 
+                {
+                    res.status(404).json("Nema mesta u ovom terminu!")
+                }
 
              }
-
+             
              else
              {
                 res.status(404).json("Trening nije pronadjen")
@@ -405,36 +414,44 @@ router.put("/prijavaGrupniTrening/:idKorisnika/:idTreninga", async (req, res) =>
 })
 
 //pregledaj sve dostupne grupne treninge
-router.get("/vidiGrupneTreninge", async (req, res) => {
+router.get("/vidiGrupneTreninge/:idUsluge/:datum", async (req, res) => {
 
         try {
-            const treninzi = await Trening.find({ brojMaxClanova: { $gte: 2 } })
-            if (treninzi != null) {
+            
+            const treninzi = await Trening.find({$and:[{uslugaId:req.params.idUsluge}, {datum:req.params.datum}]})
+            if (treninzi.length != 0) {
         
               let vrati = []
               for (let i = 0; i < treninzi.length; i++) {
                 const trener = await Trener.findById(treninzi[i].trenerId)
                 const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
-                const usluga=await Usluga.findbyId(treninzi[i].uslugaId)
+                let datum=treninzi[i].datum;
+                let samoDatum=datum.toLocaleDateString()
+                let vremee=treninzi[i].vreme;
+                let samovreme=vremee.toLocaleTimeString()
+                //const usluga=await Usluga.findbyId(treninzi[i].uslugaId)
+                let brojzauzetih=treninzi[i].clanovi.length
+                let slobodanbroj=treninzi[i].brojMaxClanova-brojzauzetih;
 
         
                 let tr = {
 
                 imeT:regT.ime,
                 prezimeT:regT.prezime,
-                nazivUsluge:usluga.naziv,
-                datum: treninzi[i].datum,
+                //nazivUsluge:usluga.naziv,
+                datum: samoDatum,
+                vreme:samovreme,
                 nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
                 intenzitet: treninzi[i].intenzitet,
                 trajanje:treninzi[i].trajanje,
-                brojMaxClanova: treninzi[i].brojMaxClanova,
+                brojslobodnih: slobodanbroj
                 }
                 vrati.push(tr)
               }
               res.status(200).json(vrati)
             }
             else {
-              res.status(404).json("nema verifikovanih korisnika")
+              res.status(404).json("nema zakazanih treninga")
             }
         
           }

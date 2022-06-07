@@ -30,7 +30,8 @@ const TrenerSchema = new mongoose.Schema({
         type:String
     },
     drzigrupne:{
-        type:Boolean
+        type:Boolean,
+        default:false
     }
  
 },

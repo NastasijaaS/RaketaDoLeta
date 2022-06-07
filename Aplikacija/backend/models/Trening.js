@@ -6,6 +6,9 @@ const TreningSchema = new mongoose.Schema({
         type:Date
 
     },
+    vreme:{
+        type:Date
+    },
     nazivGrupnogTreninga:{
         type:String
 
@@ -36,7 +39,8 @@ const TreningSchema = new mongoose.Schema({
         type:String
     },
     clanovi:{
-        type:Array
+        type:Array,
+        default:[]
     },
     isOnline:{
         type:Boolean,
