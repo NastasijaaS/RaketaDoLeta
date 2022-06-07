@@ -487,7 +487,8 @@ router.get("/vidiGrupneTreninge/:idUsluge/:datum", async (req, res) => {
               let vrati = []
               for (let i = 0; i < treninzi.length; i++) {
                 const trener = await Trener.findById(treninzi[i].trenerId)
-                const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
+                const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
+
                 let datum=treninzi[i].datum;
                 let samoDatum=datum.toLocaleDateString()
                 let vremee=treninzi[i].vreme;

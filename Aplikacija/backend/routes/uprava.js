@@ -130,8 +130,6 @@ router.delete("/:id", async (req, res) => {
   }
 })*/
 
-
-
 ///ova radi xd
 router.put("/dodajClanarinu/:idKorisnika/:idUsluge", async (req, res) => {
   try {
