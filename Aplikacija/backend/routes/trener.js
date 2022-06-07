@@ -9,6 +9,7 @@ const Napredak = require("../models/Napredak");
 //const { resetWatchers } = require("nodemon/lib/monitor/watch");
 const Zahtev = require("../models/Zahtev");
 const Evidencija = require("../models/Evidencija");
+const Usluga = require("../models/Usluga");
 
 
 //dodaj korisnika
@@ -154,23 +155,27 @@ router.get("/vratiKorisnike/:id", async (req, res) => {
 });
 
 //zakazi grupni trening
-router.post("/zakaziGrupniTrening/:id", async (req, res) => {
+router.post("/zakaziGrupniTrening/:id/:idUsluge", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.id)
-        const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
+        //const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
+        //const usluga=await Usluga.findById(req.params.id)
         //res.status(200).json(regT);
         if (trener != null) {
 
             const novitrening = await new Trening({
-                imeT:regT.ime,
-                prezimeT:regT.prezime,
+
+
+                //imeT:regT.ime,
+                //prezimeT:regT.prezime,
                 datum: req.body.datum,
                 nazivGrupnogTreninga: req.body.nazivGrupnogTreninga,
                 intenzitet: req.body.intenzitet,
                 trajanje:req.body.trajanje,
                 brojMaxClanova: req.body.brojMaxClanova,
-                trenerId: trener._id
+                trenerId: trener._id,
+                uslugaId:req.params.idUsluge
 
             })
 

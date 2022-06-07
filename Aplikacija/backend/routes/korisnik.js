@@ -43,7 +43,9 @@ router.post("/zakaziPersonalniTrening/:idKorisnika", async (req, res) => {
                 tip: req.body.tip,
                 intenzitet: req.body.intenzitet,
                 trajanje: req.body.trajanje,
-                trenerId: trenerKorisnika._id,
+                isOnline:req.body.isOnline,
+                brojMaxClanova:1,
+                trenerId: trenerKorisnika._id
 
             })
 
@@ -249,20 +251,47 @@ router.get("/vidiUsluge", async (req, res) => {
 })
 
 //pregledaj sve zakazane treninge
-//ispravi ovu funkciju
-router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
+router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
 
     try {
 
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if (korisnik != null) {
-            const treninzi = await Trening.find({ clanovi: korisnik._id })
+            const treninzi = await Trening.find({ $and:[ {clanovi:korisnik._id} , { brojMaxClanova: { $lt: 2 } }  ]  })
+            //const treninzi = await Trening.find( {clanovi:korisnik._id })
 
-            if (treninzi.length != 0) {
-                res.status(200).json(treninzi)
+            if (treninzi.length != 0) { 
+
+
+                let vrati = []
+                for (let i = 0; i < treninzi.length; i++) {
+                  const trener = await Trener.findById(treninzi[i].trenerId)
+                  const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
+                  let datum=treninzi[i].datum;
+                  let samoDatum=datum.toLocaleDateString()
+                  let vreme=treninzi[i].datum;
+                  let samovreme=vreme.toLocaleTimeString()
+            
+                  let tr = {
+  
+                  imeT:regT.ime,
+                  prezimeT:regT.prezime,
+                  brojtelefonaT:regT.brojTelefona,
+                  datum: samoDatum,
+                  vreme:samovreme,
+                  tip: treninzi[i].tip,
+                  intenzitet: treninzi[i].intenzitet,
+                  trajanje: treninzi[i].trajanje
+
+                  }
+                  vrati.push(tr)
+                }
+                res.status(200).json(vrati)
+ 
+                
             }
             else {
-                res.status(400).json("nema nijednog zakazanog treninga")
+                res.status(400).json("nema nijedan zakazani personalni trening")
             }
 
         }
@@ -278,8 +307,63 @@ router.get("/vidiZakazaneTreninge/:idKorisnika", async (req, res) => {
 
 })
 
+//pregledaj sve zakazane treninge grupne
+router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
 
-//prijavi se za grupni trening NE MENJA U BAZU 
+    try {
+
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
+        if (korisnik != null) {
+            const treninzi = await Trening.find({ $and:[ {clanovi:korisnik._id} , { brojMaxClanova: { $gte: 2 } }  ]  })
+            //const treninzi = await Trening.find( {clanovi:korisnik._id })
+
+            if (treninzi.length != 0) { 
+
+
+                let vrati = []
+                for (let i = 0; i < treninzi.length; i++) {
+                  const trener = await Trener.findById(treninzi[i].trenerId)
+                  const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
+                  let datum=treninzi[i].datum;
+                  let samoDatum=datum.toLocaleDateString()
+                  let vreme=treninzi[i].datum;
+                  let samovreme=vreme.toLocaleTimeString()
+            
+                  let tr = {
+  
+                  imeT:regT.ime,
+                  prezimeT:regT.prezime,
+                  brojtelefonaT:regT.brojTelefona,
+                  datum: samoDatum,
+                  vreme:samovreme,
+                  nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
+                  intenzitet: treninzi[i].intenzitet,
+                  trajanje:treninzi[i].trajanje
+
+                  }
+                  vrati.push(tr)
+                }
+                res.status(200).json(vrati)
+ 
+                
+            }
+            else {
+                res.status(400).json("nema nijedan zakazani personalni trening")
+            }
+
+        }
+        else {
+            res.status(404).json("korisnik nije pronadjen")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+//prijavi se za grupni trening 
 router.put("/prijavaGrupniTrening/:idKorisnika/:idTreninga", async (req, res) => {
 
     try {
@@ -323,22 +407,43 @@ router.put("/prijavaGrupniTrening/:idKorisnika/:idTreninga", async (req, res) =>
 //pregledaj sve dostupne grupne treninge
 router.get("/vidiGrupneTreninge", async (req, res) => {
 
-    try {
-        const treninzi = await Trening.find({ brojMaxClanova: { $gte: 2 } })
-        if (treninzi.length != 0) {
-            res.status(200).json(treninzi)
-        }
-        else {
-            res.status(400).json("Nema treninga za prikaz")
-        }
+        try {
+            const treninzi = await Trening.find({ brojMaxClanova: { $gte: 2 } })
+            if (treninzi != null) {
+        
+              let vrati = []
+              for (let i = 0; i < treninzi.length; i++) {
+                const trener = await Trener.findById(treninzi[i].trenerId)
+                const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
+                const usluga=await Usluga.findbyId(treninzi[i].uslugaId)
 
+        
+                let tr = {
 
-    }
-    catch (err) {
-        res.status(500).json(err);
-    }
+                imeT:regT.ime,
+                prezimeT:regT.prezime,
+                nazivUsluge:usluga.naziv,
+                datum: treninzi[i].datum,
+                nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
+                intenzitet: treninzi[i].intenzitet,
+                trajanje:treninzi[i].trajanje,
+                brojMaxClanova: treninzi[i].brojMaxClanova,
+                }
+                vrati.push(tr)
+              }
+              res.status(200).json(vrati)
+            }
+            else {
+              res.status(404).json("nema verifikovanih korisnika")
+            }
+        
+          }
+          catch (err) {
+            res.status(500).json(err);
+          }
+        
+        })
 
-})
 
 //pregledaj grupne treninge, al tipove, po usluzi se vraca
 router.get("/vidiGrupneUsluge", async (req, res) => {

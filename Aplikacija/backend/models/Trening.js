@@ -42,16 +42,16 @@ const TreningSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    imeT: {
-        type: String,
-        max: 20
+    //imeT: {
+        //type: String,
+        //max: 20
       
 
-    },
-    prezimeT: {
-        type: String,
-        max: 20
-    },
+    //},
+    //prezimeT: {
+        //type: String,
+        //max: 20
+    //},
     //brojTrenClanova:{
         //type:String
     //}
