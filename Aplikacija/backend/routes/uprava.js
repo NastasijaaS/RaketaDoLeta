@@ -41,20 +41,23 @@ router.put("/upravaUpdate/:id", async (req, res) => {
   }
 });
 
-//obrisi korisnika
+//obrisi korisnika NE RADI DA BRISE I REG KORISNIKA
 router.delete("/:id", async (req, res) => {
 
+  try {
   const uprava = await RegistrovaniKorisnik.findById(req.params.id);
   if (uprava.tipKorisnika == "Uprava") {
 
-    try {
-      await Korisnik.findByIdAndDelete(req.body.korisnikId);
+    const korisnik=await Korisnik.findById(req.body.korisnikId)
+    //res.status(200).json(korisnik)
+      await RegistrovaniKorisnik.findOneAndDelete({_id:korisnik.registrovaniKorisnikId})
+      await Korisnik.findOneAndDelete({_id:korisnik._id})
       res.status(200).json("Account has been deleted");
-    }
-    catch (err) {
-      return res.status(500).json(err);
-    }
+  }
 
+  }
+  catch (err) {
+    return res.status(500).json(err);
   }
 });
 
@@ -504,8 +507,12 @@ router.delete("/obrisiTrenera/:idTrenera", async (req, res) => {
 
   try {
 
-    await Trener.findByIdAndDelete(req.params.idTrenera)
-    res.status(200).json("Trener je uspesno obrisan")
+    const trener=await Trener.findById(req.body.korisnikId)
+    //res.status(200).json(korisnik)
+      await RegistrovaniKorisnik.findOneAndDelete({_id:trener.registrovaniKorisnikId})
+      await Trener.findOneAndDelete({_id:trener._id})
+      res.status(200).json("Account has been deleted");
+    
 
   }
   catch (err) {

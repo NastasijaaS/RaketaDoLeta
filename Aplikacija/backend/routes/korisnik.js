@@ -27,7 +27,7 @@ router.put("/izmeniParametre/:idKorisnika", async (req, res) => {
 
 
 //zakazi personalni trening
-router.post("/zakaziPersonalniTrening/:idKorisnika", async (req, res) => {
+router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera", async (req, res) => {
 
     try {
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
@@ -36,7 +36,7 @@ router.post("/zakaziPersonalniTrening/:idKorisnika", async (req, res) => {
 
             // const trenerKorisnika = await Trener.findById(korisnik.trenerId);
 
-            const trenerKorisnika = await Trener.findById(req.body.trenerId);
+            const trenerKorisnika = await Trener.findById(req.params.idTrenera);
 
             const novitrening = await new Trening({
                 datum: req.body.datum,
@@ -258,8 +258,68 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
     try {
 
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
+        //res.status(200).json(korisnik)
         if (korisnik != null) {
-            const treninzi = await Trening.find({ $and:[ {clanovi:korisnik._id} , { brojMaxClanova: { $lt: 2 } }  ]  })
+            const treninzi = await Trening.find({ $and:[ {clanovi:req.params.idKorisnika} , { brojMaxClanova: 1 }  ]  })
+            //const treninzi = await Trening.find( {clanovi:req.params.idKorisnika })
+            if (treninzi.length != 0) { 
+                //res.status(200).json(treninzi)
+
+
+                let vrati = []
+                
+                for (let i = 0; i < treninzi.length; i++) {
+                  const trener = await Trener.findById(treninzi[i].trenerId)
+                  const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
+                  let datum=treninzi[i].datum;
+                  let samoDatum=datum.toLocaleDateString()
+                  let vremee=treninzi[i].datum;
+                  let samovreme=vremee.toLocaleTimeString()
+            
+                  let tr = {
+  
+                  imeT:regT.ime,
+                  prezimeT:regT.prezime,
+                  brojtelefonaT:regT.brojTelefona,
+                  datum: samoDatum,
+                  vremeee:samovreme,
+                  tip: treninzi[i].tip,
+                  intenzitet: treninzi[i].intenzitet,
+                  trajanje: treninzi[i].trajanje,
+                  id:treninzi[i]._id,
+                  isOnline:treninzi[i].isOnline
+
+                  }
+                  vrati.push(tr)
+                }
+                res.status(200).json(vrati)
+                
+            }
+            else {
+                res.status(404).json("nema nijedan zakazani personalni trening")
+            }
+
+        }
+        else {
+            res.status(404).json("korisnik nije pronadjen")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
+//vidi sve zakazane treninge 
+router.get("/vidiZakazaneTreningeSve/:idKorisnika", async (req, res) => {
+
+    try {
+
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
+        if (korisnik != null) {
+            const treninzi = await Trening.find({ clanovi:korisnik._id   })
             //const treninzi = await Trening.find( {clanovi:korisnik._id })
 
             if (treninzi.length != 0) { 
@@ -271,8 +331,8 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                   const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
                   let datum=treninzi[i].datum;
                   let samoDatum=datum.toLocaleDateString()
-                  let vreme=treninzi[i].datum;
-                  let samovreme=vreme.toLocaleTimeString()
+                  let vremee=treninzi[i].datum;
+                  let samovreme=vremee.toLocaleTimeString()
             
                   let tr = {
   
@@ -283,7 +343,9 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                   vreme:samovreme,
                   tip: treninzi[i].tip,
                   intenzitet: treninzi[i].intenzitet,
-                  trajanje: treninzi[i].trajanje
+                  trajanje: treninzi[i].trajanje,
+                  id:treninzi[i]._id,
+                  isOnline:treninzi[i].isOnline
 
                   }
                   vrati.push(tr)
@@ -293,7 +355,7 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                 
             }
             else {
-                res.status(400).json("nema nijedan zakazani personalni trening")
+                res.status(404).json("nema nijedan zakazani personalni trening")
             }
 
         }
@@ -328,8 +390,8 @@ router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
                   const regT = await RegistrovaniKorisnik.findOne({_id:trener.registrovaniKorisnikId})
                   let datum=treninzi[i].datum;
                   let samoDatum=datum.toLocaleDateString()
-                  let vreme=treninzi[i].datum;
-                  let samovreme=vreme.toLocaleTimeString()
+                  let vremee=treninzi[i].vreme;
+                  let samovreme=vremee.toLocaleTimeString()
             
                   let tr = {
   
@@ -340,7 +402,9 @@ router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
                   vreme:samovreme,
                   nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
                   intenzitet: treninzi[i].intenzitet,
-                  trajanje:treninzi[i].trajanje
+                  trajanje:treninzi[i].trajanje,
+                  id:treninzi[i]._id,
+                  isOnline:treninzi[i].isOnline
 
                   }
                   vrati.push(tr)
@@ -350,7 +414,7 @@ router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
                 
             }
             else {
-                res.status(400).json("nema nijedan zakazani personalni trening")
+                res.status(404).json("nema nijedan zakazani grupni trening")
             }
 
         }
@@ -420,7 +484,6 @@ router.get("/vidiGrupneTreninge/:idUsluge/:datum", async (req, res) => {
             
             const treninzi = await Trening.find({$and:[{uslugaId:req.params.idUsluge}, {datum:req.params.datum}]})
             if (treninzi.length != 0) {
-        
               let vrati = []
               for (let i = 0; i < treninzi.length; i++) {
                 const trener = await Trener.findById(treninzi[i].trenerId)
@@ -460,7 +523,6 @@ router.get("/vidiGrupneTreninge/:idUsluge/:datum", async (req, res) => {
           }
         
         })
-
 
 //pregledaj grupne treninge, al tipove, po usluzi se vraca
 router.get("/vidiGrupneUsluge", async (req, res) => {
