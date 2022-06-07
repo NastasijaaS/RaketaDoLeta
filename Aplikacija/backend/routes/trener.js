@@ -140,6 +140,7 @@ router.get("/vratiKorisnike/:id", async (req, res) => {
         const trener = await Trener.findById(req.params.id);
         if (trener != null) {
             const lista = trener.listaKlijenata;
+            
             res.status(200).json(lista);
 
         }
