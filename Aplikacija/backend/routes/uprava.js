@@ -41,14 +41,17 @@ router.put("/upravaUpdate/:id", async (req, res) => {
   }
 });
 
-//obrisi korisnika
+//obrisi korisnika NE RADI DA BRISE I REG KORISNIKA
 router.delete("/:id", async (req, res) => {
 
   const uprava = await RegistrovaniKorisnik.findById(req.params.id);
+ 
   if (uprava.tipKorisnika == "Uprava") {
 
     try {
+      const korisnik=await Korisnik.findById(req.body.korisnikId);
       await Korisnik.findByIdAndDelete(req.body.korisnikId);
+      await regkorisnik.findByIdAndDelete(korisnik.registrovaniKorisnikId);
       res.status(200).json("Account has been deleted");
     }
     catch (err) {
@@ -504,8 +507,14 @@ router.delete("/obrisiTrenera/:idTrenera", async (req, res) => {
 
   try {
 
+    const trener=await Trener.findById(req.params.idTrenera)
+    
     await Trener.findByIdAndDelete(req.params.idTrenera)
+    await RegistrovaniKorisnik.findByIdAndDelete(trener.registrovaniKorisnikId)
+   
+
     res.status(200).json("Trener je uspesno obrisan")
+    
 
   }
   catch (err) {
