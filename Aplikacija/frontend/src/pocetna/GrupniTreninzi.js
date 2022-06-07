@@ -14,7 +14,8 @@ const GrupniTreninzi = () => {
 
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading)
+        const get = () => { GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) }
+        get()
     }, [])
 
 
@@ -29,11 +30,11 @@ const GrupniTreninzi = () => {
                     <Grid container >
                         <Grid item xs={12} md={4}>
                             <CardMedia
-                            component="img"
-                            src={tr.slika}
-                            alt={tr.naziv}
-                            className="trImg" />
-                            
+                                component="img"
+                                src={tr.slika}
+                                alt={tr.naziv}
+                                className="trImg" />
+
                         </Grid>
                         <Grid item xs={12} md={8} >
                             <CardContent>
@@ -51,11 +52,12 @@ const GrupniTreninzi = () => {
                     </Grid>
 
                     {kalendar === i
-                    &&
-                    <Container>
-                        <KalendarForma />
-                    </Container>}
-                    
+                        &&
+                        <Container>
+                            <KalendarForma idUsluge={tr._id} />
+                        </Container>
+                    }
+
                 </Card>
 
 

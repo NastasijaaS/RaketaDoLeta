@@ -11,6 +11,8 @@ import TabelaTreneri from './Uprava/TabelaTreneri';
 import KorisniciTrenera from './Trener/Korisnici';
 import { UserContext } from '../context/UserContext';
 import {Card,CardMedia,CardContent,CardActionArea} from '@mui/material';
+
+
 //izmeni korisnika
 
 
@@ -47,7 +49,7 @@ const Trener = (props) => {
 
         {/* <KorisniciTrenera/> */}
 
-        <Card className="blog" sx={{ maxWidth: 345 }} >
+        <Card sx={{ maxWidth: 345 }} >
             <CardActionArea>
                 <CardMedia
                     component="img"

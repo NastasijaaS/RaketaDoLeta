@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material'
+import { GetData } from './Fetch'
 
 
 const termini1 = [{ trajanje: 60, vreme: 17 }, { trajanje: 45, vreme: 18 }]
@@ -50,6 +51,8 @@ const format = (datum) => {
 
 const KalendarForma = (props) => {
 
+    console.log(props.idUsluge)
+
     const dan = (new Date()).getDay();
     // const datum = new Date().getDate();
     const dateOD = new Date()
@@ -63,13 +66,31 @@ const KalendarForma = (props) => {
 
     const { user } = useContext(UserContext);
 
-    const prikaziTermine = (ev) => {
+    const [termini, setTermini] = useState('')
+    const [greska, setGreska] = useState(false)
+    const [loading, setIsLoading] = useState(false)
+
+    const prikaziTermine = async (ev) => {
 
         const d = ev.target.id
         let datumTreninga = new Date();
         datumTreninga.setDate(dateOD.getDate() + parseInt(d))
 
-        //salje u bazu
+        const idUsluge = props.idUsluge
+
+        console.log(props.idUsluge)
+        console.log('datum treninga ' + datumTreninga.toISOString())
+        // console.log(JSON.stringify(datumTreninga))
+
+        const datumProba = new Date('2022-07-30')
+
+        const datumZaSlanje = datumProba.toISOString()
+
+        console.log('json  ' + datumZaSlanje)
+
+
+        //salje u bazu ///vidiGrupneTreninge/:idUsluge/:datum
+        await GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${idUsluge}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
 
         if (d == 2) {
             setTer(termini1)
@@ -79,7 +100,7 @@ const KalendarForma = (props) => {
         }
 
         //termine iz baze da ucitam
-
+        console.log(termini)
         setTermin({ status: true, datum: { datumTreninga } })
     }
 
@@ -135,6 +156,7 @@ const KalendarForma = (props) => {
                     <span>Trajanje</span>
                     <span className='nevidljiviSpan'>Zakazite</span>
                 </div>
+
                 {
                     ter.map((t, i) => (
                         <Box key={i} fullWidth className='termin'>
@@ -144,7 +166,7 @@ const KalendarForma = (props) => {
                             <div>
                                 {t.trajanje} min
                             </div>
-                            <Button size = "small" variant = "contained" value={t.vreme + " " + t.trajanje} onClick={zakaziForma}>Zakazi</Button>
+                            <Button size="small" variant="contained" value={t.vreme + " " + t.trajanje} onClick={zakaziForma}>Zakazi</Button>
                         </Box>
                     ))}
             </div>}
@@ -167,7 +189,7 @@ const KalendarForma = (props) => {
                 </Modal>
             }
 
-             {
+            {
                 zakazi && user &&
                 <Modal onClose={zakaziForma}>
                     <div>
@@ -182,7 +204,7 @@ const KalendarForma = (props) => {
                     // idTrenera={props.id} 
                     />
                 </Modal>
-            } 
+            }
 
         </div >
     )
