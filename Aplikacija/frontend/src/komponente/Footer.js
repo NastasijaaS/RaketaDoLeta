@@ -44,6 +44,7 @@ function Footer() {
                     src="https://www.google.com/maps/d/u/0/embed?mid=19cj8tl1EbeOvv5qFskSkS0gjx2VSgMA&ehbc=2E312F"  
                     width="100%"
                     height="240"
+                    margin = "15 vh 15 vw"
                     frameBorder="0"
                     style={{border:2, marginBottom:'2vh'}}
                     allowFullScreen/>          

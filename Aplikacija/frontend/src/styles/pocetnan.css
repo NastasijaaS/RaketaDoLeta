@@ -1,0 +1,24 @@
+
+/* slika pozadina */
+.container{
+	background-image: url(https://odia.ig.com.br/_midias/jpg/2021/09/09/unnamed2-22980351.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+a{
+    text-decoration: none;
+}
+/*centriranje*/
+.center {
+   
+  }
+
+  

@@ -1,4 +1,4 @@
-/* input.cenaUsluge,
+input.cenaUsluge,
 input.korisnik {
     background-color: transparent;
     text-align: center;
@@ -10,10 +10,6 @@ input.korisnik {
     border: 1px solid rgb(254, 197, 143);
     border-radius: 7px;
     padding: 8px 14px;
-}
-
-.lozinka{
-    display: block;
 }
 
 input.cenaUsluge:disabled,
@@ -40,7 +36,7 @@ input.korisnik:focus {
     font-weight: bold;
 
 }
-
+/*
 div.infoOProfilu {
     display: flex;
     flex-direction: column;
