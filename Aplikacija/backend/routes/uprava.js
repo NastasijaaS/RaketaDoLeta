@@ -197,7 +197,9 @@ router.post("/dodajUslugu", async (req, res) => {
       cena: req.body.cena,
       opis: req.body.opis,
       naziv: req.body.naziv,
-      trajanje: req.body.trajanje
+      trajanje: req.body.trajanje,
+      treningGrupni:req.body.treningGrupni,
+      slika:req.body.slika
     })
 
     const uslugaSave = await usluga.save()
