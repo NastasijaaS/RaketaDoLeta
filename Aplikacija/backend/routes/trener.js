@@ -574,6 +574,42 @@ router.put("/dodajOpis/:idTrenera", async (req, res) => {
 
 });
 
+// obrisi svog klijenta
+router.put("/obrisiSvogKlijenta/:id", async (req, res) => {
+
+    try {
+
+        const trener = await Trener.findById(req.params.id)
+        if (trener != null) {
+
+            const korisnik = await Korisnik.findById(req.body.korisnikId)
+            if (korisnik != null) {
+
+                if (trener.listaKlijenata.includes(korisnik._id)) {
+                    await trener.updateOne({ $pull: { listaKlijenata: korisnik._id } });
+                    res.status(200).json("Uspesno obrisan klijent");
+
+                }
+                else {
+                    res.status(400).json("Ovaj korisnik nije vas klijent");
+                }
+
+            }
+            else {
+                res.status(404).json("Nije pronadjen korisnik")
+            }
+
+        }
+        else {
+            res.status(404).json("Nije pronadjen trener")
+        }
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 
 
 

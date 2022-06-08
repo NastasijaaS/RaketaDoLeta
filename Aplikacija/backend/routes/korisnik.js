@@ -273,7 +273,7 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
             
             //const treninzi = await Trening.find( {clanovi:req.params.idKorisnika })
             if (treninzi.length != 0) { 
-                //res.status(200).json(treninzi)
+                res.status(200).json(treninzi)
 
 
                 let vrati = []
@@ -282,7 +282,7 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                   const trener = await Trener.findById(treninzi[i].trenerId)
                   const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
                  
-                  const zahtev=await Zahtev.find({treningId: treninzi[i]._id})
+                  const zahtev=await Zahtev.find({treningId:treninzi[i]._id})
                   //res.status(200).json(zahtev);
                   let datum=treninzi[i].datum;
                   let samoDatum=datum.toLocaleDateString()

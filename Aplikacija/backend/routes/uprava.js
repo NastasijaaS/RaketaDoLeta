@@ -519,4 +519,6 @@ router.delete("/obrisiTrenera/:idTrenera", async (req, res) => {
 });
 
 
+
+
 module.exports = router
