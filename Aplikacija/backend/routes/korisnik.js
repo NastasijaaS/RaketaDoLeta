@@ -50,6 +50,11 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera", async (req, res)
             })
 
             const trening = await novitrening.save();
+            const noviZahtev=await new Zahtev({
+                treningId:trening._id,
+            })
+            const zahtevSave = await noviZahtev.save()
+            //res.status(200).json(zahtevSave)
             await trening.updateOne({ $push: { clanovi: req.params.idKorisnika } })// NE RADI??????????????????
             await trenerKorisnika.updateOne({ $push: { listaTreninga: trening._id } })
             await trenerKorisnika.updateOne({ $push: { listaKlijenata: req.params.idKorisnika } })
@@ -252,7 +257,7 @@ router.get("/vidiUsluge", async (req, res) => {
 
 })
 
-//pregledaj sve zakazane treninge
+//pregledaj sve zakazane treninge NE ZNAM ZASTO NECE
 router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
 
     try {
@@ -261,6 +266,7 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
         //res.status(200).json(korisnik)
         if (korisnik != null) {
             const treninzi = await Trening.find({ $and:[ {clanovi:req.params.idKorisnika} , { brojMaxClanova: 1 }  ]  })
+            
             //const treninzi = await Trening.find( {clanovi:req.params.idKorisnika })
             if (treninzi.length != 0) { 
                 //res.status(200).json(treninzi)
@@ -271,10 +277,14 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                 for (let i = 0; i < treninzi.length; i++) {
                   const trener = await Trener.findById(treninzi[i].trenerId)
                   const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
+                 
+                  const zahtev=await Zahtev.find({treningId: treninzi[i]._id})
+                  //res.status(200).json(zahtev);
                   let datum=treninzi[i].datum;
                   let samoDatum=datum.toLocaleDateString()
                   let vremee=treninzi[i].datum;
                   let samovreme=vremee.toLocaleTimeString()
+                  
             
                   let tr = {
   
@@ -287,13 +297,18 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                   intenzitet: treninzi[i].intenzitet,
                   trajanje: treninzi[i].trajanje,
                   id:treninzi[i]._id,
-                  isOnline:treninzi[i].isOnline
+                  isOnline:treninzi[i].isOnline,
+                  status:zahtev.status
+                  //status:treninzi[i].status
 
                   }
+                  //res.status(200).json(tr);
                   vrati.push(tr)
+                  
                 }
-                res.status(200).json(vrati)
                 
+                res.status(200).json(vrati)
+                //res.status(200).json(zahtev)
             }
             else {
                 res.status(404).json("nema nijedan zakazani personalni trening")

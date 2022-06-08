@@ -140,20 +140,53 @@ router.get("/vratiKorisnike/:id", async (req, res) => {
         const trener = await Trener.findById(req.params.id);
         if (trener != null) {
             const lista = trener.listaKlijenata;
-            
-            res.status(200).json(lista);
 
-        }
-        else {
-            res.status(404).json("Trener nije pronadjen")
-        }
+            if(lista!=null)
+            {
+                //res.status(200).json(lista)
+                let vrati = []
+                for(let i=0;i<lista.length;i++)
+                {
+                    const korisnik = await Korisnik.findById(lista[i])
+                    //res.status(200).json(korisnik)
+                    const regT = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
 
-    }
-    catch (err) {
-        res.status(500).json(err);
-    }
 
-});
+                    let tr = 
+                    {
+  
+                        imeK:regT.ime,
+                        prezimeK:regT.prezime,
+                        brojtelefonaK:regT.brojTelefona,
+                        email:regT.email,
+                        idkorisnika:lista[i]
+ 
+                    
+                    }
+                    vrati.push(tr)
+                    
+                }
+                  
+                  res.status(200).json(vrati)
+                  
+              }
+              else {
+                  res.status(404).json("nema nijednog korisnika")
+              }
+  
+            }
+          else {
+              res.status(404).json("trener nije pronadjen")
+          }
+  
+  
+      }
+      catch (err) {
+          res.status(500).json(err);
+      }
+  
+  })
+
 
 //zakazi grupni trening
 router.post("/zakaziGrupniTrening/:id/:idUsluge", async (req, res) => {
@@ -540,6 +573,8 @@ router.put("/dodajOpis/:idTrenera", async (req, res) => {
     }
 
 });
+
+
 
 
 module.exports = router

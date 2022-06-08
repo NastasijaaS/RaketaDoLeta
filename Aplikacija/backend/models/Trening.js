@@ -62,11 +62,11 @@ const TreningSchema = new mongoose.Schema({
     uslugaId:{
         type:String
     },
-    status:{
-        type: String,
-        enum:["Odobreno", "Odbijeno", "Na cekanju"],
-        default:"Na cekanju"
-    },
+    //status:{
+        //type: String,
+        //enum:["Odobreno", "Odbijeno", "Na cekanju"],
+        
+    //},
     
 },
 {timestamps:true}

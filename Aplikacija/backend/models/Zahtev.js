@@ -7,7 +7,8 @@ const ZahtevSchema = new mongoose.Schema({
     },
     status:{
         type: String,
-        enum:["Odobreno", "Odbijeno", "Ukinuto"]
+        enum:["Odobreno", "Odbijeno", "Ukinuto","Na cekanju"],
+        default:"Na cekanju"
     },
     poruka:{
         type:String
