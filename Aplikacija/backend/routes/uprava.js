@@ -130,8 +130,6 @@ router.delete("/:id", async (req, res) => {
   }
 })*/
 
-
-
 ///ova radi xd
 router.put("/dodajClanarinu/:idKorisnika/:idUsluge", async (req, res) => {
   try {
@@ -507,7 +505,7 @@ router.delete("/obrisiTrenera/:idTrenera", async (req, res) => {
 
   try {
 
-    const trener=await Trener.findById(req.body.korisnikId)
+    const trener=await Trener.findById(req.params.idTrenera)
     //res.status(200).json(korisnik)
       await RegistrovaniKorisnik.findOneAndDelete({_id:trener.registrovaniKorisnikId})
       await Trener.findOneAndDelete({_id:trener._id})

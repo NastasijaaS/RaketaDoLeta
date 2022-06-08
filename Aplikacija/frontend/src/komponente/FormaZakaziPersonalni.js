@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import '../styles/formaZakazi.css'
 import { UserContext } from "../context/UserContext";
 import Button from "@mui/material/Button";
@@ -11,13 +11,15 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Checkbox } from "@mui/material";
 import Greska from './Alert'
-import { PostMetoda } from './Fetch'
+import { PostMetoda, GetData } from './Fetch'
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
 const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
 
 const FormaZakaziPersonalni = (props) => {
+    console.log(props.idTrenera)
+
 
     const { user } = useContext(UserContext);
 
@@ -33,26 +35,33 @@ const FormaZakaziPersonalni = (props) => {
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
+    const maxBrojClanova = useRef()
+    const naziv = useRef()
+
+    const [treninzi, setTreninzi] = useState([])
+    const [uslugaId, setUslugaId] = useState(0)
+
+
+    useEffect(() => {
+        const get = () => { GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) }
+        get()
+    }, [])
+
+
+
     const zakaziTrening = async (ev) => {
-        // console.log(props.idTrenera)
-        // console.log(tipTreninga)
-        // console.log(intenzitetTreninga)
-        // console.log(trajanjeTreninga)
-        // console.log(date)
-        // console.log(vreme)
-        // console.log(isOnline)
 
         if (tipTreninga === '' || intenzitetTreninga === '' || trajanjeTreninga === '') {
             setError('Morate uneti sve podatke')
             return
         }
 
-        const datum = new Date(date.getFullYear(),date.getMonth(), date.getDate(), vreme.getHours(), vreme.getMinutes())
-        
+        const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), vreme.getHours(), vreme.getMinutes())
+
         const zahtev = {
-            url: 'http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId,
+            url: 'http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId + '/' + props.idTrenera,
             body: {
-                trenerId: props.idTrenera,
+                // trenerId: props.idTrenera,
                 datum: datum,
                 tip: tipTreninga,
                 intenzitet: intenzitetTreninga,
@@ -61,7 +70,6 @@ const FormaZakaziPersonalni = (props) => {
             }
         }
 
-        // console.log(zahtev.body)
 
         await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
@@ -70,7 +78,7 @@ const FormaZakaziPersonalni = (props) => {
             // setError('Morate uneti sve podatke')
         }
         else {
-            setError('Uspesno zakazan trening')
+            alert('Uspesno zakazan trening')
         }
 
 
@@ -87,6 +95,8 @@ const FormaZakaziPersonalni = (props) => {
     const [startDate, setStartDate] = useState(new Date());
     const [date, setDate] = useState(new Date());
     const [vreme, setVreme] = useState(new Date());
+
+    const [usluga, setUsluga] = useState('');
 
 
     const DropDown = ({ labela, set, niz, value }) => {
@@ -111,8 +121,57 @@ const FormaZakaziPersonalni = (props) => {
         </FormControl>)
     }
 
+    const zakaziGrupniTrening = async () => {
+        console.log(usluga)
+
+        if (maxBrojClanova.current.value <= 0) {
+            alert('morate uneti broj clanova')
+            return
+        }
+
+        if (intenzitetTreninga === '' || trajanjeTreninga === '') {
+            setError('Morate uneti sve podatke')
+            return
+        }
+
+        const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+
+
+        const idUsluge = 0;
+
+        console.log(datum)
+
+        const zahtev = {
+            url: 'http://localhost:8800/api/trener/zakaziGrupniTrening/' + props.idTrenera + '/' + usluga,
+            body: {
+                naziv: naziv.current.value,
+                datum: datum,
+                vreme: vreme,
+                intenzitet: intenzitetTreninga,
+                trajanje: trajanjeTreninga,
+                isOnline: isOnline,
+                brojMaxClanova: maxBrojClanova.current.value,
+                status: 'Odobreno'
+            }
+        }
+        console.group(zahtev)
+        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+
+        if (greska !== false) {
+            alert('doslo je do greske')
+        }
+
+        else {
+            alert('uspesno dodat trenig')
+        }
+
+
+    }
+
     let datumDo = new Date();
     datumDo.setDate((new Date()).getDate() + 14)
+
+
 
     return (
         <form className="formaZakazi" onSubmit={zakaziTrening}>
@@ -180,11 +239,56 @@ const FormaZakaziPersonalni = (props) => {
             {/* /> */}
             {/* <TimePicker onChange={onChange} value={value} /> */}
 
-            <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />
+            {!props.grupni && <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />}
             <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
-            <DropDown labela='Trejanje trenizga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
+            <DropDown labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
 
 
+            {props.grupni &&
+                <div>
+
+                    <TextField
+                        className='loginInp'
+                        inputRef={naziv}
+                        label='naziv'
+                        type='text'
+                        color="primary"
+                        size="small"
+                        placeholder='naziv'
+                        focused />
+
+                    <TextField
+                        className='loginInp'
+                        inputRef={maxBrojClanova}
+                        label='Max broj clanova'
+                        type='number'
+                        color="primary"
+                        size="small"
+                        placeholder='max broj clanova'
+                        focused />
+
+                    <FormControl sx={{ minWidth: 150, }}>
+                        <InputLabel>usluga</InputLabel>
+                        <Select
+                            label='usluga'
+                            value={usluga}
+                            size='small'
+                            onChange={(ev) => {
+                                setUsluga(ev.target.value);
+                                console.log(ev.target)
+                            }}
+                        >
+                            {
+                                treninzi.map(n => (
+                                    <MenuItem key={n._id} name={n._id} value={n._id}>{n.naziv}</MenuItem>
+                                ))
+                            }
+
+                        </Select>
+                    </FormControl>
+                </div>
+
+            }
 
             {/* <div>
                 <label>Trajanje treninga:</label>
@@ -212,18 +316,21 @@ const FormaZakaziPersonalni = (props) => {
                 <input type="checkbox" value='online' name="online" onChange={onlineTrening} />On-line trening
             </div> */}
 
-            <FormControlLabel
+            {!props.grupni && <FormControlLabel
                 value="online"
                 onChange={onlineTrening}
                 control={<Checkbox />}
                 label="On-line trening"
                 labelPlacement="start"
-            />
+            />}
 
             <div>
-                <Button size='small' variant="outlined" className="btn" onClick={zakaziTrening}>Potvrdi</Button>
+                {!props.grupni && <Button size='small' variant="outlined" className="btn" onClick={zakaziTrening}>Potvrdi</Button>}
+                {props.grupni && <Button size='small' variant="outlined" className="btn" onClick={zakaziGrupniTrening}>Potvrdi</Button>}
                 <Button size='small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
             </div>
+
+
         </form>
     )
 }

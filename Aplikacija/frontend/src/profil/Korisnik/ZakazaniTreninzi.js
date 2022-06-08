@@ -9,13 +9,15 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
-
+import { Card, CardMedia, CardContent, CardActionArea } from '@mui/material';
 
 const ZakazaniTreninzi = () => {
 
     const { user, dispatch } = useContext(UserContext);
 
     const [zakazaniTreninzi, setZakazaniTreninzi] = useState([])
+
+    const [grupniTreninzi, setGrupni] = useState([])
 
     const [greska, setGreska] = useState(false)
 
@@ -25,6 +27,7 @@ const ZakazaniTreninzi = () => {
     useEffect(() => {
         const get = () => {
             GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
+            GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreningeGrupni/" + user.korisnikId, setGrupni, setGreska, setIsLoading)
         }
 
         get()
@@ -34,6 +37,7 @@ const ZakazaniTreninzi = () => {
 
 
     const izmeniTrening = (idTreninga) => {
+        // console.log(grupniTreninzi)
 
         // axios.put('http://localhost:8800/api/korisnik/izmeniTrening/' + user.korisnikId + '/' + idTreninga, {
         //     //trening ?? sta menjam?? 
@@ -51,6 +55,9 @@ const ZakazaniTreninzi = () => {
     }
 
     const otkaziTrening = (idTreninga) => {
+
+        console.log(idTreninga)
+
         axios.put('http://localhost:8800/api/korisnik/ukiniTrening/' + idTreninga,)
             .then((p) => {
                 if (p.status === 200) {
@@ -65,11 +72,44 @@ const ZakazaniTreninzi = () => {
             });
     }
 
-
+    const Kartica = ({tr}) => {
+        return (
+            <Card sx={{ maxWidth: 345 }} >
+                <CardActionArea>
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {tr.imeT} {tr.prezimeT}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Datum: {tr.datum}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Vreme: {tr.vremeee}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Trajanje: {tr.trajanje}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Intenzitet: {tr.intenzitet}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Tip: {tr.tip}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Online: {tr.isOnline}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</Button>
+                <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+            </Card>
+        )
+    }
+    
     return (<div>
-        <Modal
+        {/* <Modal
             sx={{ display: 'flex', justifyContent: 'center' }}
-            open={greska ? true : false}
+            open={(zakazaniTreninzi || grupniTreninzi) ? true : false}
             onClose={() => navigate("../profil", { replace: true })}
         >
             <Alert
@@ -82,33 +122,50 @@ const ZakazaniTreninzi = () => {
                 }}
 
             >Doslo je do greske prilikom ucitavanja ):</Alert>
-        </Modal>
+        </Modal> */}
 
         <div className="zakazaniTreninzi">
 
             {zakazaniTreninzi.map((tr) => (
-                <div key={tr._id}>
-                    <p>Trener: {tr.trener}</p>
+
+                <Kartica tr={tr} key = {tr.id} />
+                // <div key={tr.id}>
+                //     <p>Trener: {tr.imeT} {tr.prezimeT}</p>
+                //     <p>Datum: {tr.datum}</p>
+                //     <p>Vreme: {tr.vreme}</p>
+                //     <p>Trajanje: {tr.trajanje}</p>
+                //     <p>Tip: {tr.tip}</p>
+                //     <p>Intenzitet: {tr.intenzitet}</p>
+                //     {/* <p>Grupni/personalni: {tr.tip}</p> */}
+                //     <p>online: {tr.isOnline}</p>
+
+                //     <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</Button>
+                //     <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+                // </div>
+            ))}
+        </div>
+
+        <div>
+            {grupniTreninzi.map((tr) => (
+                <div key={tr.id}>
+
+                    <p>Trener: {tr.imeT} {tr.prezimeT}</p>
                     <p>Datum: {tr.datum}</p>
                     <p>Vreme: {tr.vreme}</p>
                     <p>Trajanje: {tr.trajanje}</p>
                     <p>Tip: {tr.tip}</p>
                     <p>Intenzitet: {tr.intenzitet}</p>
-                    <p>Grupni/personalni: {tr.tip}</p>
                     <p>online: {tr.isOnline}</p>
 
-                    <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr._id)}>Izmeni trening</Button>
-                    <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr._id)}>Otkazi trening</Button>
+                    <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</Button>
+                    <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
                 </div>
             ))}
+
             {
-                !ZakazaniTreninzi &&
+                !zakazaniTreninzi &&
                 <Typography>Nemate zakazanih treninga</Typography>
             }
-
-            {/* <div className="btnNoviTrening">
-                <button onClick={zakaziTrening}>Zakazi novi trening</button>
-            </div> */}
 
         </div>
     </div>)

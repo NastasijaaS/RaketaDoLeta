@@ -3,19 +3,7 @@ const Termin = require("../models/Termin");
 const Trener = require("../models/Trener");
 
 
-router.get("/vratiBlogove", async (req, res) => {
-
-    try {
-        
-    }
-    catch (err) {
-        res.status(500).json(err);
-    }
-})
-
-
-
-//Metoda za vracanje bloga sa datim tagom:
+//vrati termine za trenera
 router.get("/vratiTermineZaTrenera/:idTrenera", async (req, res) => {
 
     try {

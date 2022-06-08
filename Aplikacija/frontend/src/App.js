@@ -103,7 +103,7 @@ function App() {
 
           {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
 
-          <Route path='/RDL/trener/korisnici' element={<KorisniciTrenera/>} />
+          <Route path='/RDL/trener/korisnici' element={<KorisniciTrenera />} />
           <Route path='/RDL/trener/:username/zahtevi' element={<ZahteviTrenera />} />
           <Route path='/RDL/trener/:username/treninzi' element={<TreninziTrenera />} />
 

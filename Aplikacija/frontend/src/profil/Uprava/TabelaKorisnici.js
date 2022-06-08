@@ -435,7 +435,7 @@ export default function Tabela(props) {
     }
 
     return (
-        <Paper style={{ marginLeft: '10%', marginTop: '2%' }}>
+        <Paper >
             <div className='divZaSearch'>
                 <div>
                     <SearchIcon />

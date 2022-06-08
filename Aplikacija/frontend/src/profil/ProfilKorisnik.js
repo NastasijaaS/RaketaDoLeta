@@ -118,8 +118,8 @@ const Korisnik = (props) => {
 
                 {/* <input type='password' placeholder="lozinka" ref={pass} /> */}
                 <Box>
-                    <Button variant="contained" size='small' onClick={OKonClick}>Ok</Button>
-                    <Button variant="contained" size='small' onClick={otkaziIzmenu}>Otkazi</Button>
+                    <Button variant="contained" size='small' sx = {{margin :"1%" }} onClick={OKonClick}>Ok</Button>
+                    <Button variant="contained" size='small' sx = {{margin :"1%" }}onClick={otkaziIzmenu}>Otkazi</Button>
                 </Box>
             </Fragment>
             // </div>
@@ -164,9 +164,10 @@ const Korisnik = (props) => {
     let navigate = useNavigate()
 
     return (
-        <Box className='profilKorisnika' sx ={{margin: "10vh 10vw"}}>
+        <Box  sx ={{margin: "10vh 10vw"}}>
+
             {isLoading && <CircularProgress size='2rem' disableShrink />}
-            <Grid container spacing={2}>
+            {/* <Grid container spacing={2}> */}
 
             {/* <Modal
                 sx={{ display: 'flex', justifyContent: 'center' }}
@@ -184,12 +185,16 @@ const Korisnik = (props) => {
 
                 >Doslo je do greske prilikom ucitavanja ):</Alert>
             </Modal> */}
-            <Grid item sm ={12} md = {6}>
+ 
+            <Typography container  display = 'flex' mb = {5} justifyContent = "center" variant = "h4" >{user.ime} {user.prezime}</Typography>
+            <Box className='profilKorisnika'>
                 <Card className="infoOProfilu" >
                     <CardContent>
                     {!user && <p>nema korisnika</p>}
 
-                    <Typography gutterBottom variant = "h4">{user.ime} {user.prezime}</Typography>
+                    {/* <Typography gutterBottom variant = "h4">{user.ime} {user.prezime}</Typography> */}
+                    <Typography mb = {2} variant = "h6">Profil:</Typography>
+
                     <Typography mb = {2}>Clanarina vazi do: {clanarina.vaziDo}</Typography>
                 
                     <Typography mb = {2}>e-mail: {user.email}</Typography>
@@ -207,82 +212,79 @@ const Korisnik = (props) => {
                     </Container>}
                     </CardActions>
                 </Card>
-            </Grid>
-            <Grid item sm ={12} md = {6}>           
-            <Card className="ZeljeKorisnika">
-                <CardContent>
+                <Card className="ZeljeKorisnika">
+                    <CardContent>
+                        <div className="zelje">
+                            Godine:
+                            <input className='korisnik'
+                                type='number'
+                                value={korisnik.brojGodina}
+                                disabled={izmeniPodatke}
+                                onChange={(ev) => setKorisnik((k) => ({ ...k, brojGodina: ev.target.value }))} />
+
+                        </div>
+
+                        <div className="zelje">
+                            Visina:
+                            <input className='korisnik'
+                                type='number'
+                                value={korisnik.visina}
+                                disabled={izmeniPodatke}
+                                onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
+
+                        </div>
                     <div className="zelje">
-                        Godine:
+                        Zeljena tezina:
                         <input className='korisnik'
                             type='number'
-                            value={korisnik.brojGodina}
+                            value={korisnik.zeljenaTezina}
                             disabled={izmeniPodatke}
-                            onChange={(ev) => setKorisnik((k) => ({ ...k, brojGodina: ev.target.value }))} />
+                            onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezina: ev.target.value }))} />
 
                     </div>
 
                     <div className="zelje">
-                        Visina:
+                        Zeljena tezina misica:
                         <input className='korisnik'
                             type='number'
-                            value={korisnik.visina}
+                            value={korisnik.zeljenaTezinaMisica}
                             disabled={izmeniPodatke}
-                            onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
-
+                            onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezinaMisica: ev.target.value }))} />
                     </div>
-                <div className="zelje">
-                    Zeljena tezina:
-                    <input className='korisnik'
-                        type='number'
-                        value={korisnik.zeljenaTezina}
-                        disabled={izmeniPodatke}
-                        onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezina: ev.target.value }))} />
 
-                </div>
+                    <div className="zelje">
+                        Zeljeni procenat masti:
+                        <input className='korisnik'
+                            type='number'
+                            value={korisnik.zeljeniProcenatMasti}
+                            disabled={izmeniPodatke}
+                            onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatMasti: ev.target.value }))} />
+                    </div>
 
-                <div className="zelje">
-                    Zeljena tezina misica:
-                    <input className='korisnik'
-                        type='number'
-                        value={korisnik.zeljenaTezinaMisica}
-                        disabled={izmeniPodatke}
-                        onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezinaMisica: ev.target.value }))} />
-                </div>
+                    <div className="zelje">
+                        Zeljeni procenat proteina:
+                        <input className='korisnik'
+                            type='number'
+                            value={korisnik.zeljeniProcenatProteina}
+                            disabled={izmeniPodatke}
+                            onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatProteina: ev.target.value }))} />
+                    </div>
+                    </CardContent>
+                    <CardActions>
+                    {!izmeniPodatke && <Button onClick={izmeniKorisnika}>OK</Button>}
+                    {!izmeniPodatke && <Button onClick={() => {
+                        setIzmeniPodatke(true); setKorisnik({
+                            zeljenaTezina: user.zeljenaTezina,
+                            zeljenaTezinaMisica: user.zeljenaTezinaMisica,
+                            zeljeniProcenatMasti: user.zeljeniProcenatMasti,
+                            zeljeniProcenatProteina: user.zeljeniProcenatProteina
+                        })
+                    }}>otkazi</Button>}
 
-                <div className="zelje">
-                    Zeljeni procenat masti:
-                    <input className='korisnik'
-                        type='number'
-                        value={korisnik.zeljeniProcenatMasti}
-                        disabled={izmeniPodatke}
-                        onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatMasti: ev.target.value }))} />
-                </div>
-
-                <div className="zelje">
-                    Zeljeni procenat proteina:
-                    <input className='korisnik'
-                        type='number'
-                        value={korisnik.zeljeniProcenatProteina}
-                        disabled={izmeniPodatke}
-                        onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatProteina: ev.target.value }))} />
-                </div>
-                </CardContent>
-                <CardActions>
-                {!izmeniPodatke && <Button onClick={izmeniKorisnika}>OK</Button>}
-                {!izmeniPodatke && <Button onClick={() => {
-                    setIzmeniPodatke(true); setKorisnik({
-                        zeljenaTezina: user.zeljenaTezina,
-                        zeljenaTezinaMisica: user.zeljenaTezinaMisica,
-                        zeljeniProcenatMasti: user.zeljeniProcenatMasti,
-                        zeljeniProcenatProteina: user.zeljeniProcenatProteina
-                    })
-                }}>otkazi</Button>}
-
-                {izmeniPodatke && <Button variant="contained" size='small' onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
-                </CardActions>
-            </Card>
-            </Grid>
-            </Grid>
+                    {izmeniPodatke && <Button variant="contained" size='small' onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
+                    </CardActions>
+                </Card>
+            </Box>
         </Box >
     )
 }
