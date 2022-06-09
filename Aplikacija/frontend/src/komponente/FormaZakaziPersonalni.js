@@ -160,7 +160,6 @@ const FormaZakaziPersonalni = (props) => {
             {props.grupni && <Typography gutterBottom variant = "h5" component="div" textAlign={"center"}>Grupni trening</Typography>}
 
             <Greska open={Boolean(error)} onClose={() => setError(false)} greska={error} />
-<<<<<<< HEAD
             
                     <LocalizationProvider dateAdapter={AdapterDateFns} >
                         <DatePicker
@@ -193,46 +192,6 @@ const FormaZakaziPersonalni = (props) => {
 
                     </Stack>
                 </LocalizationProvider>
-=======
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                    label="izaberite datum"
-                    value={date}
-                    onChange={(newValue) => {
-                        setDate(newValue);
-                    }}
-                    minDate={new Date()}
-                    maxDate={datumDo}
-                    renderInput={(params) => <TextField size='small' {...params} />}
-                    focused
-                />
-            </LocalizationProvider>
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-
-                <Stack spacing={3}>
-                    <TimePicker
-                        renderInput={(params) => <TextField size='small' {...params} />}
-                        size='small'
-                        value={vreme}
-                        minutesStep={15}
-                        label="vreme treninga"
-                        onChange={(newValue) => {
-                            setVreme(newValue);
-                        }}
-                        minTime={new Date(0, 0, 0, 8)}
-                        maxTime={new Date(0, 0, 0, 18, 45)}
-                        focused
-                    />
-
-                </Stack>
-            </LocalizationProvider>
-
-            {!props.grupni && <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />}
-            <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
-            <DropDown labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
->>>>>>> 4b387d3491de67c84d0cfb2aec4fd5533a15d111
 
             {!props.grupni &&
                 <DropDown  labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />
