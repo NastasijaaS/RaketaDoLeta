@@ -22,7 +22,7 @@ router.get("/vratiTermineZaTrenera/:idTrenera", async (req, res) => {
     }
 })
 
-//dodajBlog
+//dodajTermin
 router.post("/dodajTerminTreneru/:idTrenera", async (req, res) => {
 
     try {
@@ -51,7 +51,7 @@ router.post("/dodajTerminTreneru/:idTrenera", async (req, res) => {
 
 })
 
-//izmeniBlog
+//izmeniTermin
 router.put("/zakaziTermin/:idTermina", async (req, res) => {
     try {
         const zakazan = await Termin.findByIdAndUpdate(req.params.idTermina, {$set:{
@@ -68,7 +68,7 @@ router.put("/zakaziTermin/:idTermina", async (req, res) => {
     }
 })
 
-//obrisiBlog
+//obrisiTermin
 router.delete("/obrisiTermin/:idTermina", async (req, res) => {
     try {
         await Termin.findByIdAndDelete(req.params.idTermina)

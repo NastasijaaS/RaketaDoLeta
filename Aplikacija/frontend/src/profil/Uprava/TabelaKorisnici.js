@@ -84,7 +84,6 @@ export default function Tabela(props) {
 
         const getKorisnici = async (url) => {
             await axios.get(url).then(p => {
-
                 if (p.status === 200) {
                     p.data.sort((a, b) => new Date(a.clanarinaDo) - new Date(b.clanarinaDo));
 

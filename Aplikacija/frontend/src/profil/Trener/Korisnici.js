@@ -1,37 +1,15 @@
 import { useState, useEffect, useContext, Fragment, useRef } from 'react';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { DeleteMetoda, PutMetoda, GetData } from '../../komponente/Fetch'
-import axios from 'axios'
+import { GetData } from '../../komponente/Fetch'
 import { UserContext } from '../../context/UserContext';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Grid';
-import Radio from '@mui/material/Radio';
-import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Collapse from '@mui/material/Collapse';
-import Modal from '../../komponente/Modal'
-import DodajNapredak from '../../komponente/DodajNapredak';
+import { Card, CardMedia, CardContent, CardActionArea, CardAction, Typography, Grid, CardActions} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import '../../styles/stil.css'
+
 
 
 const KorisniciTrenera = () => {
-
     let buttonSelected = ''
 
     const { user } = useContext(UserContext);
@@ -41,6 +19,7 @@ const KorisniciTrenera = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [refresh, setRefresh] = useState(false)
 
+ 
     useEffect(() => {
         const get = () => {
             GetData('http://localhost:8800/api/trener/vratiKorisnike/' + user.trenerId, setKorisnici, setGreska, setIsLoading)
@@ -48,15 +27,45 @@ const KorisniciTrenera = () => {
         get()
     }, [])
 
+    const izbaciKlijenta = (id) => {
+
+        console.log(id)
+
+    }
+
+    let navigate = useNavigate()
+    
     return (
-        <div>
-            {korisnici.map((k) => (
-                <div key={k.id}>
-                    {k.ime}
-                </div>
-            ))}
-        </div>
+        <Box sx = {{margin: '2% 2%'}}>
+            <Grid container spacing={2}>            
+                {korisnici.map((k, i) => (
+                        <Grid item key = {k.idkorisnika} xs={12} sm={6} md={4} lg={3} sx = {{ display: { xs:'flex', sm: 'block'} , justifyContent: 'center'}} >
+                            <Card variant="outlined" sx={{ maxWidth: 345, minWidth:250}} onClick={() => {
+                                navigate(`/trener/korisnik/${k.imeK + k.prezimeK}`, { state: k });
+                            }}>
+                                <CardActionArea >
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {k.imeK} {k.prezimeK}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            E-mail: {k.email}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Broj telefona: {k.brojtelefonaK}
+                                        </Typography>            
+                                    </CardContent>
+                                </CardActionArea>
+                                <CardActions>
+                                    <Button onClick={() => { izbaciKlijenta(k.idkorisnika) }}>Izbaci klijenta</Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                ))}
+            </Grid>
+        </Box>
     )
+
 
 }
 export default KorisniciTrenera

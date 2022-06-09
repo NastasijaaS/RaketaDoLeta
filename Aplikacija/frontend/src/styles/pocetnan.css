@@ -16,9 +16,17 @@
 a{
     text-decoration: none;
 }
-/*centriranje*/
-.center {
-   
-  }
 
-  
+.poruka{
+    font-family: monospace;
+    font-size: 3em;
+    font-weight: 600;
+    letter-spacing: -2px;
+    border: 1px black;
+    background-image: linear-gradient(to bottom left, #f8af00, #f83200);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-transform:capitalize;
+
+}

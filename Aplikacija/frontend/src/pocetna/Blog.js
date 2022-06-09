@@ -38,6 +38,7 @@ const Blog = () => {
                     id="demo-simple-select-helper"
                     label="Kategorija"
                     onChange={(ev) => { setNaslov(ev.target.value) }}
+                    value={naslov}
                 >
                     <MenuItem value='Zdravlje'>Zdravlje</MenuItem>
                     <MenuItem value='Ishrana'>Ishrana</MenuItem>

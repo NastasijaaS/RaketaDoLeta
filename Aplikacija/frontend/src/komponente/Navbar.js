@@ -16,6 +16,7 @@ import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LoginIcon from '@mui/icons-material/Login';
 import { UserContext } from '../context/UserContext';
+import { Switch } from "@mui/material";
 
 
 
@@ -38,7 +39,7 @@ const pages = [
 
 const settings = ['Profil', 'Napredak', 'Treninzi', 'Odjavi se'];
 
-const Navbar = () => {
+const Navbar = ({check, change}) => {
 
   const { user, dispatch } = useContext(UserContext);
 
@@ -227,6 +228,13 @@ const Navbar = () => {
 
 
           <Box sx={{ flexGrow: 0 }}>
+            <Switch
+                // defaultChecked
+                color = 'default'
+                onChange={change}
+                checked ={check}
+            />
+
             {
               !user &&
               <Button

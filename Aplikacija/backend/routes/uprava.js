@@ -518,6 +518,48 @@ router.delete("/obrisiTrenera/:idTrenera", async (req, res) => {
   }
 });
 
+//dodaj upravu
+router.post("/dodajUpravu/:id", async (req, res) => {
+  try {
+
+    const kor = await RegistrovaniKorisnik.findById(req.params.id);
+    if (kor != null) {
+      const novaUprava = await new Uprava({
+        registrovaniKorisnikId: kor._id
+
+      })
+      const upravaSave = await novaUprava.save()
+      res.status(200).json(upravaSave)
+    }
+
+    else {
+      res.status(404).json("Nije nadjen registrovani korisnik");
+    }
+
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+
+});
+
+//obrisi upravu 
+router.delete("/obrisiUpravu/:idUprave", async (req, res) => {
+
+  try {
+
+    const uprava=await Uprava.findById(req.params.idUprave)
+    //res.status(200).json(korisnik)
+      await RegistrovaniKorisnik.findOneAndDelete({_id:uprava.registrovaniKorisnikId})
+      await Uprava.findOneAndDelete({_id:uprava._id})
+      res.status(200).json("Account has been deleted");
+    
+
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 
 

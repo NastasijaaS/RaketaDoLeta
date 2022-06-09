@@ -46,7 +46,10 @@ const GrupniTreninzi = () => {
                                 </Typography>
                             </CardContent>
                             <CardActions >
-                                <Button fullWidth variant="contained" size="small" onClick={() => { setKalendar(i) }}>Zakazite termin</Button>
+                                <Button fullWidth
+                                    variant="contained"
+                                    size="small"
+                                    onClick={() => { setKalendar(i) }}>Zakazite termin</Button>
                             </CardActions>
                         </Grid>
                     </Grid>

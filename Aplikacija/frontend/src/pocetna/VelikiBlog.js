@@ -1,5 +1,6 @@
 import { useLocation, } from "react-router-dom";
-import { Card, CardContent, CardMedia, Paper, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Grid, Paper, Typography } from '@mui/material';
+import '../styles/blog.css'
 import '../styles/blog.css'
 import { Box, Container } from "@mui/system";
 
@@ -21,24 +22,26 @@ const VelikiBlog = (props) => {
     //tekst
 
     return (
-    
         <Card className="marginaVeliki" elevation={3} >
-        <CardMedia
-        component="img"
-       
-        image= {blog.slika}
-        alt= {blog.naslov}
-        />
-    
-        <CardContent>
-        {/* <Typography variant="caption" component="div"align="center" >{blog.tagovi}</Typography> */}
-        <Typography gutterBottom variant="h5" component="div" align="center">{blog.naslov}</Typography>
+            <Grid container>
+                <Grid item xs={12} md={4}>
+                    <CardMedia
+                    component="img"
+                    className="trImg"
+                    image= {blog.slika}
+                    alt= {blog.naslov}
+                    height="250"
+                    />
+                </Grid>
+                <Grid item xs = {12} md = {8}>
+                    <CardContent>
+                    {/* <Typography variant="caption" component="div"align="center" >{blog.tagovi}</Typography> */}
+                    <Typography gutterBottom variant="h5" component="div" align="center">{blog.naslov}</Typography>
 
-        <Typography variant="body1" color="text.secondary" align = "justify" sx = {{padding: '2vh 3vw'}}> {blog.tekst} </Typography>
-
-        </CardContent>
-       
-
+                    <Typography variant="body1" align = "justify" sx = {{padding: '2vh 3vw'}}> {blog.tekst} </Typography>
+                    </CardContent>
+                </Grid>
+            </Grid>
         </Card>
         )
 }
