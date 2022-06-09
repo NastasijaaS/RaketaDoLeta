@@ -10,7 +10,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Checkbox } from "@mui/material";
 import Greska from './Alert'
-import { PostMetoda } from './Fetch'
+import { PostMetoda, PutMetoda } from './Fetch'
 
 const Info = ({ labela, tip, reff }) => {
     return (
@@ -31,7 +31,7 @@ const Info = ({ labela, tip, reff }) => {
 
 const DodajNapredak = (props) => {
 
-    console.log(props.idKorisnika)
+    console.log(props.napredakId)
 
     const { user } = useContext(UserContext);
 
@@ -83,6 +83,40 @@ const DodajNapredak = (props) => {
 
     }
 
+    const izmeniNapredak = async () => {
+
+        console.log('napredak')
+
+        const zahtev = {
+            url: `http://localhost:8800/api/trener/izmeniNapredak/${props.napredakId}`,
+            body: {
+                // korisnikId: props.idKorisnika,
+                tezina: tezina.current.value,
+                tezinaMisica: tezinaMisica.current.value,
+                procenatProteina: procenatProteina.current.value,
+                procenatMasti: procenatMasti.current.value,
+                BMI: BMI.current.value,
+                kostanaMasa: kostanaMasa.current.value,
+                procenatVode: procenatVode.current.value,
+                bodyAge: bodyAge.current.value
+            }
+        }
+
+        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+
+        if (greska !== false) {
+            alert('doslo je do greske')
+
+        }
+        else {
+            alert('uspesno dodat napredak')
+        }
+
+        props.onClose()
+
+        window.location.reload(false)
+    }
+
 
     return (
 
@@ -100,8 +134,11 @@ const DodajNapredak = (props) => {
 
 
             {/* <div> */}
-            <Button size='small' variant="outlined" className="btn" onClick={dodajNapredak}>Unesi</Button>
+            {props.prvi && <Button size='small' variant="outlined" className="btn" onClick={dodajNapredak}>Unesi</Button>}
             <Button size='small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
+
+            {!props.prvi && <Button size='small' variant="outlined" className="btn" onClick={izmeniNapredak}>Unesi</Button>}
+
 
             {/* </div> */}
         </div>

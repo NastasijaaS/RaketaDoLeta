@@ -87,8 +87,10 @@ const Trener = (props) => {
                     <Card className='cardShadow' sx={{ maxWidth: 345, height: '100%', display: 'flex', flexDirection: 'column' }} >
                         <CardMedia
                             component="img"
-                            image={user.slika}
+                            image={user.slika ? user.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
                             alt={user.ime}
+                            className='imgTrProfil'
+                        // image="https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg
                         />
                         <CardContent sx={{ flexGrow: '1' }}>
                             <Typography gutterBottom variant="h5" component="div">

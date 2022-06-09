@@ -1,5 +1,6 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
+import { GetData } from "../../komponente/Fetch";
 
 const ZahteviTrenera = () => {
     const { user } = useContext(UserContext);
@@ -10,27 +11,31 @@ const ZahteviTrenera = () => {
 
     const [refresh, setRefresh] = useState(false)
 
-    // useEffect(() => {
-    //     const get = async () => { await GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading) }
+    useEffect(() => {
+        const get =
+            async () => {
+                await GetData("http://localhost:8800/api/trener/vratiTreningePersonalniC/" + user.trenerId,
+                    setZahtevi, setGreska, setIsLoading)
+            }
 
-    //     get()
-    // }, [])
+        get()
+    }, [])
 
 
     const potvrdiZahtev = () => {
-        
 
-        
+
+
     }
 
     const odbijZahtev = () => {
-       
+
     }
 
     return (<div>
-       
+
         <div><h1>nesto</h1></div>
-       
+
     </div>)
 }
 export default ZahteviTrenera

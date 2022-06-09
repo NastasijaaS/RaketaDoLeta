@@ -23,6 +23,8 @@ const KorisnikVeliko = (props) => {
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
+    const [prvi, setPrvi] = useState(false)
+
     useEffect(() => {
         const get = async () => {
             await
@@ -47,15 +49,17 @@ const KorisnikVeliko = (props) => {
 
 
             <CardActions>
-                <Button onClick={() => setNapredak(true)}>Dodaj napredak</Button>
-                {nizNapredaka &&
-                    <Button onClick={() => setEvidencija(true)}>Dodaj evidenciju</Button>}
+                {!nizNapredaka && <Button onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
+                {nizNapredaka && <Button onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
+
+
+                {/* <Button onClick={() => setEvidencija(true)}>Dodaj evidenciju</Button> */}
             </CardActions>
 
 
             <div> BMI
 
-                {
+                {/* {
                     nizNapredaka.BMI.map((n) => (
                         <CardContent key={n}>
                             <Typography gutterBottom component="div">
@@ -64,11 +68,11 @@ const KorisnikVeliko = (props) => {
 
                         </CardContent>
                     ))
-                }
+                } */}
             </div>
 
             {napredak && <Modal onClose={() => { setNapredak(false) }}>
-                <DodajNapredak idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />
+                <DodajNapredak prvi={prvi} napredakId = {k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />
             </Modal>
             }
             {evidencija && <Modal onClose={() => { setEvidencija(false) }}>

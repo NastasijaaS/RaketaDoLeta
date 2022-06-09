@@ -159,7 +159,8 @@ router.get("/vratiKorisnike/:id", async (req, res) => {
                         prezimeK:regT.prezime,
                         brojtelefonaK:regT.brojTelefona,
                         email:regT.email,
-                        idkorisnika:lista[i]
+                        idkorisnika:lista[i],
+                        napredakId:korisnik.napredakId
  
                     
                     }
