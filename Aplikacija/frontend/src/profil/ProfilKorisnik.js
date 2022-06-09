@@ -186,7 +186,7 @@ const Korisnik = (props) => {
                 >Doslo je do greske prilikom ucitavanja ):</Alert>
             </Modal> */}
  
-            <Typography container  display = 'flex' mb = {5} justifyContent = "center" variant = "h4" >{user.ime} {user.prezime}</Typography>
+            <Typography  display = 'flex' mb = {5} justifyContent = "center" variant = "h4" >{user.ime} {user.prezime}</Typography>
             <Box className='profilKorisnika'>
                 <Card className="infoOProfilu" >
                     <CardContent>

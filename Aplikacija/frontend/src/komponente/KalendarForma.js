@@ -9,6 +9,8 @@ import { UserContext } from '../context/UserContext';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material'
 import { GetData } from './Fetch'
+import Tabs, { tabsClasses } from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 
 const termini1 = [{ trajanje: 60, vreme: 17 }, { trajanje: 45, vreme: 18 }]
@@ -51,7 +53,7 @@ const format = (datum) => {
 
 const KalendarForma = (props) => {
 
-    console.log(props.idUsluge)
+    //  console.log(props.idUsluge)
 
     const dan = (new Date()).getDay();
     // const datum = new Date().getDate();
@@ -70,7 +72,12 @@ const KalendarForma = (props) => {
     const [greska, setGreska] = useState(false)
     const [loading, setIsLoading] = useState(false)
 
+
+    //ovo mi cita iz baze
     const prikaziTermine = async (ev) => {
+        // handleChange(ev, ev.target.value)
+
+        // console.log(ev.target)
 
         const d = ev.target.id
         let datumTreninga = new Date();
@@ -78,19 +85,16 @@ const KalendarForma = (props) => {
 
         const idUsluge = props.idUsluge
 
-        console.log(props.idUsluge)
-        console.log('datum treninga ' + datumTreninga.toISOString())
-        // console.log(JSON.stringify(datumTreninga))
+        // console.log(props.idUsluge)
+        //  console.log('datum treninga ' + datumTreninga.toISOString())
 
         const datumProba = new Date('2022-07-30')
 
         const datumZaSlanje = datumProba.toISOString()
 
-        console.log('json  ' + datumZaSlanje)
+        //  console.log('json  ' + datumZaSlanje)
 
-
-        //salje u bazu ///vidiGrupneTreninge/:idUsluge/:datum
-        await GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${idUsluge}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
+        // await GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${idUsluge}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
 
         if (d == 2) {
             setTer(termini1)
@@ -100,12 +104,15 @@ const KalendarForma = (props) => {
         }
 
         //termine iz baze da ucitam
-        console.log(termini)
+        //   console.log(termini)
         setTermin({ status: true, datum: { datumTreninga } })
     }
 
     const zakaziForma = (ev) => {
-        //  console.log(ev.target.value)
+
+        //sta je ovo ???
+
+        // console.log(ev.target.value)
         const sat = ev.target.value
 
         const [vreme, trajanje] = sat.split(' ')
@@ -117,43 +124,80 @@ const KalendarForma = (props) => {
         //  console.log(termin)
     }
 
+    const [value, setValue] = useState(0);
+
+    const handleChange = (event, newValue) => {
+        // console.log('handle ' + newValue)
+        // console.log(event.target)
+        setValue(parseInt(event.target.id) - 1);
+    };
+
     const Day = (props) => {
 
         let pomDatum = new Date()
         pomDatum.setDate(new Date().getDate() + parseInt(props.broj))
-        // console.log(pomDatum.getDate())
 
-        return (<span className='dan' id={props.broj} >
-            {nadjiDan((dan + props.broj) % 7)}
-            <button className='dugmeDatum' >{pomDatum.getDate()}</button>
-        </span>)
+        return (
+            <Tab
+                sx={{ minHeight: { xs: 10, sm: 50 }, }}
+                onClick={prikaziTermine}
+                id={props.broj}
+                label=
+                {nadjiDan((dan + props.broj) % 7) + ' ' + pomDatum.getDate()}
+                tabIndex={props.broj}
+                onChange={handleChange}
+            />
+        )
     }
 
+    let datumi = []
+
+    for (let i = 1; i < 15; i++) {
+        datumi.push(
+            <Day key={i} broj={i} />
+        )
+    }
+    // console.log(datumi)
+
+    let daysinmonth = datumi.map((d, i) => {
+        return d;
+    });
 
     return (
         <div className="kalendar">
+            <div className="dani-u-nedelji">
+                <Box
+                    sx={{
+                        flexGrow: 1,
+                        maxWidth: { xs: 320, sm: 700 },
+                        bgcolor: 'background.paper',
 
-            <div className='pocetni'>
-                {format(dateOD) + ' - ' + format(dateDO)}
-            </div>
-
-            <div onClick={prikaziTermine} className="dani-u-nedelji">
-
-                <Day broj={0} />
-                <Day broj={1} />
-                <Day broj={2} />
-                <Day broj={3} />
-                <Day broj={4} />
-                <Day broj={5} />
-                <Day broj={6} />
-
+                    }}
+                >
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        variant="scrollable"
+                        scrollButtons
+                        sx={{
+                            [`& .${tabsClasses.scrollButtons}`]: {
+                                '&.Mui-disabled': { opacity: 0.3 },
+                            },
+                        }}
+                    >
+                        {daysinmonth}
+                    </Tabs>
+                </Box>
 
             </div>
 
             {termin.status && <div className='termini'>
                 <div className='trTermini'>
-                    <span>Termin</span>
+                    <span>Trener</span>
+                    <span>Vrene</span>
                     <span>Trajanje</span>
+                    <span>Intenzitet</span>
+                    <span>Broj slobodnih mesta</span>
                     <span className='nevidljiviSpan'>Zakazite</span>
                 </div>
 
@@ -161,12 +205,27 @@ const KalendarForma = (props) => {
                     ter.map((t, i) => (
                         <Box key={i} fullWidth className='termin'>
                             <div>
+                                {t.trener}
+                            </div>
+                            <div>
                                 {t.vreme} :00h
                             </div>
                             <div>
                                 {t.trajanje} min
                             </div>
-                            <Button size="small" variant="contained" value={t.vreme + " " + t.trajanje} onClick={zakaziForma}>Zakazi</Button>
+                            <div>
+                                {t.intenzitet}
+                            </div>
+                            <div>
+                                {t.brojSlobodnihMesta}
+                            </div>
+
+                            <Button
+                                size="small"
+                                variant="contained"
+                                value={t.vreme + " " + t.trajanje}
+                                onClick={zakaziForma}>Zakazi</Button>
+
                         </Box>
                     ))}
             </div>}

@@ -229,7 +229,7 @@ const Navbar = ({check, change}) => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Switch
-                defaultChecked
+                // defaultChecked
                 color = 'default'
                 onChange={change}
                 checked ={check}

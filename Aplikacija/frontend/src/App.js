@@ -72,12 +72,12 @@ function App() {
         <Router>
           <ScrollToTop enableColorScheme />
 
-          <Navbar check={mode} change={() => setMode(!mode)} />
-          {/* {
+          {/* <Navbar check={mode} change={() => setMode(!mode)} /> */}
+          {
         (user && user.tip === 'Uprava' && <NavbarUprava />)
          ||
         ((user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar check = {mode} change = {()=>setMode(!mode)}/>)
-        } */}
+        }
 
           {/* {theme.palette.mode} mode
       <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">

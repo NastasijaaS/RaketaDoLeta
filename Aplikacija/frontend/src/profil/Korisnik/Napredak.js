@@ -22,8 +22,8 @@ const Napredak = () => {
     //console.log(user)
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId, setNapredak, setGreska, setIsLoading)
-
+        const get = async () => { await GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId, setNapredak, setGreska, setIsLoading) }
+        get()
     }, [])
 
     let navigate = useNavigate();
@@ -38,14 +38,14 @@ const Napredak = () => {
                 open={greska ? true : false}
                 onClose={() => navigate("../profil", { replace: true })}
             >
-                <Alert 
-                severity="error" 
-                sx={{ 
-                    height: 100, 
-                    display: 'flex', 
-                    justifyContent: 'center',
-                    alignSelf:'center'
-                 }}
+                <Alert
+                    severity="error"
+                    sx={{
+                        height: 100,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignSelf: 'center'
+                    }}
 
                 >Doslo je do greske prilikom ucitavanja ):</Alert>
             </Modal>

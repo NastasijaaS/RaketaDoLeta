@@ -5,11 +5,12 @@ import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import { Card, CardMedia, CardContent, CardActionArea } from '@mui/material';
+import FormaIzmeniTrening from "../../komponente/FormaIzmeniTrening";
+import Modal from '../../komponente/Modal'
 
 const ZakazaniTreninzi = () => {
 
@@ -22,41 +23,29 @@ const ZakazaniTreninzi = () => {
     const [greska, setGreska] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false)
+
+    const [izmeni, setIzmeni] = useState(false)
+
+    const [refresh, setRefresh] = useState(false)
     //console.log(user)
 
     useEffect(() => {
-        const get = () => {
-            GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
-            GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreningeGrupni/" + user.korisnikId, setGrupni, setGreska, setIsLoading)
+        const get = async () => {
+            await GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
+            await GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreningeGrupni/" + user.korisnikId, setGrupni, setGreska, setIsLoading)
         }
-
         get()
-    }, [])
+    }, [refresh])
 
     let navigate = useNavigate();
 
-
-    const izmeniTrening = (idTreninga) => {
-        // console.log(grupniTreninzi)
-
-        // axios.put('http://localhost:8800/api/korisnik/izmeniTrening/' + user.korisnikId + '/' + idTreninga, {
-        //     //trening ?? sta menjam?? 
-        // }).then((p) => {
-        //     if (p.status === 200) {
-        //         console.log(p)
-        //         alert('Uspesno izmenjen trening')
-        //     }
-        // }).catch((error) => {
-        //     if (error.response.status)
-        //         alert(error.response.data)
-        //     else
-        //         alert('Doslo je do greske')
-        // });
+    const izmeniTrening = (i) => {
+        setIzmeni(i)
     }
 
     const otkaziTrening = (idTreninga) => {
 
-        console.log(idTreninga)
+        // console.log(idTreninga)
 
         axios.put('http://localhost:8800/api/korisnik/ukiniTrening/' + idTreninga,)
             .then((p) => {
@@ -70,9 +59,10 @@ const ZakazaniTreninzi = () => {
                 else
                     alert('Doslo je do greske')
             });
+        setRefresh(!refresh)
     }
 
-    const Kartica = ({tr}) => {
+    const Kartica = ({ tr, i }) => {
         return (
             <Card sx={{ maxWidth: 345 }} >
                 <CardActionArea>
@@ -100,12 +90,25 @@ const ZakazaniTreninzi = () => {
                         </Typography>
                     </CardContent>
                 </CardActionArea>
-                <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</Button>
+                <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, i)}>Izmeni trening</Button>
                 <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+
+                {izmeni === i && <Modal onClose={() => setIzmeni(false)}>
+                    <FormaIzmeniTrening
+                        trajanjeTreninga={tr.trajanje}
+                        tipTreninga={tr.tip}
+                        intenzitetTreninga={tr.intenzitet}
+                        datum={tr.datum}
+                        vreme={tr.vremeee}
+                        isOnline={tr.isOnline}
+                        idTreninga={tr.id}
+                        onClose={() => { setIzmeni(false); setRefresh(!refresh) }} />
+                </Modal>}
+
             </Card>
         )
     }
-    
+
     return (<div>
         {/* <Modal
             sx={{ display: 'flex', justifyContent: 'center' }}
@@ -126,9 +129,9 @@ const ZakazaniTreninzi = () => {
 
         <div className="zakazaniTreninzi">
 
-            {zakazaniTreninzi.map((tr) => (
+            {zakazaniTreninzi.map((tr, i) => (
 
-                <Kartica tr={tr} key = {tr.id} />
+                <Kartica tr={tr} key={tr.id} i={i} />
                 // <div key={tr.id}>
                 //     <p>Trener: {tr.imeT} {tr.prezimeT}</p>
                 //     <p>Datum: {tr.datum}</p>
@@ -159,6 +162,17 @@ const ZakazaniTreninzi = () => {
 
                     <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</Button>
                     <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+
+                    {izmeni && <Modal onClose={() => setIzmeni(false)}>
+                        <FormaIzmeniTrening
+                            trajanjeTreninga={tr.trajanje}
+                            tipTreninga={tr.tipTreninga}
+                            intenzitetTreninga={tr.intenzitet}
+                            datum={tr.datum}
+                            vreme={tr.vreme}
+                            isOnline={tr.isOnline}
+                            onClose={() => setIzmeni(false)} />
+                    </Modal>}
                 </div>
             ))}
 

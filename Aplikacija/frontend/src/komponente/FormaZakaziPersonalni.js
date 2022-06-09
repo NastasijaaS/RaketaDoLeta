@@ -18,8 +18,6 @@ const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
 const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
 
 const FormaZakaziPersonalni = (props) => {
-    console.log(props.idTrenera)
-
 
     const { user } = useContext(UserContext);
 
@@ -41,13 +39,10 @@ const FormaZakaziPersonalni = (props) => {
     const [treninzi, setTreninzi] = useState([])
     const [uslugaId, setUslugaId] = useState(0)
 
-
     useEffect(() => {
         const get = () => { GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) }
         get()
     }, [])
-
-
 
     const zakaziTrening = async (ev) => {
 
@@ -70,7 +65,6 @@ const FormaZakaziPersonalni = (props) => {
             }
         }
 
-
         await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
@@ -81,11 +75,7 @@ const FormaZakaziPersonalni = (props) => {
             alert('Uspesno zakazan trening')
         }
 
-
-
-
-        // props.onClose()
-
+        props.onClose()
     }
 
     const onlineTrening = (ev) => {
@@ -94,13 +84,10 @@ const FormaZakaziPersonalni = (props) => {
 
     const [startDate, setStartDate] = useState(new Date());
     const [date, setDate] = useState(new Date());
-    const [vreme, setVreme] = useState(new Date());
-
+    const [vreme, setVreme] = useState(new Date(0, 0, 0, 8));
     const [usluga, setUsluga] = useState('');
 
-
     const DropDown = ({ labela, set, niz, value }) => {
-
         return (<FormControl sx={{ minWidth: 150, }}>
             <InputLabel>{labela}</InputLabel>
             <Select
@@ -122,7 +109,6 @@ const FormaZakaziPersonalni = (props) => {
     }
 
     const zakaziGrupniTrening = async () => {
-        console.log(usluga)
 
         if (maxBrojClanova.current.value <= 0) {
             alert('morate uneti broj clanova')
@@ -135,11 +121,6 @@ const FormaZakaziPersonalni = (props) => {
         }
 
         const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-
-
-        const idUsluge = 0;
-
-        console.log(datum)
 
         const zahtev = {
             url: 'http://localhost:8800/api/trener/zakaziGrupniTrening/' + props.idTrenera + '/' + usluga,
@@ -154,43 +135,25 @@ const FormaZakaziPersonalni = (props) => {
                 status: 'Odobreno'
             }
         }
-        console.group(zahtev)
+
         await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
         }
-
         else {
             alert('uspesno dodat trenig')
         }
-
-
     }
 
     let datumDo = new Date();
     datumDo.setDate((new Date()).getDate() + 14)
 
-
-
     return (
         <form className="formaZakazi" onSubmit={zakaziTrening}>
 
             <Greska open={Boolean(error)} onClose={() => setError(false)} greska={error} />
-            {/* <div>
-                <label >Tip treninga:</label>
-                <select className="opcija" name="tip" id="tip" ref={(input) => tipTreninga = input}>
-                    {
-                        tip.map((t, i) => (
-                            <option key={i} >{t}</option>
-                        ))
-                    }
-                </select>
-            </div> */}
-
-            {/* <div>ovde mozda kalendar za datum i vreme??</div> */}
-            {/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} /> */}
-
+          
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                     label="izaberite datum"
@@ -206,12 +169,7 @@ const FormaZakaziPersonalni = (props) => {
             </LocalizationProvider>
 
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-                {/* <ClockPicker date={date}
-                    minutesStep={15}
-                    onChange={(newDate) => setDate(newDate)}
-                    minTime={new Date(0, 0, 0, 8)}
-                    maxTime={new Date(0, 0, 0, 20, 0)}
-                /> */}
+               
                 <Stack spacing={3}>
                     <TimePicker
                         renderInput={(params) => <TextField size='small' {...params} />}
@@ -230,19 +188,9 @@ const FormaZakaziPersonalni = (props) => {
                 </Stack>
             </LocalizationProvider>
 
-            {/* <TimePicker
-                time="01:00"
-                placeholder="Start Time"
-                onSet={(val) => {
-                    alert('time is ' + JSON.stringify(val));
-                }} */}
-            {/* /> */}
-            {/* <TimePicker onChange={onChange} value={value} /> */}
-
             {!props.grupni && <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />}
             <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
             <DropDown labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
-
 
             {props.grupni &&
                 <div>
@@ -287,34 +235,7 @@ const FormaZakaziPersonalni = (props) => {
                         </Select>
                     </FormControl>
                 </div>
-
             }
-
-            {/* <div>
-                <label>Trajanje treninga:</label>
-                <select className="opcija" name="trajanje" id="trajanje" ref={(input) => tr = input}>
-                    {
-                        trajanje.map((t, i) => (
-                            <option value={t} key={i} >{t}</option>
-                        ))
-                    }
-                </select>
-            </div>
-
-            <div>
-                <label>Intenzitet treninga:</label>
-                <select className="opcija" name="intenzitet" id="intenzitet" ref={(input) => intenzitetTreninga = input}>
-                    {
-                        intenzitet.map((t, i) => (
-                            <option key={i} >{t}</option>
-                        ))
-                    }
-                </select>
-            </div> */}
-
-            {/* <div >
-                <input type="checkbox" value='online' name="online" onChange={onlineTrening} />On-line trening
-            </div> */}
 
             {!props.grupni && <FormControlLabel
                 value="online"

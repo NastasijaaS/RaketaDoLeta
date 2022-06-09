@@ -41,31 +41,32 @@ const TabelaTreneri = () => {
 
     function getStepContent(step) {
         switch (step) {
-          case 0:
-            return <Register/>;
-          case 1:
-            return <DodajTrenera />;
-          default:
-            throw new Error('Unknown step');
+            case 0:
+                return <Register />;
+            case 1:
+                return <DodajTrenera />;
+            default:
+                throw new Error('Unknown step');
         }
-      }
+    }
 
-    function onClose(){
+    function onClose() {
         setActiveStep(0)
     }
     //ovde se zavrsava
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
+        const get = async () => { await GetData("http://localhost:8800/api/korisnik/vidiTrenereSvi", setTreneri, setGreska, setIsLoading) }
+        get()
     }, [refresh])
 
     const obrisiTrenera = async (id) => {
         const zahtev = {
             url: 'http://localhost:8800/api/uprava/obrisiTrenera/' + id,
-            
+
         }
 
-        console.log(zahtev)
+    //    console.log(zahtev)
 
         await DeleteMetoda(zahtev, setGreska, setIsLoading)
 
@@ -75,11 +76,9 @@ const TabelaTreneri = () => {
         setRefresh(!refresh)
     }
 
-   
+
     return (
         <div>
-            Treneri
-
             <Button size="medium"
                 variant="outlined"
                 onClick={() => setDodaj(true)}>novi trener</Button>
@@ -90,7 +89,7 @@ const TabelaTreneri = () => {
                         <th>ime</th>
                         <th>prezime</th>
                         <th>email</th>
-                        <th>broj telefona</th>
+                      
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -99,7 +98,7 @@ const TabelaTreneri = () => {
                             <TableCell>{tr.ime}</TableCell>
                             <TableCell>{tr.prezime}</TableCell>
                             <TableCell>{tr.email}</TableCell>
-                            <TableCell>{tr.brojTelefona}</TableCell>
+                          
                             <TableCell><Button
                                 onClick={() => obrisiTrenera(tr.id)}
                                 size="small"
@@ -115,42 +114,42 @@ const TabelaTreneri = () => {
             </Table>
 
             {dodaj
-            &&
-            <Modal onClose={() =>{ setDodaj(false); handleReset()}}>
-            <Box sx={{ width: '100%' }}>
-                <Stepper activeStep={activeStep}>
-                    {steps.map((label, index) => {
-                    const stepProps = {};
-                    const labelProps = {};
-                    return (
-                        <Step key={label} {...stepProps}>
-                        <StepLabel {...labelProps}>{label}</StepLabel>
-                        </Step>
-                    );
-                    })}
-                </Stepper>
-                {activeStep === steps.length ? (
-                    <Fragment>
-                    <Typography sx={{ mt: 2, mb: 1 }}>
-                        Uspesno dodat trener!
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent:'flex-end',  pt: 2 }}>
-                        <Box sx={{ flex: '1 1 auto' }} />
-                        <Button onClick={handleReset}>Reset</Button>
+                &&
+                <Modal onClose={() => { setDodaj(false); handleReset() }}>
+                    <Box sx={{ width: '100%' }}>
+                        <Stepper activeStep={activeStep}>
+                            {steps.map((label, index) => {
+                                const stepProps = {};
+                                const labelProps = {};
+                                return (
+                                    <Step key={label} {...stepProps}>
+                                        <StepLabel {...labelProps}>{label}</StepLabel>
+                                    </Step>
+                                );
+                            })}
+                        </Stepper>
+                        {activeStep === steps.length ? (
+                            <Fragment>
+                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                    Uspesno dodat trener!
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', pt: 2 }}>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    <Button onClick={handleReset}>Reset</Button>
+                                </Box>
+                            </Fragment>
+                        ) : (
+                            <Fragment>
+                                {getStepContent(activeStep)}
+                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', pt: 2 }}>
+                                    <Button onClick={handleNext}>
+                                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                    </Button>
+                                </Box>
+                            </Fragment>
+                        )}
                     </Box>
-                    </Fragment>
-                    ) : (
-                    <Fragment>
-                    {getStepContent(activeStep)}
-                      <Box sx={{ display: 'flex', flexDirection: 'row',justifyContent:'flex-end', pt: 2 }}>
-                        <Button onClick={handleNext}>
-                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                        </Button>
-                    </Box>
-                    </Fragment>
-                )}
-                </Box>
-            </Modal>}
+                </Modal>}
 
 
         </div >
