@@ -18,7 +18,7 @@ import { PostMetoda } from './Fetch'
 const Info = ({ labela, tip, reff }) => {
     return (
         <div>
-            <TextField
+            <TextField style={{ margin: '2%' }}
                 inputRef={reff}
                 label={labela}
                 type={tip}
@@ -30,27 +30,48 @@ const Info = ({ labela, tip, reff }) => {
     )
 }
 
-const DodajEvidenciju = (props) => {
+const DodajEvidenciju =  (props) => {
+    const { user } = useContext(UserContext);
+    const [greska, setGreska] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [data, setData] = useState('')
+
+    console.log(props)
 
     const brojTreninga = useRef()
     const tipTreninga = useRef()
     const nivo = useRef()
 
+    const dodajEvidenciju = async () => {
+        console.log(user.trenerId)
 
+        const zahtev = {
+            url: `http://localhost:8800/api/trener/dodajEvidenciju/${user.trenerId}`,
+            body: {
+                korisnikId: props.idKorisnika,
+                brojTreninga:brojTreninga.current.value,
+                tipTreninga:tipTreninga.current.value,
+                nivo:nivo.current.value
+            }
+        }
 
-    const dodajEvidenciju = () => {
-        //post("/dodajEvidenciju/:idTrenera
-        //"korisnikId": req.body.korisnikId,
-        // "brojTreninga": req.body.brojTreninga,
-        // "tipTreninga": req.body.tipTreninga,
-        // "nivo": req.body.nivo
+        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+
+        if (greska !== false) {
+            alert('doslo je do greske')
+
+        }
+        else {
+            alert('uspesno dodat napredak')
+        }
+
+        props.onClose()
     }
-
 
     return (
         <Box>
 
-            <div style={{ gap: '1%' }}>
+            <div style={{ margin: '3%' }}>
                 <Info labela='brojTreninga' tip='number' reff={brojTreninga} />
                 <Info labela='tipTreninga' tip='number' reff={tipTreninga} />
                 <Info labela='nivo' tip='number' reff={nivo} />
@@ -59,8 +80,8 @@ const DodajEvidenciju = (props) => {
 
 
             <div>
-                <Button size='small' variant="outlined" className="btn" >Potvrdi</Button>
-                <Button size='small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
+                <Button style={{ margin: '1%' }} size='small' variant="outlined" className="btn" onClick={dodajEvidenciju} >Potvrdi</Button>
+                <Button style={{ margin: '1%' }} size='small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
             </div>
         </Box>
     )

@@ -14,8 +14,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableFooter from '@mui/material/TableFooter';
 import TableHead from '@mui/material/TableHead';
 
-
-
 const TabelaUsluge = () => {
 
     const [nizUsluga, setUsluge] = useState([])
@@ -122,7 +120,7 @@ const TabelaUsluge = () => {
     }
 
     return (
-        <div style={{ width: '100%' }}>
+        <Box style={{ width: '100%' }}>
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
             {greska && <p className='greska'>Doslo je do greske prilikom ucitavanje</p>}
@@ -203,6 +201,7 @@ const TabelaUsluge = () => {
                         <Button sx={{ margin: 4 }} size='small' variant="contained" onClick={dodajUslugu}>ok</Button>
                         <Button sx={{ margin: 4 }} size='small' variant="contained" onClick={() => setNovaUsluga(false)}>Otkazi</Button>
                     </div>
+
                 </Box>
 
             </Modal>
@@ -214,11 +213,11 @@ const TabelaUsluge = () => {
             >  dodaj novu uslugu
             </Button>
 
-            <TableContainer >
-                <Table >
-
+            <TableContainer>
+                <Table>
                     <TableBody>
                         {nizUsluga.map((usl, i) => (
+
                             <Fragment key={usl._id}>
                                 <TableRow key={usl._id} style={{ padding: 1 }}>
 
@@ -293,8 +292,8 @@ const TabelaUsluge = () => {
                                             variant="outlined"
                                             color="error"
                                             onClick={() => obrisiUslugu(usl._id, usl.opis)}
-                                            startIcon={<DeleteIcon />}>
-
+                                            startIcon={<DeleteIcon />}
+                                            >
                                             Obrisi
                                         </Button>
                                     </TableCell>
@@ -345,7 +344,7 @@ const TabelaUsluge = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div >
+        </Box>
     )
 
 }

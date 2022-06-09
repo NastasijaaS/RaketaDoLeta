@@ -31,6 +31,8 @@ const Info = ({ labela, tip, reff }) => {
 
 const DodajNapredak = (props) => {
 
+    console.log(props.idKorisnika)
+
     const { user } = useContext(UserContext);
 
     const bodyAge = useRef()
@@ -87,7 +89,7 @@ const DodajNapredak = (props) => {
 
         <div style={{ margin: '3%' }}>
 
-                        <Info labela='bodyAge' tip='number' reff={bodyAge} />
+            <Info labela='bodyAge' tip='number' reff={bodyAge} />
             <Info labela='procenatVode' tip='number' reff={procenatVode} />
             <Info labela='kostanaMasa' tip='number' reff={kostanaMasa} />
             <Info labela='BMI' tip='number' reff={BMI} />
@@ -95,7 +97,7 @@ const DodajNapredak = (props) => {
             <Info labela='procenatProteina' tip='number' reff={procenatProteina} />
             <Info labela='tezinaMisica' tip='number' reff={tezinaMisica} />
             <Info labela='tezina' tip='number' reff={tezina} />
-           
+
 
             {/* <div> */}
             <Button size='small' variant="outlined" className="btn" onClick={dodajNapredak}>Unesi</Button>

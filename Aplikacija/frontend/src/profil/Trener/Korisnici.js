@@ -28,7 +28,33 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
 import Modal from '../../komponente/Modal'
 import DodajNapredak from '../../komponente/DodajNapredak';
+import { Card, CardMedia, CardContent, CardActionArea, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
+
+const Kartica = ({ k }) => {
+    let navigate = useNavigate()
+    return (
+        <Card sx={{ maxWidth: 345 }} onClick={() => {
+            navigate(`/trener/korisnik/${k.imeK + k.prezimeK}`, { state: k });
+        }}>
+            <CardActionArea >
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        {k.imeK} {k.prezimeK}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        E-mail: {k.email}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        Broj telefona: {k.brojtelefonaK}
+                    </Typography>
+
+                </CardContent>
+            </CardActionArea>
+        </Card>
+    )
+}
 
 const KorisniciTrenera = () => {
 
@@ -41,6 +67,7 @@ const KorisniciTrenera = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [refresh, setRefresh] = useState(false)
 
+ 
     useEffect(() => {
         const get = () => {
             GetData('http://localhost:8800/api/trener/vratiKorisnike/' + user.trenerId, setKorisnici, setGreska, setIsLoading)
@@ -48,15 +75,28 @@ const KorisniciTrenera = () => {
         get()
     }, [])
 
+    const izbaciKlijenta = (id) => {
+
+        console.log(id)
+
+    }
+
+
     return (
         <div>
-            {korisnici.map((k) => (
-                <div key={k.id}>
-                    {k.ime}
-                </div>
+
+            {korisnici.map((k, i) => (
+                <Box key={k.idkorisnika}>
+                    <Kartica k={k} />
+
+                    <Button onClick={() => { izbaciKlijenta(k.idkorisnika) }}>Izbaci klijenta</Button>
+
+                </Box>
             ))}
         </div>
     )
+
+
 
 }
 export default KorisniciTrenera

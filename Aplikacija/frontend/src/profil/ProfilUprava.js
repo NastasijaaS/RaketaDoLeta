@@ -76,6 +76,7 @@ export const Uprava = () => {
                 </Tabs>
                 </Grid>
             <Grid item xs = {12} md = {10}>
+
                 <TabPanel value={value} index={0}>
                     <Tabela verifikovan={true} />
                 </TabPanel>

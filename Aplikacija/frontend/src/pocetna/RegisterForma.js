@@ -1,15 +1,16 @@
 import '../styles/loginForma.css'
-import { useState } from "react";
-import { LoginMetoda } from '../komponente/Fetch';
+import { useState, useEffect } from "react";
+import { LoginMetoda, PostMetoda } from '../komponente/Fetch';
 import { useContext, useRef } from 'react';
 import { UserContext } from '../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, TextField, Box } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import DodajTrenera from '../komponente/DodajTrenera'
 
-const Register = () => {
+const Register = (props) => {
 
-    const { ucitavaSe, error, dispatch } = useContext(UserContext);
+    const { user, ucitavaSe, error, dispatch } = useContext(UserContext);
 
     const [greska, setGreska] = useState(
         {
@@ -28,9 +29,43 @@ const Register = () => {
     const brojTelefona = useRef()
     const username = useRef()
 
+    let idTrenera = 0
+
     let navigate = useNavigate()
 
-    const upis = (ev) => {
+    const [data, setData] = useState('')
+    const [greskaa, setGreskaa] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const [success, setSuccess] = useState(false)
+
+
+    const FormaRegistruj = () => {
+        return (<div className="login">
+            <h2>Registrujte se:</h2>
+
+            <Info labela='Ime' tip='text' reff={ime} />
+            {greska.ime && <span className='greska'>Polje ime ne sme biti prazno i mora sadrzati najmanje 3 slova</span>}
+
+            <Info labela='Prezime' tip='text' reff={prezime} />
+            {greska.prezime && <span className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</span>}
+
+            <Info labela='E-mail' tip='email' reff={email} />
+            {greska.mail && <span className='greska'>Unesite ispravan mail</span>}
+
+            <Info labela='Username' tip='text' reff={username} />
+            {greska.username && <span className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</span>}
+
+            <Info labela='Lozinka' tip='password' reff={lozinka} />
+            {greska.lozinka && <span className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</span>}
+
+            <Info labela='Broj telefona' tip='text' reff={brojTelefona} />
+            {greska.brojTelefona && <span className='greska'>Broj telefona mora imati najmanje 9 cifara</span>}
+        </div>
+        )
+    }
+
+    const upis = async (ev) => {
 
         ev.preventDefault()
 
@@ -83,20 +118,29 @@ const Register = () => {
                     'ime': ime.current.value, 'prezime': prezime.current.value,
                     'brojTelefona': brojTelefona.current.value,
                     'email': email.current.value, 'username': username.current.value, 'password': lozinka.current.value,
+                    tipKorisnika: user ? 'Trener' : ''
                 }
             }
 
-            LoginMetoda(zahtev, dispatch)
+            user ? await PostMetoda(zahtev, setData, setGreskaa, setIsLoading) : await LoginMetoda(zahtev, dispatch)
 
-            if (error) {
-                alert(error)
+            if (greskaa) {
+                alert(greskaa)
                 return
             }
 
-            // navigate('../registracija/podaci')
+            setSuccess(true)
+
+            // if (user) {
+            //     localStorage.setItem("idTrenera", JSON.stringify(data._id))
+            // }
 
         }
     }
+
+    useEffect(() => {
+        sessionStorage.setItem("idTrenera", JSON.stringify(data._id))
+    }, [data])
 
     const Info = ({ labela, tip, reff }) => {
         return (
@@ -122,32 +166,20 @@ const Register = () => {
 
     return (
         <div className="forma">
-            <form className="login" onSubmit={upis}>
-                <h2>Registrujte se:</h2>
+            {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 
-                <Info labela='Ime' tip='text' reff={ime} />
-                {greska.ime && <span className='greska'>Polje ime ne sme biti prazno i mora sadrzati najmanje 3 slova</span>}
 
-                <Info labela='Prezime' tip='text' reff={prezime} />
-                {greska.prezime && <span className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</span>}
 
-                <Info labela='E-mail' tip='email' reff={email} />
-                {greska.mail && <span className='greska'>Unesite ispravan mail</span>}
+            {!success &&
+                <form className="login" onSubmit={upis}>
 
-                <Info labela='Username' tip='text' reff={username} />
-                {greska.username && <span className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</span>}
+                    <FormaRegistruj />
 
-                <Info labela='Lozinka' tip='password' reff={lozinka} />
-                {greska.lozinka && <span className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</span>}
+                    <Button size='small' variant="contained" onClick={upis}>Registruj se</Button>
+                </form>}
 
-                <Info labela='Broj telefona' tip='text' reff={brojTelefona} />
-                {greska.brojTelefona && <span className='greska'>Broj telefona mora imati najmanje 9 cifara</span>}
+            {success && <div>animacina success</div>}
 
-                {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
-
-                <Button size='small' variant="contained" onClick={upis}>Registruj se</Button>
-
-            </form>
         </div >
 
     )

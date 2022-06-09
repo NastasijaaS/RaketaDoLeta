@@ -1,5 +1,5 @@
 
-import { Paper } from "@mui/material";
+import { Paper, Box } from "@mui/material";
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
 
@@ -11,18 +11,16 @@ const Modal = (props) => {
     return (
         ReactDOM.createPortal(
             <Paper>
-            <Fragment>
-                <div className="pozadina" onClick={props.onClose} />
-              
-                <div className="modal">
-                <button className="btnZatvori" onClick={props.onClose}>X</button>
-                <div className="modal-body">
-                    
-                   
-                    {props.children}
-                    </div>
-                </div>
-            </Fragment>
+                <Fragment>
+                    <div className="pozadina" onClick={props.onClose} />
+
+                    <Box className="modal">
+                        <button className="btnZatvori" onClick={props.onClose}>X</button>
+                        <Box className="modal-body">
+                            {props.children}
+                        </Box>
+                    </Box>
+                </Fragment>
             </Paper>,
             modalRoot
         )

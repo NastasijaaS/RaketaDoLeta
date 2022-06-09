@@ -75,10 +75,7 @@ const TabelaTreneri = () => {
         setRefresh(!refresh)
     }
 
-    const dodajTrenera = () => {
-
-    }
-
+   
     return (
         <div>
             Treneri
@@ -98,7 +95,7 @@ const TabelaTreneri = () => {
                 </TableHead>
                 <TableBody>
                     {sviTreneri.map((tr) => (
-                        <TableRow key={tr.email}>
+                        <TableRow key={tr.id}>
                             <TableCell>{tr.ime}</TableCell>
                             <TableCell>{tr.prezime}</TableCell>
                             <TableCell>{tr.email}</TableCell>
@@ -117,7 +114,9 @@ const TabelaTreneri = () => {
                 </TableBody>
             </Table>
 
-            {dodaj && <Modal onClose={() => setDodaj(false)}>
+            {dodaj
+            &&
+            <Modal onClose={() =>{ setDodaj(false); handleReset()}}>
             <Box sx={{ width: '100%' }}>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label, index) => {
