@@ -28,31 +28,44 @@ export const GetData = async (url, setData, setError, setIsLoading) => {
     };
 }
 
-export const LoginMetoda = async (zahtev, dispatch) => {
+export const LoginMetoda = async (zahtev, dispatch, setGreska) => {
     // console.log(zahtev)
 
-    dispatch(LoginStart())
+    // dispatch(LoginStart())
+    setGreska(false)
 
     await fetch(zahtev.url, {
         method: "POST",
         headers: zahtev.headers,
         body: JSON.stringify(zahtev.body)
-    }).then(p => {
-        p.json()
+    }).then(async p => {
+        await p.json()
             .then(data => {
                 if (p.ok) {
-
+                    setGreska(false)
                     dispatch(LoginSuccess(data))
                 }
-                else if (p.status == 400) {
-                    dispatch(LoginFailure('Pogresna lozinka'))
+                else if (p.status === 404) {
+                    setGreska('Ne postoji takav korisnik')
+                }
+                else if (p.status === 400) {
+                    setGreska('Pogresna lozinka')
+                    // dispatch(LoginFailure(nesto))
                 }
                 else {
-                    dispatch(LoginFailure(p.statusText))
+                    setGreska('doslo je do greske')
                 }
+                // else if (p.status == 400) {
+                //     dispatch(LoginFailure('Pogresna lozinka'))
+                // }
+                // else {
+                //     dispatch(LoginFailure(p.statusText))
+                // }
             })
     }).catch(error => {
-        dispatch(LoginFailure(error))
+        setGreska(error)
+
+        // dispatch(LoginFailure(error))
         console.log(error)
     })
 
