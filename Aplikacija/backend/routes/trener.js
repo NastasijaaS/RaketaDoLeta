@@ -594,32 +594,33 @@ router.get("/vidiNapredak/:idTrenera/:idKorisnika", async (req, res) => {
 })
 
 //dodaj evidenciju
-router.post("/dodajEvidenciju/:idTrenera", async (req, res) => {
+router.post("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.idTrenera)
         if (trener != null) {
             const korisnik = await Korisnik.findById(req.body.korisnikId)
+            const trening=await Trening.findById(req.params.idTreninga)
+            let brTreninga=1
             if (korisnik != null) {
 
-                if (korisnik.trenerId == trener._id) {
+                    const ev= await Evidencija.find({korisnikId:korisnik._id})
 
-                    const evidencija = await new Evidencija({
-                        "korisnikId": req.body.korisnikId,
-                        "brojTreninga": req.body.brojTreninga,
-                        "tipTreninga": req.body.tipTreninga,
-                        "nivo": req.body.nivo
-                    })
+                    if (ev!=null){
+                        brTreninga=ev.brojTreninga+1
+                        
+                        const evidencija=await Evidencija.updateOne({
+                            $push:{
+                                tipTreninga:trening.tip,
+                                brojTreninga:brTreninga
+                            }
+                        })
+                        res.status(200).json(evidencija)
 
-                    const evidencijaSave = await evidencija.save();
-                    res.status(200).json(evidencijaSave)
+                    }
 
                 }
-                else {
-                    res.status(400).json("Mozete dodati evidenciju samo svom korisniku")
-                }
-
-            }
+                
             else {
                 res.status(404).json("Korisnik nije pronadjen")
             }
