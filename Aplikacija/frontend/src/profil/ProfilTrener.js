@@ -10,8 +10,8 @@ import OdbijeniTreninzi from './Uprava/TabelaOdbijeniTreninzi';
 import TabelaTreneri from './Uprava/TabelaTreneri';
 import KorisniciTrenera from './Trener/Korisnici';
 import { UserContext } from '../context/UserContext';
-import {Card,CardMedia,CardContent,CardActionArea} from '@mui/material';
-
+import {Card,CardMedia,CardContent,CardActionArea, Grid} from '@mui/material';
+import TreninziTrenera from './Trener/Treninzi';
 
 //izmeni korisnika
 
@@ -45,37 +45,36 @@ const Trener = (props) => {
         setValue(newValue);
     };
 
-    return (<Box sx={{ bgcolor: 'background.paper' }}>
-
+    return (
+    
+    <Box>
+        <Grid container>
         {/* <KorisniciTrenera/> */}
+        <Grid item xs = {12} md ={3}>
+            <Card className = 'marginS'sx={{ maxWidth: 345, height: '100%'}} >
+                    <CardMedia
+                        component="img"
+                        image={user.slika}
+                        alt={user.ime}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                        {user.ime} {user.prezime}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            E-mail: {user.email}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Broj telefona: {user.brojTelefona}
+                        </Typography>
+                    </CardContent>
+            </Card>
+        </Grid>
+        <Grid item xs = {12} md = {9}>
+            <TreninziTrenera/>
+        </Grid>
+        </Grid>
 
-        <Card sx={{ maxWidth: 345 }} >
-            <CardActionArea>
-                <CardMedia
-                    component="img"
-                    image={user.slika}
-                    alt={user.ime}
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                    {user.ime} {user.prezime}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        E-mail: {user.email}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        Broj telefona: {user.brojTelefona}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {user.sertifikati}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {user.iskustvo}
-                    </Typography>
-                </CardContent>
-
-            </CardActionArea>
-        </Card>
 
     </Box>
     );

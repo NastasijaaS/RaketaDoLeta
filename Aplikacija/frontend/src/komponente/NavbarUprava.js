@@ -51,7 +51,7 @@ const NavbarUprava = () => {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="/pocetna"
+                        href="/profil"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },

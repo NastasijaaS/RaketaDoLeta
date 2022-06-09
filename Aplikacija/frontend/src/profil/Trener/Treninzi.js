@@ -4,9 +4,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DeleteMetoda, PutMetoda, GetData } from '../../komponente/Fetch'
 import { UserContext } from '../../context/UserContext';
 import Typography from '@mui/material/Typography';
-import { Card, CardMedia, CardContent, CardActionArea } from '@mui/material';
+import { Card, CardMedia, CardContent, CardActionArea,IconButton, CardActions } from '@mui/material';
 import Modal from '../../komponente/Modal';
 import FormaZakaziPersonalni from '../../komponente/FormaZakaziPersonalni';
+import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 
 //vrati svoje treninge
 //zakazi grupni trening
@@ -50,17 +52,16 @@ const TreninziTrenera = () => {
 
     const Kartica = ({ tr }) => {
         return (
-            <Card sx={{ maxWidth: 345 }} >
-                <CardActionArea>
+            <Card sx={{ maxWidth: 345 }}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                            {tr.imeT} {tr.prezimeT}
+                            Nada Jovanovic
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Datum: {tr.datum}
+                            Broj telefona
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Vreme: {tr.vreme}
+                           {tr.datum} {tr.vreme}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             Trajanje: {tr.trajanje}
@@ -75,9 +76,14 @@ const TreninziTrenera = () => {
                             Online: {tr.isOnline}
                         </Typography>
                     </CardContent>
-                </CardActionArea>
-                <Button variant="contained" size='small' >Izmeni trening</Button>
-                <Button variant="contained" size='small'>Otkazi trening</Button>
+                    <CardActions sx ={{justifyContent:'flex-end'}}>
+                        <IconButton size = 'small' sx={{ p: 0, color: 'inherit' }}>
+                            <EditIcon  sx ={{fontSize: "1.5em" }} />
+                        </IconButton>
+                        <IconButton size="large" sx={{ p: 0, color: 'red'}}>
+                            <CloseIcon sx ={{fontSize: "1.25em" }}/>
+                        </IconButton>    
+                    </CardActions>                      
             </Card>
         )
     }
