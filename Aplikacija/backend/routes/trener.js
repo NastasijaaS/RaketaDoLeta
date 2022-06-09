@@ -229,7 +229,7 @@ router.post("/zakaziGrupniTrening/:id/:idUsluge", async (req, res) => {
 })
 
 //vrati svoje treninge personalni 
-router.get("/vratiTreningePersonalni/:id", async (req, res) => {
+/*router.get("/vratiTreningePersonalni/:id", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.id);
@@ -288,7 +288,7 @@ router.get("/vratiTreningePersonalni/:id", async (req, res) => {
             res.status(500).json(err);
         }
     
-    })
+    })*/
 
  //vrati trening personalni na cekanju
  router.get("/vratiTreningePersonalniC/:id", async (req, res) => {
@@ -331,7 +331,8 @@ router.get("/vratiTreningePersonalni/:id", async (req, res) => {
                             intenzitet: vrati[i].intenzitet,
                             trajanje: vrati[i].trajanje,
                             id: vrati[i]._id,
-                            isOnline: vrati[i].isOnline
+                            isOnline: vrati[i].isOnline,
+                            status:"Na cekanju"
     
                         }
                         vratiSve.push(tr)
@@ -494,6 +495,7 @@ router.post("/dodajNapredak/:idTrenera/:idKorisnika", async (req, res) => {
 
                 const napredakSave = await napredak.save();
                 res.status(200).json(napredakSave)
+                await korisnik.updateOne({ $set: { napredakId: napredak._id } })
             }
 
 
@@ -518,6 +520,7 @@ router.post("/dodajNapredak/:idTrenera/:idKorisnika", async (req, res) => {
 router.put("/izmeniNapredak/:idNapredak", async (req, res) => {
 
     try {
+        
 
                 const napredak=await Napredak.findById(req.params.idNapredak)
                 //res.status(200).json(req.body)
@@ -566,7 +569,7 @@ router.get("/vidiNapredak/:idTrenera/:idKorisnika", async (req, res) => {
             const korisnik = await Korisnik.findById(req.params.idKorisnika)
             if (korisnik != null) {
                 if (korisnik.trenerId == trener._id) {
-                    const napredak = await Napredak.findOne({ korisnikId: req.params.idKorisnika })
+                    const napredak = await Napredak.findbyId(korisnik.idNapredak)
                     if (napredak != null) {
                         res.status(200).json(napredak)
                     }
@@ -830,6 +833,8 @@ router.put("/obrisiSvogKlijenta/:id", async (req, res) => {
         res.status(500).json(err);
     }
 });
+
+
 
 
 

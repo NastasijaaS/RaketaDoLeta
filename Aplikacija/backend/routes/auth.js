@@ -151,9 +151,11 @@ router.post("/login", async (req, res) => {
           prezime: user.prezime,
           email: user.email,
           brojTelefona: user.brojTelefona,
-          password: user.password,
+          //password: user.password,
           tip: user.tipKorisnika,
-          trenerId: trener._id
+          trenerId: trener._id,
+          sertifikati:trener.sertifikati,
+          iskustvo:trener.iskustvo
         }
         res.status(200).json(novi)
       }

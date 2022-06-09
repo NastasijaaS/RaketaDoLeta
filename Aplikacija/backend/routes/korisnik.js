@@ -58,7 +58,10 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera", async (req, res)
             await trening.updateOne({ $push: { clanovi: req.params.idKorisnika } })// NE RADI??????????????????
             //await trening.updateOne({$set:{idZahteva:noviZahtev._id}})
             await trenerKorisnika.updateOne({ $push: { listaTreninga: trening._id } })
-            await trenerKorisnika.updateOne({ $push: { listaKlijenata: req.params.idKorisnika } })
+            if(!trenerKorisnika.listaKlijenata.includes(req.params.idKorisnika)){
+                await trenerKorisnika.updateOne({ $push: { listaKlijenata: korisnik._id } })
+
+            }
 
             res.status(200).json(trening);
         }
