@@ -67,6 +67,9 @@ const TreningSchema = new mongoose.Schema({
         //enum:["Odobreno", "Odbijeno", "Na cekanju"],
         
     //},
+    //idZahteva:{
+        //type:String
+    //}
     
 },
 {timestamps:true}

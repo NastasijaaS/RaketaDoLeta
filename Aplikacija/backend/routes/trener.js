@@ -295,24 +295,29 @@ router.get("/vratiTreningePersonalni/:id", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.id);
-        if (trener != null) {
-            const zahtev=await Zahtev.find({status: "Na cekanju"})
-            
-            const treninzi = await Trening.find({  $and: [{ trenerId: req.params.id }, { brojMaxClanova: 1 },{_id:zahtev.idTreninga}] })
-    
-                if (treninzi.length != 0) {
-    
-    
-                    let vrati = []
-                    for (let i = 0; i < treninzi.length; i++) {
-                        const korisnik = await Korisnik.findById(treninzi[i].clanovi[0])
+        if(trener!=null){
+            const zahtevi = await Zahtev.find({status:"Na cekanju"})
+            if(zahtevi.length!=null){
+                let vrati = [];
+                for(let i=0; i<zahtevi.length; i++){
+                    const trening = await Trening.findOne({_id:zahtevi[i].treningId})
+                    if (trening!=null && trening.trenerId==trener._id && trening.brojMaxClanova==1){
+                        vrati.push(trening)
+                    }
+                }
+
+                let vratiSve = []
+
+                for (let i=0; i<vrati.length; i++){
+
+                    const korisnik = await Korisnik.findById(vrati[i].clanovi[0])
                         const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
     
                         //const zahtev = await Zahtev.find({ treningId: treninzi[i]._id })
 
-                        let datum = treninzi[i].datum;
+                        let datum = vrati[i].datum;
                         let samoDatum = datum.toLocaleDateString()
-                        let vremee = treninzi[i].datum;
+                        let vremee = vrati[i].datum;
                         let samovreme = vremee.toLocaleTimeString()
     
                         let tr = {
@@ -322,27 +327,28 @@ router.get("/vratiTreningePersonalni/:id", async (req, res) => {
                             brojtelefonaT: regK.brojTelefona,
                             datum: samoDatum,
                             vreme: samovreme,
-                            tip: treninzi[i].tip,
-                            intenzitet: treninzi[i].intenzitet,
-                            trajanje: treninzi[i].trajanje,
-                            id: treninzi[i]._id,
-                            isOnline: treninzi[i].isOnline
+                            tip: vrati[i].tip,
+                            intenzitet: vrati[i].intenzitet,
+                            trajanje: vrati[i].trajanje,
+                            id: vrati[i]._id,
+                            isOnline: vrati[i].isOnline
     
                         }
-                        vrati.push(tr)
-                    }
-                    res.status(200).json(vrati)
-    
-    
+                        vratiSve.push(tr)
+
                 }
-                else {
-                    res.status(404).json("nema zakazane personalne treninge")
-                }
-    
+                res.status(200).json(vratiSve)
+
             }
-            else {
-                res.status(404).json("trener nije pronadjen")
+            else{
+                res.status(200).json("Zahtevi na cekanju nisu pronadjeni")
             }
+            
+
+        }
+        else{
+            res.status(200).json("Trener nije pronadjen")
+        }
     
     
         }
@@ -404,10 +410,7 @@ router.get("/vratiTreningeGrupni/:id", async (req, res) => {
     
     })
                 
-  
-
 //prihvati trening
-
 router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
 
     try {
@@ -593,29 +596,48 @@ router.get("/vidiNapredak/:idTrenera/:idKorisnika", async (req, res) => {
 
 })
 
-//dodaj evidenciju
-router.post("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
+//dodaj evidenciju NE RADI
+/*router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.idTrenera)
         if (trener != null) {
             const korisnik = await Korisnik.findById(req.body.korisnikId)
             const trening=await Trening.findById(req.params.idTreninga)
-            let brTreninga=1
+           
             if (korisnik != null) {
 
                     const ev= await Evidencija.find({korisnikId:korisnik._id})
 
+                    let brTreninga=ev.brojTreninga+1
+
                     if (ev!=null){
-                        brTreninga=ev.brojTreninga+1
                         
-                        const evidencija=await Evidencija.updateOne({
-                            $push:{
-                                tipTreninga:trening.tip,
-                                brojTreninga:brTreninga
-                            }
-                        })
-                        res.status(200).json(evidencija)
+                        if(ev.tipTreninga.length===7){
+                            const {tipTreninga[0], ...other} = ev.tipTreninga
+                            const updated = await ev.updateOne({
+                                $set:{
+                                    //tipTreninga:other
+                                }
+                            })
+
+                            const evidencija=await Evidencija.updateOne({
+                                // $pull:{
+                                //     tipTreninga[0]
+                                // }, 
+                                $push:{
+                                    tipTreninga:trening.tip,
+                                    intenziteti:trening.intenzitet
+                                    //brojTreninga:brTreninga
+                                }
+                            })
+                            res.status(200).json(evidencija)
+
+                        }
+                        else{
+                            res.status(200).json("Ok")
+                        }
+                        
 
                     }
 
@@ -635,7 +657,7 @@ router.post("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
         res.status(500).json(err);
     }
 
-})
+})*/
 
 //pregledaj evidenciju
 router.get("/vidiEvidenciju/:idTrenera/:idKorisnika", async (req, res) => {
@@ -646,9 +668,16 @@ router.get("/vidiEvidenciju/:idTrenera/:idKorisnika", async (req, res) => {
         if (trener != null) {
             const korisnik = await Korisnik.findById(req.params.idKorisnika)
             if (korisnik != null) {
+                const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
                 if (korisnik.trenerId == trener._id) {
                     const evidencija = await Evidencija.findOne({ korisnikId: req.params.idKorisnika })
                     if (evidencija != null) {
+                        let vrati = {
+                            imeKorisnika:regK.ime,
+                            prezimeKorisnika:regK.prezime,
+                            tipTreninga:evidencija.tipTreninga,
+                            intenzitet:evidencija.intenzitet
+                        }
                         res.status(200).json(evidencija)
                     }
                     else {

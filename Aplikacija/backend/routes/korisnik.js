@@ -56,6 +56,7 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera", async (req, res)
             const zahtevSave = await noviZahtev.save()
             //res.status(200).json(zahtevSave)
             await trening.updateOne({ $push: { clanovi: req.params.idKorisnika } })// NE RADI??????????????????
+            //await trening.updateOne({$set:{idZahteva:noviZahtev._id}})
             await trenerKorisnika.updateOne({ $push: { listaTreninga: trening._id } })
             await trenerKorisnika.updateOne({ $push: { listaKlijenata: req.params.idKorisnika } })
 
