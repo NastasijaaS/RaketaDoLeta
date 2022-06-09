@@ -30,7 +30,7 @@ import KorisniciTrenera from './profil/Trener/Korisnici';
 import NavbarUprava from './komponente/NavbarUprava';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-
+import KorisnikVeliko from './profil/Trener/KorisnikVeliko'
 
 const darkTheme = createTheme({
   palette: {
