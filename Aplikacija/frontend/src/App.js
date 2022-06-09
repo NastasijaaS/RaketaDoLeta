@@ -8,14 +8,14 @@ import Blog from './pocetna/Blog'
 import Register from './pocetna/RegisterForma';
 import ScrollToTop from './komponente/ScrollToTop';
 import UserPocetna from './pocetna/UserPocetna';
-import React, { useContext } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { createContext, useContext, useMemo, useState} from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, NavigationType } from "react-router-dom";
 import { UserContext } from './context/UserContext';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, IconButton } from '@mui/material';
 import Navbar from './komponente/Navbar';
 import Uprava from './profil/ProfilUprava'
 import Footer from './komponente/Footer';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useTheme, ThemeProvider,createTheme} from '@mui/material/styles';
 import ZakazaniTreninzi from './profil/Korisnik/ZakazaniTreninzi';
 import Napredak from './profil/Korisnik/Napredak';
 import GrupniTreninzi from './pocetna/GrupniTreninzi';
@@ -27,6 +27,10 @@ import ZahteviTrenera from './profil/Trener/Zahtevi';
 import TreninziTrenera from './profil/Trener/Treninzi';
 import TaboviLevo from './komponente/TaboviLevo';
 import KorisniciTrenera from './profil/Trener/Korisnici';
+import NavbarUprava from './komponente/NavbarUprava';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+
 
 const darkTheme = createTheme({
   palette: {
@@ -43,18 +47,43 @@ const darkTheme = createTheme({
   },
 });
 
+const ColorModeContext = createContext({ toggleColorMode: () => {} });
 
 function App() {
 
-  const { user } = useContext(UserContext);
+  const [mode, setMode] = useState(false);
+
+  const theme = 
+      createTheme({
+        palette: {
+          mode: mode ? "dark" : "light"
+        }
+      })
+
+
+  {/*const theme = useTheme();
+    const colorMode = useContext(ColorModeContext);*/}
+    const { user } = useContext(UserContext);
 
   return (
-    <>    <ThemeProvider theme={darkTheme}>
+     <> 
+     <ThemeProvider theme={darkTheme}> 
       <CssBaseline />
       <Router>
         <ScrollToTop enableColorScheme />
 
-        {(user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar />}
+        <Navbar check = {mode} change = {()=>setMode(!mode)}/>
+        {/* {
+        (user && user.tip === 'Uprava' && <NavbarUprava />)
+         ||
+        ((user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar check = {mode} change = {()=>setMode(!mode)}/>)
+        } */}
+        
+        {/* {theme.palette.mode} mode
+      <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+      </IconButton> */}
+
 
         <Routes>
 
@@ -112,11 +141,40 @@ function App() {
 
         {/* <Footer /> */}
       </Router>
-    </ThemeProvider >
+     </ThemeProvider >
 
     </>
-
   );
 }
 
-export default App;
+// function ToggleColorMode() {
+//   const [mode, setMode] = useState();
+//   const colorMode = useMemo(
+//     () => ({
+//       toggleColorMode: () => {
+//         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+//       },
+//     }),
+//     [],
+//   );
+
+//   const theme = useMemo(
+//     () =>
+//       createTheme({
+//         palette: {
+//           mode,
+//         },
+//       }),
+//     [mode],
+//   );
+
+//   return (
+//     <ColorModeContext.Provider value={colorMode}>
+//       <ThemeProvider theme={theme}>
+//         <App />
+//       </ThemeProvider>
+//     </ColorModeContext.Provider>
+//   );
+// }
+
+ export default App;

@@ -178,7 +178,7 @@ const NavbarTrener = () => {
                             <Typography textAlign="center">Profil</Typography>
                         </MenuItem>
 
-                        <MenuItem onClick={() => { dispatch({ tip: "ODJAVI" }); handleCloseNavMenu(); navigate('../pocetna', {replace:true}) }}>
+                        <MenuItem onClick={() => { dispatch({ tip: "ODJAVI" }); handleCloseUserMenu(); navigate('../pocetna', {replace:true}) }}>
                         <Typography textAlign="center">Odjavi se</Typography>
                     </MenuItem>
 

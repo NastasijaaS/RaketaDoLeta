@@ -44,21 +44,17 @@ const itemData = [
     },
     {
       img: 'http://onewellnessnis.rs/wp-content/uploads/2017/03/DSC_6663-1024x682.jpg',
-      title: 'Mushrooms',
       rows: 2,
       cols: 2,
     },
     {
       img: 'http://onewellnessnis.rs/wp-content/uploads/2017/03/One-Wellness-NI%C5%A1-sektor-plus-1-3-1024x686.jpg',
-      title: 'Tomato basil',
     },
     {
       img: 'http://onewellnessnis.rs/wp-content/uploads/2017/03/One-Wellness-NI%C5%A1-sektor-plus-1-5-1024x686.jpg',
-      title: 'Sea star',
     },
     {
       img: 'http://onewellnessnis.rs/wp-content/uploads/2017/03/One-Wellness-NI%C5%A1-sektor-plus-1-6-1024x686.jpg',
-      title: 'Bike',
       cols: 2,
     },
   ];
