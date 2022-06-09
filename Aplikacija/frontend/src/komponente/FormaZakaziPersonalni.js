@@ -122,11 +122,13 @@ const FormaZakaziPersonalni = (props) => {
 
         const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
+        console.log(datum.toISOString())
+
         const zahtev = {
             url: 'http://localhost:8800/api/trener/zakaziGrupniTrening/' + props.idTrenera + '/' + usluga,
             body: {
                 naziv: naziv.current.value,
-                datum: datum,
+                datum: datum.toISOString(),
                 vreme: vreme,
                 intenzitet: intenzitetTreninga,
                 trajanje: trajanjeTreninga,
@@ -136,7 +138,7 @@ const FormaZakaziPersonalni = (props) => {
             }
         }
 
-        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+       await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -153,7 +155,7 @@ const FormaZakaziPersonalni = (props) => {
         <form className="formaZakazi" onSubmit={zakaziTrening}>
 
             <Greska open={Boolean(error)} onClose={() => setError(false)} greska={error} />
-          
+
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                     label="izaberite datum"
@@ -169,7 +171,7 @@ const FormaZakaziPersonalni = (props) => {
             </LocalizationProvider>
 
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-               
+
                 <Stack spacing={3}>
                     <TimePicker
                         renderInput={(params) => <TextField size='small' {...params} />}
