@@ -1,6 +1,7 @@
 import { Checkbox, FormControlLabel, TextField, Button, Box, Typography } from '@mui/material'
 import React, { useRef, useState, Fragment } from 'react'
 import { PostMetoda } from './Fetch'
+import Greska from './Alert'
 
 const Info = ({ labela, tip, reff }) => {
     return (
@@ -28,6 +29,7 @@ const Info = ({ labela, tip, reff }) => {
 
 function DodajTrenera(props) {
 
+    const [alert, setAlert] = useState({ prikazi: false, tip: 'error', greska: '' })
 
 
     const opis = useRef()
@@ -71,9 +73,14 @@ function DodajTrenera(props) {
         await PostMetoda(zahtev, setData, setGreskaa, setIsLoading)
 
         if (greska) {
-            alert(greska)
-            return
+            setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
+
+           // return
         }
+        // else {
+        //     setAlert({ prikazi: true, tip: 'success', greska: 'Uspesno dodat trener' })
+
+        // }
 
         sessionStorage.clear();
         setSuccess(true)
@@ -82,6 +89,13 @@ function DodajTrenera(props) {
 
     return (
         <div className="forma">
+
+            <Greska
+                open={alert.prikazi}
+                onClose={() => setAlert({ prikazi: false, tip: 'success', greska: '' })}
+                tip={alert.tip}
+                greska={alert.greska}
+            />
 
             {!success && <form className="login" >
                 <h2>Dodajte trenera</h2>

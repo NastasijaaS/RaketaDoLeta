@@ -10,7 +10,7 @@ const Greska = (props) => {
         onClose={props.onClose}
     >
         <Alert
-            severity="error"
+            severity={props.tip}
             sx={{
                 height: 100,
                 display: 'flex',

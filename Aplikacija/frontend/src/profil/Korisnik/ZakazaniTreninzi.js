@@ -86,7 +86,7 @@ const ZakazaniTreninzi = () => {
                             Tip: {tr.tip}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Online: {tr.isOnline}
+                            Online: {tr.isOnline.toString()}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
