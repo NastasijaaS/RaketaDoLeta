@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext, Fragment, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { UserContext } from '../context/UserContext';
-import {Typography,Card,CardMedia,CardContent,CardActionArea, Grid, Button, CardActions, IconButton} from '@mui/material';
+import { Typography, Card, CardMedia, CardContent, CardActionArea, Grid, Button, CardActions, IconButton } from '@mui/material';
 import { GetData } from '../komponente/Fetch';
 import Modal from '../komponente/Modal';
 import FormaZakaziPersonalni from '../komponente/FormaZakaziPersonalni';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import IzmeniLozinku from '../komponente/IzmeniLozinku'
 
 //izmeni korisnika
 
@@ -36,6 +37,8 @@ const Trener = (props) => {
     const { user } = useContext(UserContext);
 
     const [value, setValue] = React.useState(0);
+
+    const [izmena, setIzmena] = useState(false)
 
     const promeniTab = (event, newValue) => {
         setValue(newValue);
@@ -76,92 +79,94 @@ const Trener = (props) => {
 
 
     return (
-    
-    <Box className='marginS' >
-        <Grid container spacing = {2}>
-        {/* <KorisniciTrenera/> */}
-        <Grid item xs = {12} md ={3}>
-            <Card className = 'cardShadow' sx={{ maxWidth: 345, height: '100%', display: 'flex', flexDirection:'column'}} >
-                    <CardMedia
-                        component="img"
-                        image={user.slika}
-                        alt={user.ime}
-                    />
-                    <CardContent sx = {{flexGrow: '1'}}>
-                        <Typography gutterBottom variant="h5" component="div">
-                        {user.ime} {user.prezime}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            E-mail: {user.email}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Broj telefona: {user.brojTelefona}
-                        </Typography>
-                    </CardContent>
-                    <CardActions sx = {{justifyContent: 'center'}}>
-                        <Button variant ="contained" size = "small">Promeni lozinku</Button>
-                    </CardActions>
-            </Card>
-        </Grid>
-        <Grid item xs = {12} md = {9}>
-        <Box>
 
-        <Button variant = "outlined" sx = {{marginBottom:'2%'}} onClick={() => setNoviTrening(true)}>Zakazi grupni trening</Button>
+        <Box className='marginS' sx={{ height: '100vh', width: '100vw' }} >
+            <Grid container spacing={2} sx={{ height: '100vh', width: '100vw' }}>
+                {/* <KorisniciTrenera/> */}
+                <Grid item xs={12} md={3}>
+                    <Card className='cardShadow' sx={{ maxWidth: 345, height: '100%', display: 'flex', flexDirection: 'column' }} >
+                        <CardMedia
+                            component="img"
+                            image={user.slika}
+                            alt={user.ime}
+                        />
+                        <CardContent sx={{ flexGrow: '1' }}>
+                            <Typography gutterBottom variant="h5" component="div">
+                                {user.ime} {user.prezime}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                E-mail: {user.email}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                Broj telefona: {user.brojTelefona}
+                            </Typography>
+                        </CardContent>
+                        <CardActions sx={{ justifyContent: 'center' }}>
+                            {!izmena && <Button variant="contained" size="small" onClick={() => { setIzmena(true) }}>Promeni lozinku</Button>}
+                            {izmena && <IzmeniLozinku onClose={() => { setIzmena(false) }} />}
 
-        {noviTrening
-        &&
-        <Modal onClose={() => { setNoviTrening(false) }}>
-            <FormaZakaziPersonalni idTrenera={user.trenerId} grupni={true} onClose={() => { setNoviTrening(false) }} />
-        </Modal>}
+                        </CardActions>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} md={9}>
+                    <Box>
 
-        <Grid container spacing={2} >
-        {treninzi.map((tr) => (
-                <Grid item xs = {12} sm ={6} md ={4} lg = {3}>
-                <Card className = 'cardShadow' key = {tr.id} sx={{ maxWidth: 345 }} >
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            Nada Jovanovic
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Broj telefona
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                        {tr.datum} {tr.vreme}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Trajanje: {tr.trajanje}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Intenzitet: {tr.intenzitet}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Tip: {tr.tip}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Online: {tr.isOnline}
-                        </Typography>
-                    </CardContent>
-                    <CardActions sx ={{justifyContent:'flex-end'}}>
-                        <IconButton sx={{ p: 0, color: 'inherit' }}>
-                            <EditIcon  sx ={{fontSize: "1em" }} />
-                        </IconButton>
-                        <IconButton sx={{ p: 0, color: 'green' }}>
-                            <CheckCircleIcon  sx ={{fontSize: "1em" }} />
-                        </IconButton>
-                        <IconButton sx={{ p: 0, color: 'red'}}>
-                            <CloseIcon sx ={{fontSize: "1em" }}/>
-                        </IconButton>    
-                    </CardActions>                      
-            </Card>
+                        <Button variant="outlined" sx={{ marginBottom: '2%' }} onClick={() => setNoviTrening(true)}>Zakazi grupni trening</Button>
+
+                        {noviTrening
+                            &&
+                            <Modal onClose={() => { setNoviTrening(false) }}>
+                                <FormaZakaziPersonalni idTrenera={user.trenerId} grupni={true} onClose={() => { setNoviTrening(false) }} />
+                            </Modal>}
+
+                        <Grid container spacing={2} >
+                            {treninzi.map((tr) => (
+                                <Grid item xs={12} sm={6} md={4} lg={3}>
+                                    <Card className='cardShadow' key={tr.id} sx={{ maxWidth: 345 }} >
+                                        <CardContent>
+                                            <Typography gutterBottom variant="h5" component="div">
+                                                Nada Jovanovic
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Broj telefona
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                {tr.datum} {tr.vreme}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Trajanje: {tr.trajanje}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Intenzitet: {tr.intenzitet}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Tip: {tr.tip}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Online: {tr.isOnline}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions sx={{ justifyContent: 'flex-end' }}>
+                                            <IconButton sx={{ p: 0, color: 'inherit' }}>
+                                                <EditIcon sx={{ fontSize: "1em" }} />
+                                            </IconButton>
+                                            <IconButton sx={{ p: 0, color: 'green' }}>
+                                                <CheckCircleIcon sx={{ fontSize: "1em" }} />
+                                            </IconButton>
+                                            <IconButton sx={{ p: 0, color: 'red' }}>
+                                                <CloseIcon sx={{ fontSize: "1em" }} />
+                                            </IconButton>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Box>
+                </Grid>
             </Grid>
-        ))}
-        </Grid>
-    </Box>
-        </Grid>
-        </Grid>
 
 
-    </Box>
+        </Box>
     );
 }
 

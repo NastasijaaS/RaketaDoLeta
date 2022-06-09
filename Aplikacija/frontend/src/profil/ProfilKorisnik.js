@@ -10,6 +10,7 @@ import Alert from '@mui/material/Alert';
 import { Button, TextField, Card, Paper, Typography, Grid, CardActions, CardContent } from "@mui/material";
 import './../styles/input.css'
 import { Container } from "@mui/system";
+import IzmeniLozinku from "../komponente/IzmeniLozinku";
 
 
 const Korisnik = (props) => {
@@ -47,8 +48,6 @@ const Korisnik = (props) => {
 
 
     const proveriLozinku = async () => {
-
-        console.log('nisfc')
 
         if (pass.current.value == '') {
             alert('Morate uneti lozinku')
@@ -205,12 +204,12 @@ const Korisnik = (props) => {
                     <CardActions>
                         {izmena && <Button mb={2} variant="contained" size='small' onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
                         {!izmena &&
-                            <Container className='lozinka'>
-
-                                {!novaLozinka && <Lozinka tekst='Unesite staru lozinku' OKonClick={proveriLozinku} />}
-                                {novaLozinka && <Lozinka tekst='Unesite novu lozinku' OKonClick={izmeniLozinku} />}
-
-                            </Container>}
+                            <IzmeniLozinku onClose={() => { setIzmena(true) }} />
+                            // <Container className='lozinka'>
+                            //     {!novaLozinka && <Lozinka tekst='Unesite staru lozinku' OKonClick={proveriLozinku} />}
+                            //     {novaLozinka && <Lozinka tekst='Unesite novu lozinku' OKonClick={izmeniLozinku} />}
+                            // </Container>
+                        }
                     </CardActions>
                 </Card>
                 <Card className="ZeljeKorisnika">
