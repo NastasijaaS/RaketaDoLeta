@@ -68,7 +68,7 @@ const KalendarForma = (props) => {
 
     const { user } = useContext(UserContext);
 
-    const [termini, setTermini] = useState('')
+    const [termini, setTermini] = useState([])
     const [greska, setGreska] = useState(false)
     const [loading, setIsLoading] = useState(false)
 
@@ -81,20 +81,22 @@ const KalendarForma = (props) => {
 
         const d = ev.target.id
         let datumTreninga = new Date();
-        datumTreninga.setDate(dateOD.getDate() + parseInt(d))
+        // datumTreninga.setDate(dateOD.getDate() + parseInt(d))
+
+        console.log(d)
 
         const idUsluge = props.idUsluge
 
         // console.log(props.idUsluge)
         //  console.log('datum treninga ' + datumTreninga.toISOString())
 
-        const datumProba = new Date('2022-07-30')
+        const datumProba = new Date(d)
 
         const datumZaSlanje = datumProba.toISOString()
 
         //  console.log('json  ' + datumZaSlanje)
 
-        // await GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${idUsluge}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
+        await GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${idUsluge}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
 
         if (d == 2) {
             setTer(termini1)
@@ -128,8 +130,8 @@ const KalendarForma = (props) => {
 
     const handleChange = (event, newValue) => {
         // console.log('handle ' + newValue)
-        // console.log(event.target)
-        setValue(parseInt(event.target.id) - 1);
+        //console.log(event.target.tabIndex)
+        setValue(parseInt(event.target.tabIndex) - 1);
     };
 
     const Day = (props) => {
@@ -141,7 +143,8 @@ const KalendarForma = (props) => {
             <Tab
                 sx={{ minHeight: { xs: 10, sm: 50 }, }}
                 onClick={prikaziTermine}
-                id={props.broj}
+                id={pomDatum.toDateString()}
+                value={props.broj}
                 label=
                 {nadjiDan((dan + props.broj) % 7) + ' ' + pomDatum.getDate()}
                 tabIndex={props.broj}
@@ -202,22 +205,22 @@ const KalendarForma = (props) => {
                 </div>
 
                 {
-                    ter.map((t, i) => (
+                    termini.map((t, i) => (
                         <Box key={i} fullWidth className='termin'>
                             <div>
-                                {t.trener}
+                                {t.imeT} {t.prezimeT}
                             </div>
                             <div>
-                                {t.vreme} :00h
+                                {t.vreme}
                             </div>
                             <div>
-                                {t.trajanje} min
+                                {t.trajanje}
                             </div>
                             <div>
                                 {t.intenzitet}
                             </div>
                             <div>
-                                {t.brojSlobodnihMesta}
+                                {t.brojslobodnih}
                             </div>
 
                             <Button
