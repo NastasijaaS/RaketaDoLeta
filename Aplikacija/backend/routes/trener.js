@@ -587,6 +587,7 @@ router.put("/obrisiSvogKlijenta/:id", async (req, res) => {
 
                 if (trener.listaKlijenata.includes(korisnik._id)) {
                     await trener.updateOne({ $pull: { listaKlijenata: korisnik._id } });
+                    await korisnik.updateOne({$set:{trenerId:null}})
                     res.status(200).json("Uspesno obrisan klijent");
 
                 }
