@@ -52,6 +52,10 @@ const KorisnikSchema = new mongoose.Schema({
     },
     verifikovan: {
         type: Boolean
+    },
+    napredakId:{
+        type:String,
+        required:true
     }
 
 },
