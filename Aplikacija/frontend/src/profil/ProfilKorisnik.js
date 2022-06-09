@@ -27,8 +27,8 @@ const Korisnik = (props) => {
     const [isLoading, setIsLoading] = useState(false)
 
     const [korisnik, setKorisnik] = useState({
-        visina:user.visina,
-        brojGodina:user.brojGodina,
+        visina: user.visina,
+        brojGodina: user.brojGodina,
         zeljenaTezina: user.zeljenaTezina,
         zeljenaTezinaMisica: user.zeljenaTezinaMisica,
         zeljeniProcenatMasti: user.zeljeniProcenatMasti,
@@ -36,7 +36,8 @@ const Korisnik = (props) => {
     })
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading)
+        const get = async () => { await GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading) }
+        get()
     }, [])
 
     const otkaziIzmenu = () => {
@@ -114,16 +115,16 @@ const Korisnik = (props) => {
                     color="primary"
                     size="small"
                     inputRef={pass}
-                    />
+                />
 
                 {/* <input type='password' placeholder="lozinka" ref={pass} /> */}
                 <Box>
-                    <Button variant="contained" size='small' sx = {{margin :"1%" }} onClick={OKonClick}>Ok</Button>
-                    <Button variant="contained" size='small' sx = {{margin :"1%" }}onClick={otkaziIzmenu}>Otkazi</Button>
+                    <Button variant="contained" size='small' sx={{ margin: "1%" }} onClick={OKonClick}>Ok</Button>
+                    <Button variant="contained" size='small' sx={{ margin: "1%" }} onClick={otkaziIzmenu}>Otkazi</Button>
                 </Box>
             </Fragment>
             // </div>
-            )
+        )
     }
 
     const [data, setData] = useState('')
@@ -134,13 +135,13 @@ const Korisnik = (props) => {
         // zeljeniProcenatMasti
         // zeljenaTezina
 
-      
+
 
         const zahtev = {
             url: 'http://localhost:8800/api/korisnik/izmeniParametre/' + user.korisnikId,
             body: {
-                visina:korisnik.visina,
-                brojGodina:korisnik.brojGodina,
+                visina: korisnik.visina,
+                brojGodina: korisnik.brojGodina,
                 zeljeniProcenatProteina: korisnik.zeljeniProcenatProteina,
                 zeljenaTezinaMisica: korisnik.zeljenaTezinaMisica,
                 zeljeniProcenatMasti: korisnik.zeljeniProcenatMasti,
@@ -152,7 +153,7 @@ const Korisnik = (props) => {
         await PutMetoda(zahtev, setData, setGreska, setIsLoading)
         console.log(greska)
 
-        dispatch({ tip: "UPDATE_USER", payload: {...user, ...korisnik }})
+        dispatch({ tip: "UPDATE_USER", payload: { ...user, ...korisnik } })
 
         setIzmeniPodatke(true)
         // console.log(korisnik)
@@ -164,7 +165,7 @@ const Korisnik = (props) => {
     let navigate = useNavigate()
 
     return (
-        <Box  sx ={{margin: "10vh 10vw"}}>
+        <Box sx={{ margin: "10vh 10vw" }}>
 
             {isLoading && <CircularProgress size='2rem' disableShrink />}
             {/* <Grid container spacing={2}> */}
@@ -185,31 +186,31 @@ const Korisnik = (props) => {
 
                 >Doslo je do greske prilikom ucitavanja ):</Alert>
             </Modal> */}
- 
-            <Typography  display = 'flex' mb = {5} justifyContent = "center" variant = "h4" >{user.ime} {user.prezime}</Typography>
+
+            <Typography display='flex' mb={5} justifyContent="center" variant="h4" >{user.ime} {user.prezime}</Typography>
             <Box className='profilKorisnika'>
                 <Card className="infoOProfilu" >
                     <CardContent>
-                    {!user && <p>nema korisnika</p>}
+                        {!user && <p>nema korisnika</p>}
 
-                    {/* <Typography gutterBottom variant = "h4">{user.ime} {user.prezime}</Typography> */}
-                    <Typography mb = {2} variant = "h6">Profil:</Typography>
+                        {/* <Typography gutterBottom variant = "h4">{user.ime} {user.prezime}</Typography> */}
+                        <Typography mb={2} variant="h6">Profil:</Typography>
 
-                    <Typography mb = {2}>Clanarina vazi do: {clanarina.vaziDo}</Typography>
-                
-                    <Typography mb = {2}>e-mail: {user.email}</Typography>
+                        <Typography mb={2}>Clanarina vazi do: {new Date(clanarina.vaziDo).toLocaleDateString()}</Typography>
 
-                    <Typography>Broj telefona: {user.brojTelefona}</Typography>
+                        <Typography mb={2}>e-mail: {user.email}</Typography>
+
+                        <Typography>Broj telefona: {user.brojTelefona}</Typography>
                     </CardContent>
                     <CardActions>
-                    {izmena && <Button mb = {2} variant="contained" size='small' onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
-                    {!izmena &&
-                    <Container className = 'lozinka'>
+                        {izmena && <Button mb={2} variant="contained" size='small' onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
+                        {!izmena &&
+                            <Container className='lozinka'>
 
-                        {!novaLozinka && <Lozinka tekst='Unesite staru lozinku' OKonClick={proveriLozinku} />}
-                        {novaLozinka && <Lozinka tekst='Unesite novu lozinku' OKonClick={izmeniLozinku} />}
+                                {!novaLozinka && <Lozinka tekst='Unesite staru lozinku' OKonClick={proveriLozinku} />}
+                                {novaLozinka && <Lozinka tekst='Unesite novu lozinku' OKonClick={izmeniLozinku} />}
 
-                    </Container>}
+                            </Container>}
                     </CardActions>
                 </Card>
                 <Card className="ZeljeKorisnika">
@@ -233,55 +234,55 @@ const Korisnik = (props) => {
                                 onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
 
                         </div>
-                    <div className="zelje">
-                        Zeljena tezina:
-                        <input className='korisnik'
-                            type='number'
-                            value={korisnik.zeljenaTezina}
-                            disabled={izmeniPodatke}
-                            onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezina: ev.target.value }))} />
+                        <div className="zelje">
+                            Zeljena tezina:
+                            <input className='korisnik'
+                                type='number'
+                                value={korisnik.zeljenaTezina}
+                                disabled={izmeniPodatke}
+                                onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezina: ev.target.value }))} />
 
-                    </div>
+                        </div>
 
-                    <div className="zelje">
-                        Zeljena tezina misica:
-                        <input className='korisnik'
-                            type='number'
-                            value={korisnik.zeljenaTezinaMisica}
-                            disabled={izmeniPodatke}
-                            onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezinaMisica: ev.target.value }))} />
-                    </div>
+                        <div className="zelje">
+                            Zeljena tezina misica:
+                            <input className='korisnik'
+                                type='number'
+                                value={korisnik.zeljenaTezinaMisica}
+                                disabled={izmeniPodatke}
+                                onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezinaMisica: ev.target.value }))} />
+                        </div>
 
-                    <div className="zelje">
-                        Zeljeni procenat masti:
-                        <input className='korisnik'
-                            type='number'
-                            value={korisnik.zeljeniProcenatMasti}
-                            disabled={izmeniPodatke}
-                            onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatMasti: ev.target.value }))} />
-                    </div>
+                        <div className="zelje">
+                            Zeljeni procenat masti:
+                            <input className='korisnik'
+                                type='number'
+                                value={korisnik.zeljeniProcenatMasti}
+                                disabled={izmeniPodatke}
+                                onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatMasti: ev.target.value }))} />
+                        </div>
 
-                    <div className="zelje">
-                        Zeljeni procenat proteina:
-                        <input className='korisnik'
-                            type='number'
-                            value={korisnik.zeljeniProcenatProteina}
-                            disabled={izmeniPodatke}
-                            onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatProteina: ev.target.value }))} />
-                    </div>
+                        <div className="zelje">
+                            Zeljeni procenat proteina:
+                            <input className='korisnik'
+                                type='number'
+                                value={korisnik.zeljeniProcenatProteina}
+                                disabled={izmeniPodatke}
+                                onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatProteina: ev.target.value }))} />
+                        </div>
                     </CardContent>
                     <CardActions>
-                    {!izmeniPodatke && <Button onClick={izmeniKorisnika}>OK</Button>}
-                    {!izmeniPodatke && <Button onClick={() => {
-                        setIzmeniPodatke(true); setKorisnik({
-                            zeljenaTezina: user.zeljenaTezina,
-                            zeljenaTezinaMisica: user.zeljenaTezinaMisica,
-                            zeljeniProcenatMasti: user.zeljeniProcenatMasti,
-                            zeljeniProcenatProteina: user.zeljeniProcenatProteina
-                        })
-                    }}>otkazi</Button>}
+                        {!izmeniPodatke && <Button onClick={izmeniKorisnika}>OK</Button>}
+                        {!izmeniPodatke && <Button onClick={() => {
+                            setIzmeniPodatke(true); setKorisnik({
+                                zeljenaTezina: user.zeljenaTezina,
+                                zeljenaTezinaMisica: user.zeljenaTezinaMisica,
+                                zeljeniProcenatMasti: user.zeljeniProcenatMasti,
+                                zeljeniProcenatProteina: user.zeljeniProcenatProteina
+                            })
+                        }}>otkazi</Button>}
 
-                    {izmeniPodatke && <Button variant="contained" size='small' onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
+                        {izmeniPodatke && <Button variant="contained" size='small' onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
                     </CardActions>
                 </Card>
             </Box>

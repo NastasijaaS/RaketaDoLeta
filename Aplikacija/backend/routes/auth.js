@@ -4,6 +4,7 @@ const RegistrovaniKorisnik = require("../models/RegistrovaniKorisnik");
 const Uprava = require("../models/Uprava")
 const Trener = require("../models/Trener")
 const Korisnik = require("../models/Korisnik");
+const Evidencija = require("../models/Evidencija");
 
 
 router.post("/register", async (req, res) => {
@@ -45,6 +46,12 @@ router.post("/register", async (req, res) => {
       })
 
       const noviKor = await noviKorisnik.save();
+
+      const ev=await new Evidencija({
+        korisnikId:noviKor._id,
+        brojTreninga:0
+      })
+      const novaEv=await ev.save()
 
       let novi = {
         id: user.id,

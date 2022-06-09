@@ -1,24 +1,21 @@
 import { TextField } from "@mui/material";
 
 
-const Info = ({ labela, tip, reff }) => {
+const Info = ({ labela, tip, reff, err, tekst }) => {
     return (
         <div>
-            {/* <label>{labela}: */}
-
             <TextField
+                sx={{ maxWidth: 300 }}
+                error={err}
                 className='loginInp'
                 inputRef={reff}
                 label={labela}
                 type={tip}
                 color="primary"
                 size="small"
-                placeholder={labela}
+                placeholder={tekst}
+                // helperText={tekst}
                 focused />
-
-            {/* <input className='loginInp' ref={reff}
-                    type={tip} placeholder={labela} /> */}
-            {/* </label> */}
         </div>
     )
 }

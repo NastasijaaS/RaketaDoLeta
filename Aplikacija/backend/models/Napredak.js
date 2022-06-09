@@ -3,19 +3,23 @@ const mongoose = require("mongoose");
 const NapredakSchema = new mongoose.Schema({
 
     tezina:{
-        type:Number
+        type:Array,
+        default:[]
 
     },
     tezinaMisica:{
-        type:Number
+        type:Array,
+        default:[]
 
     },
     procenatProteina:{
-        type:Number
+        type:Array,
+        default:[]
 
     },
     procenatMasti:{
-        type:Number
+        type:Array,
+        default:[]
 
     },
     korisnikId:{
@@ -23,19 +27,23 @@ const NapredakSchema = new mongoose.Schema({
         required:true
     },
     BMI:{
-        type:Number
+        type:Array,
+        default:[]
 
     },
     kostanaMasa:{
-        type:Number
+        type:Array,
+        default:[]
 
     },
     procenatVode:{
-        type:Number
+        type:Array,
+        default:[]
 
     },
     bodyAge:{
-        type:Number
+        type:Array,
+        default:[]
     }
 
    
