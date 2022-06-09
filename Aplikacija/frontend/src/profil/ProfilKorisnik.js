@@ -36,7 +36,8 @@ const Korisnik = (props) => {
     })
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading)
+        const get = async () => { await GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading) }
+        get()
     }, [])
 
     const otkaziIzmenu = () => {

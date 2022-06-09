@@ -21,8 +21,8 @@ const KorisniciTrenera = () => {
 
  
     useEffect(() => {
-        const get = () => {
-            GetData('http://localhost:8800/api/trener/vratiKorisnike/' + user.trenerId, setKorisnici, setGreska, setIsLoading)
+        const get = async() => {
+            await GetData('http://localhost:8800/api/trener/vratiKorisnike/' + user.trenerId, setKorisnici, setGreska, setIsLoading)
         }
         get()
     }, [])

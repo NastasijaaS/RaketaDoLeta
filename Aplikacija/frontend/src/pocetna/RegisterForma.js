@@ -101,16 +101,12 @@ const Register = (props) => {
 
             user ? await PostMetoda(zahtev, setData, setGreskaa, setIsLoading) : await LoginMetoda(zahtev, dispatch, setGreskaa)
 
-            if (greskaa) {
+            if (greskaa !== false) {
                 alert(greskaa)
                 return
             }
 
             setSuccess(true)
-
-            // if (user) {
-            //     localStorage.setItem("idTrenera", JSON.stringify(data._id))
-            // }
 
         }
     }

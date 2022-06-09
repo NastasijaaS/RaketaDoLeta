@@ -25,12 +25,16 @@ const OdbijeniTreninzi = () => {
     const [izmeni, setIzmena] = useState(-1)
     const [data, setData] = useState('')
 
-    
+
     const [refresh, setRefresh] = useState(false)
-    
+
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/uprava/vratiZahteveOdbijeni", setUsluge, setGreska, setIsLoading)
+        const get = async () => {
+            await
+                GetData("http://localhost:8800/api/uprava/vratiZahteveOdbijeni", setUsluge, setGreska, setIsLoading)
+        }
+        get()
     }, [refresh])
 
     return (

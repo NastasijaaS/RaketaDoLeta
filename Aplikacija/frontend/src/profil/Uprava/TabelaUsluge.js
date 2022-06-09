@@ -39,7 +39,11 @@ const TabelaUsluge = () => {
     const trajanjeUsluge = useRef()
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        const get = async () => {
+            await
+                GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        }
+        get()
     }, [refresh])
 
     const izmeniUslugu = async (idUsluge) => {
@@ -293,7 +297,7 @@ const TabelaUsluge = () => {
                                             color="error"
                                             onClick={() => obrisiUslugu(usl._id, usl.opis)}
                                             startIcon={<DeleteIcon />}
-                                            >
+                                        >
                                             Obrisi
                                         </Button>
                                     </TableCell>
