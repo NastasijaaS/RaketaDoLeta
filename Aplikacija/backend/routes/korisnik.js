@@ -286,7 +286,7 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                     const trener = await Trener.findById(treninzi[i].trenerId)
                     const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
 
-                    const zahtev = await Zahtev.find({ treningId: treninzi[i]._id })
+                    const zahtev = await Zahtev.findOne({ treningId: treninzi[i]._id })
                     //res.status(200).json(zahtev);
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()

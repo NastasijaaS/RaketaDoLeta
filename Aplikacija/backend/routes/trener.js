@@ -836,6 +836,76 @@ router.put("/obrisiSvogKlijenta/:id", async (req, res) => {
 });
 
 
+//odbij trening
+router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
+
+    try {
+        const trener = await Trener.findById(req.params.id);
+        if(trener!=null){
+            const zahtevi = await Zahtev.find({status:"Odbijeno"})
+            if(zahtevi.length!=null){
+                let vrati = [];
+                for(let i=0; i<zahtevi.length; i++){
+                    const trening = await Trening.findOne({_id:zahtevi[i].treningId})
+                    if (trening!=null && trening.trenerId==trener._id && trening.brojMaxClanova==1){
+                        vrati.push(trening)
+                    }
+                }
+
+                let vratiSve = []
+
+                for (let i=0; i<vrati.length; i++){
+
+                    const korisnik = await Korisnik.findById(vrati[i].clanovi[0])
+                        const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
+    
+                        //const zahtev = await Zahtev.find({ treningId: treninzi[i]._id })
+
+                        let datum = vrati[i].datum;
+                        let samoDatum = datum.toLocaleDateString()
+                        let vremee = vrati[i].datum;
+                        let samovreme = vremee.toLocaleTimeString()
+    
+                        let tr = {
+    
+                            imeT: regK.ime,
+                            prezimeT: regK.prezime,
+                            brojtelefonaT: regK.brojTelefona,
+                            datum: samoDatum,
+                            vreme: samovreme,
+                            tip: vrati[i].tip,
+                            intenzitet: vrati[i].intenzitet,
+                            trajanje: vrati[i].trajanje,
+                            id: vrati[i]._id,
+                            isOnline: vrati[i].isOnline,
+                            status:"Odbijeno"
+    
+                        }
+                        vratiSve.push(tr)
+
+                }
+                res.status(200).json(vratiSve)
+
+            }
+            else{
+                res.status(200).json("Zahtevi na cekanju nisu pronadjeni")
+            }
+            
+
+        }
+        else{
+            res.status(200).json("Trener nije pronadjen")
+        }
+    
+    
+        }
+        catch (err) {
+            res.status(500).json(err);
+        }
+    
+    })
+
+    
 
 
 
