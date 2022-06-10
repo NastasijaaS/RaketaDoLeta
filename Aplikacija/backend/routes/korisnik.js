@@ -265,7 +265,7 @@ router.get("/vidiUsluge", async (req, res) => {
 
 })
 
-//pregledaj sve zakazane treninge NE ZNAM ZASTO NECE
+//pregledaj sve zakazane treninge 
 router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
 
     try {
@@ -278,12 +278,17 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
 
             //const treninzi = await Trening.find( {clanovi:req.params.idKorisnika })
             if (treninzi.length != 0) {
+
+                let datumm=newDate()
                 //res.status(200).json(treninzi)
 
 
                 let vrati = []
 
                 for (let i = 0; i < treninzi.length; i++) {
+
+                    if(treninzi[i].datum>=datumm)
+                    {
                     const trener = await Trener.findById(treninzi[i].trenerId)
                     const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
                     
@@ -317,7 +322,9 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
 
                     }
                 }
-
+                
+                    
+                }
                 res.status(200).json(vrati)
                 //res.status(200).json(zahtev)
             }
