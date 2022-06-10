@@ -10,6 +10,7 @@ const Napredak = require("../models/Napredak");
 const Zahtev = require("../models/Zahtev");
 const Evidencija = require("../models/Evidencija");
 const Usluga = require("../models/Usluga");
+const Termin = require("../models/Termin");
 
 
 //dodaj korisnika
@@ -422,7 +423,17 @@ router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
 
     try {
         const zahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, { $set: { status: "Odobreno" } })
-        res.status(200).json(zahtev)
+        const trening = await Trening.findById(zahtev.treningId)
+        //const termin= await Termin.find({treningId:trening._id})
+        const azuriranTermin = await Termin.updateOne({treningId:trening._id}, {
+            $set:
+            {
+                slobodan:false,
+                treningId:trening._id,
+                trenerId: trening.trenerId
+            }
+        })
+        res.status(200).json(azuriranTermin)
     }
     catch (err) {
         res.status(500).json(err);

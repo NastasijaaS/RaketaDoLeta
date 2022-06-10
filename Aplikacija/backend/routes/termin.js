@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Termin = require("../models/Termin");
 const Trener = require("../models/Trener");
+const Trening = require("../models/Trening");
 
 
 //vrati termine za trenera
@@ -105,7 +106,19 @@ router.get("/vratiZauzeteTermineZaTreneraPoDatumu/:idTrenera/:datum", async (req
         const trener = await Trener.findById(req.params.idTrenera)
         if(trener!=null){
             const sviTermini=await Termin.find({trenerId:trener._id}, {datum:req.params.datum}, {slobodan: false})
-           res.status(200).json(sviTermini);
+            let sviTreninzi=[]
+            for (let i=0; i<sviTermini.length; i++){
+                const trening= await Trening.findById(sviTermini[i].treningId)
+
+                let vrati = {
+                    trener:trening.trenerId,
+                    vreme:sviTermini[i].vremePocetka,
+                    trajanje: "1h",
+                    intenzitet:trening.intenzitet 
+                }
+                sviTreninzi.push(vrati)
+            }
+           res.status(200).json(sviTreninzi);
         }
         else{
             res.status(404).json("trener nije pronadjen")
