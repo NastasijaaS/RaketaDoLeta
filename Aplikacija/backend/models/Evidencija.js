@@ -11,11 +11,7 @@ const EvidencijaSchema = new mongoose.Schema({
         default:[]
 
     },
-    nivo:{
-        type:String,
-        enum:["nedeljni nivo","mesecni nivo"]
 
-    },
     korisnikId:{
         type:String,
         required:true
