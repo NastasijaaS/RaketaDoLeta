@@ -44,6 +44,10 @@ const NapredakSchema = new mongoose.Schema({
     bodyAge:{
         type:Array,
         default:[]
+    },
+    datum:{
+        type:Array,
+        default:[]
     }
 
    

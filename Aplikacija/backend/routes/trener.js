@@ -512,6 +512,9 @@ router.post("/dodajNapredak/:idTrenera/:idKorisnika", async (req, res) => {
             const korisnik = await Korisnik.findById(req.params.idKorisnika)
             if (korisnik != null) {
 
+                datum=newDate()
+                upisdatum=datum.toLocaleDateString()
+
 
 
                 const napredak = await new Napredak({
@@ -523,7 +526,8 @@ router.post("/dodajNapredak/:idTrenera/:idKorisnika", async (req, res) => {
                     BMI: req.body.BMI,
                     kostanaMasa: req.body.kostanaMasa,
                     procenatVode: req.body.procenatVode,
-                    bodyAge: req.body.bodyAge
+                    bodyAge: req.body.bodyAge,
+                    datum:upisdatum
 
                 })
 
@@ -561,6 +565,9 @@ router.put("/izmeniNapredak/:idNapredak", async (req, res) => {
         //res.status(200).json(napredak)
         if (napredak != null) {
 
+            datum=newDate()
+            upisdatum=datum.toLocaleDateString()
+
 
             const napredaknovi = await napredak.updateOne({
                 $push: {
@@ -571,7 +578,8 @@ router.put("/izmeniNapredak/:idNapredak", async (req, res) => {
                     BMI: req.body.BMI,
                     kostanaMasa: req.body.kostanaMasa,
                     procenatVode: req.body.procenatVode,
-                    bodyAge: req.body.bodyAge
+                    bodyAge: req.body.bodyAge,
+                    datum:upisdatum
                 }
             });
 
