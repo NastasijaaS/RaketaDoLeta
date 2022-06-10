@@ -444,8 +444,23 @@ router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
 router.put("/odbijTrening/:idZahteva", async (req, res) => {
 
     try {
-        const zahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, { $set: { status: "Odbijeno" } })
-        res.status(200).json(zahtev)
+        const zahtev = await Zahtev.findById(req.params.idZahteva)
+        const trening = await Trening.findById(zahtev.treningId)
+        const termin = await Termin.find({treningId:trening._id})
+        const noviZahtev = await Zahtev.updateOne({_id:req.params.idZahteva}, {
+            $set:{
+                poruka: "Postovani, vas trening u terminu " + termin.datum + " " + termin.vremePocetka + "je odbijen"
+            }
+        })
+        const noviTermin = await Termin.updateOne({_id:termin._id}, {
+            $set:{
+                slobodan:true,
+                treningId:null,
+                trenerId: null
+            }
+        })
+        //const zahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, { $set: { status: "Odbijeno" } })
+        res.status(200).json(noviZahtev)
     }
     catch (err) {
         res.status(500).json(err);
