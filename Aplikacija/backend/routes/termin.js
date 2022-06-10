@@ -79,4 +79,42 @@ router.delete("/obrisiTermin/:idTermina", async (req, res) => {
     }
 });
 
+//vrati slobodne za trenera po datumu
+router.get("/vratiSlobodneTermineZaTreneraPoDatumu/:idTrenera/:datum", async (req, res) => {
+
+    try {
+        const trener = await Trener.findById(req.params.idTrenera)
+        if(trener!=null){
+            const sviTermini=await Termin.find({trenerId:trener._id}, {datum:req.params.datum}, {slobodan: true})
+           res.status(200).json(sviTermini);
+        }
+        else{
+            res.status(404).json("trener nije pronadjen")
+        }
+
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+})
+
+//vrati slobodne za trenera po datumu
+router.get("/vratiZauzeteTermineZaTreneraPoDatumu/:idTrenera/:datum", async (req, res) => {
+
+    try {
+        const trener = await Trener.findById(req.params.idTrenera)
+        if(trener!=null){
+            const sviTermini=await Termin.find({trenerId:trener._id}, {datum:req.params.datum}, {slobodan: false})
+           res.status(200).json(sviTermini);
+        }
+        else{
+            res.status(404).json("trener nije pronadjen")
+        }
+
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+})
+
 module.exports = router
