@@ -324,7 +324,7 @@ router.get("/vratiTreningePersonalniC/:id", async (req, res) => {
                     let datum = vrati[i].trening.datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = vrati[i].trening.datum;
-                    let samovreme = vremee.toLocaleTimeString()
+                    let samovreme = vremee.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
                     let tr = {
 
@@ -382,7 +382,7 @@ router.get("/vratiTreningeGrupni/:id", async (req, res) => {
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = treninzi[i].vreme;
-                    let samovreme = vremee.toLocaleTimeString()
+                    let samovreme = vremee.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
                     let tr = {
 
@@ -911,7 +911,7 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
                     let datum = vrati[i].trening.datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = vrati[i].trening.datum;
-                    let samovreme = vremee.toLocaleTimeString()
+                    let samovreme = vremee.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
                     let tr = {
 
