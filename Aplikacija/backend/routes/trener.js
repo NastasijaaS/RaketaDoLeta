@@ -854,12 +854,7 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
                 for (let i = 0; i < zahtevi.length; i++) {
                     const trening = await Trening.findOne({ _id: zahtevi[i].treningId })
                     if (trening != null && trening.trenerId == trener._id && trening.brojMaxClanova == 1) {
-<<<<<<< HEAD
-
-                        vrati.push(trening)
-=======
                         vrati.push({ trening: trening, idZahteva: zahtevi[i]._id })
->>>>>>> f4d5125d61b4fd558d3b167ca6c10578af1a1452
                     }
                 }
 
