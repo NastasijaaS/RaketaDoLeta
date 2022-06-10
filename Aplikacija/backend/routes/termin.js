@@ -111,7 +111,7 @@ router.get("/vratiZauzeteTermineZaTreneraPoDatumu/:idTrenera/:datum", async (req
                 const trening= await Trening.findById(sviTermini[i].treningId)
 
                 let vrati = {
-                    trener:trening.trenerId,
+                    trener:trener._id,
                     vreme:sviTermini[i].vremePocetka,
                     trajanje: "1h",
                     intenzitet:trening.intenzitet 

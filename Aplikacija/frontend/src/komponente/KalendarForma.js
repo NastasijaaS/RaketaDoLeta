@@ -96,14 +96,19 @@ const KalendarForma = (props) => {
 
         //  console.log('json  ' + datumZaSlanje)
 
-        await GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${idUsluge}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
+        if (props.idUsluge) {
 
-        if (d == 2) {
-            setTer(termini1)
+            await GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${idUsluge}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
         }
         else {
-            setTer(termini2)
+            await GetData(`http://localhost:8800/api/termin/vratiZauzeteTermineZaTreneraPoDatumu/${props.idTrenera}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
         }
+        // if (d == 2) {
+        //     setTer(termini1)
+        // }
+        // else {
+        //     setTer(termini2)
+        // }
 
         //termine iz baze da ucitam
         //   console.log(termini)
@@ -196,46 +201,45 @@ const KalendarForma = (props) => {
 
             {termin.status &&
 
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                <TableHead>
-                    <TableRow>
-                    <TableCell>Trener</TableCell>
-                    <TableCell align="right">Vreme</TableCell>
-                    <TableCell align="right">Trajanje</TableCell>
-                    <TableCell align="right">Intenzitet</TableCell>
-                    <TableCell align="right">Mesta</TableCell>
-                    <TableCell align="right"></TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {termini.map((t, i) => (
-                    <TableRow
-                        key={i}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                        <TableCell component="th" scope="row">
-                        {t.imeT} {t.prezimeT}
-                        </TableCell>
-                        <TableCell align="right"> {t.vreme}</TableCell>
-                        <TableCell align="right">{t.trajanje}</TableCell>
-                        <TableCell align="right">{t.intenzitet}</TableCell>
-                        <TableCell align="right"> {t.brojslobodnih}</TableCell>
-                        <TableCell align="right">
-                                    <Button
-                                        size="small"
-                                        variant="contained"
-                                        value={t.vreme + " " + t.trajanje}
-                                        onClick={zakaziForma}>Zakazi
-                                    </Button>
-
-                        </TableCell>
-                    </TableRow>
-                    ))}
-                </TableBody>
-                </Table>
-            </TableContainer>
-}
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Trener</TableCell>
+                                <TableCell align="right">Vreme</TableCell>
+                                <TableCell align="right">Trajanje</TableCell>
+                                <TableCell align="right">Intenzitet</TableCell>
+                                <TableCell align="right">Mesta</TableCell>
+                                <TableCell align="right"></TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {termini.map((t, i) => (
+                                <TableRow
+                                    key={i}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {t.imeT} {t.prezimeT}
+                                    </TableCell>
+                                    <TableCell align="right"> {t.vreme}</TableCell>
+                                    <TableCell align="right">{t.trajanje}</TableCell>
+                                    <TableCell align="right">{t.intenzitet}</TableCell>
+                                    <TableCell align="right"> {t.brojslobodnih}</TableCell>
+                                    <TableCell align="right">
+                                        <Button
+                                            size="small"
+                                            variant="contained"
+                                            value={t.vreme + " " + t.trajanje}
+                                            onClick={zakaziForma}>Zakazi
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            }
 
             {/* // <Box xs = {{width: '100%'}}>
             //     <Grid container >
@@ -291,9 +295,9 @@ const KalendarForma = (props) => {
 
             // </Box>} */}
 
-            
+
             {
-                    zakazi && !user && <Modal onClose={zakaziForma}>
+                zakazi && !user && <Modal onClose={zakaziForma}>
 
                     {login && <Box><LogIn />
                         <span>Nemate nalog:

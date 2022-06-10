@@ -56,8 +56,8 @@ const Treneri = () => {
 
     return (
         <div className="treneri">
-            {isLoading &&   <Box className = 'cardCenter' ><CircularProgress size='2rem' /> </Box>}
-          
+            {isLoading && <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>}
+
             {sviTreneri.map((tr, i) => (
                 <Card key={i} className="trener" sx={{ margin: '5vh 5vw' }}>
                     <Grid container >
@@ -66,6 +66,8 @@ const Treneri = () => {
                             <CardMedia
                                 component="img"
                                 src={tr.slika}
+                                image={tr.slika ? tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
+
                                 alt={tr.ime}
                                 className="trImg" />
                         </Grid>

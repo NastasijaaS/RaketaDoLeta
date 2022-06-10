@@ -64,6 +64,24 @@ const ZakazaniTreninzi = () => {
         setRefresh(!refresh)
     }
 
+    const status = (s) => {
+        let pom = 'primary'
+        switch (s) {
+            case 'Odobreno':
+                pom = 'green'
+                break;
+            case 'Ukinuto':
+                pom = 'red'
+                break;
+            case 'Odbijeno':
+                pom = 'red'
+                break;
+            default:
+                break;
+        }
+        return pom
+    }
+
     return (
         <Box className='marginS'>
 
@@ -87,7 +105,7 @@ const ZakazaniTreninzi = () => {
             <Box className="zakazaniTreninzi">
                 <Typography gutterBottom variant="h4" component="div" textAlign="center">Personalni treninzi</Typography>
 
-                {isLoading &&   <Box className = 'cardCenter' ><CircularProgress size='2rem' /> </Box>}
+                {isLoading && <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>}
 
 
                 <Grid container spacing={2} >
@@ -116,7 +134,10 @@ const ZakazaniTreninzi = () => {
                                     <Typography variant="body2" color="text.secondary">
                                         Online: {tr.isOnline.toString()}
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography
+                                        variant="body2"
+                                        color={status(tr.status)}
+                                    >
                                         Status: {tr.status}
                                     </Typography>
                                 </CardContent>

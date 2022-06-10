@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import IzmeniLozinku from '../komponente/IzmeniLozinku'
+import KalendarForma from '../komponente/KalendarForma';
 
 //izmeni korisnika
 
@@ -103,12 +104,12 @@ const Trener = (props) => {
                                 Broj telefona: {user.brojTelefona}
                             </Typography>
                             <Typography variant="subtitle2" >
-                                    Sertifikovan za: {
-                                        user.sertifikati.map((s, i) => (
-                                            <Typography variant="body2" key={i}>{s}</Typography >
-                                        ))
-                                    }
-                                </Typography>
+                                Sertifikovan za: {
+                                    user.sertifikati.map((s, i) => (
+                                        <Typography variant="body2" key={i}>{s}</Typography >
+                                    ))
+                                }
+                            </Typography>
                         </CardContent>
                         <CardActions sx={{ justifyContent: 'center' }}>
                             {!izmena && <Button variant="contained" size="small" onClick={() => { setIzmena(true) }}>Promeni lozinku</Button>}
@@ -121,7 +122,7 @@ const Trener = (props) => {
                     <Box>
 
                         <Button variant="outlined" sx={{ marginBottom: '2%' }} onClick={() => setNoviTrening(true)}>Zakazi grupni trening</Button>
-
+                        <KalendarForma idTrenera={user.trenerId} />
                         {noviTrening
                             &&
                             <Modal onClose={() => { setNoviTrening(false) }}>
