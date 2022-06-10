@@ -646,67 +646,76 @@ router.get("/vidiNapredak/:idTrenera/:idKorisnika", async (req, res) => {
 })
 
 //dodaj evidenciju NE RADI
-/*router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
+router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.idTrenera)
         if (trener != null) {
             const korisnik = await Korisnik.findById(req.body.korisnikId)
+            console.log(korisnik)
             const trening=await Trening.findById(req.params.idTreninga)
            
             if (korisnik != null) {
 
-                    const ev= await Evidencija.find({korisnikId:korisnik._id})
+                    const ev= await Evidencija.find(k => k.korisnikId === korisnik._id)
+                    console.log(ev)
 
                     let brTreninga=ev.brojTreninga+1
 
-                    if (ev!=null){
+                    if (ev!==null){
+
+                        // console.log(ev)
+                        // if(ev.tipTreninga.count===7){
+                        //     const first = ev.tipTreninga[0];
+                        //     console.log(first);
+
+
+                        // const updated = ev.updateOne({
+                        //     $pull: {
+                        //         tipTreninga: first
+                        //     }
+                        // });
+
+                        const final = await ev.updateOne({
+                            $push:{
+                                tipTreninga:trening.tipTreninga,
+                                intenzitet:trening.intenzitet
+                            }
+                        })
+                        return res.status(200).json(final)
+
+                        // }
+                        // else{
+                            
+                        //     res.status(200).json("Ok")
+                        // }
                         
-                        if(ev.tipTreninga.length===7){
-                            const {tipTreninga[0], ...other} = ev.tipTreninga
-                            const updated = await ev.updateOne({
-                                $set:{
-                                    //tipTreninga:other
-                                }
-                            })
 
-                            const evidencija=await Evidencija.updateOne({
-                                // $pull:{
-                                //     tipTreninga[0]
-                                // }, 
-                                $push:{
-                                    tipTreninga:trening.tip,
-                                    intenziteti:trening.intenzitet
-                                    //brojTreninga:brTreninga
-                                }
-                            })
-                            res.status(200).json(evidencija)
-
-                        }
-                        else{
-                            res.status(200).json("Ok")
-                        }
+                    }
+                    else{
                         
-
+                        return res.status(404).json("evidencija nije pronadjena")
                     }
 
                 }
                 
             else {
-                res.status(404).json("Korisnik nije pronadjen")
+                return res.status(404).json("Korisnik nije pronadjen")
             }
 
         }
         else {
-            res.status(404).json("Trener nije pronadjen")
+            return res.status(404).json("Trener nije pronadjen")
         }
 
     }
     catch (err) {
+        console.log(err)
+
         res.status(500).json(err);
     }
 
-})*/
+})
 
 //pregledaj evidenciju
 router.get("/vidiEvidenciju/:idTrenera/:idKorisnika", async (req, res) => {
