@@ -1,7 +1,8 @@
 import { Button } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
-import { GetData , PutMetoda} from "../../komponente/Fetch";
+import { GetData, PutMetoda } from "../../komponente/Fetch";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const OdbijeniTreninzi = () => {
 
@@ -32,10 +33,10 @@ const OdbijeniTreninzi = () => {
 
 
         const zahtev = {
-            url: 'http://localhost:8800/api/trener/prihvatiTrening/' + id
+            url: 'http://localhost:8800/api/uprava/obrisiOdbijenTrening/' + id
         }
 
-     //   await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        //   await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -44,11 +45,13 @@ const OdbijeniTreninzi = () => {
         setRefresh(!refresh)
     }
 
-  
+
 
     return (<div>
 
         <div><h1>nesto</h1></div>
+        {isLoading && <CircularProgress size='2rem' disableShrink />}
+
         {
             zahtevi.map((z, i) => (
                 <div key={i}>
@@ -59,7 +62,7 @@ const OdbijeniTreninzi = () => {
                     <p>Broj telefona: {z.brojtelefonaT}</p>
                     <p>Intenzitet: {z.intenzitet}</p>
                     <p>Tip: {z.tip}</p>
-                    <Button onClick={() => { obrisiTrening(z.idTreninga) }}>obrisi</Button>
+                    <Button onClick={() => { obrisiTrening(z.idZahteva) }}>obrisi</Button>
 
                 </div>
             ))

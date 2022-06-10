@@ -301,11 +301,17 @@ router.get("/vratiTreningePersonalniC/:id", async (req, res) => {
                 for (let i = 0; i < zahtevi.length; i++) {
                     const trening = await Trening.findOne({ _id: zahtevi[i].treningId })
                     if (trening != null && trening.trenerId == trener._id && trening.brojMaxClanova == 1) {
-                        vrati.push({ trening: trening, idZahteva: zahtevi[i]._id })
+                        if (trening.datum > new Date()) {
+
+                            vrati.push({ trening: trening, idZahteva: zahtevi[i]._id })
+                        }
                     }
                 }
 
                 let vratiSve = []
+
+                vrati.sort((a, b) => new Date(a.trening.datum) - new Date(b.trening.datum));
+
 
                 for (let i = 0; i < vrati.length; i++) {
 
@@ -848,11 +854,14 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
                 for (let i = 0; i < zahtevi.length; i++) {
                     const trening = await Trening.findOne({ _id: zahtevi[i].treningId })
                     if (trening != null && trening.trenerId == trener._id && trening.brojMaxClanova == 1) {
+
                         vrati.push(trening)
                     }
                 }
 
                 let vratiSve = []
+
+
 
                 for (let i = 0; i < vrati.length; i++) {
 

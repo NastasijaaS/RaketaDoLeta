@@ -65,8 +65,9 @@ const ZakazaniTreninzi = () => {
     }
 
     return (
-    <Box className = 'marginS'>
-        {/* <Modal
+        <Box className='marginS'>
+
+            {/* <Modal
             sx={{ display: 'flex', justifyContent: 'center' }}
             open={(zakazaniTreninzi || grupniTreninzi) ? true : false}
             onClose={() => navigate("../profil", { replace: true })}
@@ -83,91 +84,95 @@ const ZakazaniTreninzi = () => {
             >Doslo je do greske prilikom ucitavanja ):</Alert>
         </Modal> */}
 
-        <Box className="zakazaniTreninzi">
-            <Typography gutterBottom variant="h4" component="div" textAlign = "center">Personalni treninzi</Typography>
-            <Grid container spacing={2} >
-            {zakazaniTreninzi.map((tr, i) => (
-             <Grid item xs = {12} sm ={6} md ={4} lg = {3}>
-                <Card className = 'cardShadow' key = {tr.id} sx={{ maxWidth: 345 }} >
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            {tr.imeT} {tr.prezimeT}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Datum: {tr.datum}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Vreme: {tr.vremeee}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Trajanje: {tr.trajanje}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Intenzitet: {tr.intenzitet}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Tip: {tr.tip}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Online: {tr.isOnline.toString()}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Status: {tr.status}
-                        </Typography>
-                    </CardContent>
-                <CardActions>
-                    <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, i)}>Izmeni trening</Button>
-                    <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
-                </CardActions>
-                    {izmeni === i && <Modal onClose={() => setIzmeni(false)}>
-                        <FormaIzmeniTrening
-                            trajanjeTreninga={tr.trajanje}
-                            tipTreninga={tr.tip}
-                            intenzitetTreninga={tr.intenzitet}
-                            datum={tr.datum}
-                            vreme={tr.vremeee}
-                            isOnline={tr.isOnline}
-                            idTreninga={tr.id}
-                            onClose={() => { setIzmeni(false); setRefresh(!refresh) }} />
-                    </Modal>}
+            <Box className="zakazaniTreninzi">
+                <Typography gutterBottom variant="h4" component="div" textAlign="center">Personalni treninzi</Typography>
 
-                </Card>
+                {isLoading && <CircularProgress size='2rem' disableShrink />}
+
+
+                <Grid container spacing={2} >
+                    {zakazaniTreninzi.map((tr, i) => (
+                        <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
+                            <Card className='cardShadow' key={tr.id} sx={{ maxWidth: 345 }} >
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        {tr.imeT} {tr.prezimeT}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Datum: {tr.datum}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Vreme: {tr.vremeee}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Trajanje: {tr.trajanje}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Intenzitet: {tr.intenzitet}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Tip: {tr.tip}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Online: {tr.isOnline.toString()}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Status: {tr.status}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, i)}>Izmeni trening</Button>
+                                    <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+                                </CardActions>
+                                {izmeni === i && <Modal onClose={() => setIzmeni(false)}>
+                                    <FormaIzmeniTrening
+                                        trajanjeTreninga={tr.trajanje}
+                                        tipTreninga={tr.tip}
+                                        intenzitetTreninga={tr.intenzitet}
+                                        datum={tr.datum}
+                                        vreme={tr.vremeee}
+                                        isOnline={tr.isOnline}
+                                        idTreninga={tr.id}
+                                        onClose={() => { setIzmeni(false); setRefresh(!refresh) }} />
+                                </Modal>}
+
+                            </Card>
+                        </Grid>
+                    ))}
                 </Grid>
-            ))}
-            </Grid>
-            {grupniTreninzi.map((tr) => (
-                <div key={tr.id}>
+                {grupniTreninzi.map((tr) => (
+                    <div key={tr.id}>
 
-                    <p>Trener: {tr.imeT} {tr.prezimeT}</p>
-                    <p>Datum: {tr.datum}</p>
-                    <p>Vreme: {tr.vreme}</p>
-                    <p>Trajanje: {tr.trajanje}</p>
-                    <p>Tip: {tr.tip}</p>
-                    <p>Intenzitet: {tr.intenzitet}</p>
-                    <p>online: {tr.isOnline}</p>
+                        <p>Trener: {tr.imeT} {tr.prezimeT}</p>
+                        <p>Datum: {tr.datum}</p>
+                        <p>Vreme: {tr.vreme}</p>
+                        <p>Trajanje: {tr.trajanje}</p>
+                        <p>Tip: {tr.tip}</p>
+                        <p>Intenzitet: {tr.intenzitet}</p>
+                        <p>online: {tr.isOnline}</p>
 
-                    <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</Button>
-                    <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+                        <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</Button>
+                        <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
 
-                    {izmeni && <Modal onClose={() => setIzmeni(false)}>
-                        <FormaIzmeniTrening
-                            trajanjeTreninga={tr.trajanje}
-                            tipTreninga={tr.tipTreninga}
-                            intenzitetTreninga={tr.intenzitet}
-                            datum={tr.datum}
-                            vreme={tr.vreme}
-                            isOnline={tr.isOnline}
-                            onClose={() => setIzmeni(false)} />
-                    </Modal>}
-                </div>
-            ))}
+                        {izmeni && <Modal onClose={() => setIzmeni(false)}>
+                            <FormaIzmeniTrening
+                                trajanjeTreninga={tr.trajanje}
+                                tipTreninga={tr.tipTreninga}
+                                intenzitetTreninga={tr.intenzitet}
+                                datum={tr.datum}
+                                vreme={tr.vreme}
+                                isOnline={tr.isOnline}
+                                onClose={() => setIzmeni(false)} />
+                        </Modal>}
+                    </div>
+                ))}
 
-            {
-                !zakazaniTreninzi &&
-                <Typography>Nemate zakazanih treninga</Typography>
-            }
+                {
+                    !zakazaniTreninzi &&
+                    <Typography>Nemate zakazanih treninga</Typography>
+                }
 
-        </Box>
-    </Box>)
+            </Box>
+        </Box>)
 }
 export default ZakazaniTreninzi
