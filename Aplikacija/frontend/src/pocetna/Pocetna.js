@@ -63,7 +63,7 @@ const Pocetna = () => {
             <Box>
                 <div className = "poruka"> Krenimo zajedno u novu avanturu </div>
                 <Link to = '/treneri'>
-                    <Button variant="contained" id = 'centralBtn' size = 'large' sx = {{backgroundColor:'black',color:'white', fontWeight:'800'}} >
+                    <Button variant="outlined" id = 'centralBtn' size = 'large' sx = {{backgroundColor:'white',fontWeight:'800'}} >
                         Zakazite trening         
                     </Button>
                 </Link>

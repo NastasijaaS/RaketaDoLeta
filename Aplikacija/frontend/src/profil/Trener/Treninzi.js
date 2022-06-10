@@ -8,7 +8,7 @@ import { Card, CardMedia, CardContent, CardActionArea,IconButton, CardActions, G
 import Modal from '../../komponente/Modal';
 import FormaZakaziPersonalni from '../../komponente/FormaZakaziPersonalni';
 import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close';
+import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Box } from '@mui/system';
 
@@ -95,7 +95,7 @@ const TreninziTrenera = () => {
                             <CheckCircleIcon  sx ={{fontSize: "1em" }} />
                         </IconButton>
                         <IconButton sx={{ p: 0, color: 'red'}}>
-                            <CloseIcon sx ={{fontSize: "1em" }}/>
+                            <CancelIcon sx ={{fontSize: "1em" }}/>
                         </IconButton>    
                     </CardActions>                      
             </Card>
