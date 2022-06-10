@@ -11,6 +11,7 @@ const EvidencijaSchema = new mongoose.Schema({
         default:[]
 
     },
+
     intenziteti:{
         type:Array,
         default:[]
