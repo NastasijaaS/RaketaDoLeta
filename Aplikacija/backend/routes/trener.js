@@ -510,10 +510,13 @@ router.post("/dodajNapredak/:idTrenera/:idKorisnika", async (req, res) => {
         if (trener != null) {
 
             const korisnik = await Korisnik.findById(req.params.idKorisnika)
+           //res.status(200).json(korisnik)
             if (korisnik != null) {
 
-                datum=newDate()
-                upisdatum=datum.toLocaleDateString()
+                const datum=new Date()
+                //res.status(200).json(datum)
+                let upisdatum=datum.toLocaleDateString()
+               
 
 
 
@@ -565,8 +568,8 @@ router.put("/izmeniNapredak/:idNapredak", async (req, res) => {
         //res.status(200).json(napredak)
         if (napredak != null) {
 
-            datum=newDate()
-            upisdatum=datum.toLocaleDateString()
+            const datum=new Date()
+            let upisdatum=datum.toLocaleDateString()
 
 
             const napredaknovi = await napredak.updateOne({
