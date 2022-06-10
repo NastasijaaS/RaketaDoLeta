@@ -422,7 +422,7 @@ router.get("/vratiTreningeGrupni/:id", async (req, res) => {
 router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
 
     try {
-        const zahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, { $set: { status: "Odobreno" } })
+        const zahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, { $set: [{ status: "Odobreno" }, {poruka: "Zahtev je odobren"}] })
         const trening = await Trening.findById(zahtev.treningId)
         //const termin= await Termin.find({treningId:trening._id})
         const azuriranTermin = await Termin.updateOne({treningId:trening._id}, {
@@ -433,6 +433,8 @@ router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
                 trenerId: trening.trenerId
             }
         })
+
+
         res.status(200).json(azuriranTermin)
     }
     catch (err) {

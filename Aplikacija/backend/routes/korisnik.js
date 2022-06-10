@@ -521,7 +521,8 @@ router.get("/vidiGrupneTreninge/:idUsluge/:datum", async (req, res) => {
                     nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
                     intenzitet: treninzi[i].intenzitet,
                     trajanje: treninzi[i].trajanje,
-                    brojslobodnih: slobodanbroj
+                    brojslobodnih: slobodanbroj, 
+                    treningID: treninzi[i]._id
                 }
                 vrati.push(tr)
             }

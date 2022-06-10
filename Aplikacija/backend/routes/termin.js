@@ -111,14 +111,14 @@ router.get("/vratiZauzeteTermineZaTreneraPoDatumu/:idTrenera/:datum", async (req
                 const trening= await Trening.findById(sviTermini[i].treningId)
 
                 let vrati = {
-                    trener:trener._id,
+                    trener:trening.trenerId,
                     vreme:sviTermini[i].vremePocetka,
                     trajanje: "1h",
                     intenzitet:trening.intenzitet 
                 }
                 sviTreninzi.push(vrati)
             }
-           res.status(200).json(sviTreninzi);
+           res.status(200).json(sviTreninz);
         }
         else{
             res.status(404).json("trener nije pronadjen")
