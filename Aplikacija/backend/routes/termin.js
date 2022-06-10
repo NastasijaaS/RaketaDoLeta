@@ -135,7 +135,7 @@ router.get("/vratiZauzeteTermineZaTreneraPoDatumu/:idTrenera/:datum", async (req
                 }
                 sviTreninzi.push(vrati)
             }
-           res.status(200).json(sviTreninz);
+           res.status(200).json(sviTreninzi);
         }
         else{
             res.status(404).json("trener nije pronadjen")
