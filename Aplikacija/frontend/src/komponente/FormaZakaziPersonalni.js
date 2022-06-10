@@ -155,7 +155,7 @@ const FormaZakaziPersonalni = (props) => {
 
 
     const nadjiTermin = async (date) => {
-        console.log(new Date(date.toDateString()))
+     //   console.log(new Date(date.toDateString()))
 
         const datum = new Date(date.toDateString())
         

@@ -8,7 +8,7 @@ import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import Button from '@mui/material/Button';
 import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import { GetData } from './Fetch'
+import { GetData, PutMetoda } from './Fetch'
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 
@@ -71,6 +71,8 @@ const KalendarForma = (props) => {
     const [termini, setTermini] = useState([])
     const [greska, setGreska] = useState(false)
     const [loading, setIsLoading] = useState(false)
+    const [data, setData] = useState(false)
+
 
 
     //ovo mi cita iz baze
@@ -115,18 +117,38 @@ const KalendarForma = (props) => {
         setTermin({ status: true, datum: { datumTreninga } })
     }
 
-    const zakaziForma = (ev) => {
+    const zakaziForma = (treningId) => {
+        console.log(treningId)
 
-        //sta je ovo ???
+        if (!user) {
+            setZakazi(!zakazi)
+            return
+        }
+
+        //korisnik/prijavaGrupniTrening/:idKorisnika/:idTreninga
+
+        const zahtev = {
+            url: 'http://localhost:8800/api/korisnik/prijavaGrupniTrening/' + user.korisnikId + '/' + treningId
+        }
+
+        PutMetoda(zahtev, setData, setGreska, setIsLoading)
+
+        if (greska !== false) {
+            alert(greska)
+        }
+        else {
+            alert('uspesno ste se prijavili za trening')
+        }
+        window.location.reload(false)
 
         // console.log(ev.target.value)
-        const sat = ev.target.value
+        // const sat = ev.target.value
 
-        const [vreme, trajanje] = sat.split(' ')
+        // const [vreme, trajanje] = sat.split(' ')
 
-        setZakazi(!zakazi)
+        // setZakazi(!zakazi)
 
-        setTermin(termin => ({ ...termin, vreme: { vreme }, trajanje: { trajanje } }));
+        // setTermin(termin => ({ ...termin, vreme: { vreme }, trajanje: { trajanje } }));
 
         //  console.log(termin)
     }
@@ -171,6 +193,10 @@ const KalendarForma = (props) => {
         return d;
     });
 
+    const zakaziGrupni = () => {
+
+    }
+
     return (
         <Box className="cardCenter">
             <Box>
@@ -179,7 +205,6 @@ const KalendarForma = (props) => {
                         flexGrow: 1,
                         maxWidth: { xs: 320, sm: 700 },
                         bgcolor: 'background.paper',
-
                     }}
                 >
                     <Tabs
@@ -231,7 +256,7 @@ const KalendarForma = (props) => {
                                             size="small"
                                             variant="contained"
                                             value={t.vreme + " " + t.trajanje}
-                                            onClick={zakaziForma}>Zakazi
+                                            onClick={() => zakaziForma(t.treningID)}>Zakazi
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -297,15 +322,15 @@ const KalendarForma = (props) => {
 
 
             {
-                zakazi && !user && <Modal onClose={zakaziForma}>
+                zakazi && <Modal onClose={() => { setZakazi(false) }}>
 
-                    {login && <Box><LogIn />
+                    {login && <Box><LogIn onClose={() => { setZakazi(false) }} />
                         <span>Nemate nalog:
                             <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
                         </span>
                     </Box>}
 
-                    {!login && <Box><Register />
+                    {!login && <Box><Register onClose={() => { setZakazi(false) }} />
                         <span>Imate nalog:
                             <Button size='small' onClick={() => { setLogin(true) }}>Prijavi se</Button>
                         </span>
@@ -314,22 +339,22 @@ const KalendarForma = (props) => {
                 </Modal>
             }
 
-            {
+            {/* {
                 zakazi && user &&
                 <Modal onClose={zakaziForma}>
                     <Box>
                         {/* <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
                         <span>Datum: </span><br /> */}
-                        <p>naslov koji saljem</p>
+            {/* <p>naslov koji saljem</p>
                     </Box>
                     <FormaZakazi vreme={termin.vreme}
                         trajanje={termin.trajanje}
                         datum={termin.datum}
-                        onClose={zakaziForma}
-                    // idTrenera={props.id} 
+                        onClose={zakaziForma} */}
+            {/* // idTrenera={props.id} 
                     />
-                </Modal>
-            }
+                </Modal> */}
+            {/* }  */}
 
         </Box >
     )

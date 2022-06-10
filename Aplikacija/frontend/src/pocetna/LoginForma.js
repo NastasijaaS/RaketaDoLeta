@@ -7,8 +7,11 @@ import { Button, TextField, Box } from '@mui/material';
 import Greska from '../komponente/Alert';
 import { LoginSuccess, LoginFailure, LoginStart } from '../context/UserActions.js'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
 
-const LogIn = () => {
+const LogIn = (props) => {
+
+    let navigate = useNavigate()
 
     const { ucitavaSe, error, dispatch } = useContext(UserContext);
 
@@ -100,6 +103,9 @@ const LogIn = () => {
                 setAlert({ prikazi: true, tip: 'error', greska: nesto })
             }
             setGreska({ mail: false, lozinka: false })
+
+            if (props.onClose)
+                props.onClose()
         }
     }
 

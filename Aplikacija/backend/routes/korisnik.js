@@ -287,7 +287,8 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = treninzi[i].datum;
-                    let samovreme = vremee.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    let samovreme = vremee.toLocaleTimeString(['hr-HR'], {hour: '2-digit', minute:'2-digit'});
+
                     if (datum > new Date()) {
 
                         if (zahtev != null) {
@@ -350,7 +351,8 @@ router.get("/vidiZakazaneTreningeSve/:idKorisnika", async (req, res) => {
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = treninzi[i].datum;
-                    let samovreme = vremee.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    let samovreme = vremee.toLocaleTimeString(['hr-HR'], {hour: '2-digit', minute:'2-digit'});
+
 
                     let tr = {
 
@@ -409,7 +411,8 @@ router.get("/vidiZakazaneTreningeGrupni/:idKorisnika", async (req, res) => {
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = treninzi[i].vreme;
-                    let samovreme = vremee.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    let samovreme = vremee.toLocaleTimeString(['hr-HR'], {hour: '2-digit', minute:'2-digit'});
+
 
                     let tr = {
 
@@ -505,7 +508,8 @@ router.get("/vidiGrupneTreninge/:idUsluge/:datum", async (req, res) => {
                 let datum = treninzi[i].datum;
                 let samoDatum = datum.toLocaleDateString()
                 let vremee = treninzi[i].vreme;
-                let samovreme = vremee.toLocaleTimeString()
+                let samovreme = vremee.toLocaleTimeString(['hr-HR'], {hour: '2-digit', minute:'2-digit'});
+
                 //const usluga=await Usluga.findbyId(treninzi[i].uslugaId)
                 let brojzauzetih = treninzi[i].clanovi.length
                 let slobodanbroj = treninzi[i].brojMaxClanova - brojzauzetih;

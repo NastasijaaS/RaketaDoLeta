@@ -107,7 +107,9 @@ const Register = (props) => {
             }
 
             setSuccess(true)
-
+            
+            if (props.onClose)
+                props.onClose()
         }
     }
 
@@ -132,72 +134,72 @@ const Register = (props) => {
     //                 focused />
     //         </div>
     //     )
-// }
+    // }
 
 
-// const FormaRegistruj = () => {
-//     return (
-//         <div className="login">
-//             <h2>Registrujte se:</h2>
+    // const FormaRegistruj = () => {
+    //     return (
+    //         <div className="login">
+    //             <h2>Registrujte se:</h2>
 
-//             <Info labela='Ime' tip='text' reff={ime} err={greska.ime} />
-//             {greska.ime && <span className='greska'>Polje ime ne sme biti prazno i mora sadrzati najmanje 3 slova</span>}
+    //             <Info labela='Ime' tip='text' reff={ime} err={greska.ime} />
+    //             {greska.ime && <span className='greska'>Polje ime ne sme biti prazno i mora sadrzati najmanje 3 slova</span>}
 
-//             <Info labela='Prezime' tip='text' reff={prezime} />
-//             {greska.prezime && <span className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</span>}
+    //             <Info labela='Prezime' tip='text' reff={prezime} />
+    //             {greska.prezime && <span className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</span>}
 
-//             <Info labela='E-mail' tip='email' reff={email} />
-//             {greska.mail && <span className='greska'>Unesite ispravan mail</span>}
+    //             <Info labela='E-mail' tip='email' reff={email} />
+    //             {greska.mail && <span className='greska'>Unesite ispravan mail</span>}
 
-//             <Info labela='Username' tip='text' reff={username} />
-//             {greska.username && <span className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</span>}
+    //             <Info labela='Username' tip='text' reff={username} />
+    //             {greska.username && <span className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</span>}
 
-//             <Info labela='Lozinka' tip='password' reff={lozinka} />
-//             {greska.lozinka && <span className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</span>}
+    //             <Info labela='Lozinka' tip='password' reff={lozinka} />
+    //             {greska.lozinka && <span className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</span>}
 
-//             <Info labela='Broj telefona' tip='text' reff={brojTelefona} />
-//             {greska.brojTelefona && <span className='greska'>Broj telefona mora imati najmanje 9 cifara</span>}
-//         </div>
-//     )
-// }
+    //             <Info labela='Broj telefona' tip='text' reff={brojTelefona} />
+    //             {greska.brojTelefona && <span className='greska'>Broj telefona mora imati najmanje 9 cifara</span>}
+    //         </div>
+    //     )
+    // }
 
 
-return (
-    <div className="forma">
-        {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
+    return (
+        <div className="forma">
+            {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 
-        {!success &&
-            <form className="login" onSubmit={upis}>
+            {!success &&
+                <form className="login" onSubmit={upis}>
 
-                <div className="login">
-                    <h2>Registrujte se:</h2>
+                    <div className="login">
+                        <h2>Registrujte se:</h2>
 
-                    <Info labela='Ime*' tip='text' reff={ime} err={greska.ime} tekst='najmanje 3 slova' />
+                        <Info labela='Ime*' tip='text' reff={ime} err={greska.ime} tekst='najmanje 3 slova' />
 
-                    <Info labela='Prezime*' tip='text' reff={prezime} err={greska.prezime} tekst='najmanje 4 slova' />
-                    {/* {greska.prezime && <span className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</span>} */}
+                        <Info labela='Prezime*' tip='text' reff={prezime} err={greska.prezime} tekst='najmanje 4 slova' />
+                        {/* {greska.prezime && <span className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</span>} */}
 
-                    <Info labela='E-mail*' tip='email' reff={email} err={greska.mail} tekst='mail@gmail.com' />
-                    {/* {greska.mail && <span className='greska'>Unesite ispravan mail</span>} */}
+                        <Info labela='E-mail*' tip='email' reff={email} err={greska.mail} tekst='mail@gmail.com' />
+                        {/* {greska.mail && <span className='greska'>Unesite ispravan mail</span>} */}
 
-                    <Info labela='Username*' tip='text' reff={username} err={greska.username} tekst='najmanje 4 karaktera' />
-                    {/* {greska.username && <span className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</span>} */}
+                        <Info labela='Username*' tip='text' reff={username} err={greska.username} tekst='najmanje 4 karaktera' />
+                        {/* {greska.username && <span className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</span>} */}
 
-                    <Info labela='Lozinka*' tip='password' reff={lozinka} err={greska.lozinka} tekst='najmanje 6 karaktera' />
-                    {/* {greska.lozinka && <span className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</span>} */}
+                        <Info labela='Lozinka*' tip='password' reff={lozinka} err={greska.lozinka} tekst='najmanje 6 karaktera' />
+                        {/* {greska.lozinka && <span className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</span>} */}
 
-                    <Info labela='Broj telefona*' tip='text' reff={brojTelefona} err={greska.brojTelefona} tekst='+381 623 212 123' />
-                    {/* {greska.brojTelefona && <span className='greska'>Broj telefona mora imati najmanje 9 cifara</span>} */}
-                </div>
+                        <Info labela='Broj telefona*' tip='text' reff={brojTelefona} err={greska.brojTelefona} tekst='+381 623 212 123' />
+                        {/* {greska.brojTelefona && <span className='greska'>Broj telefona mora imati najmanje 9 cifara</span>} */}
+                    </div>
 
-                <Button size='small' variant="contained" onClick={upis}>Registruj se</Button>
-            </form>}
+                    <Button size='small' variant="contained" onClick={upis}>Registruj se</Button>
+                </form>}
 
-        {success && <div>animacina success</div>}
+            {success && <div>animacina success</div>}
 
-    </div >
+        </div >
 
-)
+    )
 }
 
 export default Register

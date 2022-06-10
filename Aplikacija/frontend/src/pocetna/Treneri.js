@@ -67,7 +67,6 @@ const Treneri = () => {
                                 component="img"
                                 src={tr.slika}
                                 image={tr.slika ? tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
-
                                 alt={tr.ime}
                                 className="trImg" />
                         </Grid>

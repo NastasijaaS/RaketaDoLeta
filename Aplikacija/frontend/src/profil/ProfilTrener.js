@@ -10,6 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import IzmeniLozinku from '../komponente/IzmeniLozinku'
 import KalendarForma from '../komponente/KalendarForma';
+import FormaDodajTermin from '../komponente/FormaDodajTermin';
 
 //izmeni korisnika
 
@@ -52,6 +53,8 @@ const Trener = (props) => {
 
     const [refresh, setRefresh] = useState(false)
     const [noviTrening, setNoviTrening] = useState(false)
+    const [noviTermini, setNoviTermini] = useState(false)
+
 
     useEffect(() => {
         const get = async () => { await GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading) }
@@ -121,12 +124,23 @@ const Trener = (props) => {
                 <Grid item xs={12} md={9}>
                     <Box>
 
-                        <Button variant="outlined" sx={{ marginBottom: '2%' }} onClick={() => setNoviTrening(true)}>Zakazi grupni trening</Button>
+                        <Box>
+                            <Button variant="outlined" sx={{ marginBottom: '2%' }} onClick={() => setNoviTrening(true)}>Zakazi grupni trening</Button>
+                            <Button variant="outlined" sx={{ marginBottom: '2%' }} onClick={() => setNoviTermini(true)}>Unesi termine</Button>
+                        </Box>
+
+
                         <KalendarForma idTrenera={user.trenerId} />
                         {noviTrening
                             &&
                             <Modal onClose={() => { setNoviTrening(false) }}>
                                 <FormaZakaziPersonalni idTrenera={user.trenerId} grupni={true} onClose={() => { setNoviTrening(false) }} />
+                            </Modal>}
+
+                        {noviTermini
+                            &&
+                            <Modal onClose={() => { setNoviTermini(false) }}>
+                               <FormaDodajTermin idTrenera = {user.trenerId} onClose={() => { setNoviTermini(false) }} />
                             </Modal>}
 
                         <Grid container spacing={2} >
