@@ -42,8 +42,8 @@ const FormaZakaziPersonalni = (props) => {
     const [uslugaId, setUslugaId] = useState(0)
 
     useEffect(() => {
-        const get = () => { GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) }
-        get()
+      //  const get = () => { GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) }
+      //  get()
     }, [])
 
     const zakaziTrening = async (ev) => {
@@ -90,7 +90,7 @@ const FormaZakaziPersonalni = (props) => {
     const [usluga, setUsluga] = useState('');
 
     const DropDown = ({ labela, set, niz, value }) => {
-        return (<FormControl sx={{width: '100%' }}>
+        return (<FormControl sx={{ width: '100%' }}>
             <InputLabel>{labela}</InputLabel>
             <Select
                 label={labela}
@@ -140,7 +140,7 @@ const FormaZakaziPersonalni = (props) => {
             }
         }
 
-       await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -150,77 +150,91 @@ const FormaZakaziPersonalni = (props) => {
         }
     }
 
+    const [termini, setTermini] = useState([])
+
+
+
+    const nadjiTermin = async (date) => {
+        console.log(new Date(date.toDateString()))
+
+        const datum = new Date(date.toDateString())
+        
+        await GetData(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`,
+            setTermini, setGreska, setIsLoading)
+    }
+
     let datumDo = new Date();
     datumDo.setDate((new Date()).getDate() + 14)
 
     return (
-        <Box className ='cardCenter marginS' sx = {{gap: '1vh', padding: '0% 20%', alignItems:"stretch"}} onSubmit={zakaziTrening}>
+        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: '0% 20%', alignItems: "stretch" }} onSubmit={zakaziTrening}>
 
-            {!props.grupni && <Typography gutterBottom variant = "h5" component="div" textAlign={"center"}>Personalni trening</Typography>}
-            {props.grupni && <Typography gutterBottom variant = "h5" component="div" textAlign={"center"}>Grupni trening</Typography>}
+            {!props.grupni && <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Personalni trening</Typography>}
+            {props.grupni && <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Grupni trening</Typography>}
 
             <Greska open={Boolean(error)} onClose={() => setError(false)} greska={error} />
-            
-                    <LocalizationProvider dateAdapter={AdapterDateFns} >
-                        <DatePicker
-                            label="izaberite datum"
-                            value={date}
-                            onChange={(newValue) => {
-                                setDate(newValue);
-                            }}
-                            minDate={new Date()}
-                            maxDate={datumDo}
-                            renderInput={(params) => <TextField size='small' {...params} />}
-                            focused
-                        />
-                    </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDateFns} >
-                
-                    <Stack spacing={3}>
-                        <TimePicker
-                            renderInput={(params) => <TextField size='small' {...params} />}
-                            size='small' 
-                            value={vreme}
-                            minutesStep={15}
-                            label="vreme treninga"
-                            onChange={(newValue) => {
-                                setVreme(newValue);
-                            }}
-                            minTime={new Date(0, 0, 0, 8)}
-                            maxTime={new Date(0, 0, 0, 18, 45)}
-                        />
 
-                    </Stack>
-                </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns} >
+                <DatePicker
+                    label="izaberite datum"
+                    value={date}
+                    onChange={(newValue) => {
+                        setDate(newValue);
+                        nadjiTermin(newValue)
+                    }}
+                    minDate={new Date()}
+                    maxDate={datumDo}
+                    renderInput={(params) => <TextField size='small' {...params} />}
+                    focused
+                />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns} >
+
+                <Stack spacing={3}>
+                    <TimePicker
+                        renderInput={(params) => <TextField size='small' {...params} />}
+                        size='small'
+                        value={vreme}
+                        minutesStep={15}
+                        label="vreme treninga"
+                        onChange={(newValue) => {
+                            setVreme(newValue);
+                        }}
+                        minTime={new Date(0, 0, 0, 8)}
+                        maxTime={new Date(0, 0, 0, 18, 45)}
+                    />
+
+                </Stack>
+            </LocalizationProvider>
 
             {!props.grupni &&
-                <DropDown  labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />
+                <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />
             }
-                <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
-                <DropDown className = 'marginForm' labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
-            
+            <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
+            <DropDown className='marginForm' labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
+
             {props.grupni &&
-                <Box className="cardCenter" sx={{ gap: '1vh'}} >
+                <Box className="cardCenter" sx={{ gap: '1vh' }} >
 
                     <TextField
-                        sx = {{width:'100%'}}
+                        sx={{ width: '100%' }}
                         inputRef={naziv}
                         label='naziv'
                         type='text'
                         size="small"
                         placeholder='naziv'
-                         />
+                    />
 
                     <TextField
-                        sx = {{width:'100%'}}
+                        sx={{ width: '100%' }}
                         inputRef={maxBrojClanova}
                         label='Max broj clanova'
                         type='number'
                         size="small"
                         placeholder='max broj clanova'
-                         />
+                    />
 
-                    <FormControl sx={{ width:'100%' }}>
+                    <FormControl sx={{ width: '100%' }}>
                         <InputLabel>Usluga</InputLabel>
                         <Select
                             label='usluga'
@@ -243,7 +257,7 @@ const FormaZakaziPersonalni = (props) => {
             }
 
             {!props.grupni && <FormControlLabel
-                sx = {{justifyContent:'center'}}
+                sx={{ justifyContent: 'center' }}
                 value="online"
                 onChange={onlineTrening}
                 control={<Checkbox />}
@@ -251,10 +265,10 @@ const FormaZakaziPersonalni = (props) => {
                 labelPlacement="end"
             />}
 
-            <Box display = 'flex' flexDirection = 'row' justifyContent={"flex-end"}>
-                {!props.grupni && <Button  size='small' variant="outlined" onClick={zakaziTrening}>Potvrdi</Button>}
-                {props.grupni && <Button  size='small' variant="outlined" onClick={zakaziGrupniTrening}>Potvrdi</Button>}
-                <Button sx={{marginLeft:'2%'}} size='small' variant="outlined" onClick={props.onClose}>Otkazi</Button>
+            <Box display='flex' flexDirection='row' justifyContent={"flex-end"}>
+                {!props.grupni && <Button size='small' variant="outlined" onClick={zakaziTrening}>Potvrdi</Button>}
+                {props.grupni && <Button size='small' variant="outlined" onClick={zakaziGrupniTrening}>Potvrdi</Button>}
+                <Button sx={{ marginLeft: '2%' }} size='small' variant="outlined" onClick={props.onClose}>Otkazi</Button>
             </Box>
 
 

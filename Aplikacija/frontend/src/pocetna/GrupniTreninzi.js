@@ -20,6 +20,15 @@ const GrupniTreninzi = () => {
     }, [])
 
 
+
+    const prikaziTermin = (index) => {
+        if (index === kalendar)
+            setKalendar(-1)
+        else
+            setKalendar(index)
+    }
+
+
     return (
         <Box className="sveUsluge">
             {isLoading && <CircularProgress size='2rem' disableShrink />}
@@ -50,14 +59,14 @@ const GrupniTreninzi = () => {
                                 <Button fullWidth
                                     variant="contained"
                                     size="small"
-                                    onClick={() => { setKalendar(i) }}>Zakazite termin</Button>
+                                    onClick={() => { prikaziTermin(i) }}>Zakazite termin</Button>
                             </CardActions>
                         </Grid>
                     </Grid>
 
                     {kalendar === i
                         &&
-                        <Box sx={{ marginTop: '1%'}}>
+                        <Box sx={{ marginTop: '1%' }}>
                             <KalendarForma idUsluge={tr._id} />
                         </Box>
                     }
