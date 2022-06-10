@@ -854,8 +854,12 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
                 for (let i = 0; i < zahtevi.length; i++) {
                     const trening = await Trening.findOne({ _id: zahtevi[i].treningId })
                     if (trening != null && trening.trenerId == trener._id && trening.brojMaxClanova == 1) {
+<<<<<<< HEAD
 
                         vrati.push(trening)
+=======
+                        vrati.push({ trening: trening, idZahteva: zahtevi[i]._id })
+>>>>>>> f4d5125d61b4fd558d3b167ca6c10578af1a1452
                     }
                 }
 
@@ -865,14 +869,14 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
 
                 for (let i = 0; i < vrati.length; i++) {
 
-                    const korisnik = await Korisnik.findById(vrati[i].clanovi[0])
+                    const korisnik = await Korisnik.findById(vrati[i].trening.clanovi[0])
                     const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
 
                     //const zahtev = await Zahtev.find({ treningId: treninzi[i]._id })
 
-                    let datum = vrati[i].datum;
+                    let datum = vrati[i].trening.datum;
                     let samoDatum = datum.toLocaleDateString()
-                    let vremee = vrati[i].datum;
+                    let vremee = vrati[i].trening.datum;
                     let samovreme = vremee.toLocaleTimeString()
 
                     let tr = {
@@ -882,11 +886,12 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
                         brojtelefonaT: regK.brojTelefona,
                         datum: samoDatum,
                         vreme: samovreme,
-                        tip: vrati[i].tip,
-                        intenzitet: vrati[i].intenzitet,
-                        trajanje: vrati[i].trajanje,
-                        id: vrati[i]._id,
+                        tip: vrati[i].trening.tip,
+                        intenzitet: vrati[i].trening.intenzitet,
+                        trajanje: vrati[i].trening.trajanje,
+                        idTreninga: vrati[i].trening._id,
                         isOnline: vrati[i].isOnline,
+                        idZahteva: vrati[i].idZahteva,
                         status: "Odbijeno"
 
                     }
@@ -897,7 +902,7 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
 
             }
             else {
-                res.status(200).json("Zahtevi na cekanju nisu pronadjeni")
+                res.status(200).json("Odbijeni zahtevi nisu pronadjeni")
             }
 
 
@@ -913,9 +918,6 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
     }
 
 })
-
-
-
 
 
 
