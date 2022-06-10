@@ -269,61 +269,47 @@ router.get("/vidiUsluge", async (req, res) => {
 router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
 
     try {
-
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         //res.status(200).json(korisnik)
         if (korisnik != null) {
             const treninzi = await Trening.find({ $and: [{ clanovi: req.params.idKorisnika }, { brojMaxClanova: 1 }] })
 
-
             //const treninzi = await Trening.find( {clanovi:req.params.idKorisnika })
             if (treninzi.length != 0) {
-
-                let datumm=newDate()
                 //res.status(200).json(treninzi)
 
-
                 let vrati = []
-
                 for (let i = 0; i < treninzi.length; i++) {
-
-                    if(treninzi[i].datum>=datumm)
-                    {
                     const trener = await Trener.findById(treninzi[i].trenerId)
                     const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
-                    
-                    
                     const zahtev = await Zahtev.findOne({ treningId: treninzi[i]._id })
                     //res.status(200).json(zahtev);
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = treninzi[i].datum;
                     let samovreme = vremee.toLocaleTimeString()
+                    if (datum > new Date()) {
 
-                    if (zahtev!=null){
-                        let tr = {
+                        if (zahtev != null) {
+                            let tr = {
 
-                            imeT: regT.ime,
-                            prezimeT: regT.prezime,
-                            brojtelefonaT: regT.brojTelefona,
-                            datum: samoDatum,
-                            vremeee: samovreme,
-                            tip: treninzi[i].tip,
-                            intenzitet: treninzi[i].intenzitet,
-                            trajanje: treninzi[i].trajanje,
-                            id: treninzi[i]._id,
-                            isOnline: treninzi[i].isOnline,
-                            status: zahtev.status
-                            //status:treninzi[i].status
-    
+                                imeT: regT.ime,
+                                prezimeT: regT.prezime,
+                                brojtelefonaT: regT.brojTelefona,
+                                datum: samoDatum,
+                                vremeee: samovreme,
+                                tip: treninzi[i].tip,
+                                intenzitet: treninzi[i].intenzitet,
+                                trajanje: treninzi[i].trajanje,
+                                id: treninzi[i]._id,
+                                isOnline: treninzi[i].isOnline,
+                                status: zahtev.status
+                                //status:treninzi[i].status
+                            }
+                            //res.status(200).json(tr);
+                            vrati.push(tr)
                         }
-                        //res.status(200).json(tr);
-                        vrati.push(tr)
-
                     }
-                }
-                
-                    
                 }
                 res.status(200).json(vrati)
                 //res.status(200).json(zahtev)
@@ -331,13 +317,10 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
             else {
                 res.status(404).json("nema nijedan zakazani personalni trening")
             }
-
         }
         else {
             res.status(404).json("korisnik nije pronadjen")
         }
-
-
     }
     catch (err) {
         res.status(500).json(err);
