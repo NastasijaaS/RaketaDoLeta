@@ -12,6 +12,10 @@ const EvidencijaSchema = new mongoose.Schema({
 
     },
 
+    intenziteti:{
+        type:Array,
+        default:[]
+    },
     korisnikId:{
         type:String,
         required:true

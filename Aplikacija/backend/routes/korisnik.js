@@ -56,8 +56,12 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera", async (req, res)
             const zahtevSave = await noviZahtev.save()
             //res.status(200).json(zahtevSave)
             await trening.updateOne({ $push: { clanovi: req.params.idKorisnika } })// NE RADI??????????????????
+            //await trening.updateOne({$set:{idZahteva:noviZahtev._id}})
             await trenerKorisnika.updateOne({ $push: { listaTreninga: trening._id } })
-            await trenerKorisnika.updateOne({ $push: { listaKlijenata: req.params.idKorisnika } })
+            if (!trenerKorisnika.listaKlijenata.includes(req.params.idKorisnika)) {
+                await trenerKorisnika.updateOne({ $push: { listaKlijenata: korisnik._id } })
+
+            }
 
             res.status(200).json(trening);
         }
@@ -261,11 +265,9 @@ router.get("/vidiUsluge", async (req, res) => {
 
 })
 
-//pregledaj sve zakazane treninge NE ZNAM ZASTO NECE
 router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
 
     try {
-
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         //res.status(200).json(korisnik)
         if (korisnik != null) {
@@ -274,62 +276,59 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
             //const treninzi = await Trening.find( {clanovi:req.params.idKorisnika })
             if (treninzi.length != 0) {
                 //res.status(200).json(treninzi)
-
+                treninzi.sort((a, b) => new Date(a.datum) - new Date(b.datum));
 
                 let vrati = []
-
                 for (let i = 0; i < treninzi.length; i++) {
                     const trener = await Trener.findById(treninzi[i].trenerId)
                     const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
-
-                    const zahtev = await Zahtev.find({ treningId: treninzi[i]._id })
+                    const zahtev = await Zahtev.findOne({ treningId: treninzi[i]._id })
                     //res.status(200).json(zahtev);
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = treninzi[i].datum;
                     let samovreme = vremee.toLocaleTimeString()
+                    if (datum > new Date()) {
 
+                        if (zahtev != null) {
+                            let tr = {
 
-                    let tr = {
-
-                        imeT: regT.ime,
-                        prezimeT: regT.prezime,
-                        brojtelefonaT: regT.brojTelefona,
-                        datum: samoDatum,
-                        vremeee: samovreme,
-                        tip: treninzi[i].tip,
-                        intenzitet: treninzi[i].intenzitet,
-                        trajanje: treninzi[i].trajanje,
-                        id: treninzi[i]._id,
-                        isOnline: treninzi[i].isOnline,
-                        status: zahtev.status
-                        //status:treninzi[i].status
-
+                                imeT: regT.ime,
+                                prezimeT: regT.prezime,
+                                brojtelefonaT: regT.brojTelefona,
+                                datum: samoDatum,
+                                vremeee: samovreme,
+                                tip: treninzi[i].tip,
+                                intenzitet: treninzi[i].intenzitet,
+                                trajanje: treninzi[i].trajanje,
+                                id: treninzi[i]._id,
+                                isOnline: treninzi[i].isOnline,
+                                status: zahtev.status
+                                //status:treninzi[i].status
+                            }
+                            //res.status(200).json(tr);
+                            vrati.push(tr)
+                        }
                     }
-                    //res.status(200).json(tr);
-                    vrati.push(tr)
-
                 }
-
                 res.status(200).json(vrati)
                 //res.status(200).json(zahtev)
             }
             else {
                 res.status(404).json("nema nijedan zakazani personalni trening")
             }
-
         }
         else {
             res.status(404).json("korisnik nije pronadjen")
         }
-
-
     }
     catch (err) {
         res.status(500).json(err);
     }
 
 })
+
+
 
 //vidi sve zakazane treninge 
 router.get("/vidiZakazaneTreningeSve/:idKorisnika", async (req, res) => {
@@ -588,7 +587,7 @@ router.get("/vidiNapredak/:idKorisnika", async (req, res) => {
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if (korisnik != null) {
 
-            const napredak = await Napredak.findOne({ korisnikId: req.params.idKorisnika })
+            const napredak = await Napredak.findById(korisnik.napredakId)
 
             if (napredak != null) {
                 res.status(200).json(napredak)

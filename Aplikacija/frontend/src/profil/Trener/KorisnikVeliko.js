@@ -19,14 +19,16 @@ const KorisnikVeliko = (props) => {
     const [napredak, setNapredak] = useState(false)
     const [evidencija, setEvidencija] = useState(false)
 
-    const [nizNapredaka, setNizNapredaka] = useState([])
+    const [nizNapredaka, setNizNapredaka] = useState()
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+
+    const [prvi, setPrvi] = useState(false)
 
     useEffect(() => {
         const get = async () => {
             await
-                GetData("http://localhost:8800/api/trener/vidiNapredak/" + user.trenerId + '/' + k.idkorisnika, setNizNapredaka, setGreska, setIsLoading)
+                GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika, setNizNapredaka, setGreska, setIsLoading)
         }
         get()
     }, [])
@@ -47,24 +49,30 @@ const KorisnikVeliko = (props) => {
 
 
             <CardActions>
-                <Button onClick={() => setNapredak(true)}>Dodaj napredak</Button>
-                <Button onClick={() => setEvidencija(true)}>Dodaj evidenciju</Button>
+                {!nizNapredaka && <Button onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
+                {nizNapredaka && <Button onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
+
+
+                {/* <Button onClick={() => setEvidencija(true)}>Dodaj evidenciju</Button> */}
             </CardActions>
 
-            {
-                nizNapredaka.map((n) => (
-                    <CardContent key={n.id}>
-                        <Typography gutterBottom variant="h5" component="div">
 
-                        </Typography>
+            <div> BMI
 
-                    </CardContent>
-                ))
-            }
+                {/* {
+                    nizNapredaka.BMI.map((n) => (
+                        <CardContent key={n}>
+                            <Typography gutterBottom component="div">
+                                {n}
+                            </Typography>
 
+                        </CardContent>
+                    ))
+                } */}
+            </div>
 
             {napredak && <Modal onClose={() => { setNapredak(false) }}>
-                <DodajNapredak idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />
+                <DodajNapredak prvi={prvi} napredakId = {k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />
             </Modal>
             }
             {evidencija && <Modal onClose={() => { setEvidencija(false) }}>

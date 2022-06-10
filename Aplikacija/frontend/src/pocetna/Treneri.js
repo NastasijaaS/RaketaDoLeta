@@ -23,7 +23,7 @@ const Treneri = () => {
     const [login, setLogin] = useState(true)
 
     useEffect(() => {
-        const get = () => { GetData("http://localhost:8800/api/korisnik/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading) }
+        const get = async () => { await GetData("http://localhost:8800/api/korisnik/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading) }
         get()
     }, [])
 
@@ -92,11 +92,11 @@ const Treneri = () => {
 
                                 </Typography>
 
-                                <Button fullWidth variant="contained" onClick={() => { setZakazi(true); setTrenerId(tr.id);  }}>Zakazi trening</Button>
+                                <Button fullWidth variant="contained" onClick={() => { setZakazi(true); setTrenerId(tr.id); }}>Zakazi trening</Button>
 
                                 {zakazi && <Modal onClose={() => { setZakazi(false) }}>
 
-                                    {user ? <FormaZakaziPersonalni idTrenera={trenerId} onClose={() => { setZakazi(false);  }} /> : (login ? <div><LogIn />
+                                    {user ? <FormaZakaziPersonalni idTrenera={trenerId} onClose={() => { setZakazi(false); }} /> : (login ? <div><LogIn />
                                         <span>Nemate nalog:
                                             <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
                                         </span>

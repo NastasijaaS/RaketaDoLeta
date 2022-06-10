@@ -1,9 +1,11 @@
-import { useState, useContext } from "react";
+import { useState, useContext, Fragment } from "react";
 import { UserContext } from '../context/UserContext';
 import '../styles/userPocetna.css'
 import Korisnik from '../profil/ProfilKorisnik'
 import Uprava from '../profil/ProfilUprava'
 import Trener from '../profil/ProfilTrener'
+import { Box } from "@mui/material";
+
 
 const UserPocetna = () => {
 
@@ -12,12 +14,12 @@ const UserPocetna = () => {
     console.log(user)
 
     return (
-        <div className="profil">
+        <Box sx = {{minHeight: '100vh', minWidth: '100vw'}}>
             {/* <Korisnik/> */}
             {(user.tip == 'Korisnik' || !user.tip) && <Korisnik />}
             {user.tip == 'Trener' && <Trener />}
             {user.tip == 'Uprava' && <Uprava />}
-        </div>
+        </Box>
     )
 
 }

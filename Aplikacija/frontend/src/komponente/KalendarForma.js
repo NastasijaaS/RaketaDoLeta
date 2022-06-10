@@ -7,7 +7,7 @@ import Register from '../pocetna/RegisterForma'
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import Button from '@mui/material/Button';
-import { Box } from '@mui/material'
+import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { GetData } from './Fetch'
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -167,8 +167,8 @@ const KalendarForma = (props) => {
     });
 
     return (
-        <div className="kalendar">
-            <div className="dani-u-nedelji">
+        <Box className="cardCenter">
+            <Box>
                 <Box
                     sx={{
                         flexGrow: 1,
@@ -192,61 +192,120 @@ const KalendarForma = (props) => {
                     </Tabs>
                 </Box>
 
-            </div>
+            </Box>
 
-            {termin.status && <div className='termini'>
-                <div className='trTermini'>
-                    <span>Trener</span>
-                    <span>Vrene</span>
-                    <span>Trajanje</span>
-                    <span>Intenzitet</span>
-                    <span>Broj slobodnih mesta</span>
-                    <span className='nevidljiviSpan'>Zakazite</span>
-                </div>
+            {termin.status &&
 
-                {
-                    termini.map((t, i) => (
-                        <Box key={i} fullWidth className='termin'>
-                            <div>
-                                {t.imeT} {t.prezimeT}
-                            </div>
-                            <div>
-                                {t.vreme}
-                            </div>
-                            <div>
-                                {t.trajanje}
-                            </div>
-                            <div>
-                                {t.intenzitet}
-                            </div>
-                            <div>
-                                {t.brojslobodnih}
-                            </div>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                <TableHead>
+                    <TableRow>
+                    <TableCell>Trener</TableCell>
+                    <TableCell align="right">Vreme</TableCell>
+                    <TableCell align="right">Trajanje</TableCell>
+                    <TableCell align="right">Intenzitet</TableCell>
+                    <TableCell align="right">Mesta</TableCell>
+                    <TableCell align="right"></TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {termini.map((t, i) => (
+                    <TableRow
+                        key={i}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell component="th" scope="row">
+                        {t.imeT} {t.prezimeT}
+                        </TableCell>
+                        <TableCell align="right"> {t.vreme}</TableCell>
+                        <TableCell align="right">{t.trajanje}</TableCell>
+                        <TableCell align="right">{t.intenzitet}</TableCell>
+                        <TableCell align="right"> {t.brojslobodnih}</TableCell>
+                        <TableCell align="right">
+                                    <Button
+                                        size="small"
+                                        variant="contained"
+                                        value={t.vreme + " " + t.trajanje}
+                                        onClick={zakaziForma}>Zakazi
+                                    </Button>
 
-                            <Button
-                                size="small"
-                                variant="contained"
-                                value={t.vreme + " " + t.trajanje}
-                                onClick={zakaziForma}>Zakazi</Button>
-
-                        </Box>
+                        </TableCell>
+                    </TableRow>
                     ))}
-            </div>}
+                </TableBody>
+                </Table>
+            </TableContainer>
+}
 
+            {/* // <Box xs = {{width: '100%'}}>
+            //     <Grid container >
+            //         <Grid item xs = {2}>
+            //             <Typography component = "div" variant = "body1">Trener</Typography>
+            //         </Grid>
+            //         <Grid item xs = {2}>
+            //         <Typography component = "div" variant = "body1">Vreme</Typography>
+            //         </Grid>
+            //         <Grid item xs = {2}>
+            //         <Typography component = "div" variant = "body1">Trajanje</Typography>
+            //         </Grid>
+            //         <Grid item xs = {2}>
+            //         <Typography component = "div" variant = "body1">Intenzitet</Typography>
+
+            //         </Grid>
+            //         <Grid item xs = {2}>
+            //         <Typography component = "div" variant = "body1">Broj slobodnih mesta</Typography>
+
+            //         </Grid>
+            //         <Grid item xs = {2}>
+            //         <Typography component = "div" variant = "body1" className='nevidljiviSpan'>Zakazite</Typography>
+
+            //         </Grid>
+            //     </Grid>
+            //     {
+            //         termini.map((t, i) => (
+            //             <Box key={i} fullWidth className='termin'>
+            //                 <Typography component = "div" variant = "body2">
+            //                     {t.imeT} {t.prezimeT}
+            //                 </Typography>
+            //                 <Typography component = "div" variant = "body2">
+            //                     {t.vreme}
+            //                 </Typography>
+            //                 <Typography component = "div" variant = "body2">
+            //                     {t.trajanje}
+            //                 </Typography>
+            //                 <Typography component = "div" variant = "body2">
+            //                     {t.intenzitet}
+            //                 </Typography>
+            //                 <Typography component = "div" variant = "body2">
+            //                     {t.brojslobodnih}
+            //                 </Typography>
+
+            //                 <Button
+            //                     size="small"
+            //                     variant="contained"
+            //                     value={t.vreme + " " + t.trajanje}
+            //                     onClick={zakaziForma}>Zakazi</Button>
+
+            //             </Box>
+            //         ))}
+
+            // </Box>} */}
+
+            
             {
-                zakazi && !user && <Modal onClose={zakaziForma}>
+                    zakazi && !user && <Modal onClose={zakaziForma}>
 
-                    {login && <div><LogIn />
+                    {login && <Box><LogIn />
                         <span>Nemate nalog:
                             <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
                         </span>
-                    </div>}
+                    </Box>}
 
-                    {!login && <div><Register />
+                    {!login && <Box><Register />
                         <span>Imate nalog:
                             <Button size='small' onClick={() => { setLogin(true) }}>Prijavi se</Button>
                         </span>
-                    </div>}
+                    </Box>}
 
                 </Modal>
             }
@@ -254,11 +313,11 @@ const KalendarForma = (props) => {
             {
                 zakazi && user &&
                 <Modal onClose={zakaziForma}>
-                    <div>
+                    <Box>
                         {/* <span>Trener {props.imeTrenera + ' ' + props.prezimeTrenera}</span><br />
                         <span>Datum: </span><br /> */}
                         <p>naslov koji saljem</p>
-                    </div>
+                    </Box>
                     <FormaZakazi vreme={termin.vreme}
                         trajanje={termin.trajanje}
                         datum={termin.datum}
@@ -268,7 +327,7 @@ const KalendarForma = (props) => {
                 </Modal>
             }
 
-        </div >
+        </Box >
     )
 
 }

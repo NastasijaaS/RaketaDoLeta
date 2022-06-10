@@ -14,33 +14,37 @@ const Usluge = () => {
     const [prikaziOpis, setPrikaziOpis] = useState(-1)
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        const get = async () => {
+            await
+                GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        }
+        get()
     }, [])
 
     return (
         <div className="sveUsluge">
-            <Typography variant='h4' component ="div" align="center" gutterBottom>Cenovnik usluga</Typography>
+            <Typography variant='h4' component="div" align="center" gutterBottom>Cenovnik usluga</Typography>
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
             {greska && <p className='greska'>Doslo je do greske prilikom ucitavanje</p>}
 
             {nizUsluga.map((usl, i) => (
 
-                <Accordion key = {usl._id} sx = {{marginBottom :'2vh'}}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                >
-                    <Typography sx={{ width: '77%', flexShrink: 0 }}>
-                        {usl.naziv}
-                    </Typography>
-                    <Typography>Cena: {usl.cena}</Typography> 
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography gutterBottom>
-                        {usl.opis}
-                    </Typography>
-                    {/* <Button variant='contained' fullWidth>Cena:{usl.cena}</Button> */}
-                </AccordionDetails>
+                <Accordion key={usl._id} sx={{ marginBottom: '2vh' }}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                    >
+                        <Typography sx={{ width: '77%', flexShrink: 0 }}>
+                            {usl.naziv}
+                        </Typography>
+                        <Typography>Cena: {usl.cena}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography gutterBottom>
+                            {usl.opis}
+                        </Typography>
+                        {/* <Button variant='contained' fullWidth>Cena:{usl.cena}</Button> */}
+                    </AccordionDetails>
                 </Accordion>
 
                 // <div key={usl._id} >

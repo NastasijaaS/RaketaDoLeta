@@ -1,9 +1,11 @@
 import { Button } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
-import { GetData , PutMetoda} from "../../komponente/Fetch";
+import { GetData, PutMetoda } from "../../komponente/Fetch";
+import CircularProgress from '@mui/material/CircularProgress';
 
-const ZahteviTrenera = () => {
+const OdbijeniTreninzi = () => {
+
     const { user } = useContext(UserContext);
 
     const [zahtevi, setZahtevi] = useState([])
@@ -17,25 +19,24 @@ const ZahteviTrenera = () => {
     useEffect(() => {
         const get =
             async () => {
-                await GetData("http://localhost:8800/api/trener/vratiTreningePersonalniC/" + user.trenerId,
+                await GetData("http://localhost:8800/api/trener/vratiTreningePersonalniO/" + user.trenerId,
                     setZahtevi, setGreska, setIsLoading)
             }
 
         get()
     }, [refresh])
 
-
-    const potvrdiZahtev = async (id) => {
+    const obrisiTrening = async (id) => {
 
         console.log('potvridi')
         console.log(id)
 
 
         const zahtev = {
-            url: 'http://localhost:8800/api/trener/prihvatiTrening/' + id
+            url: 'http://localhost:8800/api/uprava/obrisiOdbijenTrening/' + id
         }
 
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        //   await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -44,27 +45,13 @@ const ZahteviTrenera = () => {
         setRefresh(!refresh)
     }
 
-    const odbijZahtev = async (id) => {
-        console.log('odbij')
-        console.log(id)
 
-
-        const zahtev = {
-            url: 'http://localhost:8800/api/trener/odbijTrening/' + id
-        }
-
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
-
-        if (greska !== false) {
-            alert('doslo je do greske')
-        }
-
-        setRefresh(!refresh)
-    }
 
     return (<div>
 
         <div><h1>nesto</h1></div>
+        {isLoading && <CircularProgress size='2rem' disableShrink />}
+
         {
             zahtevi.map((z, i) => (
                 <div key={i}>
@@ -75,13 +62,13 @@ const ZahteviTrenera = () => {
                     <p>Broj telefona: {z.brojtelefonaT}</p>
                     <p>Intenzitet: {z.intenzitet}</p>
                     <p>Tip: {z.tip}</p>
-                    <Button onClick={() => { odbijZahtev(z.idZahteva) }}>otkazi</Button>
-                    <Button onClick={() => { potvrdiZahtev(z.idZahteva) }}>potvrdi</Button>
+                    <Button onClick={() => { obrisiTrening(z.idZahteva) }}>obrisi</Button>
 
                 </div>
             ))
         }
 
     </div>)
+
 }
-export default ZahteviTrenera
+export default OdbijeniTreninzi

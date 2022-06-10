@@ -108,7 +108,11 @@ export default function Tabela(props) {
     }, [refresh])
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        const get = async () => {
+            await
+                GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        }
+        get()
     }, [])
 
     const [page, setPage] = useState(0);

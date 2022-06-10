@@ -31,6 +31,7 @@ import NavbarUprava from './komponente/NavbarUprava';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import KorisnikVeliko from './profil/Trener/KorisnikVeliko'
+import OdbijeniTreninzi from './profil/Trener/OdbijeniTreninzi';
 
 const darkTheme = createTheme({
   palette: {
@@ -74,10 +75,10 @@ function App() {
 
           {/* <Navbar check={mode} change={() => setMode(!mode)} /> */}
           {
-        (user && user.tip === 'Uprava' && <NavbarUprava />)
-         ||
-        ((user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar check = {mode} change = {()=>setMode(!mode)}/>)
-        }
+            (user && user.tip === 'Uprava' && <NavbarUprava />)
+            ||
+            ((user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar check={mode} change={() => setMode(!mode)} />)
+          }
 
           {/* {theme.palette.mode} mode
       <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
@@ -136,6 +137,7 @@ function App() {
             <Route path='/RDL/trener/:username/zahtevi' element={<ZahteviTrenera />} />
             <Route path='/RDL/trener/:username/treninzi' element={<TreninziTrenera />} />
             <Route path='/trener/korisnik/:ime' element={<KorisnikVeliko />} />
+            <Route path='/RDL/trener/odbijenizahtevi' element={<OdbijeniTreninzi />} />
 
           </Routes>
 

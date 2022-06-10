@@ -55,7 +55,7 @@ const KorisnikSchema = new mongoose.Schema({
     },
     napredakId:{
         type:String,
-        required:true
+        //required:true
     }
 
 },

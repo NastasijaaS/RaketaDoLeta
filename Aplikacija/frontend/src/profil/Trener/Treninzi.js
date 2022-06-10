@@ -4,11 +4,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DeleteMetoda, PutMetoda, GetData } from '../../komponente/Fetch'
 import { UserContext } from '../../context/UserContext';
 import Typography from '@mui/material/Typography';
-import { Card, CardMedia, CardContent, CardActionArea,IconButton, CardActions } from '@mui/material';
+import { Card, CardMedia, CardContent, CardActionArea,IconButton, CardActions, Grid} from '@mui/material';
 import Modal from '../../komponente/Modal';
 import FormaZakaziPersonalni from '../../komponente/FormaZakaziPersonalni';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Box } from '@mui/system';
+
 
 //vrati svoje treninge
 //zakazi grupni trening
@@ -50,9 +53,17 @@ const TreninziTrenera = () => {
         console.log(treninzi)
     }
 
-    const Kartica = ({ tr }) => {
-        return (
-            <Card sx={{ maxWidth: 345 }}>
+    return (
+    
+    <Box className = 'marginS'>
+        <Button variant = "outlined" onClick={() => setNoviTrening(true)}>Zakazi grupni trening</Button>
+        {noviTrening && <Modal onClose={() => { setNoviTrening(false) }}>
+            <FormaZakaziPersonalni idTrenera={user.trenerId} grupni={true} onClose={() => { setNoviTrening(false) }} />
+        </Modal>}
+        <Grid container spacing={2} >
+        {treninzi.map((tr) => (
+                <Grid item xs = {12} sm ={6} md ={4} lg = {3}>
+                <Card className = 'cardShadow' key = {tr.id} sx={{ maxWidth: 345 }} >
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Nada Jovanovic
@@ -61,7 +72,7 @@ const TreninziTrenera = () => {
                             Broj telefona
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                           {tr.datum} {tr.vreme}
+                        {tr.datum} {tr.vreme}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             Trajanje: {tr.trajanje}
@@ -77,37 +88,20 @@ const TreninziTrenera = () => {
                         </Typography>
                     </CardContent>
                     <CardActions sx ={{justifyContent:'flex-end'}}>
-                        <IconButton size = 'small' sx={{ p: 0, color: 'inherit' }}>
-                            <EditIcon  sx ={{fontSize: "1.5em" }} />
+                        <IconButton sx={{ p: 0, color: 'inherit' }}>
+                            <EditIcon  sx ={{fontSize: "1em" }} />
                         </IconButton>
-                        <IconButton size="large" sx={{ p: 0, color: 'red'}}>
-                            <CloseIcon sx ={{fontSize: "1.25em" }}/>
+                        <IconButton sx={{ p: 0, color: 'green' }}>
+                            <CheckCircleIcon  sx ={{fontSize: "1em" }} />
+                        </IconButton>
+                        <IconButton sx={{ p: 0, color: 'red'}}>
+                            <CloseIcon sx ={{fontSize: "1em" }}/>
                         </IconButton>    
                     </CardActions>                      
             </Card>
-        )
-    }
-
-    return (<div>
-        <Button onClick={() => setNoviTrening(true)}>Zakazi grupni trening</Button>
-        {noviTrening && <Modal onClose={() => { setNoviTrening(false) }}>
-            <FormaZakaziPersonalni idTrenera={user.trenerId} grupni={true} onClose={() => { setNoviTrening(false) }} />
-        </Modal>}
-        <div><h1>nesto</h1></div>
-
-        {treninzi.map((tr) => (
-
-            <Kartica tr={tr} key={tr._id} />
-
-            // <div key={tr._id}>
-
-            //     <p>{tr.tip}</p>
-            //     <p>{tr.intenzitet}</p>
-            //     <p>{tr.trajanje}</p>
-
-            //     <Button onClick={izmeniTrening}>izmeni trening</Button>
-            // </div>
+            </Grid>
         ))}
-    </div>)
+        </Grid>
+    </Box>)
 }
 export default TreninziTrenera
