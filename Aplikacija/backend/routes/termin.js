@@ -87,7 +87,22 @@ router.get("/vratiSlobodneTermineZaTreneraPoDatumu/:idTrenera/:datum", async (re
         const trener = await Trener.findById(req.params.idTrenera)
         if(trener!=null){
             const sviTermini=await Termin.find({trenerId:trener._id}, {datum:req.params.datum}, {slobodan: true})
-           res.status(200).json(sviTermini);
+            let sviTreninzi=[]
+            for (let i=0; i<sviTermini.length; i++){
+                const trening= await Trening.findById(sviTermini[i].treningId)
+                let vremee = sviTermini[i].vremePocetka;
+                let samovreme = vremee.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+
+                let vrati = {
+                    trener:trening.trenerId,
+                    vreme:samovreme,
+                    trajanje: "1h",
+                    intenzitet:trening.intenzitet 
+                }
+                sviTreninzi.push(vrati)
+            }
+           res.status(200).json(sviTreninzi);
         }
         else{
             res.status(404).json("trener nije pronadjen")
@@ -109,10 +124,12 @@ router.get("/vratiZauzeteTermineZaTreneraPoDatumu/:idTrenera/:datum", async (req
             let sviTreninzi=[]
             for (let i=0; i<sviTermini.length; i++){
                 const trening= await Trening.findById(sviTermini[i].treningId)
+                let vremee = sviTermini[i].vremePocetka;
+                let samovreme = vremee.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
                 let vrati = {
                     trener:trening.trenerId,
-                    vreme:sviTermini[i].vremePocetka,
+                    vreme:samovreme,
                     trajanje: "1h",
                     intenzitet:trening.intenzitet 
                 }
