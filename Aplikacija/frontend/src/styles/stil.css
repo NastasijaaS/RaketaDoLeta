@@ -20,3 +20,13 @@
 .marginForm{
     margin-top: 2%;
 }
+
+.imgTrProfil{
+    min-width: 100%;
+    height:50%;
+    object-fit:cover;
+}
+.lozinka{
+    padding-right: 0;
+    padding-left: 0;
+}

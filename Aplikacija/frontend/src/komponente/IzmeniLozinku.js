@@ -85,7 +85,6 @@ const IzmeniLozinku = (props) => {
 
             <Fragment>
                 <TextField
-
                     id="outlined-textarea"
                     label={tekst}
                     placeholder="Lozinka"
@@ -96,7 +95,7 @@ const IzmeniLozinku = (props) => {
                     inputRef={pass}
                 />
 
-                <Box>
+                <Box display = "flex" justifyContent={"center"}>
                     <Button variant="contained" size='small' sx={{ margin: "1%" }} onClick={OKonClick}>Ok</Button>
                     <Button variant="contained" size='small' sx={{ margin: "1%" }} onClick={otkaziIzmenu}>Otkazi</Button>
                 </Box>
@@ -105,12 +104,12 @@ const IzmeniLozinku = (props) => {
     }
 
     return (
-        <Container className='lozinka'>
+        <Box sx ={{ paddingLeft:'0', paddingRight: '0' }}>
 
             {!novaLozinka && <Lozinka tekst='Unesite staru lozinku' OKonClick={proveriLozinku} />}
             {novaLozinka && <Lozinka tekst='Unesite novu lozinku' OKonClick={izmeniLozinku} />}
 
-        </Container>
+        </Box>
     )
 }
 

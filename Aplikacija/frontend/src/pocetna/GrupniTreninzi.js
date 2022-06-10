@@ -2,9 +2,10 @@ import '../styles/usluge.css'
 import { useState, useEffect } from 'react'
 import { GetData } from '../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';
-import { Card, CardActions, CardContent, CardMedia, Grid, Typography, Button } from '@mui/material';
+import { Card, CardActions, CardContent, CardMedia, Grid, Typography, Button, Box } from '@mui/material';
 import KalendarForma from '../komponente/KalendarForma'
 import { Container } from '@mui/system';
+
 
 const GrupniTreninzi = () => {
     const [treninzi, setTreninzi] = useState([])
@@ -20,14 +21,14 @@ const GrupniTreninzi = () => {
 
 
     return (
-        <div className="sveUsluge">
+        <Box className="sveUsluge">
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
             {greska && <p className='greska'>Doslo je do greske prilikom ucitavanja</p>}
 
             {treninzi.map((tr, i) => (
-                <Card key={i} sx={{ marginBottom: '5%' }}>
-                    <Grid container >
+                <Card key={i}>
+                    <Grid container>
                         <Grid item xs={12} md={4}>
                             <CardMedia
                                 component="img"
@@ -56,9 +57,9 @@ const GrupniTreninzi = () => {
 
                     {kalendar === i
                         &&
-                        <Container>
+                        <Box sx={{ marginTop: '1%'}}>
                             <KalendarForma idUsluge={tr._id} />
-                        </Container>
+                        </Box>
                     }
 
                 </Card>
@@ -72,7 +73,7 @@ const GrupniTreninzi = () => {
 
             ))}
 
-        </div >
+        </Box >
     )
 }
 export default GrupniTreninzi
