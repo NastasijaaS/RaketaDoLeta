@@ -87,7 +87,7 @@ const ZakazaniTreninzi = () => {
             <Box className="zakazaniTreninzi">
                 <Typography gutterBottom variant="h4" component="div" textAlign="center">Personalni treninzi</Typography>
 
-                {isLoading && <CircularProgress size='2rem' disableShrink />}
+                {isLoading &&   <Box className = 'cardCenter' ><CircularProgress size='2rem' /> </Box>}
 
 
                 <Grid container spacing={2} >

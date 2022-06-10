@@ -99,9 +99,16 @@ const Trener = (props) => {
                             <Typography variant="body2" color="text.secondary">
                                 E-mail: {user.email}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography gutterBottom variant="body2" color="text.secondary">
                                 Broj telefona: {user.brojTelefona}
                             </Typography>
+                            <Typography variant="subtitle2" >
+                                    Sertifikovan za: {
+                                        user.sertifikati.map((s, i) => (
+                                            <Typography variant="body2" key={i}>{s}</Typography >
+                                        ))
+                                    }
+                                </Typography>
                         </CardContent>
                         <CardActions sx={{ justifyContent: 'center' }}>
                             {!izmena && <Button variant="contained" size="small" onClick={() => { setIzmena(true) }}>Promeni lozinku</Button>}

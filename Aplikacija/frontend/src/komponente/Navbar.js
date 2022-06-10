@@ -261,7 +261,7 @@ const Navbar = ({check, change}) => {
             }
             {user &&
               <Tooltip title="Account">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color:'white' }}>
                   <AccountCircleOutlinedIcon />
                 </IconButton>
               </Tooltip>

@@ -164,7 +164,7 @@ const Korisnik = (props) => {
     let navigate = useNavigate()
 
     return (
-        <Box sx={{ margin: "10vh 10vw" }}>
+        <Box className ='profil' sx = {{padding:"5% 5%"}}>
 
             {isLoading && <CircularProgress size='2rem' disableShrink />}
             {/* <Grid container spacing={2}> */}
@@ -186,13 +186,13 @@ const Korisnik = (props) => {
                 >Doslo je do greske prilikom ucitavanja ):</Alert>
             </Modal> */}
 
-            <Typography display='flex' mb={5} justifyContent="center" variant="h4" >{user.ime} {user.prezime}</Typography>
-            <Box className='profilKorisnika'>
-                <Card className="infoOProfilu" >
+            {/* <Typography display='flex' mb={5} justifyContent="center" variant="h4" >{user.ime} {user.prezime}</Typography> */}
+            <Box>
+                <Card className="infoOProfilu" sx = {{marginBottom: "2%"}}>
                     <CardContent>
                         {!user && <p>nema korisnika</p>}
 
-                        {/* <Typography gutterBottom variant = "h4">{user.ime} {user.prezime}</Typography> */}
+                        <Typography gutterBottom variant = "h4">{user.ime} {user.prezime}</Typography>
                         <Typography mb={2} variant="h6">Profil:</Typography>
 
                         <Typography mb={2}>Clanarina vazi do: {new Date(clanarina.vaziDo).toLocaleDateString()}</Typography>
@@ -212,7 +212,7 @@ const Korisnik = (props) => {
                         }
                     </CardActions>
                 </Card>
-                <Card className="ZeljeKorisnika">
+                <Card className="ZeljeKorisnika" sx ={{marginBottom: '10%'}}>
                     <CardContent>
                         <div className="zelje">
                             Godine:

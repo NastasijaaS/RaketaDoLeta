@@ -3,6 +3,8 @@ import { useState, useEffect, useContext } from 'react'
 import KalendarForma from '../komponente/KalendarForma';
 import { GetData } from '../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
+
 import { Card, CardMedia, CardContent, Typography, Button, Grid, filledInputClasses } from '@mui/material';
 import { Box } from '@mui/system';
 import { UserContext } from '../context/UserContext';
@@ -11,6 +13,7 @@ import FormaZakazi from '../komponente/FormaZakazi';
 import LogIn from './LoginForma';
 import Register from './RegisterForma';
 import FormaZakaziPersonalni from '../komponente/FormaZakaziPersonalni';
+
 
 
 const Treneri = () => {
@@ -53,8 +56,8 @@ const Treneri = () => {
 
     return (
         <div className="treneri">
-            {isLoading && <CircularProgress size='2rem' disableShrink />}
-
+            {isLoading &&   <Box className = 'cardCenter' ><CircularProgress size='2rem' /> </Box>}
+          
             {sviTreneri.map((tr, i) => (
                 <Card key={i} className="trener" sx={{ margin: '5vh 5vw' }}>
                     <Grid container >
