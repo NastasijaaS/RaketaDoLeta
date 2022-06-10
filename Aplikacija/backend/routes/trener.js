@@ -15,7 +15,7 @@ const Usluga = require("../models/Usluga");
 //dodaj korisnika
 router.post("/dodajKorisnika/:id/:korid", async (req, res) => {
 
-    
+
     try {
 
 
@@ -34,9 +34,9 @@ router.post("/dodajKorisnika/:id/:korid", async (req, res) => {
                         zeljeniProcenatProteina: req.body.zeljeniProcenatProteina,
                         brojGodina: req.body.brojGodina
                     }
-                  })
-            
-                
+                })
+
+
 
                 await kor.updateOne({ trenerId: trener._id })
                 await trener.updateOne({ $push: { listaKlijenata: kor._id } });
@@ -141,52 +141,50 @@ router.get("/vratiKorisnike/:id", async (req, res) => {
         if (trener != null) {
             const lista = trener.listaKlijenata;
 
-            if(lista!=null)
-            {
+            if (lista != null) {
                 //res.status(200).json(lista)
                 let vrati = []
-                for(let i=0;i<lista.length;i++)
-                {
+                for (let i = 0; i < lista.length; i++) {
                     const korisnik = await Korisnik.findById(lista[i])
                     //res.status(200).json(korisnik)
                     const regT = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
 
 
-                    let tr = 
+                    let tr =
                     {
-  
-                        imeK:regT.ime,
-                        prezimeK:regT.prezime,
-                        brojtelefonaK:regT.brojTelefona,
-                        email:regT.email,
-                        idkorisnika:lista[i],
-                        napredakId:korisnik.napredakId
- 
-                    
+
+                        imeK: regT.ime,
+                        prezimeK: regT.prezime,
+                        brojtelefonaK: regT.brojTelefona,
+                        email: regT.email,
+                        idkorisnika: lista[i],
+                        napredakId: korisnik.napredakId
+
+
                     }
                     vrati.push(tr)
-                    
+
                 }
-                  
-                  res.status(200).json(vrati)
-                  
-              }
-              else {
-                  res.status(404).json("nema nijednog korisnika")
-              }
-  
+
+                res.status(200).json(vrati)
+
             }
-          else {
-              res.status(404).json("trener nije pronadjen")
-          }
-  
-  
-      }
-      catch (err) {
-          res.status(500).json(err);
-      }
-  
-  })
+            else {
+                res.status(404).json("nema nijednog korisnika")
+            }
+
+        }
+        else {
+            res.status(404).json("trener nije pronadjen")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
 
 
 //zakazi grupni trening
@@ -205,13 +203,13 @@ router.post("/zakaziGrupniTrening/:id/:idUsluge", async (req, res) => {
                 //imeT:regT.ime,
                 //prezimeT:regT.prezime,
                 datum: req.body.datum,
-                vreme:req.body.vreme,
+                vreme: req.body.vreme,
                 nazivGrupnogTreninga: req.body.nazivGrupnogTreninga,
                 intenzitet: req.body.intenzitet,
-                trajanje:req.body.trajanje,
+                trajanje: req.body.trajanje,
                 brojMaxClanova: req.body.brojMaxClanova,
                 trenerId: trener._id,
-                uslugaId:req.params.idUsluge
+                uslugaId: req.params.idUsluge
 
             })
 
@@ -291,74 +289,75 @@ router.post("/zakaziGrupniTrening/:id/:idUsluge", async (req, res) => {
     
     })*/
 
- //vrati trening personalni na cekanju
- router.get("/vratiTreningePersonalniC/:id", async (req, res) => {
+//vrati trening personalni na cekanju
+router.get("/vratiTreningePersonalniC/:id", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.id);
-        if(trener!=null){
-            const zahtevi = await Zahtev.find({status:"Na cekanju"})
-            if(zahtevi.length!=null){
+        if (trener != null) {
+            const zahtevi = await Zahtev.find({ status: "Na cekanju" })
+            if (zahtevi.length != null) {
                 let vrati = [];
-                for(let i=0; i<zahtevi.length; i++){
-                    const trening = await Trening.findOne({_id:zahtevi[i].treningId})
-                    if (trening!=null && trening.trenerId==trener._id && trening.brojMaxClanova==1){
-                        vrati.push(trening)
+                for (let i = 0; i < zahtevi.length; i++) {
+                    const trening = await Trening.findOne({ _id: zahtevi[i].treningId })
+                    if (trening != null && trening.trenerId == trener._id && trening.brojMaxClanova == 1) {
+                        vrati.push({ trening: trening, idZahteva: zahtevi[i]._id })
                     }
                 }
 
                 let vratiSve = []
 
-                for (let i=0; i<vrati.length; i++){
+                for (let i = 0; i < vrati.length; i++) {
 
-                    const korisnik = await Korisnik.findById(vrati[i].clanovi[0])
-                        const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
-    
-                        //const zahtev = await Zahtev.find({ treningId: treninzi[i]._id })
+                    const korisnik = await Korisnik.findById(vrati[i].trening.clanovi[0])
+                    const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
 
-                        let datum = vrati[i].datum;
-                        let samoDatum = datum.toLocaleDateString()
-                        let vremee = vrati[i].datum;
-                        let samovreme = vremee.toLocaleTimeString()
-    
-                        let tr = {
-    
-                            imeT: regK.ime,
-                            prezimeT: regK.prezime,
-                            brojtelefonaT: regK.brojTelefona,
-                            datum: samoDatum,
-                            vreme: samovreme,
-                            tip: vrati[i].tip,
-                            intenzitet: vrati[i].intenzitet,
-                            trajanje: vrati[i].trajanje,
-                            id: vrati[i]._id,
-                            isOnline: vrati[i].isOnline,
-                            status:"Na cekanju"
-    
-                        }
-                        vratiSve.push(tr)
+                    //const zahtev = await Zahtev.find({ treningId: treninzi[i]._id })
+
+                    let datum = vrati[i].trening.datum;
+                    let samoDatum = datum.toLocaleDateString()
+                    let vremee = vrati[i].trening.datum;
+                    let samovreme = vremee.toLocaleTimeString()
+
+                    let tr = {
+
+                        imeT: regK.ime,
+                        prezimeT: regK.prezime,
+                        brojtelefonaT: regK.brojTelefona,
+                        datum: samoDatum,
+                        vreme: samovreme,
+                        tip: vrati[i].trening.tip,
+                        intenzitet: vrati[i].trening.intenzitet,
+                        trajanje: vrati[i].trening.trajanje,
+                        idTreninga: vrati[i].trening._id,
+                        isOnline: vrati[i].isOnline,
+                        idZahteva: vrati[i].idZahteva,
+                        status: "Na cekanju"
+
+                    }
+                    vratiSve.push(tr)
 
                 }
                 res.status(200).json(vratiSve)
 
             }
-            else{
+            else {
                 res.status(200).json("Zahtevi na cekanju nisu pronadjeni")
             }
-            
+
 
         }
-        else{
+        else {
             res.status(200).json("Trener nije pronadjen")
         }
-    
-    
-        }
-        catch (err) {
-            res.status(500).json(err);
-        }
-    
-    })
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
 
 //vrati svoje treninge Grupne
 router.get("/vratiTreningeGrupni/:id", async (req, res) => {
@@ -366,57 +365,57 @@ router.get("/vratiTreningeGrupni/:id", async (req, res) => {
     try {
         const trener = await Trener.findById(req.params.id);
         if (trener != null) {
-            const treninzi = await Trening.find({  $and: [{ trenerId: req.params.id }, { brojMaxClanova: { $gte: 2 } }] })
-    
-                if (treninzi.length != 0) {
-    
-    
-                    let vrati = []
-                    for (let i = 0; i < treninzi.length; i++) {
-                        let datum = treninzi[i].datum;
-                        let samoDatum = datum.toLocaleDateString()
-                        let vremee = treninzi[i].vreme;
-                        let samovreme = vremee.toLocaleTimeString()
-    
-                        let tr = {
-    
-                            datum: samoDatum,
-                            vreme: samovreme,
-                            nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
-                            intenzitet: treninzi[i].intenzitet,
-                            trajanje: treninzi[i].trajanje,
-                            id: treninzi[i]._id,
-                            isOnline: treninzi[i].isOnline
-    
-                        }
-                        vrati.push(tr)
+            const treninzi = await Trening.find({ $and: [{ trenerId: req.params.id }, { brojMaxClanova: { $gte: 2 } }] })
+
+            if (treninzi.length != 0) {
+
+
+                let vrati = []
+                for (let i = 0; i < treninzi.length; i++) {
+                    let datum = treninzi[i].datum;
+                    let samoDatum = datum.toLocaleDateString()
+                    let vremee = treninzi[i].vreme;
+                    let samovreme = vremee.toLocaleTimeString()
+
+                    let tr = {
+
+                        datum: samoDatum,
+                        vreme: samovreme,
+                        nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
+                        intenzitet: treninzi[i].intenzitet,
+                        trajanje: treninzi[i].trajanje,
+                        id: treninzi[i]._id,
+                        isOnline: treninzi[i].isOnline
+
                     }
-                    res.status(200).json(vrati)
-    
-    
+                    vrati.push(tr)
                 }
-                else {
-                    res.status(404).json("nema zakazane personalne treninge")
-                }
-    
+                res.status(200).json(vrati)
+
+
             }
             else {
-                res.status(404).json("trener nije pronadjen")
+                res.status(404).json("nema zakazane personalne treninge")
             }
-    
-    
+
         }
-        catch (err) {
-            res.status(500).json(err);
+        else {
+            res.status(404).json("trener nije pronadjen")
         }
-    
-    })
-                
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
 //prihvati trening
 router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
 
     try {
-        const zahtev = await Zahtev.findOneAndUpdate(req.params.idZahteva, { $set: { status: "Odobreno" } })
+        const zahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, { $set: { status: "Odobreno" } })
         res.status(200).json(zahtev)
     }
     catch (err) {
@@ -428,7 +427,7 @@ router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
 router.put("/odbijTrening/:idZahteva", async (req, res) => {
 
     try {
-        const zahtev = await Zahtev.findOneAndUpdate(req.params.idZahteva, { $set: { status: "Odbijeno" } })
+        const zahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, { $set: { status: "Odbijeno" } })
         res.status(200).json(zahtev)
     }
     catch (err) {
@@ -479,7 +478,7 @@ router.post("/dodajNapredak/:idTrenera/:idKorisnika", async (req, res) => {
             const korisnik = await Korisnik.findById(req.params.idKorisnika)
             if (korisnik != null) {
 
-               
+
 
                 const napredak = await new Napredak({
                     korisnikId: req.params.idKorisnika,
@@ -500,7 +499,7 @@ router.post("/dodajNapredak/:idTrenera/:idKorisnika", async (req, res) => {
             }
 
 
-    
+
             else {
                 res.status(404).json(req.params.idKorisnika + "  Korisnik nije pronadjen")
             }
@@ -521,17 +520,17 @@ router.post("/dodajNapredak/:idTrenera/:idKorisnika", async (req, res) => {
 router.put("/izmeniNapredak/:idNapredak", async (req, res) => {
 
     try {
-        
 
-                const napredak=await Napredak.findById(req.params.idNapredak)
-                //res.status(200).json(req.body)
-                //res.status(200).json(napredak)
-                if(napredak!=null)
-                {
 
-            
-                const napredaknovi=await napredak.updateOne({ $push: { 
-                    tezina:req.body.tezina ,
+        const napredak = await Napredak.findById(req.params.idNapredak)
+        //res.status(200).json(req.body)
+        //res.status(200).json(napredak)
+        if (napredak != null) {
+
+
+            const napredaknovi = await napredak.updateOne({
+                $push: {
+                    tezina: req.body.tezina,
                     tezinaMisica: req.body.tezinaMisica,
                     procenatProteina: req.body.procenatProteina,
                     procenatMasti: req.body.procenatMasti,
@@ -539,14 +538,15 @@ router.put("/izmeniNapredak/:idNapredak", async (req, res) => {
                     kostanaMasa: req.body.kostanaMasa,
                     procenatVode: req.body.procenatVode,
                     bodyAge: req.body.bodyAge
-                 } });
+                }
+            });
 
-                 res.status(200).json(napredaknovi)
+            res.status(200).json(napredaknovi)
 
 
-            }
-            
-        
+        }
+
+
 
         else {
             res.status(404).json("Napredak nije pronadjen")
@@ -677,10 +677,10 @@ router.get("/vidiEvidenciju/:idTrenera/:idKorisnika", async (req, res) => {
                     const evidencija = await Evidencija.findOne({ korisnikId: req.params.idKorisnika })
                     if (evidencija != null) {
                         let vrati = {
-                            imeKorisnika:regK.ime,
-                            prezimeKorisnika:regK.prezime,
-                            tipTreninga:evidencija.tipTreninga,
-                            intenzitet:evidencija.intenzitet
+                            imeKorisnika: regK.ime,
+                            prezimeKorisnika: regK.prezime,
+                            tipTreninga: evidencija.tipTreninga,
+                            intenzitet: evidencija.intenzitet
                         }
                         res.status(200).json(evidencija)
                     }
@@ -741,40 +741,40 @@ router.put("/izmeniTrening/:idTrenera/:idTreninga", async (req, res) => {
         res.status(500).json(err);
     }
 })
- //zakazi grupni trening
- /*router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
+//zakazi grupni trening
+/*router.post("/zakaziGrupniTrening/:id", async(req, res)=>{
 
-    try{
-        const trener=await Trener.findById(req.params.id)
-        if (trener!=null){
+   try{
+       const trener=await Trener.findById(req.params.id)
+       if (trener!=null){
 
-            const novitrening=await new Trening({
-                datum:req.body.datum,
-                tip:req.body.tip,
-                intenzitet:req.body.intenzitet,
-                brojClanova:req.body.brojClanova,
-                trener:trener._id
-            })
+           const novitrening=await new Trening({
+               datum:req.body.datum,
+               tip:req.body.tip,
+               intenzitet:req.body.intenzitet,
+               brojClanova:req.body.brojClanova,
+               trener:trener._id
+           })
 
-            const trening=await novitrening.save();
-            await trener.updateOne({$push:{listaTreninga: trening._id}});
-            res.status(200).json(trening);
-        }
-        else{
-            res.status(404).json("Trener nije pronadjen")
-        }
+           const trening=await novitrening.save();
+           await trener.updateOne({$push:{listaTreninga: trening._id}});
+           res.status(200).json(trening);
+       }
+       else{
+           res.status(404).json("Trener nije pronadjen")
+       }
 
-    }
-    catch(err){
-        res.status(500).json(err);
-    }
+   }
+   catch(err){
+       res.status(500).json(err);
+   }
 
 })*/
 //dodaj profilnu sliku
 router.put("/dodajSliku/:idTrenera", async (req, res) => {
 
     try {
-        const trener = await Trener.findOneAndUpdate(req.params.idTrenera, {$set:{slika:req.body.slika}})
+        const trener = await Trener.findOneAndUpdate(req.params.idTrenera, { $set: { slika: req.body.slika } })
         res.status(200).json(trener)
 
     }
@@ -788,7 +788,7 @@ router.put("/dodajSliku/:idTrenera", async (req, res) => {
 router.put("/dodajOpis/:idTrenera", async (req, res) => {
 
     try {
-        const trener = await Trener.findOneAndUpdate(req.params.idTrenera, {$set:{opis:req.body.opis}})
+        const trener = await Trener.findOneAndUpdate(req.params.idTrenera, { $set: { opis: req.body.opis } })
         res.status(200).json(trener)
 
     }
@@ -811,7 +811,7 @@ router.put("/obrisiSvogKlijenta/:id", async (req, res) => {
 
                 if (trener.listaKlijenata.includes(korisnik._id)) {
                     await trener.updateOne({ $pull: { listaKlijenata: korisnik._id } });
-                    await korisnik.updateOne({$set:{trenerId:null}})
+                    await korisnik.updateOne({ $set: { trenerId: null } })
                     res.status(200).json("Uspesno obrisan klijent");
 
                 }
@@ -841,71 +841,71 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.id);
-        if(trener!=null){
-            const zahtevi = await Zahtev.find({status:"Odbijeno"})
-            if(zahtevi.length!=null){
+        if (trener != null) {
+            const zahtevi = await Zahtev.find({ status: "Odbijeno" })
+            if (zahtevi.length != null) {
                 let vrati = [];
-                for(let i=0; i<zahtevi.length; i++){
-                    const trening = await Trening.findOne({_id:zahtevi[i].treningId})
-                    if (trening!=null && trening.trenerId==trener._id && trening.brojMaxClanova==1){
+                for (let i = 0; i < zahtevi.length; i++) {
+                    const trening = await Trening.findOne({ _id: zahtevi[i].treningId })
+                    if (trening != null && trening.trenerId == trener._id && trening.brojMaxClanova == 1) {
                         vrati.push(trening)
                     }
                 }
 
                 let vratiSve = []
 
-                for (let i=0; i<vrati.length; i++){
+                for (let i = 0; i < vrati.length; i++) {
 
                     const korisnik = await Korisnik.findById(vrati[i].clanovi[0])
-                        const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
-    
-                        //const zahtev = await Zahtev.find({ treningId: treninzi[i]._id })
+                    const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
 
-                        let datum = vrati[i].datum;
-                        let samoDatum = datum.toLocaleDateString()
-                        let vremee = vrati[i].datum;
-                        let samovreme = vremee.toLocaleTimeString()
-    
-                        let tr = {
-    
-                            imeT: regK.ime,
-                            prezimeT: regK.prezime,
-                            brojtelefonaT: regK.brojTelefona,
-                            datum: samoDatum,
-                            vreme: samovreme,
-                            tip: vrati[i].tip,
-                            intenzitet: vrati[i].intenzitet,
-                            trajanje: vrati[i].trajanje,
-                            id: vrati[i]._id,
-                            isOnline: vrati[i].isOnline,
-                            status:"Odbijeno"
-    
-                        }
-                        vratiSve.push(tr)
+                    //const zahtev = await Zahtev.find({ treningId: treninzi[i]._id })
+
+                    let datum = vrati[i].datum;
+                    let samoDatum = datum.toLocaleDateString()
+                    let vremee = vrati[i].datum;
+                    let samovreme = vremee.toLocaleTimeString()
+
+                    let tr = {
+
+                        imeT: regK.ime,
+                        prezimeT: regK.prezime,
+                        brojtelefonaT: regK.brojTelefona,
+                        datum: samoDatum,
+                        vreme: samovreme,
+                        tip: vrati[i].tip,
+                        intenzitet: vrati[i].intenzitet,
+                        trajanje: vrati[i].trajanje,
+                        id: vrati[i]._id,
+                        isOnline: vrati[i].isOnline,
+                        status: "Odbijeno"
+
+                    }
+                    vratiSve.push(tr)
 
                 }
                 res.status(200).json(vratiSve)
 
             }
-            else{
+            else {
                 res.status(200).json("Zahtevi na cekanju nisu pronadjeni")
             }
-            
+
 
         }
-        else{
+        else {
             res.status(200).json("Trener nije pronadjen")
         }
-    
-    
-        }
-        catch (err) {
-            res.status(500).json(err);
-        }
-    
-    })
 
-    
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
+
 
 
 

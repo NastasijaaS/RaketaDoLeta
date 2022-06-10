@@ -26,7 +26,9 @@ const NavbarTrener = () => {
     const pages = [
         { val: 'Profil', link: '/profil' },
         { val: 'Korisnici', link: `/RDL/trener/korisnici` },
-        { val: 'zahtevi', link: `/RDL/trener/${user.ime}/zahtevi` }
+        { val: 'zahtevi', link: `/RDL/trener/${user.ime}/zahtevi` },
+        { val: 'odbijeni trenizi', link: `/RDL/trener/odbijenizahtevi` }
+
     ];
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
