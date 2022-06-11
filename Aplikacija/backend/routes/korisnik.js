@@ -46,7 +46,7 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
 
 
             const novitrening = await new Trening({
-                datum: termin.datum,
+                datum: req.body.datum,
                 tip: req.body.tip,
                 intenzitet: req.body.intenzitet,
                 trajanje: req.body.trajanje,

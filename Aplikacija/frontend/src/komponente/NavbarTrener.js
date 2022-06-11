@@ -16,7 +16,7 @@ import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LoginIcon from '@mui/icons-material/Login';
 import { UserContext } from '../context/UserContext';
-
+import Zvonce from './Zvonce'
 
 
 const NavbarTrener = () => {
@@ -131,6 +131,11 @@ const NavbarTrener = () => {
 
                         </Menu>
                     </Box>
+
+
+
+
+
                     {/*ZA MOBILNI SREDINA */}
                     <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
@@ -152,8 +157,11 @@ const NavbarTrener = () => {
                         RDL
                     </Typography>
 
+                    
+                    {user && <Zvonce user={user.id} status={"Ukinuto"} />}
+
                     <Tooltip title="Account">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color:'white' }}>
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
                             <AccountCircleOutlinedIcon />
                         </IconButton>
                     </Tooltip>
@@ -179,15 +187,15 @@ const NavbarTrener = () => {
                             <Typography textAlign="center">Profil</Typography>
                         </MenuItem>
 
-                        <MenuItem onClick={() => { dispatch({ tip: "ODJAVI" }); handleCloseUserMenu(); navigate('../pocetna', {replace:true}) }}>
-                        <Typography textAlign="center">Odjavi se</Typography>
-                    </MenuItem>
+                        <MenuItem onClick={() => { dispatch({ tip: "ODJAVI" }); handleCloseUserMenu(); navigate('../pocetna', { replace: true }) }}>
+                            <Typography textAlign="center">Odjavi se</Typography>
+                        </MenuItem>
 
 
-                </Menu>
+                    </Menu>
 
-            </Toolbar>
-        </Container>
+                </Toolbar>
+            </Container>
         </AppBar >
     );
 };

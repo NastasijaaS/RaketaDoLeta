@@ -126,7 +126,7 @@ const Navbar = ({ check, change }) => {
 
 
 
-         {user && <Zvonce user = {user.korisnikId}/>}
+         {user && <Zvonce user = {user.id}/>}
 
 
 
@@ -234,12 +234,12 @@ const Navbar = ({ check, change }) => {
 
 
           <Box sx={{ flexGrow: 0 }}>
-            <Switch
+            {/* <Switch
               // defaultChecked
               color='default'
               onChange={change}
               checked={check}
-            />
+            /> */}
 
             {
               !user &&

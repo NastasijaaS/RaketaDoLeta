@@ -11,7 +11,7 @@ const Modal = (props) => {
     return (
         ReactDOM.createPortal(
             <Paper>
-                <Fragment>
+               
                     <div className="pozadina" onClick={props.onClose} />
 
                     <Box className="modal">
@@ -20,7 +20,7 @@ const Modal = (props) => {
                             {props.children}
                         </Box>
                     </Box>
-                </Fragment>
+                
             </Paper>,
             modalRoot
         )

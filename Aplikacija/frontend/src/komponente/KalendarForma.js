@@ -1,5 +1,5 @@
 import '../styles/kalendar.css'
-import { useState , Fragment} from 'react'
+import { useState, Fragment } from 'react'
 import FormaZakazi from './FormaZakazi'
 import Modal from './Modal'
 import LogIn from '../pocetna/LoginForma'
@@ -11,7 +11,8 @@ import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHea
 import { GetData, PutMetoda } from './Fetch'
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
+import RasporedGrupni from './RasporedGrupni'
+import RasporedTrener from './RasporedTrener'
 
 const termini1 = [{ trajanje: 60, vreme: 17 }, { trajanje: 45, vreme: 18 }]
 const termini2 = [{ trajanje: 45, vreme: 13 }, { trajanje: 30, vreme: 19 }]
@@ -75,36 +76,31 @@ const KalendarForma = (props) => {
 
 
 
-    //ovo mi cita iz baze
     const prikaziTermine = async (ev) => {
-        // handleChange(ev, ev.target.value)
-
-        // console.log(ev.target)
 
         const d = ev.target.id
-        let datumTreninga = new Date();
-        // datumTreninga.setDate(dateOD.getDate() + parseInt(d))
+        // let datumTreninga = new Date();
 
-        console.log(d)
+        //  console.log(d)
 
-        const idUsluge = props.idUsluge
+        //    const idUsluge = props.idUsluge
 
-        // console.log(props.idUsluge)
-        //  console.log('datum treninga ' + datumTreninga.toISOString())
 
         const datumProba = new Date(d)
 
         const datumZaSlanje = datumProba.toISOString()
 
+
+
         //  console.log('json  ' + datumZaSlanje)
 
-        if (props.idUsluge) {
+        // if (props.idUsluge) {
 
-            await GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${idUsluge}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
-        }
-        else {
-            await GetData(`http://localhost:8800/api/termin/vratiZauzeteTermineZaTreneraPoDatumu/${props.idTrenera}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
-        }
+        //     await GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${idUsluge}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
+        // }
+        // else {
+        //     await GetData(`http://localhost:8800/api/termin/vratiZauzeteTermineZaTreneraPoDatumu/${props.idTrenera}/${datumZaSlanje}`, setTermini, setGreska, setIsLoading)
+        // }
         // if (d == 2) {
         //     setTer(termini1)
         // }
@@ -112,46 +108,44 @@ const KalendarForma = (props) => {
         //     setTer(termini2)
         // }
 
-        //termine iz baze da ucitam
-        //   console.log(termini)
-        setTermin({ status: true, datum: { datumTreninga } })
+        setTermin({ status: true, datum: datumZaSlanje })
     }
 
-    const zakaziForma = (treningId) => {
-        console.log(treningId)
+    // const zakaziForma = (treningId) => {
+    //     console.log(treningId)
 
-        if (!user) {
-            setZakazi(!zakazi)
-            return
-        }
+    //     if (!user) {
+    //         setZakazi(!zakazi)
+    //         return
+    //     }
 
-        //korisnik/prijavaGrupniTrening/:idKorisnika/:idTreninga
+    //     //korisnik/prijavaGrupniTrening/:idKorisnika/:idTreninga
 
-        const zahtev = {
-            url: 'http://localhost:8800/api/korisnik/prijavaGrupniTrening/' + user.korisnikId + '/' + treningId
-        }
+    //     const zahtev = {
+    //         url: 'http://localhost:8800/api/korisnik/prijavaGrupniTrening/' + user.korisnikId + '/' + treningId
+    //     }
 
-        PutMetoda(zahtev, setData, setGreska, setIsLoading)
+    //     PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert(greska)
-        }
-        else {
-            alert('uspesno ste se prijavili za trening')
-        }
-        window.location.reload(false)
+    //     if (greska !== false) {
+    //         alert(greska)
+    //     }
+    //     else {
+    //         alert('uspesno ste se prijavili za trening')
+    //     }
+    //     window.location.reload(false)
 
-        // console.log(ev.target.value)
-        // const sat = ev.target.value
+    //     // console.log(ev.target.value)
+    //     // const sat = ev.target.value
 
-        // const [vreme, trajanje] = sat.split(' ')
+    //     // const [vreme, trajanje] = sat.split(' ')
 
-        // setZakazi(!zakazi)
+    //     // setZakazi(!zakazi)
 
-        // setTermin(termin => ({ ...termin, vreme: { vreme }, trajanje: { trajanje } }));
+    //     // setTermin(termin => ({ ...termin, vreme: { vreme }, trajanje: { trajanje } }));
 
-        //  console.log(termin)
-    }
+    //     //  console.log(termin)
+    // }
 
     const [value, setValue] = useState(0);
 
@@ -226,48 +220,50 @@ const KalendarForma = (props) => {
 
             {termin.status &&
 
-                <TableContainer component={Paper}>
-                    <Table 
-                    sx={{ minWidth: 650 }} size="small" >
-                        <TableHead>
-                            <TableRow>
-                                {!props.idTrenera && <TableCell>Trener</TableCell>}
-                                <TableCell align="right">Vreme</TableCell>
-                                <TableCell align="right">Trajanje</TableCell>
-                                <TableCell align="right">Intenzitet</TableCell>
-                                {!props.idTrenera && <TableCell align="right">Mesta</TableCell>}
-                                {!props.idTrenera && <TableCell align="right"></TableCell>}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {termini.map((t, i) => (
-                                <TableRow
-                                    key={i}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    {!props.idTrenera && <TableCell component="th" scope="row">
-                                        {t.imeT} {t.prezimeT}
-                                    </TableCell>}
-                                    <TableCell align="right"> {t.vreme}</TableCell>
-                                    <TableCell align="right">{t.trajanje}</TableCell>
-                                    <TableCell align="right">{t.intenzitet}</TableCell>
-                                    {!props.idTrenera &&
-                                        <Fragment>
-                                            <TableCell align="right"> {t.brojslobodnih}</TableCell>
-                                            <TableCell align="right">
-                                                <Button
-                                                    size="small"
-                                                    variant="contained"
-                                                    value={t.vreme + " " + t.trajanje}
-                                                    onClick={() => zakaziForma(t.treningID)}>Zakazi
-                                                </Button>
-                                            </TableCell>
-                                        </Fragment>}
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                props.idUsluge ? <RasporedGrupni idUsluge={props.idUsluge} datum={termin.datum} /> : <RasporedTrener idTrenera={props.idTrenera} datum={termin.datum} />
+
+                // <TableContainer component={Paper}>
+                //     <Table 
+                //     sx={{ minWidth: 650 }} size="small" >
+                //         <TableHead>
+                //             <TableRow>
+                //                 {!props.idTrenera && <TableCell>Trener</TableCell>}
+                //                 <TableCell align="right">Vreme</TableCell>
+                //                 <TableCell align="right">Trajanje</TableCell>
+                //                 <TableCell align="right">Intenzitet</TableCell>
+                //                 {!props.idTrenera && <TableCell align="right">Mesta</TableCell>}
+                //                 {!props.idTrenera && <TableCell align="right"></TableCell>}
+                //             </TableRow>
+                //         </TableHead>
+                //         <TableBody>
+                //             {termini.map((t, i) => (
+                //                 <TableRow
+                //                     key={i}
+                //                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                //                 >
+                //                     {!props.idTrenera && <TableCell component="th" scope="row">
+                //                         {t.imeT} {t.prezimeT}
+                //                     </TableCell>}
+                //                     <TableCell align="right"> {t.vreme}</TableCell>
+                //                     <TableCell align="right">{t.trajanje}</TableCell>
+                //                     <TableCell align="right">{t.intenzitet}</TableCell>
+                //                     {!props.idTrenera &&
+                //                         <Fragment>
+                //                             <TableCell align="right"> {t.brojslobodnih}</TableCell>
+                //                             <TableCell align="right">
+                //                                 <Button
+                //                                     size="small"
+                //                                     variant="contained"
+                //                                     value={t.vreme + " " + t.trajanje}
+                //                                     onClick={() => zakaziForma(t.treningID)}>Zakazi
+                //                                 </Button>
+                //                             </TableCell>
+                //                         </Fragment>}
+                //                 </TableRow>
+                //             ))}
+                //         </TableBody>
+                //     </Table>
+                // </TableContainer>
             }
 
             {/* // <Box xs = {{width: '100%'}}>
@@ -325,7 +321,7 @@ const KalendarForma = (props) => {
             // </Box>} */}
 
 
-            {
+            {/* {
                 zakazi && <Modal onClose={() => { setZakazi(false) }}>
 
                     {login && <Box><LogIn onClose={() => { setZakazi(false) }} />
@@ -341,7 +337,7 @@ const KalendarForma = (props) => {
                     </Box>}
 
                 </Modal>
-            }
+            } */}
 
             {/* {
                 zakazi && user &&

@@ -72,7 +72,8 @@ function App() {
 
   const { user } = useContext(UserContext);
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = window.matchMedia && window.matchMedia('refers-color-scheme: dark').matches
+  //useMediaQuery('(prefers-color-scheme: dark)');
 
   if (!sessionStorage.getItem('tema')) {
     sessionStorage.setItem('tema', prefersDarkMode ? 'dark' : 'light')
@@ -87,13 +88,13 @@ function App() {
   }
 
   const theme = mode === 'light' ? darkTheme : lightTheme
-  
+
   // createTheme({
   //   palette: {
   //     mode,
   //   },
   // })
-  
+
   // useMemo(
   //   () =>
   //     createTheme({
@@ -125,9 +126,9 @@ function App() {
           }
 
           <Fab onClick={toggleColorMode}>
-            <IconButton>
-              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton>
+            {/* <IconButton> */}
+            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            {/* </IconButton> */}
           </Fab>
 
 

@@ -11,42 +11,13 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import IzmeniLozinku from '../komponente/IzmeniLozinku'
 import KalendarForma from '../komponente/KalendarForma';
 import FormaDodajTermin from '../komponente/FormaDodajTermin';
-
-//izmeni korisnika
-
-
-//obrisi klijenta
-//get klijente
-//napredak za klijenta
-
-//zakazi grupni trening
-//get treninzi
-
-//prihvati trening
-//dodaj evidenciju
-//pogledaj evidenciju
-
-//izmeni trening
-//zakazi grupni trening
-
-//dodaj profilnu sliku
-//dodaj opis
-
-
+import NapraviGrupni from '../komponente/NapraviGrupni'
 
 const Trener = (props) => {
 
     const { user } = useContext(UserContext);
-
-    const [value, setValue] = React.useState(0);
-
+    const [value, setValue] = useState(0);
     const [izmena, setIzmena] = useState(false)
-
-    const promeniTab = (event, newValue) => {
-        setValue(newValue);
-    };
-
-
     const [treninzi, setTreninzi] = useState([])
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -57,29 +28,12 @@ const Trener = (props) => {
 
 
     useEffect(() => {
-        const get = async () => { await GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading) }
-
-        get()
+        GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading)
     }, [])
 
-
-    const dodajTrening = () => {
-        console.log(treninzi)
-
-        //router.post("/zakaziGrupniTrening/:id",
-        /** imeT:regT.ime,
-                prezimeT:regT.prezime,
-                datum: req.body.datum,
-                nazivGrupnogTreninga: req.body.nazivGrupnogTreninga,
-                intenzitet: req.body.intenzitet,
-                trajanje:req.body.trajanje,
-                brojMaxClanova: req.body.brojMaxClanova,
-                trenerId: trener._id */
-    }
-
-    const izmeniTrening = () => {
-        console.log(treninzi)
-    }
+    const promeniTab = (event, newValue) => {
+        setValue(newValue);
+    };
 
 
     return (
@@ -94,7 +48,7 @@ const Trener = (props) => {
                             image={user.slika ? user.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
                             alt={user.ime}
                             className='imgTrProfil'
-                        // image="https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg
+
                         />
                         <CardContent sx={{ flexGrow: '1' }}>
                             <Typography gutterBottom variant="h5" component="div">
@@ -134,14 +88,15 @@ const Trener = (props) => {
                         {noviTrening
                             &&
                             <Modal onClose={() => { setNoviTrening(false) }}>
-                                <FormaZakaziPersonalni idTrenera={user.trenerId} grupni={true} onClose={() => { setNoviTrening(false) }} />
+                                <NapraviGrupni idTrenera={user.trenerId} grupni={true} onClose={() => { setNoviTrening(false) }} />
                             </Modal>}
 
                         {noviTermini
                             &&
                             <Modal onClose={() => { setNoviTermini(false) }}>
-                               <FormaDodajTermin idTrenera = {user.trenerId} onClose={() => { setNoviTermini(false) }} />
-                            </Modal>}
+                                <FormaDodajTermin idTrenera={user.trenerId} onClose={() => { setNoviTermini(false) }} />
+                            </Modal>
+                        }
 
                         <Grid container spacing={2} >
                             {treninzi.map((tr) => (

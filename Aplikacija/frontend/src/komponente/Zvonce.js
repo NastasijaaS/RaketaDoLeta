@@ -10,15 +10,15 @@ import { GetData } from './Fetch';
 const notifications = [
     {
         id: 0,
-        label: 'First notification'
+        poruka: 'vas trening za datum je odobren'
     },
     {
         id: 1,
-        label: 'Second notification'
+        poruka: 'vas trening za datum je odbijen'
     },
 ];
 
-const Zvonce = ({ iconColor, user }) => {
+const Zvonce = ({ iconColor, user, status }) => {
 
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -29,22 +29,22 @@ const Zvonce = ({ iconColor, user }) => {
 
 
     useEffect(() => {
-        const get = async () => {
-            await GetData('http://localhost:8800/api/korisnik/vidiZahteve/' + user, setData, setGreska, setIsLoading)
-            console.log(refresh)
-        }
-        get()
+        // if (status) {
+        //     GetData('http://localhost:8800/api/korisnik/vidiZahteve/' + user + '/' + status, setData, setGreska, setIsLoading)
+        // }
+        // else {
+            GetData('http://localhost:8800/api/korisnik/vidiZahteveZaKorisnika/' + user, setData, setGreska, setIsLoading)
+        // }
     }, [refresh])
 
-    setInterval(() => {
-        setRefresh(!refresh)
-
-    }, 10000);
+    // setInterval(() => {
+    //     setRefresh(!refresh)
+    // }, 10000);
 
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
-    const newNotifications = `You have ${notifications.length} new notifications!`;
+    const newNotifications = `You have ${data.length} new notifications!`;
     const noNotifications = 'No new notifications';
 
     const handleOpen = (event) => {
@@ -58,14 +58,14 @@ const Zvonce = ({ iconColor, user }) => {
 
     return (
         <div>
-            <Tooltip title={notifications.length ? newNotifications : noNotifications}>
+            <Tooltip title={data.length ? newNotifications : noNotifications}>
                 <IconButton
                     color={iconColor}
-                    onClick={notifications.length ? handleOpen : null}
-                    anchorEl={anchorEl}
+                    onClick={data.length ? handleOpen : null}
+                //  anchorEl={anchorEl}
                 >
                     <Badge
-                        badgeContent={notifications.length}
+                        badgeContent={data.length}
                         color="error"
                     >
                         <NotificationsIcon />
@@ -73,12 +73,12 @@ const Zvonce = ({ iconColor, user }) => {
                 </IconButton>
             </Tooltip>
 
-            {/* <Obavestenja
+            <Obavestenja
                 open={open}
                 anchorEl={anchorEl}
                 handleClose={handleClose}
-                menuItems={notifications}
-            /> */}
+                menuItems={data}
+            />
 
         </div>
     )
