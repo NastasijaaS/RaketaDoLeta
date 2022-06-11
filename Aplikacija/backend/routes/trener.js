@@ -422,10 +422,19 @@ router.get("/vratiTreningeGrupni/:id", async (req, res) => {
 router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
 
     try {
-        const zahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, { $set: [{ status: "Odobreno" }, {poruka: "Zahtev je odobren"}] })
+        //const zahtev = await Zahtev.findById(req.params.idZahteva)
+        //const trening = await Trening.findById(zahtev.treningId)
+        //res.status(200).json(termin)
         const trening = await Trening.findById(zahtev.treningId)
+        const noviZahtev = await Zahtev.updateOne({_id:req.params.idZahteva}, {
+            $set:{
+                poruka: "Postovani, vas trening za " + trening.datum + " je odobren",
+                status:"Odobreno"
+            }
+        })
+        
         //const termin= await Termin.find({treningId:trening._id})
-        const azuriranTermin = await Termin.updateOne({treningId:trening._id}, {
+        /*const azuriranTermin = await Termin.updateOne({trenerId:trening.trenerId}, {
             $set:
             {
                 slobodan:false,
@@ -435,7 +444,7 @@ router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
         })
 
 
-        res.status(200).json(azuriranTermin)
+        /*res.status(200).json(azuriranTermin)*/
     }
     catch (err) {
         res.status(500).json(err);

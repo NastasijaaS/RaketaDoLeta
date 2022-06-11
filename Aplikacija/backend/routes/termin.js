@@ -99,6 +99,7 @@ router.get("/vratiSlobodneTermineZaTreneraPoDatumu/:idTrenera/:datum", async (re
 
                 let vrati = {
                    vreme: samovreme,
+                   idTermina:sviTermini[i]._id
                 }
                 sviTerminii.push(vrati)
             }
@@ -119,8 +120,9 @@ router.get("/vratiZauzeteTermineZaTreneraPoDatumu/:idTrenera/:datum", async (req
 
     try {
         const trener = await Trener.findById(req.params.idTrenera)
-        if (trener != null) {
-            const sviTermini = await Termin.find({ trenerId: trener._id }, { datum: req.params.datum }, { slobodan: false })
+        if (trener != null) 
+        {
+            const sviTermini = await Termin.find({ $and: [{ trenerId: trener._id }, { datum: req.params.datum }, { slobodan: false }] })
             let sviTreninzi = []
             for (let i = 0; i < sviTermini.length; i++) {
                 const trening = await Trening.findById(sviTermini[i].treningId)

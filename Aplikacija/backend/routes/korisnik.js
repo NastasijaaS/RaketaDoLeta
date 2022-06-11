@@ -27,7 +27,7 @@ router.put("/izmeniParametre/:idKorisnika", async (req, res) => {
 
 
 //zakazi personalni trening
-router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera", async (req, res) => {
+router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async (req, res) => {
 
     try {
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
@@ -62,6 +62,14 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera", async (req, res)
                 await trenerKorisnika.updateOne({ $push: { listaKlijenata: korisnik._id } })
 
             }
+            const azuriranTermin = await Termin.updateOne({_id:req.params.idTermina}, {
+                $set:
+                {
+                    slobodan:false,
+                    treningId:trening._id,
+                    trenerId: trenerKorisnika._id
+                }
+            })
 
             res.status(200).json(trening);
         }
