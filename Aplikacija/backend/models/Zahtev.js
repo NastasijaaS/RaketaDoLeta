@@ -5,7 +5,7 @@ const ZahtevSchema = new mongoose.Schema({
     treningId:{
         type:String
     },
-    korisnikId:{
+    registrovaniKorisnikId:{
         type:String
     },
     status:{

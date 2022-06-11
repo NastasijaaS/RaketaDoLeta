@@ -708,14 +708,14 @@ router.get("/vidiClanarinu/:idKorisnika", async (req, res) => {
 
 })
 
-router.get("/vidiZahteve/:idKorisnika", async (req, res) => {
+router.get("/vidiZahteve/:idRegKorisnika", async (req, res) => {
 
     try {
 
-        const korisnik = await Korisnik.findById(req.params.idKorisnika)
-        if (korisnik != null) {
+        const registrovaniKorisnik = await RegistrovaniKorisnik.findById(req.params.idRegKorisnika)
+        if (registrovaniKorisnik != null) {
 
-            const zahtev = await Zahtev.find({korisnikId:korisnik._id})
+            const zahtev = await Zahtev.find({registrovaniKorisnikId:registrovaniKorisnik._id})
 
             if (zahtev != null) {
                 res.status(200).json(zahtev)
