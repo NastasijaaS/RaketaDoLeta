@@ -629,6 +629,56 @@ router.get("/vidiNapredak/:idKorisnika", async (req, res) => {
     }
 
 })
+router.get("/vidiNapredakPoslednji/:idKorisnika", async (req, res) => {
+
+    try {
+
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
+        if (korisnik != null) {
+
+            const napredak = await Napredak.findById(korisnik.napredakId)
+            //res.status(200).json(napredak)
+
+            if (napredak != null) {
+                let vrati = []
+                let tr = {
+                    tezina: napredak.tezina.slice(-1),
+                    tezinaMisica: napredak.tezinaMisica.slice(-1),
+                    procenatProteina: napredak.procenatProteina.slice(-1),
+                    procenatMasti: napredak.procenatMasti.slice(-1),
+                    BMI: napredak.BMI.slice(-1),
+                    kostanaMasa: napredak.kostanaMasa.slice(-1),
+                    procenatVode: napredak.procenatVode.slice(-1),
+                    bodyAge: napredak.bodyAge.slice(-1),
+                    datum:napredak.datum.slice(-1)
+
+
+
+                }
+                vrati.push(tr)
+                res.status(200).json(vrati)
+            
+            }
+            
+        
+            else {
+                res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+            }
+        
+        }
+        
+        
+        else {
+            res.status(404).json("korisnik nije pronadjen")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
 
 //vidi clanarinu
 router.get("/vidiClanarinu/:idKorisnika", async (req, res) => {

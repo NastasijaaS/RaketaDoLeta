@@ -378,7 +378,8 @@ router.get("/vratiTreningeGrupni/:id", async (req, res) => {
 
 
                 let vrati = []
-                for (let i = 0; i < treninzi.length; i++) {
+                for (let i = 0; i < treninzi.length; i++)
+                {
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = treninzi[i].vreme;
