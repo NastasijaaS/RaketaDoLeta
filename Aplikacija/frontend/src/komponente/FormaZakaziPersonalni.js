@@ -13,6 +13,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Checkbox } from "@mui/material";
 import Greska from './Alert'
 import { PostMetoda, GetData } from './Fetch'
+import hrLocale from 'date-fns/locale/hr'
 
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
@@ -41,22 +42,37 @@ const FormaZakaziPersonalni = (props) => {
     const [treninzi, setTreninzi] = useState([])
     const [uslugaId, setUslugaId] = useState(0)
 
+    const [startDate, setStartDate] = useState(new Date());
+    const [date, setDate] = useState(new Date());
+    const [vreme, setVreme] = useState(new Date(0, 0, 0, 8));
+    const [usluga, setUsluga] = useState('');
+    const [termin, setTermin] = useState({ vreme: "", idTermina: "" });
+    const [termini, setTermini] = useState([1])
+
+    let idTermina = ''
     useEffect(() => {
-      //  const get = () => { GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) }
-      //  get()
+        //  const get = () => { GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) }
+        //  get()
     }, [])
 
     const zakaziTrening = async (ev) => {
+        console.log(termin.vreme.idTermina)
+
 
         if (tipTreninga === '' || intenzitetTreninga === '' || trajanjeTreninga === '') {
             setError('Morate uneti sve podatke')
             return
         }
 
-        const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), vreme.getHours(), vreme.getMinutes())
+        // console.log(new Date(date.getFullYear() + ' ' + date.getMonth() + ' ' + date.getDate() + ' ' + termin))
+
+        // const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), vreme.getHours(), vreme.getMinutes())
+
+        const datum = (new Date(date.toDateString() + ' ' + termin.vreme.vreme))
+       // console.log(date.toDateString()+termin)
 
         const zahtev = {
-            url: 'http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId + '/' + props.idTrenera,
+            url: 'http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId + '/' + props.idTrenera + '/' + termin.vreme.idTermina,
             body: {
                 // trenerId: props.idTrenera,
                 datum: datum,
@@ -66,7 +82,8 @@ const FormaZakaziPersonalni = (props) => {
                 isOnline: isOnline
             }
         }
-
+// console.log(datum)
+// return
         await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
@@ -83,11 +100,6 @@ const FormaZakaziPersonalni = (props) => {
     const onlineTrening = (ev) => {
         isOnline = ev.target.checked
     }
-
-    const [startDate, setStartDate] = useState(new Date());
-    const [date, setDate] = useState(new Date());
-    const [vreme, setVreme] = useState(new Date(0, 0, 0, 8));
-    const [usluga, setUsluga] = useState('');
 
     const DropDown = ({ labela, set, niz, value }) => {
         return (<FormControl sx={{ width: '100%' }}>
@@ -150,15 +162,13 @@ const FormaZakaziPersonalni = (props) => {
         }
     }
 
-    const [termini, setTermini] = useState([])
-
-
 
     const nadjiTermin = async (date) => {
-     //   console.log(new Date(date.toDateString()))
-
+        //   console.log(new Date(date.toDateString()))
+        setTermin({ vreme: "", idTermina: "" })
+        setTermini([])
         const datum = new Date(date.toDateString())
-        
+
         await GetData(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`,
             setTermini, setGreska, setIsLoading)
     }
@@ -180,7 +190,8 @@ const FormaZakaziPersonalni = (props) => {
                     value={date}
                     onChange={(newValue) => {
                         setDate(newValue);
-                        nadjiTermin(newValue)
+                        nadjiTermin(newValue);
+
                     }}
                     minDate={new Date()}
                     maxDate={datumDo}
@@ -188,7 +199,7 @@ const FormaZakaziPersonalni = (props) => {
                     focused
                 />
             </LocalizationProvider>
-            <LocalizationProvider dateAdapter={AdapterDateFns} >
+            {props.grupni && <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={hrLocale}>
 
                 <Stack spacing={3}>
                     <TimePicker
@@ -205,7 +216,32 @@ const FormaZakaziPersonalni = (props) => {
                     />
 
                 </Stack>
-            </LocalizationProvider>
+            </LocalizationProvider>}
+
+
+            {!props.grupni &&
+
+                <FormControl sx={{ width: '100%' }}>
+                    <InputLabel>vreme</InputLabel>
+                    <Select
+                        label='vreme'
+                        value={termin.vreme}
+                        size='small'
+                        onChange={(ev) => {
+                            setTermin({ vreme: ev.target.value })
+                            //   console.log(ev.target.value)
+                        }}
+                    >
+                        {
+                            termini.map((n, i) => (
+                                <MenuItem key={i} value={n}>{n.vreme}</MenuItem>
+                            ))
+                        }
+
+                    </Select>
+                </FormControl>
+
+            }
 
             {!props.grupni &&
                 <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />

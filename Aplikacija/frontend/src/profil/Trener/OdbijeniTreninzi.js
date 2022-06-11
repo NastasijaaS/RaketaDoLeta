@@ -26,7 +26,7 @@ const OdbijeniTreninzi = () => {
         get()
     }, [refresh])
 
-    const obrisiTrening = async (id) => {
+    const obrisiTrening =  (id) => {
 
         console.log('potvridi')
         console.log(id)
@@ -36,7 +36,7 @@ const OdbijeniTreninzi = () => {
             url: 'http://localhost:8800/api/uprava/obrisiOdbijenTrening/' + id
         }
 
-        //   await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+         PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')

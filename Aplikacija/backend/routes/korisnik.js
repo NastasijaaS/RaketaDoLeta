@@ -9,6 +9,8 @@ const Usluga = require("../models/Usluga");
 const Zahtev = require("../models/Zahtev.js");
 const RegistrovaniKorisnik = require("../models/RegistrovaniKorisnik")
 
+const Termin = require("../models/Termin")
+
 const Sertifikat = require("../models/Sertifikat.js");
 const Clanarina = require("../models/Clanarina.js");
 
@@ -62,12 +64,12 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
                 await trenerKorisnika.updateOne({ $push: { listaKlijenata: korisnik._id } })
 
             }
-            const azuriranTermin = await Termin.updateOne({_id:req.params.idTermina}, {
+            const azuriranTermin = await Termin.findByIdAndUpdate(req.params.idTermina, {
                 $set:
                 {
                     slobodan:false,
                     treningId:trening._id,
-                    trenerId: trenerKorisnika._id
+                    // trenerId: trenerKorisnika._id
                 }
             })
 
@@ -281,10 +283,14 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
         if (korisnik != null) {
             const treninzi = await Trening.find({ $and: [{ clanovi: req.params.idKorisnika }, { brojMaxClanova: 1 }] })
 
+          
+
             //const treninzi = await Trening.find( {clanovi:req.params.idKorisnika })
             if (treninzi.length != 0) {
                 //res.status(200).json(treninzi)
                 treninzi.sort((a, b) => new Date(a.datum) - new Date(b.datum));
+
+               
 
                 let vrati = []
                 for (let i = 0; i < treninzi.length; i++) {
@@ -292,11 +298,13 @@ router.get("/vidiZakazaneTreningePersonalni/:idKorisnika", async (req, res) => {
                     const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
                     const zahtev = await Zahtev.findOne({ treningId: treninzi[i]._id })
                     //res.status(200).json(zahtev);
+                   
+
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = treninzi[i].datum;
                     let samovreme = vremee.toLocaleTimeString(['hr-HR'], {hour: '2-digit', minute:'2-digit'});
-
+                   
                     if (datum > new Date()) {
 
                         if (zahtev != null) {
