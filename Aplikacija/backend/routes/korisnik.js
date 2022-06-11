@@ -41,8 +41,12 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
 
             const trenerKorisnika = await Trener.findById(req.params.idTrenera);
 
+            const termin = await Termin.findById(req.params.idTermina)
+
+
+
             const novitrening = await new Trening({
-                datum: req.body.datum,
+                datum: termin.datum,
                 tip: req.body.tip,
                 intenzitet: req.body.intenzitet,
                 trajanje: req.body.trajanje,
@@ -60,7 +64,7 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
             const zahtevSave = await noviZahtev.save()
 
             const evidencija=await Evidencija.findOne({korisnikId:korisnik._id})
-            console.log(evidencija)
+            console.log(noviZahtev)
             if(evidencija===null){
                 const novaEv = await new Evidencija({
                     korisnikId:korisnik._id,
@@ -730,6 +734,36 @@ router.get("/vidiZahteve/:idRegKorisnika/:status", async (req, res) => {
         if (registrovaniKorisnik != null) {
 
             const zahtev = await Zahtev.find({$and:[{registrovaniKorisnikId:registrovaniKorisnik._id}, {status:req.params.status}]})
+            console.log(zahtev)
+            if (zahtev != null) {
+                res.status(200).json(zahtev)
+            }
+            else {
+                res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+            }
+
+        }
+        else {
+            res.status(404).json("korisnik nije pronadjen")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
+router.get("/vidiZahteveZaKorisnika/:idRegKorisnika", async (req, res) => {
+
+    try {
+
+        const registrovaniKorisnik = await RegistrovaniKorisnik.findById(req.params.idRegKorisnika)
+        console.log(req.params.idRegKorisnika)
+        if (registrovaniKorisnik != null) {
+
+            const zahtev = await Zahtev.find({registrovaniKorisnikId:registrovaniKorisnik._id})
 
             if (zahtev != null) {
                 res.status(200).json(zahtev)

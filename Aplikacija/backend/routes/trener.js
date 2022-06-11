@@ -427,14 +427,18 @@ router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
         //const trening = await Trening.findById(zahtev.treningId)
         //res.status(200).json(zahtev)
         const trening = await Trening.findById(zahtev.treningId)
-        const korisnik = trening.clanovi[0]
+        console.log(trening)
+
+        const korisnik = await Korisnik.findById(trening.clanovi[0])
+        //const regKorisnik = await RegistrovaniKorisnik.findById(korisnik.re)
+        console.log(korisnik)
         let datumm=trening.datum
         let datumm1=datumm.toLocaleDateString()
         const noviZahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, {
             $set:{
                 poruka: "Postovani, vas trening za " + datumm1 + " je odobren",
                 status:"Odobreno",
-                registrovaniKorisnikId:korisnik
+                registrovaniKorisnikId:korisnik.registrovaniKorisnikId
             }
         })
 
@@ -443,6 +447,7 @@ router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
 
     }
     catch (err) {
+        console.log(err)
         res.status(500).json(err);
     }
 });
@@ -455,6 +460,7 @@ router.put("/odbijTrening/:idZahteva", async (req, res) => {
         const trening = await Trening.findById(zahtev.treningId)
         //res.status(200).json(trening)
         const termin = await Termin.findOne({treningId:trening._id})
+        const korisnik = await Korisnik.findById(trening.clanovi[0])
         //res.status(200).json(termin)
         let datumm=trening.datum
         let datumm1=datumm.toLocaleDateString()
@@ -462,7 +468,8 @@ router.put("/odbijTrening/:idZahteva", async (req, res) => {
         const noviZahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, {
             $set:{
                 poruka: "Postovani, vas trening za " + datumm1  + " je odbijen",
-                status:"Odbijeno"
+                status:"Odbijeno",
+                registrovaniKorisnikId:korisnik.registrovaniKorisnikId
             }
         })
         //res.status(200).json(termin)
