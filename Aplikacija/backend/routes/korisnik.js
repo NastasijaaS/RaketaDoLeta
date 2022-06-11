@@ -55,16 +55,19 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
             const trening = await novitrening.save();
             const noviZahtev = await new Zahtev({
                 treningId: trening._id,
-                registrovaniKorisnikId:korisnik.registrovaniKorisnikId
+                registrovaniKorisnikId:trenerKorisnika.registrovaniKorisnikId
             })
             const zahtevSave = await noviZahtev.save()
 
-            const evidencija=await Evidencija.find({registrovaniKorisnikId:korisnik.registrovaniKorisnikId})
+            const evidencija=await Evidencija.findOne({korisnikId:korisnik._id})
+            console.log(evidencija)
             if(evidencija===null){
                 const novaEv = await new Evidencija({
-                    registrovaniKorisnikId:korisnik.registrovaniKorisnikId,
+                    korisnikId:korisnik._id,
                     brojTreninga:0
                 })
+                const evidencijaSave=await novaEv.save()
+
             }
             //res.status(200).json(zahtevSave)
             await trening.updateOne({ $push: { clanovi: req.params.idKorisnika } })// NE RADI??????????????????
@@ -92,6 +95,7 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
 
     }
     catch (err) {
+        console.log(err)
         res.status(500).json(err);
     }
 

@@ -427,12 +427,14 @@ router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
         //const trening = await Trening.findById(zahtev.treningId)
         //res.status(200).json(zahtev)
         const trening = await Trening.findById(zahtev.treningId)
+        const korisnik = trening.clanovi[0]
         let datumm=trening.datum
         let datumm1=datumm.toLocaleDateString()
         const noviZahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, {
             $set:{
                 poruka: "Postovani, vas trening za " + datumm1 + " je odobren",
-                status:"Odobreno"
+                status:"Odobreno",
+                registrovaniKorisnikId:korisnik
             }
         })
 
@@ -669,10 +671,10 @@ router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
            
             if (korisnik != null) {
 
-                    const ev= await Evidencija.find(k => k.korisnikId === korisnik._id)
+                    const ev= await Evidencija.findOne({korisnikId:korisnik._id})
                     console.log(ev)
 
-                    let brTreninga=ev.brojTreninga+1
+                    //let brTreninga=ev.brojTreninga+1
 
                     if (ev!==null){
 
@@ -699,7 +701,13 @@ router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
                         }
                         else{
                             
-                            res.status(200).json("Ok")
+                            const final = await Evidencija.findOneAndUpdate({korisnikId:korisnik._id}, {
+                                $push:{
+                                    tipTreninga:trening.tipTreninga,
+                                    intenzitet:trening.intenzitet
+                                }
+                            })
+                            return res.status(200).json(final)
                         }
                         
 

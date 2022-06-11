@@ -18,7 +18,7 @@ const EvidencijaSchema = new mongoose.Schema({
     },
     korisnikId:{
         type:String,
-        required:true
+        //required:true
     }
    
     
