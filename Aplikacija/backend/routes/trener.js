@@ -703,8 +703,8 @@ router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
                             
                             const final = await Evidencija.findOneAndUpdate({korisnikId:korisnik._id}, {
                                 $push:{
-                                    tipTreninga:trening.tipTreninga,
-                                    intenzitet:trening.intenzitet
+                                    tipTreninga:trening.tip,
+                                    intenziteti:trening.intenzitet
                                 }
                             })
                             return res.status(200).json(final)
