@@ -708,4 +708,33 @@ router.get("/vidiClanarinu/:idKorisnika", async (req, res) => {
 
 })
 
+router.get("/vidiZahteve/:idKorisnika", async (req, res) => {
+
+    try {
+
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
+        if (korisnik != null) {
+
+            const zahtev = await Zahtev.find({korisnikId:korisnik._id})
+
+            if (zahtev != null) {
+                res.status(200).json(zahtev)
+            }
+            else {
+                res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+            }
+
+        }
+        else {
+            res.status(404).json("korisnik nije pronadjen")
+        }
+
+
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
 module.exports = router

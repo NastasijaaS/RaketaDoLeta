@@ -5,6 +5,9 @@ const ZahtevSchema = new mongoose.Schema({
     treningId:{
         type:String
     },
+    korisnikId:{
+        type:String
+    },
     status:{
         type: String,
         enum:["Odobreno", "Odbijeno", "Ukinuto","Na cekanju"],
