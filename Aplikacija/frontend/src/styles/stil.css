@@ -25,9 +25,30 @@
     height:50%;
     object-fit:cover;
 }
-.profil{
+/* .profil{
     background-image: radial-gradient(ellipse, #ffffff, #f8ae0081);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+} */
+
+.zelje{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.korisnik{
+    max-width: 100px;
+}
+.scroll{ 
+        height: 90%;
+        overflow-x: auto;
+}
+.graf{
+    background-color: #f1f1f1;
+    margin-bottom: 2%;
 }

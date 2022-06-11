@@ -9,7 +9,8 @@ input.korisnik {
 input.korisnik {
     border: 1px solid rgb(254, 197, 143);
     border-radius: 7px;
-    padding: 8px 14px;
+    padding: 8px ;
+    margin: 1%;
 }
 
 input.cenaUsluge:disabled,

@@ -146,6 +146,11 @@ router.put("/ukiniTrening/:idTreninga", async (req, res) => {
         const trening = await Trening.findById(req.params.idTreninga)
         if (trening != null) {
             const zahtev = await Zahtev.findOneAndUpdate({ treningId: req.params.idTreninga }, { $set: { status: "Ukinuto" } })
+            const termin = await Termin.findOneAndUpdate({treningId: req.params.idTreninga}, {$set:{
+                slobodan:true,
+                treningId:""
+            }})
+            await Trening.findByIdAndDelete(req.params.idTreninga)
             res.status(200).json(zahtev)
         }
         else {
