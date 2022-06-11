@@ -722,14 +722,14 @@ router.get("/vidiClanarinu/:idKorisnika", async (req, res) => {
 
 })
 
-router.get("/vidiZahteve/:idRegKorisnika", async (req, res) => {
+router.get("/vidiZahteve/:idRegKorisnika/:status", async (req, res) => {
 
     try {
 
         const registrovaniKorisnik = await RegistrovaniKorisnik.findById(req.params.idRegKorisnika)
         if (registrovaniKorisnik != null) {
 
-            const zahtev = await Zahtev.find({registrovaniKorisnikId:registrovaniKorisnik._id})
+            const zahtev = await Zahtev.find({$and:[{registrovaniKorisnikId:registrovaniKorisnik._id}, {status:req.params.status}]})
 
             if (zahtev != null) {
                 res.status(200).json(zahtev)
