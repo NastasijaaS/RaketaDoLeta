@@ -13,6 +13,7 @@ const Termin = require("../models/Termin")
 
 const Sertifikat = require("../models/Sertifikat.js");
 const Clanarina = require("../models/Clanarina.js");
+const Evidencija = require("../models/Evidencija");
 
 //izmeni parametre
 router.put("/izmeniParametre/:idKorisnika", async (req, res) => {
@@ -54,8 +55,17 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
             const trening = await novitrening.save();
             const noviZahtev = await new Zahtev({
                 treningId: trening._id,
+                registrovaniKorisnikId:korisnik.registrovaniKorisnikId
             })
             const zahtevSave = await noviZahtev.save()
+
+            const evidencija=await Evidencija.find({registrovaniKorisnikId:korisnik.registrovaniKorisnikId})
+            if(evidencija===null){
+                const novaEv = await new Evidencija({
+                    registrovaniKorisnikId:korisnik.registrovaniKorisnikId,
+                    brojTreninga:0
+                })
+            }
             //res.status(200).json(zahtevSave)
             await trening.updateOne({ $push: { clanovi: req.params.idKorisnika } })// NE RADI??????????????????
             //await trening.updateOne({$set:{idZahteva:noviZahtev._id}})

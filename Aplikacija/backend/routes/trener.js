@@ -676,17 +676,17 @@ router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
 
                     if (ev!==null){
 
-                        // console.log(ev)
-                        // if(ev.tipTreninga.count===7){
-                        //     const first = ev.tipTreninga[0];
-                        //     console.log(first);
+                        console.log(ev)
+                        if(ev.tipTreninga.count===7){
+                            const first = ev.tipTreninga[0];
+                            console.log(first);
 
 
-                        // const updated = ev.updateOne({
-                        //     $pull: {
-                        //         tipTreninga: first
-                        //     }
-                        // });
+                        const updated = ev.updateOne({
+                            $pull: {
+                                tipTreninga: first
+                            }
+                        });
 
                         const final = await ev.updateOne({
                             $push:{
@@ -696,11 +696,11 @@ router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
                         })
                         return res.status(200).json(final)
 
-                        // }
-                        // else{
+                        }
+                        else{
                             
-                        //     res.status(200).json("Ok")
-                        // }
+                            res.status(200).json("Ok")
+                        }
                         
 
                     }
@@ -720,7 +720,7 @@ router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
             return res.status(404).json("Trener nije pronadjen")
         }
 
-    }
+        }
     catch (err) {
         console.log(err)
 

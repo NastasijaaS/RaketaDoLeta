@@ -47,11 +47,7 @@ router.post("/register", async (req, res) => {
 
       const noviKor = await noviKorisnik.save();
 
-      const ev=await new Evidencija({
-        korisnikId:noviKor._id,
-        brojTreninga:0
-      })
-      const novaEv=await ev.save()
+    
 
       let novi = {
         id: user.id,
