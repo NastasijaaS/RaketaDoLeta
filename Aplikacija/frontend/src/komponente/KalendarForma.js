@@ -1,5 +1,5 @@
 import '../styles/kalendar.css'
-import { useState } from 'react'
+import { useState , Fragment} from 'react'
 import FormaZakazi from './FormaZakazi'
 import Modal from './Modal'
 import LogIn from '../pocetna/LoginForma'
@@ -227,15 +227,16 @@ const KalendarForma = (props) => {
             {termin.status &&
 
                 <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                    <Table 
+                    sx={{ minWidth: 650 }} size="small" >
                         <TableHead>
                             <TableRow>
-                                <TableCell>Trener</TableCell>
+                                {!props.idTrenera && <TableCell>Trener</TableCell>}
                                 <TableCell align="right">Vreme</TableCell>
                                 <TableCell align="right">Trajanje</TableCell>
                                 <TableCell align="right">Intenzitet</TableCell>
-                                <TableCell align="right">Mesta</TableCell>
-                                <TableCell align="right"></TableCell>
+                                {!props.idTrenera && <TableCell align="right">Mesta</TableCell>}
+                                {!props.idTrenera && <TableCell align="right"></TableCell>}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -244,21 +245,24 @@ const KalendarForma = (props) => {
                                     key={i}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell component="th" scope="row">
+                                    {!props.idTrenera && <TableCell component="th" scope="row">
                                         {t.imeT} {t.prezimeT}
-                                    </TableCell>
+                                    </TableCell>}
                                     <TableCell align="right"> {t.vreme}</TableCell>
                                     <TableCell align="right">{t.trajanje}</TableCell>
                                     <TableCell align="right">{t.intenzitet}</TableCell>
-                                    <TableCell align="right"> {t.brojslobodnih}</TableCell>
-                                    <TableCell align="right">
-                                        <Button
-                                            size="small"
-                                            variant="contained"
-                                            value={t.vreme + " " + t.trajanje}
-                                            onClick={() => zakaziForma(t.treningID)}>Zakazi
-                                        </Button>
-                                    </TableCell>
+                                    {!props.idTrenera &&
+                                        <Fragment>
+                                            <TableCell align="right"> {t.brojslobodnih}</TableCell>
+                                            <TableCell align="right">
+                                                <Button
+                                                    size="small"
+                                                    variant="contained"
+                                                    value={t.vreme + " " + t.trajanje}
+                                                    onClick={() => zakaziForma(t.treningID)}>Zakazi
+                                                </Button>
+                                            </TableCell>
+                                        </Fragment>}
                                 </TableRow>
                             ))}
                         </TableBody>

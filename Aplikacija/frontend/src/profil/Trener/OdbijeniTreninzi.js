@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
-import { GetData, PutMetoda } from "../../komponente/Fetch";
+import { GetData, PutMetoda , DeleteMetoda} from "../../komponente/Fetch";
 import CircularProgress from '@mui/material/CircularProgress';
 
 const OdbijeniTreninzi = () => {
@@ -36,7 +36,7 @@ const OdbijeniTreninzi = () => {
             url: 'http://localhost:8800/api/uprava/obrisiOdbijenTrening/' + id
         }
 
-         PutMetoda(zahtev, setData, setGreska, setIsLoading)
+         DeleteMetoda(zahtev,  setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')

@@ -17,7 +17,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import LoginIcon from '@mui/icons-material/Login';
 import { UserContext } from '../context/UserContext';
 import { Switch } from "@mui/material";
-
+import Zvonce from './Zvonce'
 
 
 const pages = [
@@ -39,7 +39,7 @@ const pages = [
 
 const settings = ['Profil', 'Napredak', 'Treninzi', 'Odjavi se'];
 
-const Navbar = ({check, change}) => {
+const Navbar = ({ check, change }) => {
 
   const { user, dispatch } = useContext(UserContext);
 
@@ -123,6 +123,12 @@ const Navbar = ({check, change}) => {
               </Button>
             ))}
           </Box>
+
+
+
+         {user && <Zvonce user = {user.korisnikId}/>}
+
+
 
           {/*OVO JE ZA MOBILNI MENI LEVO */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -229,10 +235,10 @@ const Navbar = ({check, change}) => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Switch
-                // defaultChecked
-                color = 'default'
-                onChange={change}
-                checked ={check}
+              // defaultChecked
+              color='default'
+              onChange={change}
+              checked={check}
             />
 
             {
@@ -261,7 +267,7 @@ const Navbar = ({check, change}) => {
             }
             {user &&
               <Tooltip title="Account">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color:'white' }}>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
                   <AccountCircleOutlinedIcon />
                 </IconButton>
               </Tooltip>

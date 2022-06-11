@@ -32,8 +32,26 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import KorisnikVeliko from './profil/Trener/KorisnikVeliko'
 import OdbijeniTreninzi from './profil/Trener/OdbijeniTreninzi';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Fab from '@mui/material/Fab';
+
 
 const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#f8af00',
+    },
+    secondary: {
+      main: '#004af8',
+    },
+    error: {
+      main: '#f83200',
+    },
+  },
+});
+
+const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
@@ -52,26 +70,52 @@ const ColorModeContext = createContext({ toggleColorMode: () => { } });
 
 function App() {
 
-  const [mode, setMode] = useState(false);
-
-  const theme =
-    createTheme({
-      palette: {
-        mode: mode ? "dark" : "light"
-      }
-    })
-
-
-  {/*const theme = useTheme();
-    const colorMode = useContext(ColorModeContext);*/}
   const { user } = useContext(UserContext);
+
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+  if (!sessionStorage.getItem('tema')) {
+    sessionStorage.setItem('tema', prefersDarkMode ? 'dark' : 'light')
+  }
+
+  const t = sessionStorage.getItem('tema')
+  const [mode, setMode] = useState(t ? t : 'light');
+
+  const toggleColorMode = () => {
+    setMode(mode === 'light' ? 'dark' : 'light')
+    sessionStorage.setItem('tema', mode === 'light' ? 'dark' : 'light')
+  }
+
+  const theme = mode === 'light' ? darkTheme : lightTheme
+  
+  // createTheme({
+  //   palette: {
+  //     mode,
+  //   },
+  // })
+  
+  // useMemo(
+  //   () =>
+  //     createTheme({
+  //       palette: {
+  //         mode,
+  //       },
+  //     }),
+  //   [mode],
+  // );
+
 
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
           <ScrollToTop enableColorScheme />
+
+          {/* <div >{theme.palette.mode} mode
+            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+              <Brightness7Icon />
+            </IconButton></div> */}
 
           {/* <Navbar check={mode} change={() => setMode(!mode)} /> */}
           {
@@ -80,49 +124,42 @@ function App() {
             ((user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar check={mode} change={() => setMode(!mode)} />)
           }
 
-          {/* {theme.palette.mode} mode
-      <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-      </IconButton> */}
+          <Fab onClick={toggleColorMode}>
+            <IconButton>
+              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Fab>
 
 
           <Routes>
 
-            <Route path='/' element={<Pocetna />}>
-            </Route>
+            <Route path='/' element={<Pocetna />} />
 
-            <Route path='/pocetna' element={<Pocetna />}>
-            </Route>
+            <Route path='/pocetna' element={<Pocetna />} />
 
-            <Route path='/treneri' element={<Treneri />}>
-            </Route>
+            <Route path='/treneri' element={<Treneri />} />
 
-            <Route path='/onama' element={<Onama />}>
-            </Route>
+            <Route path='/onama' element={<Onama />} />
 
-            <Route path='/usluge' element={<Usluge />}>
-            </Route>
+            <Route path='/usluge' element={<Usluge />} />
 
             <Route path='/blog' element={<Blog />} />
 
             <Route path='/blog/:tag/:naslov' element={<VelikiBlog />} />
 
-
             <Route path='/login' element=
-              {user ? <Navigate replace to="/profil" /> : <LogIn />}>
-            </Route>
+              {user ? <Navigate replace to="/profil" /> : <LogIn />} />
+
 
             <Route path='/signup' element=
-              {user ? <Navigate replace to="/profil" /> : <Register />}>
-            </Route>
+              {user ? <Navigate replace to="/profil" /> : <Register />} />
 
             {/* <Route path='/signup' element={<Register />} /> */}
 
             <Route path='/registracija/podaci' element={<Zelje />} />
 
             <Route path='/profil' element=
-              {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />}>
-            </Route>
+              {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />} />
 
             {/* <Route path='/RDL/uprava/:username' element={<Uprava />} /> */}
 
