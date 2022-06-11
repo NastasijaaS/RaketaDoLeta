@@ -473,6 +473,8 @@ router.put("/odbijTrening/:idZahteva", async (req, res) => {
             }
         })
         //res.status(200).json(termin)
+        await Trening.findByIdAndDelete(zahtev.treningId)
+
 
         const noviTermin = await Termin.findByIdAndUpdate(termin._id, {
             $set:{
