@@ -761,6 +761,7 @@ router.get("/vidiZahteveZaKorisnika/:idRegKorisnika", async (req, res) => {
 
         const registrovaniKorisnik = await RegistrovaniKorisnik.findById(req.params.idRegKorisnika)
         console.log(req.params.idRegKorisnika)
+        console.log(registrovaniKorisnik)
         if (registrovaniKorisnik != null) {
 
             const zahtev = await Zahtev.find({registrovaniKorisnikId:registrovaniKorisnik._id})
