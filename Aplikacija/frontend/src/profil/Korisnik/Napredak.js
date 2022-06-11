@@ -3,8 +3,7 @@ import { UserContext } from '../../context/UserContext'
 import { GetData } from '../../komponente/Fetch'
 import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import {Typography, Grid, Card, CardContent, } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
@@ -39,6 +38,7 @@ const Napredak = () => {
     const { user } = useContext(UserContext);
     console.log(user)
     const [napredak, setNapredak] = useState([])
+    const [poslednji, setPoslednji] = useState({})
 
     const [greska, setGreska] = useState(false)
 
@@ -56,7 +56,11 @@ const Napredak = () => {
              const res = await axios.get("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId)
              setNapredak(res.data)
              setZeljeno(res.data.tezina) 
-             console.log(res.data) 
+             console.log(res.data)
+
+             const res1 = await axios.get("http://localhost:8800/api/korisnik/vidiNapredakPoslednji/" + user.korisnikId)
+             setPoslednji(res1.data)
+             console.log(res1.data)
              }             
         get()
     }, [])
@@ -115,8 +119,9 @@ const Napredak = () => {
     let options3 = setoptions('Napredak procenat masti')
 
 
-    return (<div>
-        <div className="infoNapredak">
+    return (
+
+        <div className = 'marginS'>
 
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
@@ -136,41 +141,54 @@ const Napredak = () => {
 
                 >Doslo je do greske prilikom ucitavanja ):</Alert>
             </Modal>
-
-            <h3>Informacije sa poslednjeg merenja</h3>
+            <Grid container spacing={2}>
+                <Grid item xs={12} md ={3}>
             {
                 napredak &&
-                <Box>
-                    <p>Tezina: {napredak.tezina}</p>
-                    <p>Procenat masti: {napredak.procenatMasti}</p>
-                    <p>Procenat proteina: {napredak.procenatProteina}</p>
-                    <p>Tezina misica: {napredak.tezinaMisica}</p>
-                    <p>Procenat vode: {napredak.procenatVode}</p>
-                    <p>Kostana masa: {napredak.kostanaMasa}</p>
-                    <p>BMI: {napredak.BMI}</p>
-                    <p>BodyAge: {napredak.bodyAge}</p>
-                </Box>
-}{
+                <Card>
+                    <CardContent>
+                    <h3>Informacije sa poslednjeg merenja</h3>
 
-napredak
+                    <p>Tezina: {poslednji.tezina}</p>
+                    <p>Procenat masti: {poslednji.procenatMasti}</p>
+                    <p>Procenat proteina: {poslednji.procenatProteina}</p>
+                    <p>Tezina misica: {poslednji.tezinaMisica}</p>
+                    <p>Procenat vode: {poslednji.procenatVode}</p>
+                    <p>Kostana masa: {poslednji.kostanaMasa}</p>
+                    <p>BMI: {poslednji.BMI}</p>
+                    <p>BodyAge: {poslednji.bodyAge}</p>
+                    </CardContent>
+                </Card>
+                }
+            </Grid>
+            <Grid item xs={12} md ={9} sx = {{maxHeight: '75vh'}}>
+                {
+                napredak
                 &&
-                <Box>
-                <Line options={options} data={data} />
-                    <Line options={options1} data={data1} />
-                    <Line options={options2} data={data2} />
-                    <Line options={options3} data={data3} />
-
+                <Box className ='scroll'>
+                    <Box>
+                        <Line className = 'graf' options={options} data={data} />
+                    </Box>
+                    <Box>
+                        <Line className = 'graf' options={options1} data={data1} />
+                    </Box>
+                    <Box>
+                        <Line className = 'graf' options={options2} data={data2} />
+                    </Box>
+                    <Box>
+                        <Line className = 'graf' options={options3} data={data3} />
+                    </Box>
                 </Box>
-
-            }
+                }
+           
+              </Grid>
+            </Grid>
             {
-                !napredak && <div>
-                    <Typography>Nema informacija</Typography>
-                </div>
-            }
-
-        </div>
-    </div >
+                    !napredak && <Box>
+                        <Typography>Nema informacija</Typography>
+                    </Box>
+                }
+        </div>  
     )
 }
 export default Napredak

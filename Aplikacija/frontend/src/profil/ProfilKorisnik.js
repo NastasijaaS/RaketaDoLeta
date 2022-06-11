@@ -26,6 +26,7 @@ const Korisnik = (props) => {
     const [novaLozinka, setNova] = useState(false)
     const pass = useRef('')
     const [isLoading, setIsLoading] = useState(false)
+    const [poslednji, setPoslednji] = useState()
 
     const [korisnik, setKorisnik] = useState({
         visina: user.visina,
@@ -37,8 +38,13 @@ const Korisnik = (props) => {
     })
 
     useEffect(() => {
-        const get = async () => { await GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading) }
-        get()
+        const get = async () => {
+            await GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading) 
+            const res1 = await axios.get("http://localhost:8800/api/korisnik/vidiNapredakPoslednji/" + user.korisnikId)
+            setPoslednji(res1.data)
+            console.log(res1.data)
+        }
+            get()
     }, [])
 
     const otkaziIzmenu = () => {
@@ -164,10 +170,10 @@ const Korisnik = (props) => {
     let navigate = useNavigate()
 
     return (
-        <Box className ='profil' sx = {{padding:"5% 5%"}}>
+        <Box sx = {{padding:"5% 5%"}}>
 
             {isLoading && <CircularProgress size='2rem' disableShrink />}
-            {/* <Grid container spacing={2}> */}
+              
 
             {/* <Modal
                 sx={{ display: 'flex', justifyContent: 'center' }}
@@ -187,22 +193,42 @@ const Korisnik = (props) => {
             </Modal> */}
 
             {/* <Typography display='flex' mb={5} justifyContent="center" variant="h4" >{user.ime} {user.prezime}</Typography> */}
-            <Box>
-                <Card className="infoOProfilu" sx = {{marginBottom: "2%"}}>
-                    <CardContent>
+            <Grid container spacing={2}>
+                <Grid item xs = {12} sm = {4}>
+                <Card variant="outlined" sx ={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+                    <CardContent sx = {{flexGrow: '1', marginBottom: '5%'}}>
                         {!user && <p>nema korisnika</p>}
 
-                        <Typography gutterBottom variant = "h4">{user.ime} {user.prezime}</Typography>
-                        <Typography mb={2} variant="h6">Profil:</Typography>
+                        <Typography className='cardCenter' component = "div" variant = "h4" sx = {{height: '35%', textTransform:'capitalize'}}>{user.ime} {user.prezime}</Typography>
 
                         <Typography mb={2}>Clanarina vazi do: {new Date(clanarina.vaziDo).toLocaleDateString()}</Typography>
 
                         <Typography mb={2}>e-mail: {user.email}</Typography>
 
-                        <Typography>Broj telefona: {user.brojTelefona}</Typography>
+                        <Typography mb={2}>Broj telefona: {user.brojTelefona}</Typography>
+
+                        <Typography className="zelje">
+                            Godine:
+                            <input className='korisnik'
+                                type='number'
+                                value={korisnik.brojGodina}
+                                disabled={izmeniPodatke}
+                                onChange={(ev) => setKorisnik((k) => ({ ...k, brojGodina: ev.target.value }))} />
+
+                        </Typography>
+
+                        <Typography className="zelje">
+                            Visina:
+                            <input className='korisnik'
+                                type='number'
+                                value={korisnik.visina}
+                                disabled={izmeniPodatke}
+                                onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
+
+                        </Typography>
                     </CardContent>
-                    <CardActions>
-                        {izmena && <Button mb={2} variant="contained" size='small' onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
+                    <CardActions sx = {{justifyContent:'center', alignItems:'center'}}>
+                        {izmena && <Button mb={2} variant="outlined" fullWidth onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
                         {!izmena &&
                             <IzmeniLozinku onClose={() => { setIzmena(true) }} />
                             // <Container className='lozinka'>
@@ -212,28 +238,12 @@ const Korisnik = (props) => {
                         }
                     </CardActions>
                 </Card>
-                <Card className="ZeljeKorisnika" sx ={{marginBottom: '10%'}}>
-                    <CardContent>
-                        <div className="zelje">
-                            Godine:
-                            <input className='korisnik'
-                                type='number'
-                                value={korisnik.brojGodina}
-                                disabled={izmeniPodatke}
-                                onChange={(ev) => setKorisnik((k) => ({ ...k, brojGodina: ev.target.value }))} />
-
-                        </div>
-
-                        <div className="zelje">
-                            Visina:
-                            <input className='korisnik'
-                                type='number'
-                                value={korisnik.visina}
-                                disabled={izmeniPodatke}
-                                onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
-
-                        </div>
-                        <div className="zelje">
+                </Grid>
+                <Grid item xs = {12} sm = {4} >
+                <Card className="ZeljeKorisnika" variant="outlined" sx ={{display: 'flex', flexDirection: 'column',height: '100%'}}>
+                    <CardContent sx = {{flexGrow:'1'}}>
+                    <Typography gutterBottom variant="h6">Zeljene vrednosti</Typography>
+                        <Box className="zelje">
                             Zeljena tezina:
                             <input className='korisnik'
                                 type='number'
@@ -241,38 +251,39 @@ const Korisnik = (props) => {
                                 disabled={izmeniPodatke}
                                 onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezina: ev.target.value }))} />
 
-                        </div>
+                        </Box>
 
-                        <div className="zelje">
+                        <Box className="zelje">
                             Zeljena tezina misica:
                             <input className='korisnik'
                                 type='number'
                                 value={korisnik.zeljenaTezinaMisica}
                                 disabled={izmeniPodatke}
                                 onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezinaMisica: ev.target.value }))} />
-                        </div>
+                        </Box>
 
-                        <div className="zelje">
+                        <Box className="zelje">
                             Zeljeni procenat masti:
                             <input className='korisnik'
                                 type='number'
+                                
                                 value={korisnik.zeljeniProcenatMasti}
                                 disabled={izmeniPodatke}
                                 onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatMasti: ev.target.value }))} />
-                        </div>
+                        </Box>
 
-                        <div className="zelje">
+                        <Box className="zelje">
                             Zeljeni procenat proteina:
                             <input className='korisnik'
                                 type='number'
                                 value={korisnik.zeljeniProcenatProteina}
                                 disabled={izmeniPodatke}
                                 onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatProteina: ev.target.value }))} />
-                        </div>
+                        </Box>
                     </CardContent>
                     <CardActions>
-                        {!izmeniPodatke && <Button onClick={izmeniKorisnika}>OK</Button>}
-                        {!izmeniPodatke && <Button onClick={() => {
+                        {!izmeniPodatke && <Button variant = "contained" size = 'small' onClick={izmeniKorisnika}>OK</Button>}
+                        {!izmeniPodatke && <Button variant = "contained" size = 'small'onClick={() => {
                             setIzmeniPodatke(true); setKorisnik({
                                 zeljenaTezina: user.zeljenaTezina,
                                 zeljenaTezinaMisica: user.zeljenaTezinaMisica,
@@ -281,10 +292,32 @@ const Korisnik = (props) => {
                             })
                         }}>otkazi</Button>}
 
-                        {izmeniPodatke && <Button variant="contained" size='small' onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
+                        {izmeniPodatke && <Button variant="outlined" fullWidth onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
                     </CardActions>
                 </Card>
-            </Box>
+                </Grid>
+                <Grid item xs = {12} sm = {4}>
+                { poslednji
+                &&
+                <Card variant="outlined"  sx ={{height: '100%'}}>
+                    <CardContent>
+                        <Typography variant="h6">Poslednje merenje</Typography>
+                        <p>Tezina: {poslednji.tezina}</p>
+                        <p>Procenat masti: {poslednji.procenatMasti}</p>
+                        <p>Procenat proteina: {poslednji.procenatProteina}</p>
+                        <p>Tezina misica: {poslednji.tezinaMisica}</p>
+                        <p>Procenat vode: {poslednji.procenatVode}</p>
+                        <p>Kostana masa: {poslednji.kostanaMasa}</p>
+                        <p>BMI: {poslednji.BMI}</p>
+                        <p>BodyAge: {poslednji.bodyAge}</p>
+                    </CardContent>
+                    <CardActions>
+                        <Button href={"/napredak"} variant = "outlined" fullWidth>Vidi napredak</Button>
+                    </CardActions>
+                </Card>
+                }
+                </Grid>
+            </Grid>
         </Box >
     )
 }
