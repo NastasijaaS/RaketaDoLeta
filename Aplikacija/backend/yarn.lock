@@ -999,10 +999,10 @@
   dependencies:
     "mongoose" "*"
 
-"mongoose@*", "mongoose@^6.3.4":
-  "integrity" "sha512-UP0azyGMdY+2YNbJUHeHhnVw5vPzCqs4GQDUwHkilif/rwmSZktUQhQWMp1pUgRNeF2JC30vWGLrInZxD7K/Qw=="
-  "resolved" "https://registry.npmjs.org/mongoose/-/mongoose-6.3.4.tgz"
-  "version" "6.3.4"
+"mongoose@*", "mongoose@^6.3.6":
+  "integrity" "sha512-/Cixfo+bA32EHQ5Y7sxMj5ZOXFiAFlvA3X4mFruUET9OsbJZfstg4n2FzxovX8Q7EcoQ7Ry1bnOp9AeXtodF7w=="
+  "resolved" "https://registry.npmjs.org/mongoose/-/mongoose-6.3.6.tgz"
+  "version" "6.3.6"
   dependencies:
     "bson" "^4.6.2"
     "kareem" "2.3.5"
