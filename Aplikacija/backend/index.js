@@ -13,6 +13,7 @@ const upravaRoute = require("./routes/uprava");
 const treningRoute = require("./routes/trening");
 const blogRoute = require("./routes/blog");
 const terminRoute = require("./routes/termin");
+const zahtevRoute = require("./routes/zahtev");
 
 //const napredakRoute=require("./routes/napredak");
 const cors = require('cors');
@@ -44,7 +45,7 @@ app.use("/api/uprava", upravaRoute);
 app.use("/api/trening", treningRoute);
 app.use("/api/blog", blogRoute);
 app.use("/api/termin", terminRoute);
-//app.use("/api/napredak", napredakRoute);
+app.use("/api/zahtev", zahtevRoute);
 
 
 app.listen(8800, () => {
