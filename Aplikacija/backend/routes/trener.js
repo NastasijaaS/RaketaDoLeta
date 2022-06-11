@@ -422,29 +422,22 @@ router.get("/vratiTreningeGrupni/:id", async (req, res) => {
 router.put("/prihvatiTrening/:idZahteva", async (req, res) => {
 
     try {
-        //const zahtev = await Zahtev.findById(req.params.idZahteva)
+        const zahtev = await Zahtev.findById(req.params.idZahteva)
         //const trening = await Trening.findById(zahtev.treningId)
-        //res.status(200).json(termin)
+        //res.status(200).json(zahtev)
         const trening = await Trening.findById(zahtev.treningId)
-        const noviZahtev = await Zahtev.updateOne({_id:req.params.idZahteva}, {
+        let datumm=trening.datum
+        let datumm1=datumm.toLocaleDateString()
+        const noviZahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, {
             $set:{
-                poruka: "Postovani, vas trening za " + trening.datum + " je odobren",
+                poruka: "Postovani, vas trening za " + datumm1 + " je odobren",
                 status:"Odobreno"
             }
         })
+
+        res.status(200).json(noviZahtev);
         
-        //const termin= await Termin.find({treningId:trening._id})
-        /*const azuriranTermin = await Termin.updateOne({trenerId:trening.trenerId}, {
-            $set:
-            {
-                slobodan:false,
-                treningId:trening._id,
-                trenerId: trening.trenerId
-            }
-        })
 
-
-        /*res.status(200).json(azuriranTermin)*/
     }
     catch (err) {
         res.status(500).json(err);
@@ -457,21 +450,30 @@ router.put("/odbijTrening/:idZahteva", async (req, res) => {
     try {
         const zahtev = await Zahtev.findById(req.params.idZahteva)
         const trening = await Trening.findById(zahtev.treningId)
-        const termin = await Termin.find({treningId:trening._id})
-        const noviZahtev = await Zahtev.updateOne({_id:req.params.idZahteva}, {
+        //res.status(200).json(trening)
+        const termin = await Termin.findOne({treningId:trening._id})
+        //res.status(200).json(termin)
+        let datumm=trening.datum
+        let datumm1=datumm.toLocaleDateString()
+
+        const noviZahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, {
             $set:{
-                poruka: "Postovani, vas trening u terminu " + termin.datum + " " + termin.vremePocetka + "je odbijen"
+                poruka: "Postovani, vas trening za " + datumm1  + " je odbijen",
+                status:"Odbijeno"
             }
         })
-        const noviTermin = await Termin.updateOne({_id:termin._id}, {
+        //res.status(200).json(termin)
+
+        const noviTermin = await Termin.findByIdAndUpdate(termin._id, {
             $set:{
                 slobodan:true,
-                treningId:null,
-                trenerId: null
+                treningId:""
+                //vremePocetka:new Date()
             }
         })
+        
         //const zahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, { $set: { status: "Odbijeno" } })
-        res.status(200).json(noviZahtev)
+        res.status(200).json("Zavrseno")
     }
     catch (err) {
         res.status(500).json(err);
@@ -905,7 +907,7 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
     try {
         const trener = await Trener.findById(req.params.id);
         if (trener != null) {
-            const zahtevi = await Zahtev.find({ status: "Odbijeno" })
+            const zahtevi = await Zahtev.find({status:"Ukinuto"})
             if (zahtevi.length != null) {
                 let vrati = [];
                 for (let i = 0; i < zahtevi.length; i++) {
