@@ -46,7 +46,7 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
 
 
             const novitrening = await new Trening({
-                datum: termin.datum,
+                datum: req.body.datum,
                 tip: req.body.tip,
                 intenzitet: req.body.intenzitet,
                 trajanje: req.body.trajanje,
@@ -146,6 +146,11 @@ router.put("/ukiniTrening/:idTreninga", async (req, res) => {
         const trening = await Trening.findById(req.params.idTreninga)
         if (trening != null) {
             const zahtev = await Zahtev.findOneAndUpdate({ treningId: req.params.idTreninga }, { $set: { status: "Ukinuto" } })
+            const termin = await Termin.findOneAndUpdate({treningId: req.params.idTreninga}, {$set:{
+                slobodan:true,
+                treningId:""
+            }})
+            await Trening.findByIdAndDelete(req.params.idTreninga)
             res.status(200).json(zahtev)
         }
         else {
