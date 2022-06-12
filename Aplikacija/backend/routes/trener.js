@@ -372,12 +372,12 @@ router.get("/vratiTreningePersonalniC/:id", async (req, res) => {
 })
 
 //vrati svoje treninge Grupne
-router.get("/vratiTreningeGrupni/:id", async (req, res) => {
+router.get("/vratiTreningeGrupni/:id/:datum", async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.id);
         if (trener != null) {
-            const treninzi = await Trening.find({ $and: [{ trenerId: req.params.id }, { brojMaxClanova: { $gte: 2 } }] })
+            const treninzi = await Trening.find({ $and: [{ trenerId: req.params.id },{ datum: req.params.datum }, { brojMaxClanova: { $gte: 2 } }] })
 
             if (treninzi.length != 0) {
 

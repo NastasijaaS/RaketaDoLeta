@@ -144,14 +144,25 @@ router.put("/ukiniTrening/:idTreninga", async (req, res) => {
 
     try {
         const trening = await Trening.findById(req.params.idTreninga)
+        const korisnik = await Korisnik.findById(trening.clanovi[0])
+        //res.status(200).json(termin)
+        let datumm=trening.datum
+        let datumm1=datumm.toLocaleDateString()
         if (trening != null) {
-            const zahtev = await Zahtev.findOneAndUpdate({ treningId: req.params.idTreninga }, { $set: { status: "Ukinuto" } })
+            //const zahtev = await Zahtev.findOneAndUpdate({ treningId: req.params.idTreninga }, { $set: { status: "Ukinuto" } })
+            const noviZahtev = await Zahtev.findOneAndUpdate({ treningId: req.params.idTreninga }, {
+                $set:{
+                    poruka: "Postovani, otkazujem trening za  " + datumm1 ,
+                    status:"Ukinuto",
+                    registrovaniKorisnikId:korisnik.registrovaniKorisnikId
+                }
+            })
             const termin = await Termin.findOneAndUpdate({treningId: req.params.idTreninga}, {$set:{
                 slobodan:true,
                 treningId:""
             }})
             await Trening.findByIdAndDelete(req.params.idTreninga)
-            res.status(200).json(zahtev)
+            res.status(200).json("Zavrseno")
         }
         else {
             res.status(400).json("Nije pronadjen trening")
