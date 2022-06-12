@@ -54,7 +54,7 @@ const KorisniciTrenera = () => {
     let navigate = useNavigate()
 
     return (
-        <Box sx={{ margin: '2% 2%' }}>
+        <Box className = 'marginS'>
             <Grid container spacing={2}>
                 {korisnici.map((k, i) => (
                     <Grid item key={i} xs={12} sm={6} md={4} lg={3} sx={{ display: { xs: 'flex', sm: 'block' }, justifyContent: 'center' }} >

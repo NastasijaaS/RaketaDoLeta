@@ -15,7 +15,7 @@ const Info = ({ labela, tip, reff, err, tekst }) => {
                 size="small"
                 placeholder={tekst}
                 // helperText={tekst}
-                focused />
+                />
         </div>
     )
 }

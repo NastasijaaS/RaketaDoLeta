@@ -101,17 +101,17 @@ const Treneri = () => {
                                 {zakazi && <Modal onClose={() => { setZakazi(false) }}>
 
                                     {user ? <FormaZakaziPersonalni idTrenera={trenerId} onClose={() => { setZakazi(false); }} /> : (login ? <div><LogIn />
-                                        <span>Nemate nalog:
+                                        <Typography variant = "body1" component= "div" textAlign = "center">Nemate nalog:
                                             <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
-                                        </span>
+                                        </Typography>
                                     </div>
 
                                         :
 
                                         <div><Register />
-                                            <span>Imate nalog:
+                                           <Typography variant = "body1" component= "div" textAlign = "center">Imate nalog:
                                                 <Button size='small' onClick={() => { setLogin(true) }}>Prijavi se</Button>
-                                            </span>
+                                            </Typography>
                                         </div>)
                                     }
 

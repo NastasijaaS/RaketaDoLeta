@@ -4,7 +4,7 @@ import { LoginMetoda, PostMetoda } from '../komponente/Fetch';
 import { useContext, useRef } from 'react';
 import { UserContext } from '../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Button, TextField, Box } from '@mui/material';
+import { Button, TextField, Box, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import DodajTrenera from '../komponente/DodajTrenera'
 import Info from '../komponente/Info'
@@ -165,14 +165,14 @@ const Register = (props) => {
 
 
     return (
-        <div className="forma">
+        <div className="forma cardCenter marginS">
             {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 
             {!success &&
                 <form className="login" onSubmit={upis}>
 
                     <div className="login">
-                        <h2>Registrujte se:</h2>
+                    <Typography variant = "h5" component = "div" sx ={{textAlign:'center'}}>Registrujte se:</Typography>
 
                         <Info labela='Ime*' tip='text' reff={ime} err={greska.ime} tekst='najmanje 3 slova' />
 

@@ -2,13 +2,14 @@ import { useState, useEffect, useContext, Fragment, useRef } from 'react';
 import Button from '@mui/material/Button';
 import Modal from '../../komponente/Modal'
 import DodajNapredak from '../../komponente/DodajNapredak';
-import { Card, CardContent, Typography, CardActions } from '@mui/material';
+import { Card, CardContent, Typography, CardActions, Grid } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import DodajEvidenciju from '../../komponente/DodajEvidenciju';
 import { UserContext } from '../../context/UserContext';
 import { GetData } from '../../komponente/Fetch';
 import NapredakGrafici from '../../komponente/NapredakGrafici';
 import axios from 'axios';
+import { Box } from '@mui/system';
 
 
 
@@ -44,32 +45,43 @@ const KorisnikVeliko = (props) => {
     }, [])
 
     return (
-        <Card sx={{ maxWidth: 345 }} >
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+        <Box className = 'marginS'>
+        <Grid container spacing = {2}>
+            <Grid item xs = {12} md = {3}>
+        <Card sx={{ height:'100%', display: 'flex', flexDirection:'column'}} >
+            <CardContent sx = {{flexGrow: '1'}}>
+                <Typography className='cardCenter' component = "div" variant = "h4" sx = {{height: '35%', textTransform:'capitalize'}}>
                     {k.imeK} {k.prezimeK}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     E-mail: {k.email}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" mb = {2}>
                     Broj telefona: {k.brojtelefonaK}
+                </Typography>
+                <Typography variant = "body2">
+                    Zeljeni parametri:
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    Zeljena tezina: {k.zeljenaTezina}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    Zeljena tezina misica: {k.zeljenaTezinaMisica}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    Zeljeni procenat masti: {k.zeljeniProcenatMasti}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    Zeljeni procenat proteina: {k.zeljeniProcenatProteina}
                 </Typography>
             </CardContent>
 
-
             <CardActions>
-                {!napredak && <Button onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
-                {napredak && <Button onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
+                {!nizNapredaka && <Button fullWidth variant = "outlined" onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
+                {nizNapredaka && <Button fullWidth  variant = "outlined" onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
 
                 {/* <Button onClick={() => setEvidencija(true)}>Dodaj evidenciju</Button> */}
             </CardActions>
-
-
-            <Card>
-                <NapredakGrafici napredak={nizNapredaka} zeljeno={zeljeno} user={k} />
-            </Card>
-
             {napredak && <Modal onClose={() => { setNapredak(false) }}>
                 <DodajNapredak prvi={prvi} napredakId={k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />
             </Modal>
@@ -79,6 +91,14 @@ const KorisnikVeliko = (props) => {
             </Modal>
             }
         </Card>
+        </Grid>
+        <Grid item xs = {12} md ={9} sx = {{maxHeight: '75vh'}}>
+        <Box className='scroll'>
+          <NapredakGrafici napredak={nizNapredaka} zeljeno={zeljeno} user={k} />
+        </Box>
+        </Grid>
+        </Grid>
+        </Box>
 
     )
 }

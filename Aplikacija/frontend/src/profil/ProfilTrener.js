@@ -19,6 +19,7 @@ const Trener = (props) => {
     const [value, setValue] = useState(0);
     const [izmena, setIzmena] = useState(false)
     const [treninzi, setTreninzi] = useState([])
+    const [treninziGrupni, setGrupniTreninzi] = useState([])
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -29,6 +30,7 @@ const Trener = (props) => {
 
     useEffect(() => {
         GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading)
+ 
     }, [])
 
     const promeniTab = (event, newValue) => {
@@ -38,8 +40,8 @@ const Trener = (props) => {
 
     return (
 
-        <Box className='marginS' sx={{ height: '100vh', width: '100vw' }} >
-            <Grid container spacing={2} sx={{ height: '100vh', width: '100vw' }}>
+        <Box className='marginS'>
+            <Grid container spacing={2}>
                 {/* <KorisniciTrenera/> */}
                 <Grid item xs={12} md={3}>
                     <Card className='cardShadow' sx={{ maxWidth: 345, height: '100%', display: 'flex', flexDirection: 'column' }} >
@@ -97,51 +99,50 @@ const Trener = (props) => {
                                 <FormaDodajTermin idTrenera={user.trenerId} onClose={() => { setNoviTermini(false) }} />
                             </Modal>
                         }
-
-                        <Grid container spacing={2} >
-                            {treninzi.map((tr) => (
-                                <Grid item xs={12} sm={6} md={4} lg={3}>
-                                    <Card className='cardShadow' key={tr.id} sx={{ maxWidth: 345 }} >
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="div">
-                                                Nada Jovanovic
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Broj telefona
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {tr.datum} {tr.vreme}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Trajanje: {tr.trajanje}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Intenzitet: {tr.intenzitet}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Tip: {tr.tip}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Online: {tr.isOnline}
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions sx={{ justifyContent: 'flex-end' }}>
-                                            <IconButton sx={{ p: 0, color: 'inherit' }}>
-                                                <EditIcon sx={{ fontSize: "1em" }} />
-                                            </IconButton>
-                                            <IconButton sx={{ p: 0, color: 'green' }}>
-                                                <CheckCircleIcon sx={{ fontSize: "1em" }} />
-                                            </IconButton>
-                                            <IconButton sx={{ p: 0, color: 'red' }}>
-                                                <CloseIcon sx={{ fontSize: "1em" }} />
-                                            </IconButton>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Box>
-                </Grid>
+                                {/* <Grid container spacing={2} >
+                                    {treninziGrupni.map((tr) => (
+                                        <Grid item xs={12} sm={6} md={4} lg={3}>
+                                            <Card className='cardShadow' key={tr.id} sx={{ maxWidth: 345 }} >
+                                                <CardContent>
+                                                    <Typography gutterBottom variant="h5" component="div">
+                                                        Nada Jovanovic
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        Broj telefona
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        {tr.datum} {tr.vreme}
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        Trajanje: {tr.trajanje}
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        Intenzitet: {tr.intenzitet}
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        Tip: {tr.tip}
+                                                    </Typography>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        Online: {tr.isOnline}
+                                                    </Typography>
+                                                </CardContent>
+                                                <CardActions sx={{ justifyContent: 'flex-end' }}>
+                                                    <IconButton sx={{ p: 0, color: 'inherit' }}>
+                                                        <EditIcon sx={{ fontSize: "1em" }} />
+                                                    </IconButton>
+                                                    <IconButton sx={{ p: 0, color: 'green' }}>
+                                                        <CheckCircleIcon sx={{ fontSize: "1em" }} />
+                                                    </IconButton>
+                                                    <IconButton sx={{ p: 0, color: 'red' }}>
+                                                        <CloseIcon sx={{ fontSize: "1em" }} />
+                                                    </IconButton>
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                                    </Grid>*/}
+                                    </Box> 
+                        </Grid>  
             </Grid>
 
 

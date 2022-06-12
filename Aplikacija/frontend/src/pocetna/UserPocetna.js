@@ -14,7 +14,7 @@ const UserPocetna = () => {
     console.log(user)
 
     return (
-        <Box sx = {{minHeight: '100vh', minWidth: '100vw'}}>
+        <Box>
             {/* <Korisnik/> */}
             {(user.tip == 'Korisnik' || !user.tip) && <Korisnik />}
             {user.tip == 'Trener' && <Trener />}

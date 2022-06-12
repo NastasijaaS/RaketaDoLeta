@@ -3,7 +3,7 @@ import { useState, useContext, useRef } from "react";
 import { UserContext } from '../context/UserContext';
 import { LoginMetoda } from '../komponente/Fetch';
 import CircularProgress from '@mui/material/CircularProgress'
-import { Button, TextField, Box } from '@mui/material';
+import { Button, TextField, Box, Typography } from '@mui/material';
 import Greska from '../komponente/Alert';
 import { LoginSuccess, LoginFailure, LoginStart } from '../context/UserActions.js'
 import axios from 'axios'
@@ -110,7 +110,7 @@ const LogIn = (props) => {
     }
 
     return (
-        <Box className="forma" sx = {{marginBottom: '25%'}}>
+        <Box className="forma cardCenter marginB">
             <form className="login" >
                 <Greska
                     open={alert.prikazi}
@@ -119,7 +119,7 @@ const LogIn = (props) => {
                     greska={alert.greska}
                 />
 
-                <h2>Prijavite se:</h2>
+                <Typography variant = "h5" component = "div" sx ={{textAlign:'center'}}>Prijavite se:</Typography>
 
 
                 <TextField
@@ -132,7 +132,7 @@ const LogIn = (props) => {
                     type="email"
                     color="primary"
                     size="small"
-                    focused />
+                     />
 
                 {/* {greska.mail && <p className='greska'>Molimo unesite ispravnu e-mail adresu</p>} */}
 
@@ -146,7 +146,7 @@ const LogIn = (props) => {
                     minlenght="6"
                     color="primary"
                     size="small"
-                    focused />
+                     />
 
                 {/* {greska.lozinka && <p className='greska'>Lozinka mora imati najmanje 6 karaktera</p>} */}
 
