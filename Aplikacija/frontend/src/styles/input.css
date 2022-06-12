@@ -1,6 +1,6 @@
 input.cenaUsluge,
 input.korisnik {
-    background-color: transparent;
+   
     text-align: center;
     font: 1em sans-serif;
     border: none;
@@ -15,13 +15,11 @@ input.korisnik {
 
 input.cenaUsluge:disabled,
 input.korisnik:disabled {
-    background-color: transparent;
     border: none;
     text-align: center;
 }
 
 input.cenaUsluge:active {
-    background-color: transparent;
     border: none;
     text-align: center;
 }
@@ -29,13 +27,15 @@ input.cenaUsluge:active {
 input.cenaUsluge:focus {
     outline: 1px solid rgb(255, 123, 0);
     font-weight: bold;
-
 }
 
 input.korisnik:focus {
     outline: 1px solid rgb(255, 123, 0);
     font-weight: bold;
-
+}
+input{
+    background-color: transparent;
+    color: inherit;
 }
 /*
 div.infoOProfilu {

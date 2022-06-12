@@ -1,6 +1,6 @@
 .modal {
   overflow-y: initial !important;
-  background-color: rgb(250, 247, 250);
+  background-color:inherit;
   position: fixed;
   top: 10vh;
   padding: 1rem;

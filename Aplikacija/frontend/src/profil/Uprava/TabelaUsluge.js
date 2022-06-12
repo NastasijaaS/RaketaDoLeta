@@ -3,16 +3,14 @@ import { GetData, DeleteMetoda, PutMetoda, PostMetoda } from '../../komponente/F
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { TextField, Box, Modal, Typography, Checkbox, FormControlLabel } from '@mui/material';
+import { TextField, Box, Checkbox, FormControlLabel } from '@mui/material';
 import '../../styles/input.css'
-import { useNavigate } from "react-router-dom";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TableHead from '@mui/material/TableHead';
+import Modal from '../../komponente/Modal';
 
 const TabelaUsluge = () => {
 
@@ -123,92 +121,84 @@ const TabelaUsluge = () => {
         setRefresh(!refresh)
     }
 
+    const FormaDodajUslugu = () => {
+        return (
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <TextField
+                    sx={{ alignSelf: 'center', m: 1, width: '80%' }}
+                    inputRef={nazivUsluge}
+                    label="naziv"
+                    type="text"
+                    color="primary"
+                    size="small"
+                    variant="standard"
+                    focused />
+
+                <TextField
+                    sx={{ alignSelf: 'center', m: 1, width: '80%' }}
+                    label="opis"
+                    multiline
+                    rows={5}
+                    color="primary"
+                    inputRef={opisUsluge}
+                    variant="standard"
+                    focused
+                />
+
+
+                <TextField
+                    sx={{ alignSelf: 'center', m: 1, }}
+                    inputRef={cenaUsluge}
+                    label="cena"
+                    type="number"
+                    step='10'
+                    color="primary"
+                    size="small"
+                    focused />
+
+                <TextField
+                    sx={{ alignSelf: 'center', m: 1, }}
+                    inputRef={trajanjeUsluge}
+                    label="trajanje"
+                    type="number"
+                    step='10'
+                    color="primary"
+                    size="small"
+                    focused />
+
+                <FormControlLabel
+                    sx={{ alignSelf: 'center', alignItems: 'center' }}
+                    value="online"
+                    onChange={(ev) => { grupniTrening = ev.target.checked }}
+                    control={<Checkbox color="primary" />}
+                    label="Grupni trening"
+                    labelPlacement="start"
+                    color="primary"
+                />
+
+                <div style={{ alignSelf: 'center' }}>
+                    <Button sx={{ margin: 4 }} size='small' variant="contained" onClick={dodajUslugu}>ok</Button>
+                    <Button sx={{ margin: 4 }} size='small' variant="contained" onClick={() => setNovaUsluga(false)}>Otkazi</Button>
+                </div>
+            </Box>
+        )
+    }
+
+
     return (
         <Box style={{ width: '100%' }}>
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
             {greska && <p className='greska'>Doslo je do greske prilikom ucitavanje</p>}
 
-            <Modal
-                sx={{ display: 'flex', justifyContent: 'center' }}
-                open={novaUsluga}
-                onClose={() => setNovaUsluga(false)}>
 
-                <Box
-                    component="form"
-                    sx={{
-                        m: 5,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        backgroundColor: 'white',
-                        justifyContent: 'center',
-                        gap: 1,
-                        width: '50%',
-                        borderRadius: '12px'
-                    }}
-                    Validate
-                    autoComplete="off"
-                >
+            {novaUsluga
+                &&
+                <Modal onClose={() => setNovaUsluga(false)}>
+                    <FormaDodajUslugu />
+                </Modal>
+            }
 
-                    <TextField
-                        sx={{ alignSelf: 'center', m: 1, width: '80%' }}
-                        inputRef={nazivUsluge}
-                        label="naziv"
-                        type="text"
-                        color="primary"
-                        size="small"
-                        variant="standard"
-                        focused />
-
-                    <TextField
-                        sx={{ alignSelf: 'center', m: 1, width: '80%' }}
-                        label="opis"
-                        multiline
-                        rows={5}
-                        color="primary"
-                        inputRef={opisUsluge}
-                        variant="standard"
-                        focused
-                    />
-
-
-                    <TextField
-                        sx={{ alignSelf: 'center' }}
-                        inputRef={cenaUsluge}
-                        label="cena"
-                        type="number"
-                        step='10'
-                        color="primary"
-                        size="small"
-                        focused />
-
-                    <TextField
-                        sx={{ alignSelf: 'center' }}
-                        inputRef={trajanjeUsluge}
-                        label="trajanje"
-                        type="number"
-                        step='10'
-                        color="primary"
-                        size="small"
-                        focused />
-
-                    <FormControlLabel
-                        value="online"
-                        onChange={(ev) => { grupniTrening = ev.target.checked }}
-                        control={<Checkbox color="primary" />}
-                        label="Grupni trening"
-                        labelPlacement="start"
-                        color="primary"
-                    />
-
-                    <div style={{ alignSelf: 'center' }}>
-                        <Button sx={{ margin: 4 }} size='small' variant="contained" onClick={dodajUslugu}>ok</Button>
-                        <Button sx={{ margin: 4 }} size='small' variant="contained" onClick={() => setNovaUsluga(false)}>Otkazi</Button>
-                    </div>
-
-                </Box>
-
-            </Modal>
 
             <Button
                 size="medium"
