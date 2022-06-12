@@ -127,7 +127,7 @@ router.get("/vratiZauzeteTermineZaTreneraPoDatumu/:idTrenera/:datum", async (req
             let sviTreninzi = []
             for (let i = 0; i < sviTermini.length; i++) {
                 const trening = await Trening.findById(sviTermini[i].treningId)
-                const korisnik = await Korisnik.findById(sviTermini[i].trening.clanovi[0])
+                const korisnik = await Korisnik.findById(trening.clanovi[0])
                 const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
                 let vremee = sviTermini[i].vremePocetka
                 let samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
