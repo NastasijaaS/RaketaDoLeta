@@ -663,7 +663,7 @@ router.get("/vidiNapredakPoslednji/:idKorisnika", async (req, res) => {
             //res.status(200).json(napredak)
 
             if (napredak != null) {
-                let vrati = []
+                //let vrati = []
                 let tr = {
                     tezina: napredak.tezina.slice(-1),
                     tezinaMisica: napredak.tezinaMisica.slice(-1),
@@ -678,8 +678,8 @@ router.get("/vidiNapredakPoslednji/:idKorisnika", async (req, res) => {
 
 
                 }
-                vrati.push(tr)
-                res.status(200).json(vrati)
+                //vrati.push(tr)
+                res.status(200).json(tr)
             
             }
             

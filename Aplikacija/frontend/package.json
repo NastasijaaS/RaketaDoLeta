@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
+    "ng2-charts": "^3.0.11",
     "react": "^18.1.0",
     "react-calendar": "^3.7.0",
     "react-carousel-minimal": "^1.4.1",
