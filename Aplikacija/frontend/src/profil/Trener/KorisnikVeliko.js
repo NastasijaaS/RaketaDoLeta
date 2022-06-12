@@ -23,7 +23,7 @@ const KorisnikVeliko = (props) => {
     const [napredak, setNapredak] = useState(false)
     const [evidencija, setEvidencija] = useState(false)
 
-    const [nizNapredaka, setNizNapredak] = useState()
+    const [nizNapredaka, setNizNapredak] = useState([])
     const [zeljeno, setZeljeno] = useState([])
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -32,14 +32,14 @@ const KorisnikVeliko = (props) => {
 
     useEffect(() => {
         const get = async () => {
-                // GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika, setNizNapredaka, setGreska, setIsLoading)
-                // console.log(nizNapredaka)
-                const res = await axios.get("http://localhost:8800/api/korisnik/vidiNapredak/" +  k.idkorisnika)
-                setNizNapredak(res.data)
-                setZeljeno(res.data.tezina) 
-                console.log(nizNapredaka)
-                console.log(k)
-            }
+            // GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika, setNizNapredaka, setGreska, setIsLoading)
+            // console.log(nizNapredaka)
+            const res = await axios.get("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika)
+            setNizNapredak(res.data)
+            setZeljeno(res.data.tezina)
+            console.log(res.data)
+            console.log(k)
+        }
         get()
     }, [])
 
@@ -59,20 +59,19 @@ const KorisnikVeliko = (props) => {
 
 
             <CardActions>
-                {!nizNapredaka && <Button onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
-                {nizNapredaka && <Button onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
-
+                {!napredak && <Button onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
+                {napredak && <Button onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
 
                 {/* <Button onClick={() => setEvidencija(true)}>Dodaj evidenciju</Button> */}
             </CardActions>
 
 
-            <Card> 
-                {/* <NapredakGrafici napredak = {nizNapredaka} zeljeno ={zeljeno} user = {k}/> */}
+            <Card>
+                <NapredakGrafici napredak={nizNapredaka} zeljeno={zeljeno} user={k} />
             </Card>
 
             {napredak && <Modal onClose={() => { setNapredak(false) }}>
-                <DodajNapredak prvi={prvi} napredakId = {k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />
+                <DodajNapredak prvi={prvi} napredakId={k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />
             </Modal>
             }
             {evidencija && <Modal onClose={() => { setEvidencija(false) }}>
