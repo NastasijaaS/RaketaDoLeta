@@ -7,6 +7,10 @@ import { useLocation } from 'react-router-dom';
 import DodajEvidenciju from '../../komponente/DodajEvidenciju';
 import { UserContext } from '../../context/UserContext';
 import { GetData } from '../../komponente/Fetch';
+import NapredakGrafici from '../../komponente/NapredakGrafici';
+import axios from 'axios';
+
+
 
 const KorisnikVeliko = (props) => {
 
@@ -19,7 +23,8 @@ const KorisnikVeliko = (props) => {
     const [napredak, setNapredak] = useState(false)
     const [evidencija, setEvidencija] = useState(false)
 
-    const [nizNapredaka, setNizNapredaka] = useState()
+    const [nizNapredaka, setNizNapredak] = useState()
+    const [zeljeno, setZeljeno] = useState([])
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -27,9 +32,14 @@ const KorisnikVeliko = (props) => {
 
     useEffect(() => {
         const get = async () => {
-            await
-                GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika, setNizNapredaka, setGreska, setIsLoading)
-        }
+                // GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika, setNizNapredaka, setGreska, setIsLoading)
+                // console.log(nizNapredaka)
+                const res = await axios.get("http://localhost:8800/api/korisnik/vidiNapredak/" +  k.idkorisnika)
+                setNizNapredak(res.data)
+                setZeljeno(res.data.tezina) 
+                console.log(nizNapredaka)
+                console.log(k)
+            }
         get()
     }, [])
 
@@ -57,19 +67,9 @@ const KorisnikVeliko = (props) => {
             </CardActions>
 
 
-            <div> BMI
-
-                {/* {
-                    nizNapredaka.BMI.map((n) => (
-                        <CardContent key={n}>
-                            <Typography gutterBottom component="div">
-                                {n}
-                            </Typography>
-
-                        </CardContent>
-                    ))
-                } */}
-            </div>
+            <Card> 
+                {/* <NapredakGrafici napredak = {nizNapredaka} zeljeno ={zeljeno} user = {k}/> */}
+            </Card>
 
             {napredak && <Modal onClose={() => { setNapredak(false) }}>
                 <DodajNapredak prvi={prvi} napredakId = {k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />

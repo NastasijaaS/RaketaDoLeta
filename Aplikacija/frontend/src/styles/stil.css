@@ -52,3 +52,7 @@
     background-color: #f1f1f1;
     margin-bottom: 2%;
 }
+a{
+    text-decoration: none;
+    color:inherit;
+}

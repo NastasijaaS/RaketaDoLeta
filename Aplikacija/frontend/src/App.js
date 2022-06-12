@@ -43,7 +43,7 @@ const darkTheme = createTheme({
       main: '#f8af00',
     },
     secondary: {
-      main: '#004af8',
+      main: '#f8af00',
     },
     error: {
       main: '#f83200',
@@ -58,13 +58,18 @@ const lightTheme = createTheme({
       main: '#f8af00',
     },
     secondary: {
-      main: '#004af8',
+      main: '#000000',
     },
     error: {
       main: '#f83200',
     },
   },
 });
+const fabStyle = {
+  position: 'absolute',
+  bottom: 16,
+  right: 16,
+};
 
 const ColorModeContext = createContext({ toggleColorMode: () => { } });
 
@@ -125,13 +130,7 @@ function App() {
             ((user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar check={mode} change={() => setMode(!mode)} />)
           }
 
-          <Fab onClick={toggleColorMode}>
-            {/* <IconButton> */}
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-            {/* </IconButton> */}
-          </Fab>
-
-
+          
           <Routes>
 
             <Route path='/' element={<Pocetna />} />
@@ -176,10 +175,21 @@ function App() {
             <Route path='/RDL/trener/:username/treninzi' element={<TreninziTrenera />} />
             <Route path='/trener/korisnik/:ime' element={<KorisnikVeliko />} />
             <Route path='/RDL/trener/odbijenizahtevi' element={<OdbijeniTreninzi />} />
-
+        
           </Routes>
-
-          {/* <Footer /> */}
+          <Fab sx = {{margin: 0,
+          top: 'auto',
+          right: 20,
+          bottom: 20,
+          left: 'auto',
+          position: 'fixed'}}onClick={toggleColorMode}>
+            {/* <IconButton> */}
+            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            {/* </IconButton> */}
+          </Fab>
+          {(user && user.tip === 'Korisnik' ) && <Footer/>}
+          {(!user ) && <Footer/>}
+          
         </Router>
       </ThemeProvider >
 

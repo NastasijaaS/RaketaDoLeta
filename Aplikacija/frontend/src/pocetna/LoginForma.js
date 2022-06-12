@@ -110,7 +110,7 @@ const LogIn = (props) => {
     }
 
     return (
-        <div className="forma">
+        <Box className="forma" sx = {{marginBottom: '25%'}}>
             <form className="login" >
                 <Greska
                     open={alert.prikazi}
@@ -155,7 +155,7 @@ const LogIn = (props) => {
                 <Button size='small' variant="contained" onClick={upis}>Prijavi se</Button>
 
             </form>
-        </div >
+        </Box >
 
     )
 }

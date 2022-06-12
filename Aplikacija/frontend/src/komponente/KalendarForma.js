@@ -192,8 +192,8 @@ const KalendarForma = (props) => {
     }
 
     return (
-        <Box className="cardCenter">
-            <Box>
+        <Box className="cardCenter" >
+            <Box sx = {{width:'100%'}}>
                 <Box
                     sx={{
                         flexGrow: 1,

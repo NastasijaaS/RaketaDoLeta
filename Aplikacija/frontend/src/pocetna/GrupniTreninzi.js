@@ -37,7 +37,7 @@ const GrupniTreninzi = () => {
 
             {treninzi.map((tr, i) => (
                 <Card key={i}>
-                    <Grid container>
+                    <Grid container spacing = {2}>
                         <Grid item xs={12} md={4}>
                             <CardMedia
                                 component="img"
