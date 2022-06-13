@@ -113,7 +113,7 @@ export const PutMetoda = async (zahtev, setData, setGreska, setIsLoading) => {
     }).then(p => {
         p.json()
             .then(data => {
-                console.log(data)
+               // console.log(data)
                 if (p.ok) {
                     setData(data)
                     setIsLoading(false)

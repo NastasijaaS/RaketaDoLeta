@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import IconButton from '@mui/material/IconButton';
@@ -25,21 +25,28 @@ const Zvonce = ({ iconColor, user, status }) => {
     const [greska, setGreska] = useState(false)
     const [refresh, setRefresh] = useState(false)
 
+    const [data1, setData1] = useState([])
+
+
     // const { user } = useContext(UserContext);
 
 
     useEffect(() => {
-        // if (status) {
-        //     GetData('http://localhost:8800/api/korisnik/vidiZahteve/' + user + '/' + status, setData, setGreska, setIsLoading)
-        // }
-        // else {
+        if (status) {
+            GetData('http://localhost:8800/api/korisnik/vidiZahteve/' + user + '/' + status, setData1, setGreska, setIsLoading)
+        }
+        else {
             GetData('http://localhost:8800/api/korisnik/vidiZahteveZaKorisnika/' + user, setData, setGreska, setIsLoading)
-        // }
+        }
+
+        if (data !== data1) {
+            setData(data1)
+        }
     }, [refresh])
 
     // setInterval(() => {
     //     setRefresh(!refresh)
-    // }, 10000);
+    // }, 1000);
 
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);

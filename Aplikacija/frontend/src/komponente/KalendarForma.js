@@ -176,7 +176,7 @@ const KalendarForma = (props) => {
 
     let datumi = []
 
-    for (let i = 1; i < 15; i++) {
+    for (let i = 0; i < 15; i++) {
         datumi.push(
             <Day key={i} broj={i} />
         )

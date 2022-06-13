@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
+import { Badge } from '@mui/material';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
@@ -17,6 +17,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import LoginIcon from '@mui/icons-material/Login';
 import { UserContext } from '../context/UserContext';
 import Zvonce from './Zvonce'
+import NoviZahtev from "./NoviZahtev";
 
 
 const NavbarTrener = () => {
@@ -26,7 +27,7 @@ const NavbarTrener = () => {
     const pages = [
         { val: 'Profil', link: '/profil' },
         { val: 'Korisnici', link: `/RDL/trener/korisnici` },
-        { val: 'zahtevi', link: `/RDL/trener/${user.ime}/zahtevi` },
+        //  { val: 'zahtevi', link: `/RDL/trener/${user.ime}/zahtevi` },
         { val: 'odbijeni trenizi', link: `/RDL/trener/odbijenizahtevi` }
 
     ];
@@ -89,7 +90,13 @@ const NavbarTrener = () => {
 
                         ))}
 
+                        <Box sx={{ my: 2, display: { xs: 'none', md: 'flex' } }}>
+                            <NoviZahtev />
+                        </Box>
+
                     </Box>
+
+
 
                     {/*OVO JE ZA MOBILNI MENI LEVO */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -157,7 +164,11 @@ const NavbarTrener = () => {
                         RDL
                     </Typography>
 
-                    
+
+                    <Box sx={{ my: 2, display: { xs: 'flex', md: 'none' }  }}>
+                        <NoviZahtev />
+                    </Box>
+
                     {user && <Zvonce user={user.id} status={"Ukinuto"} />}
 
                     <Tooltip title="Account">

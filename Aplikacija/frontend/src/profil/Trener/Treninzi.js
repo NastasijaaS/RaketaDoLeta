@@ -29,9 +29,8 @@ const TreninziTrenera = () => {
     const [noviTrening, setNoviTrening] = useState(false)
 
     useEffect(() => {
-        const get = async () => { await GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading) }
-
-        get()
+        GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading)
+        
     }, [])
 
 

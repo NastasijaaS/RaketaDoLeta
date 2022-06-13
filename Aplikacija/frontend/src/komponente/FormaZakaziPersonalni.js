@@ -59,14 +59,14 @@ const FormaZakaziPersonalni = (props) => {
 
         GetData(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`,
             setTermini, setGreska, setIsLoading)
-       
+
     }, [date])
 
     const zakaziTrening = (ev) => {
         console.log(termin.vreme)
 
 
-        if (tipTreninga === '' || intenzitetTreninga === '' || trajanjeTreninga === '' || termin.vreme ==='' ) {
+        if (tipTreninga === '' || intenzitetTreninga === '' || trajanjeTreninga === '' || termin.vreme === '') {
             setError('Morate uneti sve podatke')
             return
         }
@@ -90,8 +90,8 @@ const FormaZakaziPersonalni = (props) => {
             }
         }
 
-      
-      
+
+
         PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
@@ -110,24 +110,29 @@ const FormaZakaziPersonalni = (props) => {
     }
 
     const DropDown = ({ labela, set, niz, value }) => {
-        return (<FormControl sx={{ width: '100%' }}>
-            <InputLabel>{labela}</InputLabel>
-            <Select
-                label={labela}
-                value={value}
-                size='small'
-                onChange={(ev) => {
-                    set(ev.target.value)
-                }}
-            >
-                {
-                    niz.map(n => (
-                        <MenuItem key={n} value={n}>{n}</MenuItem>
-                    ))
-                }
 
-            </Select>
-        </FormControl>)
+        return (
+            <FormControl
+                sx={{ width: '100%' }}
+            // disabled={termini.length === 0}
+            >
+                <InputLabel>{labela}</InputLabel>
+                <Select
+                    label={labela}
+                    value={value}
+                    size='small'
+                    onChange={(ev) => {
+                        set(ev.target.value)
+                    }}
+                >
+                    {
+                        niz.map(n => (
+                            <MenuItem key={n} value={n}>{n}</MenuItem>
+                        ))
+                    }
+
+                </Select>
+            </FormControl>)
     }
 
 
@@ -158,7 +163,6 @@ const FormaZakaziPersonalni = (props) => {
                     onChange={(newValue) => {
                         setDate(newValue);
                         //   nadjiTermin(newValue);
-
                     }}
                     minDate={new Date()}
                     maxDate={datumDo}
@@ -168,8 +172,10 @@ const FormaZakaziPersonalni = (props) => {
             </LocalizationProvider>
 
 
-            <FormControl sx={{ width: '100%' }}>
-                <InputLabel>vreme</InputLabel>
+            <FormControl sx={{ width: '100%' }}
+                disabled={termini.length === 0}
+            > 
+                <InputLabel>{ termini.length === 0 ? 'nema slobodnih termina':'vreme'}</InputLabel>
                 <Select
                     label='vreme'
                     value={termin.vreme}
@@ -203,7 +209,7 @@ const FormaZakaziPersonalni = (props) => {
                 <Button sx={{ marginLeft: '2%' }} size='small' variant="outlined" onClick={props.onClose}>Otkazi</Button>
             </Box>
 
-        </Box>
+        </Box >
     )
 }
 
