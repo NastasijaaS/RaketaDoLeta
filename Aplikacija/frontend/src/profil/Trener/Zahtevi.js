@@ -15,6 +15,8 @@ const ZahteviTrenera = () => {
 
     const [refresh, setRefresh] = useState(false)
     const [data, setData] = useState(false)
+    const [evidencija, setEvidencija] = useState({intenziteti:[], tipTreninga:[], datumi:[]})
+
     // Accordion
     const [current, setCurrent] = useState(-1);
 
@@ -24,13 +26,9 @@ const ZahteviTrenera = () => {
 
 
     useEffect(() => {
-        const get =
-            async () => {
-                await GetData("http://localhost:8800/api/trener/vratiTreningePersonalniC/" + user.trenerId,
-                    setZahtevi, setGreska, setIsLoading)
-            }
 
-        get()
+        GetData("http://localhost:8800/api/trener/vratiTreningePersonalniC/" + user.trenerId,
+                    setZahtevi, setGreska, setIsLoading)
     }, [refresh])
 
 
@@ -71,6 +69,12 @@ const ZahteviTrenera = () => {
         setRefresh(!refresh)
     }
 
+    const vidiEvidenciju = (id) => {
+        GetData("http://localhost:8800/api/trener/vidiEvidenciju/" + user.trenerId+ '/'+  id,
+            setEvidencija, setGreska, setIsLoading)
+    }
+
+
     return (
 
         <Box className='marginS'>
@@ -84,7 +88,7 @@ const ZahteviTrenera = () => {
                         <Accordion
                             sx={{ flexGrow: 1 }}
                             expanded={current === i}
-                            onClick={() => changeState(i)}
+                            onClick={() => {changeState(i);vidiEvidenciju(z.idKorisnika)} }
                         >
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
@@ -97,9 +101,36 @@ const ZahteviTrenera = () => {
                                 </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography>Broj telefona: {z.brojtelefonaT}</Typography>
-                                <Typography>Intenzitet: {z.intenzitet}</Typography>
-                                <Typography>Tip: {z.tip}</Typography>
+                                <Box>
+                                    <Typography>Broj telefona: {z.brojtelefonaT}</Typography>
+                                    <Typography>Intenzitet: {z.intenzitet}</Typography>
+                                    <Typography>Tip: {z.tip}</Typography>
+                                </Box>
+                                {/* <Box>
+                                    datumi
+                                    {
+                                        evidencija.datumi.map((e,i)=>(
+                                            <Typography  key = {i}>{e}</Typography>
+                                        ))
+                                    }
+                                </Box> */}
+                                <Box>
+                                    intenziteti
+                                    {
+                                        evidencija.intenziteti.map((e,i)=>(
+                                            <Typography key = {i}>{e}</Typography>
+                                        ))
+                                    }
+                                </Box>
+                                <Box>
+                                    tip treninga
+                                    {
+                                        evidencija.tipTreninga.map((e,i)=>(
+                                            <Typography  key = {i}>{e}</Typography>
+                                        ))
+                                    }
+                                </Box>
+                                <Button>posalji izmenu</Button>
                             </AccordionDetails>
                         </Accordion>
 

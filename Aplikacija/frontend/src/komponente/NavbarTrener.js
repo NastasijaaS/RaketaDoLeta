@@ -28,7 +28,7 @@ const NavbarTrener = () => {
         { val: 'Profil', link: '/profil' },
         { val: 'Korisnici', link: `/RDL/trener/korisnici` },
         //  { val: 'zahtevi', link: `/RDL/trener/${user.ime}/zahtevi` },
-        { val: 'odbijeni trenizi', link: `/RDL/trener/odbijenizahtevi` }
+        { val: 'Prosli treninzi', link: `/RDL/trener/odbijenizahtevi` }
 
     ];
 

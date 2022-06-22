@@ -37,14 +37,12 @@ const TabelaUsluge = () => {
     const trajanjeUsluge = useRef()
 
     useEffect(() => {
-        const get = async () => {
-            await
-                GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
-        }
-        get()
+       
+            GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+
     }, [refresh])
 
-    const izmeniUslugu = async (idUsluge) => {
+    const izmeniUslugu =  (idUsluge) => {
         const zahtev = {
             url: 'http://localhost:8800/api/uprava/izmeniUslugu/' + idUsluge,
             body: {
@@ -54,7 +52,7 @@ const TabelaUsluge = () => {
             }
         }
 
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+         PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -66,7 +64,7 @@ const TabelaUsluge = () => {
         setRefresh(!refresh)
     }
 
-    const obrisiUslugu = async (idUsluge, opis) => {
+    const obrisiUslugu =  (idUsluge, opis) => {
 
         // console.log(opis)
         // console.log(idUsluge)
@@ -76,7 +74,7 @@ const TabelaUsluge = () => {
         }
 
         // console.log('http://localhost:8800/api/uprava/obrisiUslugu/' + idUsluge)
-        await DeleteMetoda(zahtev, setGreska, setIsLoading)
+         DeleteMetoda(zahtev, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -86,7 +84,7 @@ const TabelaUsluge = () => {
         setRefresh(!refresh)
     }
 
-    const dodajUslugu = async () => {
+    const dodajUslugu =  () => {
 
         if (nazivUsluge.current.value === '') {
             alert('morate uneti naziv')
@@ -108,7 +106,7 @@ const TabelaUsluge = () => {
             }
         }
 
-        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+         PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')

@@ -303,19 +303,13 @@ router.post("/napraviZahtev/:idTreninga", async (req, res) => {
 })
 
 //obrisi odbijen trening
-router.delete("/obrisiOdbijenTrening/:idZahteva", async (req, res) => {
+router.delete("/obrisiTrening/:treningId", async (req, res) => {
 
   try {
 
-    const zahtev = await Zahtev.findById(req.params.idZahteva)
-    if (zahtev.status == "Odbijeno" || zahtev.status == "Ukinuto") {
-      await Trening.findByIdAndDelete(zahtev.treningId)
+      await Trening.findByIdAndDelete(req.params.treningId)
       res.status(200).json("trening uspesno obrisan")
-    }
-    else {
-      res.status(400).json("Trening je prihvacen, ne treba ga brisati")
-    }
-
+  
   }
   catch (err) {
     res.status(500).json(err);

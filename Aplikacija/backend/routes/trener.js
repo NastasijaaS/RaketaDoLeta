@@ -332,7 +332,7 @@ router.get("/vratiTreningePersonalniC/:id", async (req, res) => {
                     let samovreme = vremee.toLocaleTimeString(['hr-HR'], {hour: '2-digit', minute:'2-digit'});
 
                     let tr = {
-
+                        idKorisnika:korisnik._id,
                         imeT: regK.ime,
                         prezimeT: regK.prezime,
                         brojtelefonaT: regK.brojTelefona,
@@ -761,7 +761,7 @@ router.get("/vidiEvidenciju/:idTrenera/:idKorisnika", async (req, res) => {
             const korisnik = await Korisnik.findById(req.params.idKorisnika)
             if (korisnik != null) {
                 const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
-                if (korisnik.trenerId == trener._id) {
+               // if (korisnik.trenerId == trener._id) {
                     const evidencija = await Evidencija.findOne({ korisnikId: req.params.idKorisnika })
                     if (evidencija != null) {
                         let vrati = {
@@ -771,10 +771,10 @@ router.get("/vidiEvidenciju/:idTrenera/:idKorisnika", async (req, res) => {
                             intenzitet: evidencija.intenzitet
                         }
                         res.status(200).json(evidencija)
-                    }
-                    else {
-                        res.status(404).json("ne postoji dodata evidencija za ovog klijenta")
-                    }
+                  //  }
+                    // else {
+                    //     res.status(404).json("ne postoji dodata evidencija za ovog klijenta")
+                    // }
 
                 }
                 else {

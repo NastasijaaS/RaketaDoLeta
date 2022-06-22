@@ -21,6 +21,8 @@ const KorisnikVeliko = (props) => {
 
     const k = location.state
 
+    console.log(k)
+
     const [napredak, setNapredak] = useState(false)
     const [evidencija, setEvidencija] = useState(false)
 
@@ -33,14 +35,22 @@ const KorisnikVeliko = (props) => {
 
     useEffect(() => {
         const get = async () => {
+
             // GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika, setNizNapredaka, setGreska, setIsLoading)
             // console.log(nizNapredaka)
-            const res = await axios.get("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika)
+            let res = await axios.get("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika)
             setNizNapredak(res.data)
             setZeljeno(res.data.tezina)
-            console.log(res.data)
-            console.log(k)
+            // console.log(res.data)
+            // console.log(k)
+
+            res = await axios.get("http://localhost:8800/api/trener/vidiEvidenciju/" + user.trenerId + '/'+  k.idkorisnika)
+         //   console.log(res.data)
+
+            setEvidencija(res.data)
+
         }
+        ///vidiEvidenciju/:idTrenera/:idKorisnika
         get()
     }, [])
 
@@ -77,8 +87,8 @@ const KorisnikVeliko = (props) => {
             </CardContent>
 
             <CardActions>
-                {!nizNapredaka && <Button fullWidth variant = "outlined" onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
-                {nizNapredaka && <Button fullWidth  variant = "outlined" onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
+                {!nizNapredaka && <Button sx = {{marginTop:'2%'}} fullWidth variant = "contained"  size = "small" onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
+                {nizNapredaka && <Button sx = {{marginTop:'2%'}} fullWidth  variant = "contained" size = "small" onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
 
                 {/* <Button onClick={() => setEvidencija(true)}>Dodaj evidenciju</Button> */}
             </CardActions>

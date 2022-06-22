@@ -17,6 +17,14 @@ const UserContextProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(state.user))
     }, [state.user])
 
+    useEffect(() => {
+        let localUser = localStorage.getItem("user", JSON.stringify(state.user))
+        const {token} = localUser;
+        if(token && token.length) {
+            // get req na /me rutu
+        }
+    }, [])
+
     return (
         <UserContext.Provider
             value={{
