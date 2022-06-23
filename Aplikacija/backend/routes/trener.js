@@ -726,7 +726,8 @@ router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
                                     }
                                 })
 
-                                await trening.findByIdAndDelete(trening._id)
+                                await Trening.findByIdAndDelete(trening._id)
+                                await Termin.findByIdAndDelete(termin._id)
                                 return res.status(200).json(final)
                             }
                             else{
