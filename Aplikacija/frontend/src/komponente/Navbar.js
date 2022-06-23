@@ -123,11 +123,7 @@ const Navbar = ({ check, change }) => {
               </Button>
             ))}
           </Box>
-
-
-
-         {user && <Zvonce user = {user.id}/>}
-
+          
 
 
           {/*OVO JE ZA MOBILNI MENI LEVO */}
@@ -138,7 +134,7 @@ const Navbar = ({ check, change }) => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx = {{color:"white"}}
             >
               <MenuIcon />
             </IconButton>
@@ -170,8 +166,9 @@ const Navbar = ({ check, change }) => {
 
             </Menu>
           </Box>
+
           {/*ZA MOBILNI SREDINA */}
-          <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 ,color: 'white'}} />
           <Typography
             variant="h5"
             noWrap
@@ -184,7 +181,7 @@ const Navbar = ({ check, change }) => {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'white',
               textDecoration: 'none',
             }}
           >
@@ -196,7 +193,7 @@ const Navbar = ({ check, change }) => {
           {!user &&
             <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
               <Tooltip title="Login">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'inherit' }}>
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
                   <LoginIcon />
                 </IconButton>
               </Tooltip>
@@ -219,12 +216,12 @@ const Navbar = ({ check, change }) => {
               >
                 <Link to='/login' >
                   <MenuItem key='Log in' onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center"> Log in</Typography>
+                    <Typography textAlign="center"> Prijavi se</Typography>
                   </MenuItem>
                 </Link>
                 <Link to='/signup' >
                   <MenuItem key='Sign up' onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center"> Sign up</Typography>
+                    <Typography textAlign="center"> Registruj se</Typography>
                   </MenuItem>
                 </Link>
               </Menu>
@@ -249,7 +246,7 @@ const Navbar = ({ check, change }) => {
                 href='/login'
                 sx={{ color: 'white', display: { xs: 'none', md: 'inline' } }}
               >
-                Log in
+                Prijavi se
               </Button>
             }
 
@@ -261,16 +258,19 @@ const Navbar = ({ check, change }) => {
                 href='/signup'
                 sx={{ m: 1, color: 'white', display: { xs: 'none', md: 'inline' } }}
               >
-                Sign up
+                Registruj se
               </Button>
 
             }
             {user &&
-              <Tooltip title="Account">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
-                  <AccountCircleOutlinedIcon />
-                </IconButton>
-              </Tooltip>
+              <Box display = 'inline-flex'>
+                <Zvonce user = {user.id}/>
+                <Tooltip title="Account">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
+                    <AccountCircleOutlinedIcon />
+                  </IconButton>
+                </Tooltip>       
+              </Box>
             }
             {user &&
               <Menu

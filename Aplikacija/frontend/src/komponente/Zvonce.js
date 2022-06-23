@@ -67,7 +67,7 @@ const Zvonce = ({ iconColor, user, status }) => {
         <div>
             <Tooltip title={data.length ? newNotifications : noNotifications}>
                 <IconButton
-                    color={iconColor}
+                    sx = {{color: 'white'}}
                     onClick={data.length ? handleOpen : null}
                 //  anchorEl={anchorEl}
                 >

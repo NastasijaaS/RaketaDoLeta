@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress, IconButton, List, ListItem, Paper, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, CircularProgress, Grid, IconButton, List, ListItem, Paper, Typography } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import { GetData, PutMetoda } from "../../komponente/Fetch";
@@ -86,13 +86,14 @@ const ZahteviTrenera = () => {
                 zahtevi.map((z, i) => (
                     <Box key={i} display='flex' flexDirection='row'>
                         <Accordion
-                            sx={{ flexGrow: 1 }}
+                            sx={{ flexGrow: 1, marginBottom: '1%'}}
                             expanded={current === i}
                             onClick={() => {changeState(i);vidiEvidenciju(z.idKorisnika)} }
                         >
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                             >
+                                
                                 <Typography variant="h6" sx={{ flexGrow: 1 }} >
                                     {z.datum}  {z.vreme}
                                 </Typography>
@@ -101,36 +102,36 @@ const ZahteviTrenera = () => {
                                 </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Box>
-                                    <Typography>Broj telefona: {z.brojtelefonaT}</Typography>
-                                    <Typography>Intenzitet: {z.intenzitet}</Typography>
-                                    <Typography>Tip: {z.tip}</Typography>
-                                </Box>
-                                {/* <Box>
-                                    datumi
-                                    {
-                                        evidencija.datumi.map((e,i)=>(
-                                            <Typography  key = {i}>{e}</Typography>
-                                        ))
-                                    }
-                                </Box> */}
-                                <Box>
-                                    intenziteti
-                                    {
-                                        evidencija.intenziteti.map((e,i)=>(
-                                            <Typography key = {i}>{e}</Typography>
-                                        ))
-                                    }
-                                </Box>
-                                <Box>
-                                    tip treninga
-                                    {
-                                        evidencija.tipTreninga.map((e,i)=>(
-                                            <Typography  key = {i}>{e}</Typography>
-                                        ))
-                                    }
-                                </Box>
-                                <Button>posalji izmenu</Button>
+                            <Grid container spacing = {2}>
+
+                                <Grid item xs = {12} md = {2} sx = {{display: 'flex', flexDirection: 'column', justifyContent:'space-evenly'}}>
+                                        <Typography>Broj telefona: {z.brojtelefonaT}</Typography>
+                                        <Typography>Intenzitet: {z.intenzitet}</Typography>
+                                        <Typography>Tip: {z.tip}</Typography>
+                                </Grid>
+                                <Grid item xs = {12} md = {10}>
+                                    <Box textAlign= 'center'>
+                                    <Typography mb = {1} textAlign = 'center' fontWeight = '500'> EVIDENCIJA PROTEKLIH TRENINGA</Typography>
+                                        <Grid container spacing = {2} justifyContent= 'center' mb ={1}>
+                                            {
+                                            evidencija.intenziteti.map((e,i) =>(
+                                                <Grid item xs = {12} md = {2} key = {i}>
+                                                    <Card className='cardShadow' sx = {{padding: '1vh', textAlign: 'justify'}}>
+                                                        <Typography>Datum: {evidencija.datumi[i]}</Typography>
+                                                        <Typography>Tip: {evidencija.tipTreninga[i]}</Typography>
+                                                        <Typography>Intenzitet: {e}</Typography>
+                                                    </Card>
+                                                </Grid>                        
+                                            ))
+
+                                            }  
+                                        </Grid>
+                                           
+                                        <Button variant = "outlined">posalji izmenu</Button>
+                                        </Box>      
+                                </Grid>
+                            </Grid>
+                                
                             </AccordionDetails>
                         </Accordion>
 

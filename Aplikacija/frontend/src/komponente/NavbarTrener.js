@@ -106,7 +106,7 @@ const NavbarTrener = () => {
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
-                            color="inherit"
+                            sx = {{color: 'white'}}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -144,7 +144,7 @@ const NavbarTrener = () => {
 
 
                     {/*ZA MOBILNI SREDINA */}
-                    <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                    <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' },  color: 'white', mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
@@ -153,11 +153,10 @@ const NavbarTrener = () => {
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.2rem',
-                            color: 'inherit',
+                            color: 'white',
                             textDecoration: 'none',
                         }}
                     >

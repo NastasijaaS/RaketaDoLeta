@@ -115,4 +115,4 @@ const Pocetna = () => {
     )
 }
 
-export {Pocetna }
+export {Pocetna}
