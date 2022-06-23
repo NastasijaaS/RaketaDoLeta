@@ -48,6 +48,8 @@ app.use("/api/termin", terminRoute);
 app.use("/api/zahtev", zahtevRoute);
 
 
+
+
 app.listen(8800, () => {
   console.log("Backend server is running!");
 });

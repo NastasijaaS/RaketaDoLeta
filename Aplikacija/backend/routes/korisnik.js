@@ -36,6 +36,8 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
 
         if (korisnik != null) {
+            if(korisnik.verifikovan)
+            {
 
             // const trenerKorisnika = await Trener.findById(korisnik.trenerId);
 
@@ -91,6 +93,11 @@ router.post("/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina", async
             })
 
             res.status(200).json(trening);
+        }
+        else
+        {
+            res.status(404).json("Vas nalog nije verifikovan!")
+        }
         }
         else {
             res.status(404).json("Korisnik nije pronadjen")
@@ -507,19 +514,47 @@ router.put("/prijavaGrupniTrening/:idKorisnika/:idTreninga", async (req, res) =>
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
 
         if (korisnik != null) {
+            if(korisnik.verifikovan)
+            {
 
             const tr = await Trening.findById(req.params.idTreninga)
             if (tr != null) {
 
-                if (tr.clanovi.length < tr.brojMaxClanova) {
-                    //res.status(200).json(brojTren)
-                    await tr.updateOne({ $push: { clanovi: korisnik._id } })
+                const usluga = await Usluga.findById(tr.uslugaId)
+                if (usluga!=null){
 
-                    res.status(200).json(tr);
+                    const clanarina = await Clanarina.findById(korisnik.clanarinaId)
+
+                    if(clanarina!=null){
+
+                        if(usluga._id===clanarina.uslugaId){
+                            if (tr.clanovi.length < tr.brojMaxClanova) {
+                                //res.status(200).json(brojTren)
+                                await tr.updateOne({ $push: { clanovi: korisnik._id } })
+            
+                                res.status(200).json(tr);
+                            }
+                            else {
+                                res.status(404).json("Nema mesta u ovom terminu!")
+                            }
+                        }
+                        else{
+                            res.status(400).json("Nemate uplacenu clanarinu za ovu uslugu!")
+                        }
+                    }
+                    else{
+                        res.status(404).json("Nije pronadjena clanarina")
+                    }
+
+                   
+
+                   
                 }
-                else {
-                    res.status(404).json("Nema mesta u ovom terminu!")
+                else{
+                    res.status(200).json("Usluga nije pronadjena")
                 }
+
+                
 
             }
 
@@ -527,9 +562,15 @@ router.put("/prijavaGrupniTrening/:idKorisnika/:idTreninga", async (req, res) =>
                 res.status(404).json("Trening nije pronadjen")
 
             }
+        }
+        else{
+            res.status(404).json("Vas nalog nije verifikovan!")
+
+        }
 
 
         }
+    
 
         else {
             res.status(404).json("Korisnik nije pronadjen")
