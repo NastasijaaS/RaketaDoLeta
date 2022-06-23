@@ -683,10 +683,12 @@ router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
             console.log(korisnik)
             const trening=await Trening.findById(req.params.idTreninga)
            
-            if (korisnik != null) {
+            if (korisnik != null && trening!=null) {
 
                     const ev= await Evidencija.findOne({korisnikId:korisnik._id})
                     console.log(ev)
+
+                    const termin=await Termin.findOne({treningId:trening._id})
 
                     //let brTreninga=ev.brojTreninga+1
 
@@ -714,14 +716,24 @@ router.put("/izmeniEvidenciju/:idTrenera/:idTreninga", async (req, res) => {
 
                         }
                         else{
+                            if(termin!=null){
+                                const final = await Evidencija.findOneAndUpdate({korisnikId:korisnik._id}, {
+                                    $push:{
+                                        tipTreninga:trening.tip,
+                                        intenziteti:trening.intenzitet,
+                                        datumi:termin.datum
+                                    
+                                    }
+                                })
+
+                                await trening.findByIdAndDelete(trening._id)
+                                return res.status(200).json(final)
+                            }
+                            else{
+                                res.status(404).json("termin nije pronadjen")
+                            }
                             
-                            const final = await Evidencija.findOneAndUpdate({korisnikId:korisnik._id}, {
-                                $push:{
-                                    tipTreninga:trening.tip,
-                                    intenziteti:trening.intenzitet
-                                }
-                            })
-                            return res.status(200).json(final)
+                            
                         }
                         
 
@@ -989,6 +1001,45 @@ router.get("/vratiTreningePersonalniO/:id", async (req, res) => {
         }
 
 
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
+router.get("/vratiProsleTreninge/:trenerId", async (req, res) => {
+
+    try {
+        const trener=await Trener.findById(req.params.trenerId)
+        if(trener!=null){
+            let treninzi=[]
+            let danasnji = new Date()
+            for(let i=0; i<trener.listaTreninga.length; i++){
+                const termin = await Termin.findOne({treningId:trener.listaTreninga[i]})
+                if(termin!=null){
+                    if (termin.datum<danasnji){
+                        treninzi.push(trener.listaTreninga[i])
+                        console.log(trener.listaTreninga[i])
+                    }
+                }
+                // else{
+                //     res.status(404).json("termin nije pronadjen")
+                // }
+               
+            }
+
+            if(treninzi.length!==0){
+                res.status(200).json(treninzi)
+            }
+            else{
+                res.status(404).json("Nisu pronadjeni prosli treninzi")
+            }
+        }
+        else{
+            res.status(404).json("Nije pronadjen trener")
+        }
+        
     }
     catch (err) {
         res.status(500).json(err);

@@ -19,6 +19,10 @@ const EvidencijaSchema = new mongoose.Schema({
     korisnikId:{
         type:String,
         //required:true
+    },
+    datumi:{
+        type:Array,
+        default:[]
     }
    
     
