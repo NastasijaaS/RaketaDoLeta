@@ -1,25 +1,25 @@
 // const router = require("express").Router();
-import express from "express";
-const router = express.Router();
-import jwt from 'jsonwebtoken';
+//import express from "express";
+//const router = express.Router();
+const jwt = require('jsonwebtoken');
 
 let refreshTokens = [];
 
 //Metoda za generisanje tokena:
-export const generateAccessToken = (user) => {
+ const generateAccessToken = (user) => {
     //Generise se na osnovu id-ja:
-    return jwt.sign({id:user._id}, process.env.TOKEN_KEY, {expiresIn: "5m"});
+    return jwt.sign({id:user._id}, process.env.TOKEN_KEY, {expiresIn: "30m"});
 };
 
 
-export const generateRefreshToken = (user) => {
+ const generateRefreshToken = (user) => {
     const token = jwt.sign({id:user._id}, process.env.REFRESH_KEY);
     refreshTokens.push(token);
     return token;
 };
 
 
-export const auth = (req, res, next) => {
+ const auth = (req, res, next) => {
     try {
         
         if(req.headers.authorization) {
@@ -50,7 +50,7 @@ export const auth = (req, res, next) => {
 };
 
 
-export const refreshAuth = (req, res) => {
+const refreshAuth = (req, res) => {
     try {
         
         const refreshToken = req.body.refreshToken;
@@ -86,4 +86,3 @@ export const refreshAuth = (req, res) => {
     }
 };
 
-export default router;

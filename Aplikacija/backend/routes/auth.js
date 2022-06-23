@@ -13,6 +13,7 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+
     let tipKorisnika = "Korisnik";
     if (req.body.tipKorisnika === 'Uprava') {
       tipKorisnika = 'Uprava'
@@ -63,7 +64,8 @@ router.post("/register", async (req, res) => {
         zeljeniProcenatProteina: noviKor.zeljeniProcenatProteina,
         zeljenaTezinaMisica: noviKor.zeljenaTezinaMisica,
         zeljeniProcenatMasti: noviKor.zeljeniProcenatMasti,
-        zeljenaTezina: noviKor.zeljenaTezina
+        zeljenaTezina: noviKor.zeljenaTezina,
+        verifikovan:noviKor.verifikovan
       }
 
       res.status(200).json(novi)
@@ -108,6 +110,7 @@ router.post("/login", async (req, res) => {
           korisnikId: korisnik._id,
           brojGodina: korisnik.brojGodina,
           visina: korisnik.visina,
+          verifikovan:korisnik.verifikovan,
           zeljeniProcenatProteina: korisnik.zeljeniProcenatProteina,
           zeljenaTezinaMisica: korisnik.zeljenaTezinaMisica,
           zeljeniProcenatMasti: korisnik.zeljeniProcenatMasti,
@@ -178,6 +181,24 @@ router.post("/proveriSifru", async (req, res) => {
       res.status(400).json("Pogresna lozinka")
     else {
       res.status(200).json("Dobra sifra")
+    }
+
+  }
+  catch (err) {
+    res.status(500).json(err)
+  }
+});
+
+router.get("/proveriEmail", async (req, res) => {
+  try {
+    const email = req.body.email;
+    const mailNovi=await RegistrovaniKorisnik.findOne({email:email})
+
+    if (mailNovi!=null)
+      res.status(404).json("Vec postoji korisnik sa zadati mailom");
+
+    else {
+      res.status(200).json("Dobar mail")
     }
 
   }
