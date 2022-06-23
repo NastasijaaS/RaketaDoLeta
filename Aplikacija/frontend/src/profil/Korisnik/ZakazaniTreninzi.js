@@ -161,38 +161,50 @@ const ZakazaniTreninzi = () => {
                         </Grid>
                     ))}
                 </Grid>
-                {grupniTreninzi.map((tr) => (
-                    <div key={tr.id}>
-
-                        <p>Trener: {tr.imeT} {tr.prezimeT}</p>
-                        <p>Datum: {tr.datum}</p>
-                        <p>Vreme: {tr.vreme}</p>
-                        <p>Trajanje: {tr.trajanje}</p>
-                        <p>Tip: {tr.tip}</p>
-                        <p>Intenzitet: {tr.intenzitet}</p>
-                        <p>online: {tr.isOnline}</p>
-
-                        <Button variant="contained" size='small' onClick={izmeniTrening.bind(undefined, tr.id)}>Izmeni trening</Button>
-                        <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
-
-                        {izmeni && <Modal onClose={() => setIzmeni(false)}>
-                            <FormaIzmeniTrening
-                                trajanjeTreninga={tr.trajanje}
-                                tipTreninga={tr.tipTreninga}
-                                intenzitetTreninga={tr.intenzitet}
-                                datum={tr.datum}
-                                vreme={tr.vreme}
-                                isOnline={tr.isOnline}
-                                onClose={() => setIzmeni(false)} />
-                        </Modal>}
-                    </div>
-                ))}
-
                 {
                     !zakazaniTreninzi &&
-                    <Typography>Nemate zakazanih treninga</Typography>
+                    <Typography>Nemate zakazanih personalnih treninga</Typography>
                 }
 
+                <Typography gutterBottom variant="h4" component="div" textAlign="center" mt = {2}>Grupni treninzi</Typography>
+                
+                <Grid container spacing={2} >
+                    {grupniTreninzi.map((tr, i) => (
+                        <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
+                            <Card className='cardShadow' key={tr.id} sx={{ maxWidth: 345 }} >
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        {tr.imeT} {tr.prezimeT}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Datum: {tr.datum}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Vreme: {tr.vreme}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Trajanje: {tr.trajanje}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Intenzitet: {tr.intenzitet}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Online: {tr.isOnline.toString()}
+                                    </Typography>
+                                </CardContent>
+                                <CardActions>
+                                    <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+
+                {
+                    !grupniTreninzi &&
+                    <Typography>Nemate zakazanih personalnih treninga</Typography>
+                }
+             
             </Box>
         </Box>)
 }
