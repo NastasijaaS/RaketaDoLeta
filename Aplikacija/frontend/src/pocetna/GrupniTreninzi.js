@@ -15,7 +15,7 @@ const GrupniTreninzi = () => {
 
 
     useEffect(() => {
-         GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) 
+         GetData("http://localhost:8800/api/trening/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) 
     }, [])
 
 

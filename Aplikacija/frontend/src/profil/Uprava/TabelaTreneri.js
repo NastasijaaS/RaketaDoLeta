@@ -59,12 +59,12 @@ const TabelaTreneri = () => {
     //ovde se zavrsava
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/trener/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
     }, [refresh])
 
     const obrisiTrenera = (id) => {
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava/obrisiTrenera/' + id,
+            url: 'http://localhost:8800/api/trener/obrisiTrenera/' + id,
         }
 
         //    console.log(zahtev)

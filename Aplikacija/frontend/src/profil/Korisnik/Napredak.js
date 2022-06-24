@@ -54,12 +54,12 @@ const Napredak = () => {
             { 
             // await GetData("http://localhost:8800/api/korisnik/vidiNapredak/" +
             //  user.korisnikId, setNapredak, setGreska, setIsLoading)
-             const res = await axios.get("http://localhost:8800/api/korisnik/vidiNapredak/" + user.korisnikId)
+             const res = await axios.get("http://localhost:8800/api/napredak/vidiNapredak/" + user.korisnikId)
              setNapredak(res.data)
              setZeljeno(res.data.tezina) 
              console.log(res.data)
 
-             const res1 = await axios.get("http://localhost:8800/api/korisnik/vidiNapredakPoslednji/" + user.korisnikId)
+             const res1 = await axios.get("http://localhost:8800/api/napredak/vidiNapredakPoslednji/" + user.korisnikId)
              setPoslednji(res1.data)
              console.log(res1.data)
              }             

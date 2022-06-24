@@ -54,7 +54,7 @@ const DodajNapredak = (props) => {
         console.log('napredak')
 
         const zahtev = {
-            url: `http://localhost:8800/api/trener/dodajNapredak/${user.trenerId}/${props.idKorisnika}`,
+            url: `http://localhost:8800/api/napredak/dodajNapredak/${user.trenerId}/${props.idKorisnika}`,
             body: {
                 // korisnikId: props.idKorisnika,
                 tezina: tezina.current.value,

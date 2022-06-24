@@ -25,7 +25,7 @@ const RasporedGrupni = (props) => {
 
 
     useEffect(() => {
-        GetData(`http://localhost:8800/api/korisnik/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`, setTermini, setGreska, setIsLoading)
+        GetData(`http://localhost:8800/api/trening/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`, setTermini, setGreska, setIsLoading)
     }, [props.datum])
 
     const zakaziForma = (treningId) => {
@@ -37,7 +37,7 @@ const RasporedGrupni = (props) => {
         }
 
         const zahtev = {
-            url: 'http://localhost:8800/api/korisnik/prijavaGrupniTrening/' + user.korisnikId + '/' + treningId
+            url: 'http://localhost:8800/api/trening/prijavaGrupniTrening/' + user.korisnikId + '/' + treningId
         }
 
         PutMetoda(zahtev, setData, setGreska, setIsLoading)

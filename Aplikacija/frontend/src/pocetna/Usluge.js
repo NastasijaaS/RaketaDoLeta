@@ -14,7 +14,7 @@ const Usluge = () => {
 
     useEffect(() => {
 
-        GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
 
     }, [])
 

@@ -37,8 +37,8 @@ const Korisnik = (props) => {
 
     useEffect(() => {
         const get = async () => {
-            GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading)
-            const res1 = await axios.get("http://localhost:8800/api/korisnik/vidiNapredakPoslednji/" + user.korisnikId)
+            GetData("http://localhost:8800/api/clanarina/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading)
+            const res1 = await axios.get("http://localhost:8800/api/napredak/vidiNapredakPoslednji/" + user.korisnikId)
             setPoslednji(res1.data)
             //  console.log(res1.data)
         }

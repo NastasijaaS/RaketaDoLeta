@@ -61,7 +61,7 @@ const FormaZakaziPersonalni = (props) => {
         // console.log(date.toDateString()+termin)
 
         const zahtev = {
-            url: 'http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId + '/' + props.idTrenera + '/' + termin.vreme.idTermina,
+            url: 'http://localhost:8800/api/trening/zakaziPersonalniTrening/' + user.korisnikId + '/' + props.idTrenera + '/' + termin.vreme.idTermina,
             body: {
                 // trenerId: props.idTrenera,
                 datum: datum,

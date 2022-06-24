@@ -27,7 +27,7 @@ const FormaZakazi = (props) => {
         // console.log(tr.value)
         // console.log(props.datum.datumTreninga)
 
-        axios.post('http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId, {
+        axios.post('http://localhost:8800/api/trening/zakaziPersonalniTrening/' + user.korisnikId, {
             // trenerId: props.idTrenera,
             trenerId: "6273e6c7c1e2c23c29c8c1ba",
             datum: props.datum.datumTreninga,

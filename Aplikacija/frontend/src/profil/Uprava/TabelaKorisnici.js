@@ -99,17 +99,17 @@ export default function Tabela(props) {
         }
 
         if (props.verifikovan) {
-            getKorisnici("http://localhost:8800/api/uprava/vratiVerifikovaneNaloge")
+            getKorisnici("http://localhost:8800/api/korisnik/vratiVerifikovaneNaloge")
         }
         else {
-            getKorisnici("http://localhost:8800/api/uprava/vratiNeverifikovaneNaloge")
+            getKorisnici("http://localhost:8800/api/korisnik/vratiNeverifikovaneNaloge")
         }
 
     }, [refresh])
 
     useEffect(() => {
 
-        GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
 
     }, [])
 
@@ -185,7 +185,7 @@ export default function Tabela(props) {
         ///dodajClanarinu/:idKorisnika/:idUsluge
 
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava/dodajClanarinu/' + idKorisnika + '/' + buttonSelected
+            url: 'http://localhost:8800/api/clanarina/dodajClanarinu/' + idKorisnika + '/' + buttonSelected
         }
 
          PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
@@ -200,7 +200,7 @@ export default function Tabela(props) {
     const verifikujNalog =  (id) => {
 
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava//verifikujNalog/' + id
+            url: 'http://localhost:8800/api/korisnik//verifikujNalog/' + id
         }
 
          PutMetoda(zahtev, setNalog, setGreska, setIsLoading)

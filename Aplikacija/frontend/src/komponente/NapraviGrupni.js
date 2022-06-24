@@ -61,7 +61,7 @@ const NapraviGrupni = (props) => {
 
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) 
+        GetData("http://localhost:8800/api/trening/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) 
     }, [])
 
     const onlineTrening = (ev) => {
@@ -84,7 +84,7 @@ const NapraviGrupni = (props) => {
         const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
         const zahtev = {
-            url: 'http://localhost:8800/api/trener/zakaziGrupniTrening/' + props.idTrenera + '/' + usluga,
+            url: 'http://localhost:8800/api/trening/zakaziGrupniTrening/' + props.idTrenera + '/' + usluga,
             body: {
                 naziv: naziv.current.value,
                 datum: datum.toISOString(),

@@ -32,7 +32,7 @@ const OdbijeniTreninzi = () => {
     useEffect(() => {
         const get = async () => {
             await
-                GetData("http://localhost:8800/api/uprava/vratiZahteveOdbijeni", setUsluge, setGreska, setIsLoading)
+                GetData("http://localhost:8800/api/zahtev/vratiZahteveOdbijeni", setUsluge, setGreska, setIsLoading)
         }
         get()
     }, [refresh])

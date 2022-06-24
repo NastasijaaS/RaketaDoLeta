@@ -38,13 +38,13 @@ const TabelaUsluge = () => {
 
     useEffect(() => {
        
-            GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+            GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
 
     }, [refresh])
 
     const izmeniUslugu =  (idUsluge) => {
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava/izmeniUslugu/' + idUsluge,
+            url: 'http://localhost:8800/api/usluga/izmeniUslugu/' + idUsluge,
             body: {
                 cena: cena,
                 opis: opis,
@@ -70,7 +70,7 @@ const TabelaUsluge = () => {
         // console.log(idUsluge)
 
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava/obrisiUslugu/' + idUsluge
+            url: 'http://localhost:8800/api/usluga/obrisiUslugu/' + idUsluge
         }
 
         // console.log('http://localhost:8800/api/uprava/obrisiUslugu/' + idUsluge)
@@ -96,7 +96,7 @@ const TabelaUsluge = () => {
         }
 
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava/dodajUslugu',
+            url: 'http://localhost:8800/api/usluga/dodajUslugu',
             body: {
                 naziv: nazivUsluge.current.value,
                 cena: cenaUsluge.current.value,

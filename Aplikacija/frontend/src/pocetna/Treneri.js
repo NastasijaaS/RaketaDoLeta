@@ -23,7 +23,7 @@ const Treneri = () => {
     const [login, setLogin] = useState(true)
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/korisnik/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/trener/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading)
     }, [])
 
     const { user, dispatch } = useContext(UserContext);

@@ -33,11 +33,11 @@ const Zvonce = ({ iconColor, user, status }) => {
         let url = ''
         if (status) {
             //  GetData('http://localhost:8800/api/korisnik/vidiZahteve/' + user + '/' + status, setData1, setGreska, setIsLoading)
-            url = 'http://localhost:8800/api/korisnik/vidiZahteve/' + user + '/' + status
+            url = 'http://localhost:8800/api/zahtev/vidiZahteve/' + user + '/' + status
         }
         else {
             //  GetData('http://localhost:8800/api/korisnik/vidiZahteveZaKorisnika/' + user, setData, setGreska, setIsLoading)
-            url = 'http://localhost:8800/api/korisnik/vidiZahteveZaKorisnika/' + user
+            url = 'http://localhost:8800/api/zahtev/vidiZahteveZaKorisnika/' + user
         }
 
         const get = async () => {

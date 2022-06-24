@@ -30,7 +30,7 @@ const ZahteviTrenera = () => {
 
     useEffect(() => {
 
-        GetData("http://localhost:8800/api/trener/vratiTreningePersonalniC/" + user.trenerId,
+        GetData("http://localhost:8800/api/treninge/vratiTreningePersonalniC/" + user.trenerId,
             setZahtevi, setGreska, setIsLoading)
     }, [refresh])
 

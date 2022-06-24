@@ -33,8 +33,8 @@ const ZakazaniTreninzi = () => {
 
     useEffect(() => {
         const get = async () => {
-            await GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
-            await GetData("http://localhost:8800/api/korisnik/vidiZakazaneTreningeGrupni/" + user.korisnikId, setGrupni, setGreska, setIsLoading)
+            await GetData("http://localhost:8800/api/trening/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
+            await GetData("http://localhost:8800/api/trening/vidiZakazaneTreningeGrupni/" + user.korisnikId, setGrupni, setGreska, setIsLoading)
         }
         get()
     }, [refresh])
@@ -49,7 +49,7 @@ const ZakazaniTreninzi = () => {
 
         // console.log(idTreninga)
 
-        axios.put('http://localhost:8800/api/korisnik/ukiniTrening/' + idTreninga,)
+        axios.put('http://localhost:8800/api/trening/ukiniTrening/' + idTreninga,)
             .then((p) => {
                 if (p.status === 200) {
                     console.log(p)

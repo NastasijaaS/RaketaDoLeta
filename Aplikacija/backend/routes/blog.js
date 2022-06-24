@@ -4,10 +4,10 @@ import { vratiBlogove, vratiBlogTag,izmeniBlog,obrisiBlog,dodajBlog } from "../c
 import {auth} from "../auth.js";
 
 
-router.get('/vratiBlogove', vratiBlogove);
+router.get('/vratiBlogove', vratiBlogove); //ovo ne korisnimo
 router.get('/vratiBlogTad/:tag', vratiBlogTag);
-router.put('/izmeniBlog/:idBloga', auth, izmeniBlog);
-router.delete('/obrisiBlog/:idBloga', auth, obrisiBlog);
-router.post('/dodajBlog', auth, dodajBlog);
+router.put('/izmeniBlog/:idBloga', auth, izmeniBlog); // isto
+router.delete('/obrisiBlog/:idBloga', auth, obrisiBlog); // isto
+router.post('/dodajBlog', auth, dodajBlog); // isto
 
 export default router;

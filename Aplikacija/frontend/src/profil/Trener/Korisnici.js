@@ -24,7 +24,7 @@ const KorisniciTrenera = () => {
 
     useEffect(() => {
         const get = async () => {
-            await GetData('http://localhost:8800/api/trener/vratiKorisnike/' + user.trenerId, setKorisnici, setGreska, setIsLoading)
+            await GetData('http://localhost:8800/api/korisnik/vratiKorisnike/' + user.trenerId, setKorisnici, setGreska, setIsLoading)
         }
         get()
     }, [refresh])
@@ -34,7 +34,7 @@ const KorisniciTrenera = () => {
         console.log(id)
 
         const zahtev = {
-            url: 'http://localhost:8800/api/trener/obrisiSvogKlijenta/' + user.trenerId,
+            url: 'http://localhost:8800/api/korisnik/obrisiSvogKlijenta/' + user.trenerId,
             body: {
                 korisnikId: id
             }

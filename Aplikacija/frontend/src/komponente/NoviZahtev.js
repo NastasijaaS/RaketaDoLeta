@@ -30,7 +30,7 @@ const NoviZahtev = () => {
 
     useEffect(() => {
 
-        GetData('http://localhost:8800/api/korisnik/vidiZahteve/' + user.id + '/Na cekanju', setData, setGreska, setIsLoading)
+        GetData('http://localhost:8800/api/zahtev/vidiZahteve/' + user.id + '/Na cekanju', setData, setGreska, setIsLoading)
 
     }, [refresh])
 

@@ -60,7 +60,7 @@ function DodajTrenera(props) {
         }
 
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava/dodajTrenera/' + idTrenera,
+            url: 'http://localhost:8800/api/trener/dodajTrenera/' + idTrenera,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

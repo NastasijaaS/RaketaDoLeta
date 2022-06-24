@@ -47,7 +47,7 @@ const FormaIzmeniTrening = (props) => {
         const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), vreme.getHours(), vreme.getMinutes())
 
         const zahtev = {
-            url: 'http://localhost:8800/api/korisnik/izmeniTrening/' + user.korisnikId + '/' + props.idTreninga,
+            url: 'http://localhost:8800/api/trening/izmeniTrening/' + user.korisnikId + '/' + props.idTreninga,
             body: {
                 datum: datum,
                 vreme: datum,

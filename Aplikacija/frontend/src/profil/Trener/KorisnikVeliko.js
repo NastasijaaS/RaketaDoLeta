@@ -38,13 +38,13 @@ const KorisnikVeliko = (props) => {
 
             // GetData("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika, setNizNapredaka, setGreska, setIsLoading)
             // console.log(nizNapredaka)
-            let res = await axios.get("http://localhost:8800/api/korisnik/vidiNapredak/" + k.idkorisnika)
+            let res = await axios.get("http://localhost:8800/api/napredak/vidiNapredak/" + k.idkorisnika)
             setNizNapredak(res.data)
             setZeljeno(res.data.tezina)
             // console.log(res.data)
             // console.log(k)
 
-            res = await axios.get("http://localhost:8800/api/trener/vidiEvidenciju/" + user.trenerId + '/'+  k.idkorisnika)
+            res = await axios.get("http://localhost:8800/api/evidencija/vidiEvidenciju/" + user.trenerId + '/'+  k.idkorisnika)
          //   console.log(res.data)
 
             setEvidencija(res.data)

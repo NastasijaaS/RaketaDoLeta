@@ -27,11 +27,11 @@ const RasporedTrener = (props) => {
 
         if (props.datum) {
             GetData(`http://localhost:8800/api/termin/vratiZauzeteTermineZaTreneraPoDatumu/${props.idTrenera}/${props.datum}`, setTermini, setGreska, setIsLoading)
-            GetData(`http://localhost:8800/api/trener/vratiTreningeGrupni/${props.idTrenera}/${props.datum}`, setGrupniTreninzi, setGreska, setIsLoading)
+            GetData(`http://localhost:8800/api/trening/vratiTreningeGrupni/${props.idTrenera}/${props.datum}`, setGrupniTreninzi, setGreska, setIsLoading)
 
         }
         else {
-            GetData("http://localhost:8800/api/trener/vratiProsleTreninge/" + user.trenerId,
+            GetData("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId,
                 setTreninzi, setGreska, setIsLoading)
         }
 
@@ -40,7 +40,7 @@ const RasporedTrener = (props) => {
     const unesiEvidenciju = (treningId, korisnikId) => {
 
         const zahtev = {
-            url: 'http://localhost:8800/api/trener/izmeniEvidenciju/' + user.trenerId + '/' + treningId,
+            url: 'http://localhost:8800/api/evidencija/izmeniEvidenciju/' + user.trenerId + '/' + treningId,
             body: {
                 korisnikId: korisnikId
             }
@@ -54,7 +54,7 @@ const RasporedTrener = (props) => {
     const obrisiTrening = (treningId) => {
 
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava/obrisiTrening/' + treningId,
+            url: 'http://localhost:8800/api/trening/obrisiTrening/' + treningId,
         }
 
         DeleteMetoda(zahtev, setData, setGreska, setIsLoading)
