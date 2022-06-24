@@ -1,19 +1,14 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import '../styles/formaZakazi.css'
 import '../styles/stil.css'
 import { UserContext } from "../context/UserContext";
 import Button from "@mui/material/Button";
 import { Box, Grid, TextField, Typography } from '@mui/material';
-import { FormControl, InputLabel, MenuItem, Select, FormControlLabel } from '@mui/material';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import Stack from '@mui/material/Stack';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Checkbox } from "@mui/material";
 import Greska from './Alert'
 import { PostMetoda, GetData } from './Fetch'
-import hrLocale from 'date-fns/locale/hr'
 
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
@@ -29,27 +24,14 @@ const FormaZakaziPersonalni = (props) => {
     const [tipTreninga, setTip] = useState('')
     const [intenzitetTreninga, setIntenzitet] = useState('')
     const [trajanjeTreninga, setTrajanje] = useState('')
-
     const [error, setError] = useState(false)
-
     const [data, setData] = useState()
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-
-    const maxBrojClanova = useRef()
-    const naziv = useRef()
-
-    const [treninzi, setTreninzi] = useState([])
-    const [uslugaId, setUslugaId] = useState(0)
-
-    const [startDate, setStartDate] = useState(new Date());
     const [date, setDate] = useState(new Date());
-    const [vreme, setVreme] = useState(new Date(0, 0, 0, 8));
-    const [usluga, setUsluga] = useState('');
     const [termin, setTermin] = useState({ vreme: "", idTermina: "" });
     const [termini, setTermini] = useState([1])
 
-    let idTermina = ''
     useEffect(() => {
 
         setTermin({ vreme: "", idTermina: "" })
@@ -105,10 +87,7 @@ const FormaZakaziPersonalni = (props) => {
         props.onClose()
     }
 
-    const onlineTrening = (ev) => {
-        isOnline = ev.target.checked
-    }
-
+    
     const DropDown = ({ labela, set, niz, value }) => {
 
         return (
@@ -136,15 +115,15 @@ const FormaZakaziPersonalni = (props) => {
     }
 
 
-    const nadjiTermin = (date) => {
-        //   console.log(new Date(date.toDateString()))
-        setTermin({ vreme: "", idTermina: "" })
-        setTermini([])
-        const datum = new Date(date.toDateString())
+    // const nadjiTermin = (date) => {
+    //     //   console.log(new Date(date.toDateString()))
+    //     setTermin({ vreme: "", idTermina: "" })
+    //     setTermini([])
+    //     const datum = new Date(date.toDateString())
 
-        GetData(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`,
-            setTermini, setGreska, setIsLoading)
-    }
+    //     GetData(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`,
+    //         setTermini, setGreska, setIsLoading)
+    // }
 
     let datumDo = new Date();
     datumDo.setDate((new Date()).getDate() + 14)
@@ -194,25 +173,17 @@ const FormaZakaziPersonalni = (props) => {
                 </Select>
             </FormControl>
 
-
-
-
             <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />
-
             <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
             <DropDown className='marginForm' labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
 
-
             <Box display='flex' flexDirection='row' justifyContent={"flex-end"}>
                 <Button size='small' variant="outlined" onClick={zakaziTrening}>Potvrdi</Button>
-
                 <Button sx={{ marginLeft: '2%' }} size='small' variant="outlined" onClick={props.onClose}>Otkazi</Button>
             </Box>
 
-        </Box >
+        </Box>
     )
 }
-
-
 
 export default FormaZakaziPersonalni

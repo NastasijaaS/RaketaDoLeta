@@ -28,6 +28,7 @@ const Info = ({ labela, tip, reff }) => {
 
 
 function DodajTrenera(props) {
+    console.log(props);
 
     const [alert, setAlert] = useState({ prikazi: false, tip: 'error', greska: '' })
 
@@ -43,10 +44,14 @@ function DodajTrenera(props) {
     let grupni = false
 
 
-    const dodajTrenera = async () => {
+    const dodajTrenera = () => {
+        console.log(props)
 
-        const idTrenera = JSON.parse(sessionStorage.getItem("idTrenera"))
-        console.log(idTrenera)
+
+        // const idTrenera = JSON.parse(sessionStorage.getItem("idTrenera"))
+        // console.log(idTrenera)
+
+        const idTrenera = props.idTrenera
 
         if (idTrenera === null || idTrenera === '') {
             alert('doslo je do greske')
@@ -68,7 +73,7 @@ function DodajTrenera(props) {
             }
         }
 
-        await PostMetoda(zahtev, setData, setGreskaa, setIsLoading)
+        PostMetoda(zahtev, setData, setGreskaa, setIsLoading)
 
         if (greska) {
             setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
@@ -103,7 +108,6 @@ function DodajTrenera(props) {
                 <Info multiline labela='sertifikati' tip='text' reff={sertifikati} />
 
                 <Info labela='slika' tip='text' reff={slika} />
-
 
                 <FormControlLabel
                     onChange={(ev) => { grupni = ev.target.checked }}

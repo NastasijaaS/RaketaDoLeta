@@ -39,7 +39,7 @@ const Zelje = () => {
     const misici = useRef(0)
     const godine = useRef(0)
 
-    const upis = async () => {
+    const upis =  () => {
         //   navigate('../profil')
         const zahtev = {
             url: 'http://localhost:8800/api/korisnik/izmeniParametre/' + user.korisnikId,
@@ -52,7 +52,7 @@ const Zelje = () => {
             }
         }
 
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+         PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         const korisnik = {
             brojGodina: godine.current.value,

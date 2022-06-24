@@ -4,6 +4,7 @@ import axios from "axios";
 import { UserContext } from "../context/UserContext";
 import Button from "@mui/material/Button";
 
+//mislim da ovo ne koristimo
 
 const tip = [{ naziv: "Gornji deo tela" }, { naziv: "Donji deo tela" }, { naziv: "Kardio" }]
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
@@ -20,29 +21,11 @@ const FormaZakazi = (props) => {
 
     const zakaziTrening = (ev) => {
 
-        // da li je personalni ili grupni 
-
-
-        //datum i vreme -- kroz props
-        //tip
-        //intenzitet
-        //trajanje
-        //idtrenera = ovo mi je u props.idTrenera
-        //idkorisnika = ovo mozda kroz kontekst gde pamtim ko je ulogovan
-        // isOnline
-
-
-        // const datum = props.datum
-        // const vreme = props.vreme
-        // const idTrenera = props.idTrenera
-
-        console.log(intenzitetTreninga.value)
-        console.log(tipTreninga.value)
-        console.log(isOnline)
-        console.log(tr.value)
-        console.log(props.datum.datumTreninga)
-
-
+        // console.log(intenzitetTreninga.value)
+        // console.log(tipTreninga.value)
+        // console.log(isOnline)
+        // console.log(tr.value)
+        // console.log(props.datum.datumTreninga)
 
         axios.post('http://localhost:8800/api/korisnik/zakaziPersonalniTrening/' + user.korisnikId, {
             // trenerId: props.idTrenera,

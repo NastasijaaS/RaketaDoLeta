@@ -12,19 +12,35 @@ import { useNavigate } from 'react-router-dom';
 const LogIn = (props) => {
 
     let navigate = useNavigate()
-
     const { ucitavaSe, error, dispatch } = useContext(UserContext);
-
     const [greska, setGreska] = useState({ mail: false, lozinka: false });
     const [alert, setAlert] = useState({ prikazi: false, tip: 'error', greska: '' })
-
 
     // const mail = useRef('')
     // const lozinka = useRef('')
     const [mail, setMail] = useState('');
     const [lozinka, setLozinka] = useState('');
 
+    const proveriMail = (mail) => {
 
+        const Email = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+
+        if (mail === '' || !mail.match(Email)) {
+            setGreska((greska) => ({ ...greska, mail: true }))
+        }
+        else {
+            setGreska((greska) => ({ ...greska, mail: false }))
+            setMail(mail)
+        }
+    }
+    const proveriPass = (lozinka) => {
+        if (lozinka === '' || lozinka.length < 5) {
+            setGreska((greska) => ({ ...greska, lozinka: true }))
+        }
+        else{
+            setGreska((greska) => ({ ...greska, lozinka: false }))
+        }
+    }
 
     const validacija = () => {
 
@@ -119,20 +135,19 @@ const LogIn = (props) => {
                     greska={alert.greska}
                 />
 
-                <Typography variant = "h5" component = "div" sx ={{textAlign:'center'}}>Prijavite se:</Typography>
+                <Typography variant="h5" component="div" sx={{ textAlign: 'center' }}>Prijavite se:</Typography>
 
 
                 <TextField
                     className='loginInp'
                     value={mail}
                     error={greska.mail}
-                    onChange={(ev) => { setMail(ev.target.value); validacija() }}
-
+                    onChange={(ev) => { setMail(ev.target.value); proveriMail(ev.target.value) }}
                     label="E-mail"
                     type="email"
                     color="primary"
                     size="small"
-                     />
+                />
 
                 {/* {greska.mail && <p className='greska'>Molimo unesite ispravnu e-mail adresu</p>} */}
 
@@ -140,13 +155,13 @@ const LogIn = (props) => {
                     className='loginInp'
                     value={lozinka}
                     error={greska.lozinka}
-                    onChange={(ev) => { validacija(); setLozinka(ev.target.value) }}
+                    onChange={(ev) => { setLozinka(ev.target.value) ; proveriPass(ev.target.value); }}
                     label="Lozinka"
                     type="password"
                     minlenght="6"
                     color="primary"
                     size="small"
-                     />
+                />
 
                 {/* {greska.lozinka && <p className='greska'>Lozinka mora imati najmanje 6 karaktera</p>} */}
 

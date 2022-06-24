@@ -24,24 +24,46 @@ const Zvonce = ({ iconColor, user, status }) => {
     const [isLoading, setIsLoading] = useState(false)
     const [greska, setGreska] = useState(false)
     const [refresh, setRefresh] = useState(false)
-
     const [data1, setData1] = useState([])
-
 
     // const { user } = useContext(UserContext);
 
 
     useEffect(() => {
+        let url = ''
         if (status) {
-            GetData('http://localhost:8800/api/korisnik/vidiZahteve/' + user + '/' + status, setData1, setGreska, setIsLoading)
+            //  GetData('http://localhost:8800/api/korisnik/vidiZahteve/' + user + '/' + status, setData1, setGreska, setIsLoading)
+            url = 'http://localhost:8800/api/korisnik/vidiZahteve/' + user + '/' + status
         }
         else {
-            GetData('http://localhost:8800/api/korisnik/vidiZahteveZaKorisnika/' + user, setData, setGreska, setIsLoading)
+            //  GetData('http://localhost:8800/api/korisnik/vidiZahteveZaKorisnika/' + user, setData, setGreska, setIsLoading)
+            url = 'http://localhost:8800/api/korisnik/vidiZahteveZaKorisnika/' + user
         }
 
-        if (data !== data1) {
-            setData(data1)
+        const get = async () => {
+            const res = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Bearer': JSON.parse(localStorage.getItem("token"))
+                },
+            })
+            if (res.ok) {
+                // console.log(await res.json())
+
+                const obavestenja = await res.json()
+                if (data !== obavestenja) {
+                    setData(obavestenja)
+                }
+            }
         }
+
+        get()
+
+        // if (data !== data1) {
+        //     setData(data1)
+        // }
     }, [refresh])
 
     // setInterval(() => {
@@ -67,7 +89,7 @@ const Zvonce = ({ iconColor, user, status }) => {
         <div>
             <Tooltip title={data.length ? newNotifications : noNotifications}>
                 <IconButton
-                    sx = {{color: 'white'}}
+                    sx={{ color: 'white' }}
                     onClick={data.length ? handleOpen : null}
                 //  anchorEl={anchorEl}
                 >

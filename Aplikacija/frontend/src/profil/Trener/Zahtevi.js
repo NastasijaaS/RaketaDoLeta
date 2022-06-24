@@ -5,6 +5,7 @@ import { GetData, PutMetoda } from "../../komponente/Fetch";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import FormaPosaljiPredlog from "../../komponente/FormaPosaljiPredlog";
 
 const ZahteviTrenera = () => {
     const { user } = useContext(UserContext);
@@ -15,7 +16,9 @@ const ZahteviTrenera = () => {
 
     const [refresh, setRefresh] = useState(false)
     const [data, setData] = useState(false)
-    const [evidencija, setEvidencija] = useState({intenziteti:[], tipTreninga:[], datumi:[]})
+    const [evidencija, setEvidencija] = useState({ intenziteti: [], tipTreninga: [], datumi: [] })
+    const [predlog, setPredlog] = useState(false)
+
 
     // Accordion
     const [current, setCurrent] = useState(-1);
@@ -28,7 +31,7 @@ const ZahteviTrenera = () => {
     useEffect(() => {
 
         GetData("http://localhost:8800/api/trener/vratiTreningePersonalniC/" + user.trenerId,
-                    setZahtevi, setGreska, setIsLoading)
+            setZahtevi, setGreska, setIsLoading)
     }, [refresh])
 
 
@@ -70,10 +73,13 @@ const ZahteviTrenera = () => {
     }
 
     const vidiEvidenciju = (id) => {
-        GetData("http://localhost:8800/api/trener/vidiEvidenciju/" + user.trenerId+ '/'+  id,
+        GetData("http://localhost:8800/api/trener/vidiEvidenciju/" + user.trenerId + '/' + id,
             setEvidencija, setGreska, setIsLoading)
     }
 
+    const posaljiIzmenu = () => {
+
+    }
 
     return (
 
@@ -82,18 +88,20 @@ const ZahteviTrenera = () => {
             <Typography gutterBottom component="div" variant="h4" textAlign="center">Zahtevi</Typography>
             {isLoading && <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>}
 
+
+
             {
                 zahtevi.map((z, i) => (
                     <Box key={i} display='flex' flexDirection='row'>
                         <Accordion
-                            sx={{ flexGrow: 1, marginBottom: '1%'}}
+                            sx={{ flexGrow: 1, marginBottom: '1%' }}
                             expanded={current === i}
-                            onClick={() => {changeState(i);vidiEvidenciju(z.idKorisnika)} }
+                            onClick={() => { changeState(i); vidiEvidenciju(z.idKorisnika) }}
                         >
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                             >
-                                
+
                                 <Typography variant="h6" sx={{ flexGrow: 1 }} >
                                     {z.datum}  {z.vreme}
                                 </Typography>
@@ -102,36 +110,36 @@ const ZahteviTrenera = () => {
                                 </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                            <Grid container spacing = {2}>
+                                <Grid container spacing={2}>
 
-                                <Grid item xs = {12} md = {2} sx = {{display: 'flex', flexDirection: 'column', justifyContent:'space-evenly'}}>
+                                    <Grid item xs={12} md={2} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
                                         <Typography>Broj telefona: {z.brojtelefonaT}</Typography>
                                         <Typography>Intenzitet: {z.intenzitet}</Typography>
                                         <Typography>Tip: {z.tip}</Typography>
-                                </Grid>
-                                <Grid item xs = {12} md = {10}>
-                                    <Box textAlign= 'center'>
-                                    <Typography mb = {1} textAlign = 'center' fontWeight = '500'> EVIDENCIJA PROTEKLIH TRENINGA</Typography>
-                                        <Grid container spacing = {2} justifyContent= 'center' mb ={1}>
-                                            {
-                                            evidencija.intenziteti.map((e,i) =>(
-                                                <Grid item xs = {12} md = {2} key = {i}>
-                                                    <Card className='cardShadow' sx = {{padding: '1vh', textAlign: 'justify'}}>
-                                                        <Typography>Datum: {evidencija.datumi[i]}</Typography>
-                                                        <Typography>Tip: {evidencija.tipTreninga[i]}</Typography>
-                                                        <Typography>Intenzitet: {e}</Typography>
-                                                    </Card>
-                                                </Grid>                        
-                                            ))
+                                    </Grid>
+                                    <Grid item xs={12} md={10}>
+                                        <Box textAlign='center'>
+                                            <Typography mb={1} textAlign='center' fontWeight='500'> EVIDENCIJA PROTEKLIH TRENINGA</Typography>
+                                            <Grid container spacing={2} justifyContent='center' mb={1}>
+                                                {
+                                                    evidencija.intenziteti.map((e, i) => (
+                                                        <Grid item xs={12} md={2} key={i}>
+                                                            <Card className='cardShadow' sx={{ padding: '1vh', textAlign: 'justify' }}>
+                                                                <Typography>Datum: {evidencija.datumi[i]}</Typography>
+                                                                <Typography>Tip: {evidencija.tipTreninga[i]}</Typography>
+                                                                <Typography>Intenzitet: {e}</Typography>
+                                                            </Card>
+                                                        </Grid>
+                                                    ))
 
-                                            }  
-                                        </Grid>
-                                           
-                                        <Button variant = "outlined">posalji izmenu</Button>
-                                        </Box>      
+                                                }
+                                            </Grid>
+
+                                            <Button variant="outlined" onClick={() => setPredlog(true)}>posalji izmenu</Button>
+                                        </Box>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                                
+
                             </AccordionDetails>
                         </Accordion>
 
@@ -149,6 +157,12 @@ const ZahteviTrenera = () => {
                                 <DeleteIcon sx={{ fontSize: "1.5em" }} />
                             </IconButton>
                         </Box>
+
+                        {
+                            predlog &&
+                            <FormaPosaljiPredlog onClose={() => setPredlog(false)} idKorisnika = {z.korisnikId} />
+                        }
+
                     </Box>
                     // <div key={i}>
                     //     <p>Datum: {z.datum}</p>

@@ -4,7 +4,6 @@ import KalendarForma from '../komponente/KalendarForma';
 import { GetData } from '../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
-
 import { Card, CardMedia, CardContent, Typography, Button, Grid, filledInputClasses } from '@mui/material';
 import { Box } from '@mui/system';
 import { UserContext } from '../context/UserContext';
@@ -13,8 +12,6 @@ import FormaZakazi from '../komponente/FormaZakazi';
 import LogIn from './LoginForma';
 import Register from './RegisterForma';
 import FormaZakaziPersonalni from '../komponente/FormaZakaziPersonalni';
-
-
 
 const Treneri = () => {
 
@@ -26,8 +23,7 @@ const Treneri = () => {
     const [login, setLogin] = useState(true)
 
     useEffect(() => {
-        const get = async () => { await GetData("http://localhost:8800/api/korisnik/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading) }
-        get()
+        GetData("http://localhost:8800/api/korisnik/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading)
     }, [])
 
     const { user, dispatch } = useContext(UserContext);
@@ -101,7 +97,7 @@ const Treneri = () => {
                                 {zakazi && <Modal onClose={() => { setZakazi(false) }}>
 
                                     {user ? <FormaZakaziPersonalni idTrenera={trenerId} onClose={() => { setZakazi(false); }} /> : (login ? <div><LogIn />
-                                        <Typography variant = "body1" component= "div" textAlign = "center">Nemate nalog:
+                                        <Typography variant="body1" component="div" textAlign="center">Nemate nalog:
                                             <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
                                         </Typography>
                                     </div>
@@ -109,7 +105,7 @@ const Treneri = () => {
                                         :
 
                                         <div><Register />
-                                           <Typography variant = "body1" component= "div" textAlign = "center">Imate nalog:
+                                            <Typography variant="body1" component="div" textAlign="center">Imate nalog:
                                                 <Button size='small' onClick={() => { setLogin(true) }}>Prijavi se</Button>
                                             </Typography>
                                         </div>)

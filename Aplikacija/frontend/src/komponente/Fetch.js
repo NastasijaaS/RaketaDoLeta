@@ -5,7 +5,14 @@ export const GetData = async (url, setData, setError, setIsLoading) => {
 
     setIsLoading(true)
     try {
-        const response = await fetch(url)
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Bearer': JSON.parse(localStorage.getItem("token"))
+            },
+        })
         console.log(response)
 
         if (response.ok) {
@@ -76,7 +83,10 @@ export const PostMetoda = async (zahtev, setData, setGreska) => {
         method: "POST",
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+
+            'Bearer': JSON.parse(localStorage.getItem("token"))
+
         },
         body: JSON.stringify(zahtev.body)
     }).then(p => {
@@ -107,13 +117,15 @@ export const PutMetoda = async (zahtev, setData, setGreska, setIsLoading) => {
         method: "PUT",
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Bearer': JSON.parse(localStorage.getItem("token"))
+
         },
         body: JSON.stringify(zahtev.body)
     }).then(p => {
         p.json()
             .then(data => {
-               // console.log(data)
+                // console.log(data)
                 if (p.ok) {
                     setData(data)
                     setIsLoading(false)
@@ -143,7 +155,8 @@ export const DeleteMetoda = async (zahtev, setGreska, setIsLoading) => {
         method: "DELETE",
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Bearer': JSON.parse(localStorage.getItem("token"))
         },
         body: JSON.stringify(zahtev.body)
     }).then(p => {

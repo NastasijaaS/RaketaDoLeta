@@ -3,9 +3,9 @@ import UserReducer from "./UserReducer";
 
 const defaultValue = {
     user: JSON.parse(localStorage.getItem("user")) || null,
+    // user: null,
     ucitavaSe: false,
     error: null,
-    // setUser: (user) => { }
 };
 
 const UserContext = createContext(defaultValue);
@@ -17,13 +17,13 @@ const UserContextProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(state.user))
     }, [state.user])
 
-    useEffect(() => {
-        let localUser = localStorage.getItem("user", JSON.stringify(state.user))
-        const {token} = localUser;
-        if(token && token.length) {
-            // get req na /me rutu
-        }
-    }, [])
+    // useEffect(() => {
+    //     let localUser = localStorage.getItem("user", JSON.stringify(state.user))
+    //     const {token} = localUser;
+    //     if(token && token.length) {
+    //         // get req na /me rutu
+    //     }
+    // }, [])
 
     return (
         <UserContext.Provider

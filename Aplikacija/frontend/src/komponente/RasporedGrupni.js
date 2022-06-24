@@ -13,8 +13,7 @@ import Tab from '@mui/material/Tab';
 
 const RasporedGrupni = (props) => {
 
-   // console.log(props)
-
+    // console.log(props)
     const { user } = useContext(UserContext);
 
     const [termini, setTermini] = useState([])
@@ -56,48 +55,51 @@ const RasporedGrupni = (props) => {
 
     return (
         <Fragment>
-            <TableContainer component={Paper}>
-                <Table
-                    sx={{ minWidth: 650 }} size="small" >
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Trener</TableCell>
-                            <TableCell align="right">Vreme</TableCell>
-                            <TableCell align="right">Trajanje</TableCell>
-                            <TableCell align="right">Intenzitet</TableCell>
-                            <TableCell align="right">Mesta</TableCell>
-                            <TableCell align="right"></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {termini.map((t, i) => (
-                            <TableRow
-                                key={i}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {t.imeT} {t.prezimeT}
-                                </TableCell>
-                                <TableCell align="right"> {t.vreme}</TableCell>
-                                <TableCell align="right">{t.trajanje}</TableCell>
-                                <TableCell align="right">{t.intenzitet}</TableCell>
-
-                                <Fragment>
-                                    <TableCell align="right"> {t.brojslobodnih}</TableCell>
-                                    <TableCell align="right">
-                                        <Button
-                                            size="small"
-                                            variant="contained"
-                                            value={t.vreme + " " + t.trajanje}
-                                            onClick={() => zakaziForma(t.treningID)}>Zakazi
-                                        </Button>
-                                    </TableCell>
-                                </Fragment>
+            {termini ? <Typography color='error'>Nema dostupnih treninga</Typography>
+                :
+                <TableContainer component={Paper}>
+                    <Table
+                        sx={{ minWidth: 650 }} size="small" >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Trener</TableCell>
+                                <TableCell align="right">Vreme</TableCell>
+                                <TableCell align="right">Trajanje</TableCell>
+                                <TableCell align="right">Intenzitet</TableCell>
+                                <TableCell align="right">Mesta</TableCell>
+                                <TableCell align="right"></TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {termini.map((t, i) => (
+                                <TableRow
+                                    key={i}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {t.imeT} {t.prezimeT}
+                                    </TableCell>
+                                    <TableCell align="right"> {t.vreme}</TableCell>
+                                    <TableCell align="right">{t.trajanje}</TableCell>
+                                    <TableCell align="right">{t.intenzitet}</TableCell>
+
+                                    <Fragment>
+                                        <TableCell align="right"> {t.brojslobodnih}</TableCell>
+                                        <TableCell align="right">
+                                            <Button
+                                                size="small"
+                                                variant="contained"
+                                                value={t.vreme + " " + t.trajanje}
+                                                onClick={() => zakaziForma(t.treningID)}>Zakazi
+                                            </Button>
+                                        </TableCell>
+                                    </Fragment>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            }
 
             {
                 zakazi && <Modal onClose={() => { setZakazi(false) }}>

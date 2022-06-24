@@ -20,11 +20,9 @@ const Blog = () => {
     const [naslov, setNaslov] = useState('Zdravlje')
 
     useEffect(() => {
-        const get = async () => {
-            await
-                GetData("http://localhost:8800/api/blog/VratiBlogTag/" + naslov, setBlogovi, setGreska, setIsLoading)
-        }
-        get()
+
+        GetData("http://localhost:8800/api/blog/VratiBlogTag/" + naslov, setBlogovi, setGreska, setIsLoading)
+
     }, [naslov])
 
     return (

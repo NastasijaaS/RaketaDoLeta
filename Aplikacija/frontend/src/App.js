@@ -130,7 +130,7 @@ function App() {
             ((user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar check={mode} change={() => setMode(!mode)} />)
           }
 
-          
+
           <Routes>
 
             <Route path='/' element={<Pocetna />} />
@@ -170,26 +170,44 @@ function App() {
 
             {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
 
-            <Route path='/RDL/trener/korisnici' element={<KorisniciTrenera />} />
-            <Route path='/RDL/trener/:username/zahtevi' element={<ZahteviTrenera />} />
-            <Route path='/RDL/trener/:username/treninzi' element={<TreninziTrenera />} />
-            <Route path='/trener/korisnik/:ime' element={<KorisnikVeliko />} />
-            <Route path='/RDL/trener/odbijenizahtevi' element={<OdbijeniTreninzi />} />
-        
+            { }
+            <Route path='/RDL/trener/korisnici'
+              element={user && user.tip === 'Trener' ?
+                <KorisniciTrenera /> : <Navigate replace to="/pocetna" />} />
+
+            <Route path='/RDL/trener/:username/zahtevi'
+              element={user && user.tip === 'Trener' ?
+                <ZahteviTrenera /> : <Navigate replace to="/pocetna" />} />
+
+            <Route path='/RDL/trener/:username/treninzi'
+              element={user && user.tip === 'Trener' ?
+                <TreninziTrenera /> : <Navigate replace to="/pocetna" />} />
+
+            <Route path='/trener/korisnik/:ime'
+              element={user && user.tip === 'Trener' ?
+                <KorisnikVeliko /> : <Navigate replace to="/pocetna" />} />
+
+            <Route path='/RDL/trener/odbijenizahtevi'
+              element={user && user.tip === 'Trener' ?
+                <OdbijeniTreninzi /> : <Navigate replace to="/pocetna" />
+              } />
+
           </Routes>
-          <Fab sx = {{margin: 0,
-          top: 'auto',
-          right: 20,
-          bottom: 20,
-          left: 'auto',
-          position: 'fixed'}}onClick={toggleColorMode}>
+          <Fab sx={{
+            margin: 0,
+            top: 'auto',
+            right: 20,
+            bottom: 20,
+            left: 'auto',
+            position: 'fixed'
+          }} onClick={toggleColorMode}>
             {/* <IconButton> */}
             {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
             {/* </IconButton> */}
           </Fab>
-          {(user && user.tip === 'Korisnik' ) && <Footer/>}
-          {(!user ) && <Footer/>}
-          
+          {(user && user.tip === 'Korisnik') && <Footer />}
+          {(!user) && <Footer />}
+
         </Router>
       </ThemeProvider >
 

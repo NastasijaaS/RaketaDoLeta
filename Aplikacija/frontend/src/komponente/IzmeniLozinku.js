@@ -15,14 +15,9 @@ import { Container } from "@mui/system";
 const IzmeniLozinku = (props) => {
 
     const { user } = useContext(UserContext);
-
-
     const [novaLozinka, setNova] = useState(false)
-
     const pass = useRef()
-
     const otkaziIzmenu = () => {
-        // setIzmena(true)
         setNova(false)
         props.onClose()
     }

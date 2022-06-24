@@ -6,7 +6,6 @@ import { UserContext } from '../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, TextField, Box, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import DodajTrenera from '../komponente/DodajTrenera'
 import Info from '../komponente/Info'
 
 const Register = (props) => {
@@ -30,19 +29,13 @@ const Register = (props) => {
     const brojTelefona = useRef()
     const username = useRef()
 
-    let idTrenera = 0
-
-    let navigate = useNavigate()
-
     const [data, setData] = useState('')
     const [greskaa, setGreskaa] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
     const [success, setSuccess] = useState(false)
 
-
-
-    const upis = async (ev) => {
+    const upis =  (ev) => {
 
         ev.preventDefault()
 
@@ -99,7 +92,7 @@ const Register = (props) => {
                 }
             }
 
-            user ? await PostMetoda(zahtev, setData, setGreskaa, setIsLoading) : await LoginMetoda(zahtev, dispatch, setGreskaa)
+            user ?  PostMetoda(zahtev, setData, setGreskaa, setIsLoading) :  LoginMetoda(zahtev, dispatch, setGreskaa)
 
             if (greskaa !== false) {
                 alert(greskaa)
@@ -114,54 +107,9 @@ const Register = (props) => {
     }
 
     useEffect(() => {
-        sessionStorage.setItem("idTrenera", JSON.stringify(data._id))
+        //sessionStorage.setItem("idTrenera", JSON.stringify(data._id))
+        props.setIdTrenera(data._id)
     }, [data])
-
-    // const Info = ({ labela, tip, reff, err, tekst }) => {
-    //     return (
-    //         <div>
-    //             <TextField
-    //                 sx = {{maxWidth:300}}
-    //                 error={err}
-    //                 className='loginInp'
-    //                 inputRef={reff}
-    //                 label={labela}
-    //                 type={tip}
-    //                 color="primary"
-    //                 size="small"
-    //                 placeholder={tekst}
-    //                 // helperText={tekst}
-    //                 focused />
-    //         </div>
-    //     )
-    // }
-
-
-    // const FormaRegistruj = () => {
-    //     return (
-    //         <div className="login">
-    //             <h2>Registrujte se:</h2>
-
-    //             <Info labela='Ime' tip='text' reff={ime} err={greska.ime} />
-    //             {greska.ime && <span className='greska'>Polje ime ne sme biti prazno i mora sadrzati najmanje 3 slova</span>}
-
-    //             <Info labela='Prezime' tip='text' reff={prezime} />
-    //             {greska.prezime && <span className='greska'>Polje prezime ne sme biti prazno i mora sadrzati najmanje 4 slova</span>}
-
-    //             <Info labela='E-mail' tip='email' reff={email} />
-    //             {greska.mail && <span className='greska'>Unesite ispravan mail</span>}
-
-    //             <Info labela='Username' tip='text' reff={username} />
-    //             {greska.username && <span className='greska'>Polje username ne sme biti prazno i mora sadrzati najmanje 4 karaktera</span>}
-
-    //             <Info labela='Lozinka' tip='password' reff={lozinka} />
-    //             {greska.lozinka && <span className='greska'>Polje "lozinka" ne sme biti prazno i mora sadrzati najmanje 6 karaktera</span>}
-
-    //             <Info labela='Broj telefona' tip='text' reff={brojTelefona} />
-    //             {greska.brojTelefona && <span className='greska'>Broj telefona mora imati najmanje 9 cifara</span>}
-    //         </div>
-    //     )
-    // }
 
 
     return (
@@ -195,7 +143,7 @@ const Register = (props) => {
                     <Button size='small' variant="contained" onClick={upis}>Registruj se</Button>
                 </form>}
 
-            {success && <div>animacina success</div>}
+            {success && <div>animacija success</div>}
 
         </div >
 

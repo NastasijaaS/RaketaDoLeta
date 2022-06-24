@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Menu from '@mui/material/Menu';
 import Delete from '@mui/icons-material/Delete';
 import { DeleteMetoda } from './Fetch';
-import { ListItemText,  Typography, ListItem, Divider, Box, ListItemIcon } from '@mui/material';
+import { ListItemText, Typography, ListItem, Divider, Box, ListItemIcon } from '@mui/material';
 
 
 const Obavestenja = ({ anchorEl, handleClose, open, menuItems }) => {
@@ -49,15 +49,15 @@ const Obavestenja = ({ anchorEl, handleClose, open, menuItems }) => {
                   color="text.primary"
                 >
                   {item.poruka ? item.poruka : "Novi zahtev"}
-                  
+
                 </Typography>
               }
             />
-             <ListItemIcon className='cardCenter' sx = {{marginTop:'0%', marginLeft: '2px', minWidth: '0px'}}>
-              <Delete  onClick={() => { obrisiZahtev(item._id) }} />
-              </ListItemIcon>
+            <ListItemIcon className='cardCenter' sx={{ marginTop: '0%', marginLeft: '2px', minWidth: '0px' }}>
+              <Delete onClick={() => { obrisiZahtev(item._id) }} />
+            </ListItemIcon>
           </ListItem>
-          <Divider component="li" fullWidth />
+          <Divider />
         </Box>
       ))}
 

@@ -87,7 +87,7 @@ export default function Tabela(props) {
                 if (p.status === 200) {
                     p.data.sort((a, b) => new Date(a.clanarinaDo) - new Date(b.clanarinaDo));
 
-                    console.log(p.data)
+                    // console.log(p.data)
 
                     setKorisnici(p.data)
                     setRows(p.data)
@@ -108,11 +108,9 @@ export default function Tabela(props) {
     }, [refresh])
 
     useEffect(() => {
-        const get = async () => {
-            await
-                GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
-        }
-        get()
+
+        GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+
     }, [])
 
     const [page, setPage] = useState(0);
@@ -162,7 +160,7 @@ export default function Tabela(props) {
         setRows(korisnici)
     };
 
-    const obrisiKorisnika = async (id) => {
+    const obrisiKorisnika =  (id) => {
 
         const zahtev = {
             url: 'http://localhost:8800/api/uprava/' + user.id,
@@ -171,7 +169,7 @@ export default function Tabela(props) {
             }
         }
 
-        await DeleteMetoda(zahtev, setGreska, setIsLoading)
+         DeleteMetoda(zahtev, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -180,7 +178,7 @@ export default function Tabela(props) {
 
     }
 
-    const unesiClanarinu = async (idKorisnika) => {
+    const unesiClanarinu =  (idKorisnika) => {
         // console.log(buttonSelected)
         // console.log(idKorisnika)
 
@@ -190,7 +188,7 @@ export default function Tabela(props) {
             url: 'http://localhost:8800/api/uprava/dodajClanarinu/' + idKorisnika + '/' + buttonSelected
         }
 
-        await PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
+         PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -199,13 +197,13 @@ export default function Tabela(props) {
         setRefresh(!refresh)
     }
 
-    const verifikujNalog = async (id) => {
+    const verifikujNalog =  (id) => {
 
         const zahtev = {
             url: 'http://localhost:8800/api/uprava//verifikujNalog/' + id
         }
 
-        await PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
+         PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')

@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useContext, Fragment, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { UserContext } from '../context/UserContext';
-import { Typography, Card, CardMedia, CardContent, CardActionArea, Grid, Button, CardActions, IconButton } from '@mui/material';
+import { Typography, Card, CardMedia, CardContent, Grid, Button, CardActions, IconButton } from '@mui/material';
 import { GetData } from '../komponente/Fetch';
 import Modal from '../komponente/Modal';
-import FormaZakaziPersonalni from '../komponente/FormaZakaziPersonalni';
-import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import IzmeniLozinku from '../komponente/IzmeniLozinku'
 import KalendarForma from '../komponente/KalendarForma';
 import FormaDodajTermin from '../komponente/FormaDodajTermin';

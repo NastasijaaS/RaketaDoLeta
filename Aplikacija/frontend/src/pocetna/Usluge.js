@@ -5,7 +5,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Accordion, AccordionDetails, AccordionSummary, Button, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-
 const Usluge = () => {
 
     const [nizUsluga, setUsluge] = useState([])
@@ -14,11 +13,9 @@ const Usluge = () => {
     const [prikaziOpis, setPrikaziOpis] = useState(-1)
 
     useEffect(() => {
-        const get = async () => {
-            await
-                GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
-        }
-        get()
+
+        GetData("http://localhost:8800/api/korisnik/vidiUsluge", setUsluge, setGreska, setIsLoading)
+
     }, [])
 
     return (

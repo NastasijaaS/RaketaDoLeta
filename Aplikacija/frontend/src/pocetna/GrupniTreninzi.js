@@ -15,8 +15,7 @@ const GrupniTreninzi = () => {
 
 
     useEffect(() => {
-        const get = async () => { await GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) }
-        get()
+         GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) 
     }, [])
 
 
@@ -72,13 +71,6 @@ const GrupniTreninzi = () => {
                     }
 
                 </Card>
-
-
-                //   {/* 
-                //     <div className="usluga">
-                //         <span className="nazivUsluge">{tr.nazivGrupnogTreninga}</span>
-                //         <span className="cenaUsluge">{tr.datum}</span> 
-                //     </div> */}
 
             ))}
 

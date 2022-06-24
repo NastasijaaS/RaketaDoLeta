@@ -6,10 +6,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
-import Alert from '@mui/material/Alert';
 import { Button, TextField, Card, Paper, Typography, Grid, CardActions, CardContent } from "@mui/material";
 import './../styles/input.css'
-import { Container } from "@mui/system";
 import IzmeniLozinku from "../komponente/IzmeniLozinku";
 
 
@@ -39,12 +37,12 @@ const Korisnik = (props) => {
 
     useEffect(() => {
         const get = async () => {
-            await GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading) 
+            GetData("http://localhost:8800/api/korisnik/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading)
             const res1 = await axios.get("http://localhost:8800/api/korisnik/vidiNapredakPoslednji/" + user.korisnikId)
             setPoslednji(res1.data)
-            console.log(res1.data)
+            //  console.log(res1.data)
         }
-            get()
+        get()
     }, [])
 
     const otkaziIzmenu = () => {
@@ -53,94 +51,20 @@ const Korisnik = (props) => {
     }
 
 
-    const proveriLozinku = async () => {
-
-        if (pass.current.value == '') {
-            alert('Morate uneti lozinku')
-            return
-        }
-        if (pass.current.value.length < 6) {
-            alert('Lozinka mora imati najmanje 6 karaktera')
-            return
-        }
-
-        await axios.post(' http://localhost:8800/api/auth/proveriSifru', {
-            id: user.id,
-            password: pass.current.value
-        }).then((p) => {
-
-            if (p.status === 200) {
-                setNova(true)
-                console.log(p)
-            }
-        }).catch((error) => {
-            if (error.response.status)
-                alert(error.response.data)
-            else
-                alert('Doslo je do greske')
-        });
-    }
-
-    const izmeniLozinku = async () => {
-
-        if (pass.current.value == '') {
-            alert('Morate uneti lozinku')
-            return
-        }
-        if (pass.current.value.length < 6) {
-            alert('Lozinka mora imati najmanje 6 karaktera')
-            return
-        }
-
-        await axios.put('http://localhost:8800/api/registrovaniKorisnik/' + user.id, {
-            registrovaniKorisnikId: user.id,
-            password: pass.current.value
-        }).then((p) => {
-            if (p.status === 200) {
-                alert('Uspesno ste promenili lozinku')
-                otkaziIzmenu()
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
-    const Lozinka = ({ tekst, OKonClick }) => {
-        return (
-            // <div>
-            //     {tekst}
-            <Fragment>
-                <TextField
-
-                    id="outlined-textarea"
-                    label={tekst}
-                    placeholder="Lozinka"
-                    variant="outlined"
-                    type='password'
-                    color="primary"
-                    size="small"
-                    inputRef={pass}
-                />
-
-                {/* <input type='password' placeholder="lozinka" ref={pass} /> */}
-                <Box>
-                    <Button variant="contained" size='small' sx={{ margin: "1%" }} onClick={OKonClick}>Ok</Button>
-                    <Button variant="contained" size='small' sx={{ margin: "1%" }} onClick={otkaziIzmenu}>Otkazi</Button>
-                </Box>
-            </Fragment>
-            // </div>
-        )
-    }
-
     const [data, setData] = useState('')
-    const izmeniKorisnika = async () => {
-        ///izmeniParametre/:idKorisnika
-        // zeljeniProcenatProteina
-        // zeljenaTezinaMisica
-        // zeljeniProcenatMasti
-        // zeljenaTezina
+    const izmeniKorisnika = () => {
 
-
+        if (korisnik.visina === '' || korisnik.visina < 0
+            || korisnik.brojGodina === '' || korisnik.brojGodina < 0
+            || korisnik.zeljeniProcenatProteina === '' || korisnik.zeljeniProcenatProteina < 0
+            || korisnik.zeljenaTezinaMisica === '' || korisnik.zeljenaTezinaMisica < 0
+            || korisnik.zeljeniProcenatMasti === '' || korisnik.zeljeniProcenatMasti < 0
+            || korisnik.zeljenaTezina === '' || korisnik.zeljenaTezina < 0
+        ) {
+            alert('Molimo unesite ispravne podatke')
+            console.log(korisnik)
+            return
+        }
 
         const zahtev = {
             url: 'http://localhost:8800/api/korisnik/izmeniParametre/' + user.korisnikId,
@@ -155,7 +79,7 @@ const Korisnik = (props) => {
         }
 
         setGreska(false)
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        PutMetoda(zahtev, setData, setGreska, setIsLoading)
         console.log(greska)
 
         dispatch({ tip: "UPDATE_USER", payload: { ...user, ...korisnik } })
@@ -170,10 +94,10 @@ const Korisnik = (props) => {
     let navigate = useNavigate()
 
     return (
-        <Box sx = {{padding:"5% 5%"}}>
+        <Box sx={{ padding: "5% 5%" }}>
 
             {isLoading && <CircularProgress size='2rem' disableShrink />}
-              
+
 
             {/* <Modal
                 sx={{ display: 'flex', justifyContent: 'center' }}
@@ -194,128 +118,140 @@ const Korisnik = (props) => {
 
             {/* <Typography display='flex' mb={5} justifyContent="center" variant="h4" >{user.ime} {user.prezime}</Typography> */}
             <Grid container spacing={2}>
-                <Grid item xs = {12} sm = {4}>
-                <Card variant="outlined" sx ={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-                    <CardContent sx = {{flexGrow: '1', marginBottom: '5%'}}>
-                        {!user && <p>nema korisnika</p>}
+                <Grid item xs={12} sm={4}>
+                    <Card variant="outlined" sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                        <CardContent sx={{ flexGrow: '1', marginBottom: '5%' }}>
+                            {!user && <p>nema korisnika</p>}
 
-                        <Typography className='cardCenter' component = "div" variant = "h4" sx = {{height: '35%', textTransform:'capitalize'}}>{user.ime} {user.prezime}</Typography>
+                            <Typography className='cardCenter' component="div" variant="h4" sx={{ height: '35%', textTransform: 'capitalize' }}>{user.ime} {user.prezime}</Typography>
 
-                        <Typography mb={2}>Clanarina vazi do: {new Date(clanarina.vaziDo).toLocaleDateString()}</Typography>
+                            <Typography mb={2}>Clanarina vazi do: {new Date(clanarina.vaziDo).toLocaleDateString()}</Typography>
 
-                        <Typography mb={2}>e-mail: {user.email}</Typography>
+                            <Typography mb={2}>e-mail: {user.email}</Typography>
 
-                        <Typography mb={2}>Broj telefona: {user.brojTelefona}</Typography>
+                            <Typography mb={2}>Broj telefona: {user.brojTelefona}</Typography>
 
-                        <Typography className="zelje">
-                            Godine:
-                            <input className='korisnik'
-                                type='number'
-                                value={korisnik.brojGodina}
-                                disabled={izmeniPodatke}
-                                onChange={(ev) => setKorisnik((k) => ({ ...k, brojGodina: ev.target.value }))} />
+                            <Typography className="zelje">
+                                Godine:
+                                <input className='korisnik'
+                                    type='number'
+                                    minvalue={0}
+                                    maxvalue={100}
+                                    value={korisnik.brojGodina}
+                                    disabled={izmeniPodatke}
+                                    onChange={(ev) => setKorisnik((k) => ({ ...k, brojGodina: ev.target.value }))} />
 
-                        </Typography>
+                            </Typography>
 
-                        <Typography className="zelje">
-                            Visina:
-                            <input className='korisnik'
-                                type='number'
-                                value={korisnik.visina}
-                                disabled={izmeniPodatke}
-                                onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
+                            <Typography className="zelje">
+                                Visina:
+                                <input className='korisnik'
+                                    type='number'
+                                    minvalue={0}
+                                    maxvalue={260}
+                                    value={korisnik.visina}
+                                    disabled={izmeniPodatke}
+                                    onChange={(ev) => setKorisnik((k) => ({ ...k, visina: ev.target.value }))} />
 
-                        </Typography>
-                    </CardContent>
-                    <CardActions sx = {{justifyContent:'center', alignItems:'center'}}>
-                        {izmena && <Button mb={2} variant="outlined" fullWidth onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
-                        {!izmena &&
-                            <IzmeniLozinku onClose={() => { setIzmena(true) }} />
-                            // <Container className='lozinka'>
-                            //     {!novaLozinka && <Lozinka tekst='Unesite staru lozinku' OKonClick={proveriLozinku} />}
-                            //     {novaLozinka && <Lozinka tekst='Unesite novu lozinku' OKonClick={izmeniLozinku} />}
-                            // </Container>
-                        }
-                    </CardActions>
-                </Card>
+                            </Typography>
+                        </CardContent>
+                        <CardActions sx={{ justifyContent: 'center', alignItems: 'center' }}>
+                            {izmena && <Button mb={2} variant="outlined" fullWidth onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
+                            {!izmena &&
+                                <IzmeniLozinku onClose={() => { setIzmena(true) }} />
+                                // <Container className='lozinka'>
+                                //     {!novaLozinka && <Lozinka tekst='Unesite staru lozinku' OKonClick={proveriLozinku} />}
+                                //     {novaLozinka && <Lozinka tekst='Unesite novu lozinku' OKonClick={izmeniLozinku} />}
+                                // </Container>
+                            }
+                        </CardActions>
+                    </Card>
                 </Grid>
-                <Grid item xs = {12} sm = {4} >
-                <Card className="ZeljeKorisnika" variant="outlined" sx ={{display: 'flex', flexDirection: 'column',height: '100%'}}>
-                    <CardContent sx = {{flexGrow:'1'}}>
-                    <Typography gutterBottom variant="h6">Zeljene vrednosti</Typography>
-                        <Box className="zelje">
-                            Zeljena tezina:
-                            <input className='korisnik'
-                                type='number'
-                                value={korisnik.zeljenaTezina}
-                                disabled={izmeniPodatke}
-                                onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezina: ev.target.value }))} />
+                <Grid item xs={12} sm={4} >
+                    <Card className="ZeljeKorisnika" variant="outlined" sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                        <CardContent sx={{ flexGrow: '1' }}>
+                            <Typography gutterBottom variant="h6">Zeljene vrednosti</Typography>
+                            <Box className="zelje">
+                                Zeljena tezina:
+                                <input className='korisnik'
+                                    type='number'
+                                    minvalue={0}
+                                    maxvalue={200}
+                                    value={korisnik.zeljenaTezina}
+                                    disabled={izmeniPodatke}
+                                    onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezina: ev.target.value }))} />
 
-                        </Box>
+                            </Box>
 
-                        <Box className="zelje">
-                            Zeljena tezina misica:
-                            <input className='korisnik'
-                                type='number'
-                                value={korisnik.zeljenaTezinaMisica}
-                                disabled={izmeniPodatke}
-                                onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezinaMisica: ev.target.value }))} />
-                        </Box>
+                            <Box className="zelje">
+                                Zeljena tezina misica:
+                                <input className='korisnik'
+                                    type='number'
+                                    minvalue={0}
+                                    maxvalue={100}
+                                    value={korisnik.zeljenaTezinaMisica}
+                                    disabled={izmeniPodatke}
+                                    onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezinaMisica: ev.target.value }))} />
+                            </Box>
 
-                        <Box className="zelje">
-                            Zeljeni procenat masti:
-                            <input className='korisnik'
-                                type='number'
-                                
-                                value={korisnik.zeljeniProcenatMasti}
-                                disabled={izmeniPodatke}
-                                onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatMasti: ev.target.value }))} />
-                        </Box>
+                            <Box className="zelje">
+                                Zeljeni procenat masti:
+                                <input className='korisnik'
+                                    type='number'
+                                    minvalue={0}
+                                    maxvalue={100}
+                                    value={korisnik.zeljeniProcenatMasti}
+                                    disabled={izmeniPodatke}
+                                    onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatMasti: ev.target.value }))} />
+                            </Box>
 
-                        <Box className="zelje">
-                            Zeljeni procenat proteina:
-                            <input className='korisnik'
-                                type='number'
-                                value={korisnik.zeljeniProcenatProteina}
-                                disabled={izmeniPodatke}
-                                onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatProteina: ev.target.value }))} />
-                        </Box>
-                    </CardContent>
-                    <CardActions>
-                        {!izmeniPodatke && <Button variant = "contained" size = 'small' onClick={izmeniKorisnika}>OK</Button>}
-                        {!izmeniPodatke && <Button variant = "contained" size = 'small'onClick={() => {
-                            setIzmeniPodatke(true); setKorisnik({
-                                zeljenaTezina: user.zeljenaTezina,
-                                zeljenaTezinaMisica: user.zeljenaTezinaMisica,
-                                zeljeniProcenatMasti: user.zeljeniProcenatMasti,
-                                zeljeniProcenatProteina: user.zeljeniProcenatProteina
-                            })
-                        }}>otkazi</Button>}
+                            <Box className="zelje">
+                                Zeljeni procenat proteina:
+                                <input className='korisnik'
+                                    type='number'
+                                    minvalue={0}
+                                    maxvalue={100}
+                                    value={korisnik.zeljeniProcenatProteina}
+                                    disabled={izmeniPodatke}
+                                    onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatProteina: ev.target.value }))} />
+                            </Box>
+                        </CardContent>
+                        <CardActions>
+                            {!izmeniPodatke && <Button variant="contained" size='small' onClick={izmeniKorisnika}>OK</Button>}
+                            {!izmeniPodatke && <Button variant="contained" size='small' onClick={() => {
+                                setIzmeniPodatke(true); setKorisnik({
+                                    visina: user.visina,
+                                    zeljenaTezina: user.zeljenaTezina,
+                                    zeljenaTezinaMisica: user.zeljenaTezinaMisica,
+                                    zeljeniProcenatMasti: user.zeljeniProcenatMasti,
+                                    zeljeniProcenatProteina: user.zeljeniProcenatProteina
+                                })
+                            }}>otkazi</Button>}
 
-                        {izmeniPodatke && <Button variant="outlined" fullWidth onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
-                    </CardActions>
-                </Card>
+                            {izmeniPodatke && <Button variant="outlined" fullWidth onClick={() => { setIzmeniPodatke(false) }}>Izmeni podatke</Button>}
+                        </CardActions>
+                    </Card>
                 </Grid>
-                <Grid item xs = {12} sm = {4}>
-                { poslednji
-                &&
-                <Card variant="outlined"  sx ={{height: '100%'}}>
-                    <CardContent>
-                        <Typography variant="h6">Poslednje merenje</Typography>
-                        <p>Tezina: {poslednji.tezina}</p>
-                        <p>Procenat masti: {poslednji.procenatMasti}</p>
-                        <p>Procenat proteina: {poslednji.procenatProteina}</p>
-                        <p>Tezina misica: {poslednji.tezinaMisica}</p>
-                        <p>Procenat vode: {poslednji.procenatVode}</p>
-                        <p>Kostana masa: {poslednji.kostanaMasa}</p>
-                        <p>BMI: {poslednji.BMI}</p>
-                        <p>BodyAge: {poslednji.bodyAge}</p>
-                    </CardContent>
-                    <CardActions>
-                        <Button href={"/napredak"} variant = "outlined" fullWidth>Vidi napredak</Button>
-                    </CardActions>
-                </Card>
-                }
+                <Grid item xs={12} sm={4}>
+                    {poslednji
+                        &&
+                        <Card variant="outlined" sx={{ height: '100%' }}>
+                            <CardContent>
+                                <Typography variant="h6">Poslednje merenje</Typography>
+                                <p>Tezina: {poslednji.tezina}</p>
+                                <p>Procenat masti: {poslednji.procenatMasti}</p>
+                                <p>Procenat proteina: {poslednji.procenatProteina}</p>
+                                <p>Tezina misica: {poslednji.tezinaMisica}</p>
+                                <p>Procenat vode: {poslednji.procenatVode}</p>
+                                <p>Kostana masa: {poslednji.kostanaMasa}</p>
+                                <p>BMI: {poslednji.BMI}</p>
+                                <p>BodyAge: {poslednji.bodyAge}</p>
+                            </CardContent>
+                            <CardActions>
+                                <Button href={"/napredak"} variant="outlined" fullWidth>Vidi napredak</Button>
+                            </CardActions>
+                        </Card>
+                    }
                 </Grid>
             </Grid>
         </Box >

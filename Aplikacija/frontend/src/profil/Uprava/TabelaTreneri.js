@@ -25,6 +25,9 @@ const TabelaTreneri = () => {
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
+    const [idTrenera, setIdTrenera] = useState(false)
+
+
     const [dodaj, setDodaj] = useState(false)
     // ovde krece steper
     const steps = ['Registruj trenera', 'Dodaj trenera'];
@@ -42,9 +45,9 @@ const TabelaTreneri = () => {
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return <Register />;
+                return <Register setIdTrenera={setIdTrenera} />;
             case 1:
-                return <DodajTrenera />;
+                return <DodajTrenera idTrenera={idTrenera} />;
             default:
                 throw new Error('Unknown step');
         }
@@ -56,25 +59,25 @@ const TabelaTreneri = () => {
     //ovde se zavrsava
 
     useEffect(() => {
-        const get = async () => { await GetData("http://localhost:8800/api/korisnik/vidiTrenereSvi", setTreneri, setGreska, setIsLoading) }
-        get()
+        GetData("http://localhost:8800/api/korisnik/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
     }, [refresh])
 
-    const obrisiTrenera = async (id) => {
+    const obrisiTrenera = (id) => {
         const zahtev = {
             url: 'http://localhost:8800/api/uprava/obrisiTrenera/' + id,
-
         }
 
-    //    console.log(zahtev)
+        //    console.log(zahtev)
 
-        await DeleteMetoda(zahtev, setGreska, setIsLoading)
+        DeleteMetoda(zahtev, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
         }
         setRefresh(!refresh)
     }
+
+
 
 
     return (
@@ -89,7 +92,7 @@ const TabelaTreneri = () => {
                         <th>ime</th>
                         <th>prezime</th>
                         <th>email</th>
-                      
+
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -98,7 +101,7 @@ const TabelaTreneri = () => {
                             <TableCell>{tr.ime}</TableCell>
                             <TableCell>{tr.prezime}</TableCell>
                             <TableCell>{tr.email}</TableCell>
-                          
+
                             <TableCell><Button
                                 onClick={() => obrisiTrenera(tr.id)}
                                 size="small"

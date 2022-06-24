@@ -1,6 +1,4 @@
-
-import { Paper, Box, CssBaseline,ThemeProvider,createTheme } from "@mui/material";
-import { useState } from "react";
+import { Paper, Box, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import ReactDOM from "react-dom";
 
 import '../styles/Modal.css'
@@ -46,24 +44,24 @@ const Modal = (props) => {
 
     return (
         ReactDOM.createPortal(
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    <Paper>
-                        <div className="pozadina" onClick={props.onClose} />
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Paper>
+                    <div className="pozadina" onClick={props.onClose} />
 
-                        <Box className="modal">
-                            <button className="btnZatvori" onClick={props.onClose}>X</button>
-                            <Box className="modal-body">
-                                {props.children}
-                            </Box>
+                    <Box className="modal">
+                        <button className="btnZatvori" onClick={props.onClose}>X</button>
+                        <Box className="modal-body">
+                            {props.children}
                         </Box>
+                    </Box>
 
-                    </Paper>
-                </ThemeProvider >
-                ,
-                modalRoot
-                )
-                )
+                </Paper>
+            </ThemeProvider >
+            ,
+            modalRoot
+        )
+    )
 }
 
-                export default Modal
+export default Modal

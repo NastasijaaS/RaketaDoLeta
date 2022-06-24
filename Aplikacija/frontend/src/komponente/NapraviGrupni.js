@@ -44,37 +44,24 @@ const DropDown = ({ labela, set, niz, value }) => {
 
 const NapraviGrupni = (props) => {
 
-    const { user } = useContext(UserContext);
-
+  
     let isOnline = false
-
-    const [tipTreninga, setTip] = useState('')
     const [intenzitetTreninga, setIntenzitet] = useState('')
     const [trajanjeTreninga, setTrajanje] = useState('')
-
     const [error, setError] = useState(false)
-
     const [data, setData] = useState()
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-
     const maxBrojClanova = useRef()
     const naziv = useRef()
-
     const [treninzi, setTreninzi] = useState([])
-    const [uslugaId, setUslugaId] = useState(0)
-
-    const [startDate, setStartDate] = useState(new Date());
     const [date, setDate] = useState(new Date());
     const [vreme, setVreme] = useState(new Date(0, 0, 0, 8));
     const [usluga, setUsluga] = useState('');
-    const [termin, setTermin] = useState({ vreme: "", idTermina: "" });
-    const [termini, setTermini] = useState([1])
 
-    let idTermina = ''
+
     useEffect(() => {
-        const get = () => { GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) }
-        get()
+        GetData("http://localhost:8800/api/korisnik/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) 
     }, [])
 
     const onlineTrening = (ev) => {
@@ -95,8 +82,6 @@ const NapraviGrupni = (props) => {
         }
 
         const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-
-        console.log(datum.toISOString())
 
         const zahtev = {
             url: 'http://localhost:8800/api/trener/zakaziGrupniTrening/' + props.idTrenera + '/' + usluga,
