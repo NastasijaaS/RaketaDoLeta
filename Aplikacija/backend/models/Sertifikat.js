@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const SertifikatSchema = new mongoose.Schema({
 
@@ -22,4 +22,4 @@ const SertifikatSchema = new mongoose.Schema({
 {timestamps:true}
 )
 
-module.exports = mongoose.model("Sertifikat", SertifikatSchema);
+export default mongoose.model("Sertifikat", SertifikatSchema);

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const NapredakSchema = new mongoose.Schema({
 
@@ -56,4 +56,4 @@ const NapredakSchema = new mongoose.Schema({
 {timestamps:true}
 )
 
-module.exports = mongoose.model("Napredak", NapredakSchema);
+export default mongoose.model("Napredak", NapredakSchema);

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const UpravaSchema = new mongoose.Schema({
 
@@ -11,4 +11,4 @@ const UpravaSchema = new mongoose.Schema({
 {timestamps:true}
 )
 
-module.exports = mongoose.model("Uprava", UpravaSchema);
+export default mongoose.model("Uprava", UpravaSchema);

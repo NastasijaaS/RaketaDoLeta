@@ -1,22 +1,26 @@
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const helmet = require("helmet");
-const morgan = require("morgan");
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import helmet from "helmet";
+import morgan from "morgan";
+import cors from "cors";
 //const multer = require("multer");
-const authRoute = require("./routes/auth");
-const registrovaniKorisnikRoute = require("./routes/registrovaniKorisnik");
-const trenerRoute = require("./routes/trener");
-const korisnikRoute = require("./routes/korisnik");
-const upravaRoute = require("./routes/uprava");
-const treningRoute = require("./routes/trening");
-const blogRoute = require("./routes/blog");
-const terminRoute = require("./routes/termin");
-const zahtevRoute = require("./routes/zahtev");
+//import usersRoute from "./Routes/users.js";
+import authRoute from "./routes/auth.js";
+import registrovaniKorisnikRoute from "./routes/registrovaniKorisnik.js";
+import trenerRoute from "./routes/trener.js";
+import korisnikRoute  from "./routes/korisnik.js";
+import upravaRoute  from "./routes/uprava.js";
+import treningRoute from"./routes/trening.js";
+import blogRoute from"./routes/blog.js";
+import terminRoute from"./routes/termin.js";
+import zahtevRoute from"./routes/zahtev.js";
+import clanarinaRoute from"./routes/clanarina.js";
+import napredakRoute from"./routes/napredak.js";
+import uslugaRoute from"./routes/usluga.js";
 
 //const napredakRoute=require("./routes/napredak");
-const cors = require('cors');
+//const cors = require('cors');
 
 dotenv.config();
 
@@ -28,8 +32,9 @@ mongoose.connect(
   }
 );
 
-app.use(express.json());
+const app = express();
 app.use(helmet());
+app.use(express.json());
 
 
 app.use(cors())
@@ -46,8 +51,9 @@ app.use("/api/trening", treningRoute);
 app.use("/api/blog", blogRoute);
 app.use("/api/termin", terminRoute);
 app.use("/api/zahtev", zahtevRoute);
-
-
+app.use("/api/clanarina", clanarinaRoute);
+app.use("/api/napredak", napredakRoute);
+app.use("/api/usluga", uslugaRoute);
 
 
 app.listen(8800, () => {

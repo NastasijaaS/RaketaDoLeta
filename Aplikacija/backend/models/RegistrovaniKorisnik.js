@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const RegistrovaniKorisnikSchema = new mongoose.Schema({
 
@@ -49,4 +49,4 @@ const RegistrovaniKorisnikSchema = new mongoose.Schema({
     { timestamps: true }
 )
 
-module.exports = mongoose.model("RegistrovaniKorisnik", RegistrovaniKorisnikSchema);
+export default mongoose.model("RegistrovaniKorisnik", RegistrovaniKorisnikSchema);
