@@ -1,18 +1,15 @@
-const router = require("express").Router();
-const Zahtev = require("../models/Zahtev")
+import express from "express";
+const router = express.Router();
+
+import { obrisiZahtev,vidiZahteve,vidiZahteveZaKorisnika,napraviZahtev,vratiZahteveOdbijeni } from "../controllers/zahtev.js";
+import {auth} from "../auth.js";
 
 
+router.delete('/obrisiZahtev/:idZahteva',auth, obrisiZahtev);
+router.get('/vidiZahteve/:idRegKorisnika/:status',auth, vidiZahteve);
+router.get('/vidiZahteveZaKorisnika/:idRegKorisnika',auth, vidiZahteveZaKorisnika);
+router.post('/napraviZahtev/:idTreninga',auth, napraviZahtev);
+router.get('/vratiZahteveOdbijeni',auth, vratiZahteveOdbijeni);
 
-//obrisi zahtev
-router.delete("/obrisiZahtev/:idZahteva", async (req, res) => {
-    try {
-        await Zahtev.findByIdAndDelete(req.params.idZahteva)
-        res.status(200).json("Zahtev je uspesno obrisan")
 
-    }
-    catch (err) {
-        res.status(500).json(err);
-    }
-});
-
-module.exports = router
+export default router;

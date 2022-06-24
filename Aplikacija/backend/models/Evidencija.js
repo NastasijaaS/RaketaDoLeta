@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const EvidencijaSchema = new mongoose.Schema({
 
@@ -30,4 +30,4 @@ const EvidencijaSchema = new mongoose.Schema({
 {timestamps:true}
 )
 
-module.exports = mongoose.model("Evidencija", EvidencijaSchema);
+export default mongoose.model("Evidencija", EvidencijaSchema);

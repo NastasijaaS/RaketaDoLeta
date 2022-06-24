@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const ZahtevSchema = new mongoose.Schema({
 
@@ -22,4 +22,5 @@ const ZahtevSchema = new mongoose.Schema({
 {timestamps:true}
 )
 
-module.exports = mongoose.model("Zahtev", ZahtevSchema);
+//module.exports = mongoose.model("Zahtev", ZahtevSchema);
+export default mongoose.model("Zahtev", ZahtevSchema);
