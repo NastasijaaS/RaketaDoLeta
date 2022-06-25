@@ -171,7 +171,7 @@ const ZahteviTrenera = () => {
                                             <Typography mb={1} textAlign='center' fontWeight='500'> EVIDENCIJA PROTEKLIH TRENINGA</Typography>
                                             <Grid container spacing={2} justifyContent='center' mb={1}>
                                                 {
-                                                    evidencija.intenziteti.map((e, i) => (
+                                                    evidencija?.intenziteti?.map((e, i) => (
                                                         <Grid item xs={12} md={2} key={i}>
                                                             <Card className='cardShadow' sx={{ padding: '1vh', textAlign: 'justify' }}>
                                                                 <Typography>Datum: {evidencija.datumi[i]}</Typography>

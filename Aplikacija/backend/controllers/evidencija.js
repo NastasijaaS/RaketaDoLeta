@@ -121,7 +121,8 @@ export const vidiEvidenciju = async (req, res) => {
                             imeKorisnika: regK.ime,
                             prezimeKorisnika: regK.prezime,
                             tipTreninga: evidencija.tipTreninga,
-                            intenzitet: evidencija.intenzitet
+                            intenziteti: evidencija.intenziteti,
+                            datumi:evidencija.datumi
                         }
                         return res.status(200).json(vrati)
                     }

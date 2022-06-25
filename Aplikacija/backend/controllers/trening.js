@@ -942,7 +942,7 @@ export const vratiProsleTreninge = async (req, res) => {
                 if (termin != null) {
                     if (termin.datum < danasnji) {
                         treninzi.push(trener.listaTreninga[i])
-                        console.log(trener.listaTreninga[i])
+                       // console.log(trener.listaTreninga[i])
                     }
                 }
                 // else{
@@ -954,15 +954,20 @@ export const vratiProsleTreninge = async (req, res) => {
             if (treninzi.length !== 0) {
                 let vrati = []
                 for (let i = 0; i < treninzi.length; i++) {
+
+                    const trening = await Trening.findById(treninzi[i]._id)
+
                     let tr = {
-                        //datum:treninzi[i].datum,
-                        trener: treninzi[i].trenerId,
-                        klijenti: treninzi[i].listaKlijenata,
-                        tip: treninzi[i].tip,
-                        intenzitet: treninzi[i].intenzitet
+                        datum:trening?.datum,
+                        vreme:trening?.vreme,
+                        trener: trening?.trenerId,
+                        tip: trening?.tip,
+                        intenzitet: trening?.intenzitet,
+                        trajanje: trening?.trajanje
                     }
                     vrati.push(tr)
                 }
+              
                 return res.status(200).json(vrati)
             }
             else {

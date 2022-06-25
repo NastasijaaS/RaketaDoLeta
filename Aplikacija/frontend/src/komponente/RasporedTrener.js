@@ -61,7 +61,7 @@ const RasporedTrener = (props) => {
                 }
                 else {
                     const res = await axiosPrivate.get("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId)
-                    
+                    console.log(res)
                     if (res.data) {
                         setTreninzi(res.data)
                     }

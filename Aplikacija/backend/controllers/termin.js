@@ -10,7 +10,7 @@ import RegistrovaniKorisnik from "../models/RegistrovaniKorisnik.js"
 
 
 //vrati termine za trenera
-export const vratiTermineZaTrenera= async (req, res) => {
+export const vratiTermineZaTrenera = async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.idTrenera)
@@ -43,7 +43,7 @@ export const dodajTerminTreneru = async (req, res) => {
             })
 
             const terminSave = await t.save()
-           return res.status(200).json(terminSave)
+            return res.status(200).json(terminSave)
         }
         else {
             return res.status(404).json("trener nije pronadjen")
@@ -96,15 +96,15 @@ export const vratiSlobodneTermineZaTreneraPoDatumu = async (req, res) => {
             // const sviTermini=await Termin.find({trenerId:trener._id}, {datum:req.params.datum}, {slobodan: true})
             const sviTermini = await Termin.find({ $and: [{ trenerId: trener._id }, { datum: req.params.datum }, { slobodan: true }] })
             let sviTerminii = []
-  
+
             for (let i = 0; i < sviTermini.length; i++) {
 
                 let vremee = sviTermini[i].vremePocetka
                 let samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
 
                 let vrati = {
-                   vreme: samovreme,
-                   idTermina:sviTermini[i]._id
+                    vreme: samovreme,
+                    idTermina: sviTermini[i]._id
                 }
                 sviTerminii.push(vrati)
             }
@@ -121,48 +121,45 @@ export const vratiSlobodneTermineZaTreneraPoDatumu = async (req, res) => {
 }
 
 //vrati slobodne za trenera po datumu
-export const vratiZauzeteTermineZaTreneraPoDatumu= async (req, res) => {
+export const vratiZauzeteTermineZaTreneraPoDatumu = async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.idTrenera)
-        if (trener != null) 
-        {
+        if (trener != null) {
             const sviTermini = await Termin.find({ $and: [{ trenerId: trener._id }, { datum: req.params.datum }, { slobodan: false }] })
             let sviTreninzi = []
+
             for (let i = 0; i < sviTermini.length; i++) {
-                
+
                 const trening = await Trening.findById(sviTermini[i].treningId)
-            
-                if(trening)
-                { 
-                    const zahtev=await Zahtev.findOne({$and: [{treningId:trening._id},{status:"Odobren"}]})
-                    
-                 
+
+                if (trening) {
+
+                    const zahtev = await Zahtev.findOne({ $and: [{ treningId: trening._id, status: "Odobreno" }] })
                     const korisnik = await Korisnik.findById(trening.clanovi[0])
-                
-                if( korisnik && zahtev){
 
-                    const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
-                    //console.log(regK)
-                    let vremee = sviTermini[i].vremePocetka
-                  
-                    let samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
+                    if (korisnik && zahtev) {
 
-                    let vrati = {
-                        imeK:regK.ime,
-                        prezimeK:regK.prezime,
-                        trener: trener._id,
-                        vreme: samovreme,
-                        trajanje: "1h",
-                        intenzitet: trening.intenzitet,
-                        treningId: trening._id,
-                        korisnikId: korisnik._id
+                        const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
+                        let vremee = sviTermini[i]?.vremePocetka
+                        let samovreme = vremee?.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
+
+                        let vrati = {
+                            imeK: regK.ime,
+                            prezimeK: regK.prezime,
+                            trener: trener._id,
+                            vreme: samovreme,
+                            trajanje: "1h",
+                            intenzitet: trening.intenzitet,
+                            treningId: trening._id,
+                            korisnikId: korisnik._id
+                        }
+
+                        sviTreninzi.push(vrati)
+                        console.log(vrati)
+
                     }
-                    
-                     sviTreninzi.push(vrati)
-
                 }
-                  }
             }
             return res.status(200).json(sviTreninzi);
         }
