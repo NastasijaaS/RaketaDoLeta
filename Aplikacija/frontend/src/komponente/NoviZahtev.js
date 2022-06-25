@@ -19,9 +19,12 @@ import LoginIcon from '@mui/icons-material/Login';
 import { UserContext } from '../context/UserContext';
 import Zvonce from './Zvonce'
 import { GetData } from './Fetch'
+import useAxiosPrivate from "../api/useAxiosPrivate";
 
 const NoviZahtev = () => {
     const { user } = useContext(UserContext);
+
+    const axiosPrivate = useAxiosPrivate()
 
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -30,7 +33,23 @@ const NoviZahtev = () => {
 
     useEffect(() => {
 
-        GetData('http://localhost:8800/api/zahtev/vidiZahteve/' + user.id + '/Na cekanju', setData, setGreska, setIsLoading)
+        //GetData('http://localhost:8800/api/zahtev/vidiZahteve/' + user.id + '/Na cekanju', setData, setGreska, setIsLoading)
+
+        const get = async () => {
+            await axiosPrivate.get('http://localhost:8800/api/zahtev/vidiZahteve/' + user.id + '/Na cekanju')
+                .then(res => {
+                    if (res.status === 200) {
+
+                        if (res.data ) {
+                            setData(res.data)
+                        }
+                    }
+                }).catch((error) => {
+                    alert('Doslo je do greske')
+                    console.log(error)
+                });
+        }
+        get()
 
     }, [refresh])
 

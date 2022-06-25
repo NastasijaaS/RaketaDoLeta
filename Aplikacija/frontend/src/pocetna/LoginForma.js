@@ -88,6 +88,8 @@ const LogIn = (props) => {
             }).then((p) => {
                 if (p.status === 200) {
                     dispatch(LoginSuccess(p.data))
+                    console.log(p.data)
+                    localStorage.setItem('token',p.data?.token)
                 }
             }).catch((error) => {
                 if (error.response.status === 404) {

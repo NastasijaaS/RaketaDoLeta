@@ -11,6 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Checkbox } from "@mui/material";
 import Greska from './Alert'
 import { PostMetoda, PutMetoda } from './Fetch'
+import useAxiosPrivate from "../api/useAxiosPrivate";
 
 const Info = ({ labela, tip, reff }) => {
     return (
@@ -32,6 +33,8 @@ const Info = ({ labela, tip, reff }) => {
 const DodajNapredak = (props) => {
 
     console.log(props.napredakId)
+
+    const axiosPrivate = useAxiosPrivate()
 
     const { user } = useContext(UserContext);
 
@@ -68,15 +71,22 @@ const DodajNapredak = (props) => {
             }
         }
 
-        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+        //await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
+        try {
+            await axiosPrivate.post(zahtev.url, zahtev.body)
+            alert('Uspesno dodat napredak')
+        } catch (err) {
+            alert('Doslo je do greske')
+        }
 
-        }
-        else {
-            alert('uspesno dodat napredak')
-        }
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+
+        // }
+        // else {
+        //     alert('uspesno dodat napredak')
+        // }
 
         props.onClose()
 
@@ -102,15 +112,23 @@ const DodajNapredak = (props) => {
             }
         }
 
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        // await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
+        try {
+            await axiosPrivate.put(zahtev.url, zahtev.body)
+            alert('Uspesno dodat napredak')
+        } catch (err) {
+            alert('Doslo je do greske')
+        }
 
-        }
-        else {
-            alert('uspesno dodat napredak')
-        }
+
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+
+        // }
+        // else {
+        //     alert('uspesno dodat napredak')
+        // }
 
         props.onClose()
 

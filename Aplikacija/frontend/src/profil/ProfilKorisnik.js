@@ -6,12 +6,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, Card, Paper, Typography, Grid, CardActions, CardContent } from "@mui/material";
+import { Button,  Card,  Typography, Grid, CardActions, CardContent } from "@mui/material";
 import './../styles/input.css'
 import IzmeniLozinku from "../komponente/IzmeniLozinku";
-
+import useAxiosPrivate from "../api/useAxiosPrivate";
 
 const Korisnik = (props) => {
+
+    const axiosPrivate = useAxiosPrivate();
 
     const { user, dispatch } = useContext(UserContext);
     const [izmena, setIzmena] = useState(true)
@@ -37,11 +39,24 @@ const Korisnik = (props) => {
 
     useEffect(() => {
         const get = async () => {
-            GetData("http://localhost:8800/api/clanarina/vidiClanarinu/" + user.korisnikId, setClanarina, setGreska, setIsLoading)
-            const res1 = await axios.get("http://localhost:8800/api/napredak/vidiNapredakPoslednji/" + user.korisnikId)
-            setPoslednji(res1.data)
-            //  console.log(res1.data)
+            try {
+                setIsLoading(true)
+                const res = await axiosPrivate.get("http://localhost:8800/api/clanarina/vidiClanarinu/" + user.korisnikId)
+                setClanarina(res.data)
+                const res1 = await axiosPrivate.get("http://localhost:8800/api/napredak/vidiNapredakPoslednji/" + user.korisnikId)
+                setPoslednji(res1.data)
+                setIsLoading(false)
+
+            } catch (error) {
+                setIsLoading(false)
+                if (!error?.response) {
+                    setGreska('No Server Response')
+                } else {
+                    setGreska('Doslo je do greske prilikom ucitavanja')
+                }
+            }
         }
+
         get()
     }, [])
 
@@ -50,9 +65,9 @@ const Korisnik = (props) => {
         setNova(false)
     }
 
-
     const [data, setData] = useState('')
-    const izmeniKorisnika = () => {
+
+    const izmeniKorisnika = async () => {
 
         if (korisnik.visina === '' || korisnik.visina < 0
             || korisnik.brojGodina === '' || korisnik.brojGodina < 0
@@ -62,7 +77,7 @@ const Korisnik = (props) => {
             || korisnik.zeljenaTezina === '' || korisnik.zeljenaTezina < 0
         ) {
             alert('Molimo unesite ispravne podatke')
-            console.log(korisnik)
+            //console.log(korisnik)
             return
         }
 
@@ -79,10 +94,28 @@ const Korisnik = (props) => {
         }
 
         setGreska(false)
-        PutMetoda(zahtev, setData, setGreska, setIsLoading)
-        console.log(greska)
+        // PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        // console.log(greska)
 
-        dispatch({ tip: "UPDATE_USER", payload: { ...user, ...korisnik } })
+        try {
+            const res = await axiosPrivate.put(zahtev.url, zahtev.body)
+            if (res.status === 200) {
+                dispatch({ tip: "UPDATE_USER", payload: { ...user, ...korisnik } })
+            }
+        }
+        catch (err) {
+            alert('Doslo je do greske')
+            setKorisnik({
+                visina: user.visina,
+                brojGodina: user.brojGodina,
+                zeljenaTezina: user.zeljenaTezina,
+                zeljenaTezinaMisica: user.zeljenaTezinaMisica,
+                zeljeniProcenatMasti: user.zeljeniProcenatMasti,
+                zeljeniProcenatProteina: user.zeljeniProcenatProteina
+            })
+        }
+
+
 
         setIzmeniPodatke(true)
         // console.log(korisnik)

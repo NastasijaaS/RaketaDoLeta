@@ -9,6 +9,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Greska from './Alert'
 import { PostMetoda, GetData } from './Fetch'
+import useAxiosPrivate from "../api/useAxiosPrivate";
 
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
@@ -16,6 +17,8 @@ const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
 const trajanje = ["30min", "45min", "1h"]
 
 const FormaZakaziPersonalni = (props) => {
+
+    const axiosPrivate = useAxiosPrivate()
 
     const { user } = useContext(UserContext);
 
@@ -39,12 +42,27 @@ const FormaZakaziPersonalni = (props) => {
 
         const datum = new Date(date.toDateString())
 
-        GetData(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`,
-            setTermini, setGreska, setIsLoading)
+        // GetData(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`,
+        //     setTermini, setGreska, setIsLoading)
+        const get = async () => {
+            await axiosPrivate.get(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`)
+                .then(res => {
+                    if (res.status === 200) {
+
+                        if (res.data) {
+                            setTermini(res.data)
+                        }
+                    }
+                }).catch((error) => {
+                    alert('Doslo je do greske')
+                    console.log(error)
+                });
+        }
+        get()
 
     }, [date])
 
-    const zakaziTrening = (ev) => {
+    const zakaziTrening = async (ev) => {
         console.log(termin.vreme)
 
 
@@ -74,20 +92,27 @@ const FormaZakaziPersonalni = (props) => {
 
 
 
-        PostMetoda(zahtev, setData, setGreska, setIsLoading)
+        //  PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert(greska)
-            // setError('Morate uneti sve podatke')
+        try {
+            await axiosPrivate.post(zahtev.url, zahtev.body)
+            alert('Uspesno ste zakazali trening')
+        } catch (err) {
+            alert('Doslo je do greske')
         }
-        else {
-            alert('Uspesno zakazan trening')
-        }
+
+        // if (greska !== false) {
+        //     alert(greska)
+        //     // setError('Morate uneti sve podatke')
+        // }
+        // else {
+        //     alert('Uspesno zakazan trening')
+        // }
 
         props.onClose()
     }
 
-    
+
     const DropDown = ({ labela, set, niz, value }) => {
 
         return (
@@ -153,8 +178,8 @@ const FormaZakaziPersonalni = (props) => {
 
             <FormControl sx={{ width: '100%' }}
                 disabled={termini.length === 0}
-            > 
-                <InputLabel>{ termini.length === 0 ? 'nema slobodnih termina':'vreme'}</InputLabel>
+            >
+                <InputLabel>{termini.length === 0 ? 'nema slobodnih termina' : 'vreme'}</InputLabel>
                 <Select
                     label='vreme'
                     value={termin.vreme}

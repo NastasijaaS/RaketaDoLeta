@@ -6,11 +6,12 @@ import { UserContext } from '../../context/UserContext';
 import { Card, CardMedia, CardContent, CardActionArea, CardAction, Typography, Grid, CardActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/stil.css'
+import useAxiosPrivate from '../../api/useAxiosPrivate';
 
 
 
 const KorisniciTrenera = () => {
-    let buttonSelected = ''
+    const axiosPrivate = useAxiosPrivate()
 
     const { user } = useContext(UserContext);
 
@@ -24,7 +25,21 @@ const KorisniciTrenera = () => {
 
     useEffect(() => {
         const get = async () => {
-            await GetData('http://localhost:8800/api/korisnik/vratiKorisnike/' + user.trenerId, setKorisnici, setGreska, setIsLoading)
+            // GetData('http://localhost:8800/api/korisnik/vratiKorisnike/' + user.trenerId, setKorisnici, setGreska, setIsLoading)
+            try {
+                const res = await axiosPrivate.get('http://localhost:8800/api/korisnik/vratiKorisnike/' + user.trenerId)
+                console.log(res)
+                if (res.data)
+                    setKorisnici(res.data)
+            }
+            catch (error) {
+                if (!error?.response) {
+                    setGreska('No Server Response')
+                } else
+                    if (error.response?.status !== 404) {
+                        setGreska('Doslo je do greske prilikom ucitavanja')
+                    }
+            }
         }
         get()
     }, [refresh])
@@ -40,11 +55,20 @@ const KorisniciTrenera = () => {
             }
         }
 
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
-
-        if (greska !== false) {
-            alert('doslo je do greske')
+        //await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        try {
+            await axiosPrivate.put(zahtev.url, zahtev.body)
         }
+        catch (error) {
+            alert('Doslo je do greske')
+            console.error(error.response)
+        }
+
+
+
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+        // }
 
         // window.location.reload(false);
         setRefresh(!refresh)
@@ -54,7 +78,7 @@ const KorisniciTrenera = () => {
     let navigate = useNavigate()
 
     return (
-        <Box className = 'marginS'>
+        <Box className='marginS'>
             <Grid container spacing={2}>
                 {korisnici.map((k, i) => (
                     <Grid item key={i} xs={12} sm={6} md={4} lg={3} sx={{ display: { xs: 'flex', sm: 'block' }, justifyContent: 'center' }} >

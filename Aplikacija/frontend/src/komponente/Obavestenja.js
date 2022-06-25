@@ -3,20 +3,32 @@ import Menu from '@mui/material/Menu';
 import Delete from '@mui/icons-material/Delete';
 import { DeleteMetoda } from './Fetch';
 import { ListItemText, Typography, ListItem, Divider, Box, ListItemIcon } from '@mui/material';
+import useAxiosPrivate from '../api/useAxiosPrivate';
 
 
-const Obavestenja = ({ anchorEl, handleClose, open, menuItems }) => {
+const Obavestenja = async ({  handleClose, open, menuItems }) => {
+  console.log(menuItems)
+
+  const axiosPrivate = useAxiosPrivate()
 
   const [greska, setGreska] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const obrisiZahtev = (id) => {
+  const obrisiZahtev = async (id) => {
 
     const zahtev = {
       url: 'http://localhost:8800/api/zahtev/obrisiZahtev/' + id
     }
 
-    DeleteMetoda(zahtev, setGreska, setIsLoading)
+    // DeleteMetoda(zahtev, setGreska, setIsLoading)
+
+    try {
+      await axiosPrivate.delete('http://localhost:8800/api/zahtev/obrisiZahtev/' + id)
+
+    } catch (err) {
+      alert('Doslo je do greske')
+    }
+
 
     if (greska !== false) {
       alert('doslo je do greske')
@@ -28,7 +40,7 @@ const Obavestenja = ({ anchorEl, handleClose, open, menuItems }) => {
   return (
     <Menu
       // id="basic-menu"
-      anchorEl={anchorEl}
+      // anchorEl={anchorEl}
       open={open}
       onClose={handleClose}
     >

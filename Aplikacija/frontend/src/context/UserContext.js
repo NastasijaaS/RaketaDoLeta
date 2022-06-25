@@ -15,15 +15,19 @@ const UserContextProvider = ({ children }) => {
 
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(state.user))
+        localStorage.setItem("korisnikId", JSON.stringify(state.user?.korisnikId))
+        localStorage.setItem("token", JSON.stringify(state.user?.token))
     }, [state.user])
 
-    // useEffect(() => {
-    //     let localUser = localStorage.getItem("user", JSON.stringify(state.user))
-    //     const {token} = localUser;
-    //     if(token && token.length) {
-    //         // get req na /me rutu
-    //     }
-    // }, [])
+    useEffect(() => {
+        let korisnikId = localStorage.getItem("korisnikId")
+        let token = localStorage.getItem("token")
+
+        if (token && token.length) {
+            // get req na /me rutu
+        }
+
+    }, [])
 
     return (
         <UserContext.Provider

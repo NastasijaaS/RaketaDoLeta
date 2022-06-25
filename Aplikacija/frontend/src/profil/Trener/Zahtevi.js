@@ -6,8 +6,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import FormaPosaljiPredlog from "../../komponente/FormaPosaljiPredlog";
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 
 const ZahteviTrenera = () => {
+
+    const axiosPrivate = useAxiosPrivate()
+
     const { user } = useContext(UserContext);
 
     const [zahtevi, setZahtevi] = useState([])
@@ -30,8 +34,26 @@ const ZahteviTrenera = () => {
 
     useEffect(() => {
 
-        GetData("http://localhost:8800/api/treninge/vratiTreningePersonalniC/" + user.trenerId,
-            setZahtevi, setGreska, setIsLoading)
+        // GetData("http://localhost:8800/api/treninge/vratiTreningePersonalniC/" + user.trenerId,
+        //     setZahtevi, setGreska, setIsLoading)
+
+        const get = async () => {
+            setIsLoading(true)
+            try {
+                const res = await axiosPrivate.get("http://localhost:8800/api/trening/vratiTreningePersonalniC/" + user.trenerId)
+                if (res.data) {
+                    setZahtevi(res.data)
+                }
+                setIsLoading(false)
+            }
+            catch (err) {
+                setIsLoading(false)
+                console.error(err.response)
+            }
+        }
+
+        get()
+
     }, [refresh])
 
 
@@ -45,11 +67,18 @@ const ZahteviTrenera = () => {
             url: 'http://localhost:8800/api/trener/prihvatiTrening/' + id
         }
 
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        // await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
+        try {
+            await axiosPrivate.put('http://localhost:8800/api/trener/prihvatiTrening/' + id)
+
+        } catch (err) {
+            alert('Doslo je do greske')
         }
+
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+        // }
 
         setRefresh(!refresh)
     }
@@ -63,18 +92,40 @@ const ZahteviTrenera = () => {
             url: 'http://localhost:8800/api/trener/odbijTrening/' + id
         }
 
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        // await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
+        try {
+            await axiosPrivate.put('http://localhost:8800/api/trener/odbijTrening/' + id)
+
+        } catch (err) {
+            alert('Doslo je do greske')
         }
+
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+        // }
 
         setRefresh(!refresh)
     }
 
-    const vidiEvidenciju = (id) => {
-        GetData("http://localhost:8800/api/trener/vidiEvidenciju/" + user.trenerId + '/' + id,
-            setEvidencija, setGreska, setIsLoading)
+    const vidiEvidenciju = async (id) => {
+        // GetData("http://localhost:8800/api/trener/vidiEvidenciju/" + user.trenerId + '/' + id,
+        //     setEvidencija, setGreska, setIsLoading)
+
+
+        await axiosPrivate.get("http://localhost:8800/api/evidencija/vidiEvidenciju/" + user.trenerId + '/' + id)
+            .then(res => {
+                if (res.status === 200) {
+
+                    if (res.data) {
+                        setEvidencija(res.data)
+                    }
+                }
+            }).catch((error) => {
+                if (error.response?.status !== 404)
+                    alert('Doslo je do greske')
+                console.log(error)
+            });
     }
 
     const posaljiIzmenu = () => {
@@ -87,8 +138,6 @@ const ZahteviTrenera = () => {
 
             <Typography gutterBottom component="div" variant="h4" textAlign="center">Zahtevi</Typography>
             {isLoading && <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>}
-
-
 
             {
                 zahtevi.map((z, i) => (
@@ -160,7 +209,7 @@ const ZahteviTrenera = () => {
 
                         {
                             predlog &&
-                            <FormaPosaljiPredlog onClose={() => setPredlog(false)} idKorisnika = {z.korisnikId} />
+                            <FormaPosaljiPredlog onClose={() => setPredlog(false)} idKorisnika={z.korisnikId} />
                         }
 
                     </Box>

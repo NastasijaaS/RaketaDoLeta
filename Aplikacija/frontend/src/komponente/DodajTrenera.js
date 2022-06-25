@@ -2,6 +2,7 @@ import { Checkbox, FormControlLabel, TextField, Button, Box, Typography } from '
 import React, { useRef, useState, Fragment } from 'react'
 import { PostMetoda } from './Fetch'
 import Greska from './Alert'
+import useAxiosPrivate from '../api/useAxiosPrivate'
 
 const Info = ({ labela, tip, reff }) => {
     return (
@@ -30,6 +31,8 @@ const Info = ({ labela, tip, reff }) => {
 function DodajTrenera(props) {
     console.log(props);
 
+    const axiosPrivate = useAxiosPrivate()
+
     const [alert, setAlert] = useState({ prikazi: false, tip: 'error', greska: '' })
 
     const slika = useRef()
@@ -44,7 +47,7 @@ function DodajTrenera(props) {
     let grupni = false
 
 
-    const dodajTrenera = () => {
+    const dodajTrenera = async () => {
         console.log(props)
 
 
@@ -73,13 +76,20 @@ function DodajTrenera(props) {
             }
         }
 
-        PostMetoda(zahtev, setData, setGreskaa, setIsLoading)
+        //PostMetoda(zahtev, setData, setGreskaa, setIsLoading)
 
-        if (greska) {
+        try {
+            await axiosPrivate.post(zahtev.url, zahtev.body)
+            alert('Uspesno dodat napredak')
+        } catch (err) {
             setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
-
-            // return
         }
+
+        // if (greska) {
+        //     setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
+
+        //     // return
+        // }
         // else {
         //     setAlert({ prikazi: true, tip: 'success', greska: 'Uspesno dodat trener' })
 

@@ -43,7 +43,7 @@ export const vidiNapredakPoslednji = async (req, res) => {
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
         if (korisnik != null) {
 
-            const napredak = await Napredak.findById(korisnik.napredakId)
+           const napredak = await Napredak.findById(korisnik.napredakId)
             //res.status(200).json(napredak)
 
             if (napredak != null) {
@@ -198,9 +198,11 @@ export const vidiNapredak = async (req, res) => {
         const trener = await Trener.findById(req.params.idTrenera)
         if (trener != null) {
             const korisnik = await Korisnik.findById(req.params.idKorisnika)
+           // console.log(korisnik)
             if (korisnik != null) {
-                if (korisnik.trenerId == trener._id) {
-                    const napredak = await Napredak.findbyId(korisnik.idNapredak)
+              //  if (korisnik.trenerId == trener._id) {
+                const napredak = await Napredak.findById(korisnik.napredakId)
+                   
                     if (napredak != null) {
                         res.status(200).json(napredak)
                     }
@@ -208,10 +210,10 @@ export const vidiNapredak = async (req, res) => {
                         res.status(404).json("ne postoji dodat napredak za ovog klijenta")
                     }
 
-                }
-                else {
-                    res.status(400).json("mozete videti napredak samo svog klijenta")
-                }
+                //}
+                // else {
+                //     res.status(400).json("mozete videti napredak samo svog klijenta")
+                // }
 
             }
             else {

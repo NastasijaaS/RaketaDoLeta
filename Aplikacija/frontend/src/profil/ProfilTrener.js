@@ -8,8 +8,10 @@ import IzmeniLozinku from '../komponente/IzmeniLozinku'
 import KalendarForma from '../komponente/KalendarForma';
 import FormaDodajTermin from '../komponente/FormaDodajTermin';
 import NapraviGrupni from '../komponente/NapraviGrupni'
+import useAxiosPrivate from "../api/useAxiosPrivate";
 
 const Trener = (props) => {
+    const axiosPrivate = useAxiosPrivate();
 
     const { user } = useContext(UserContext);
     const [value, setValue] = useState(0);
@@ -24,10 +26,24 @@ const Trener = (props) => {
     const [noviTermini, setNoviTermini] = useState(false)
 
 
-    useEffect(() => {
-        GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading)
- 
-    }, [])
+    // useEffect(() => {
+    //    // GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading)
+
+    //     const get = async () => {
+    //         try {
+    //             const res = await axiosPrivate.get("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId)
+    //             if (res.status === 200) {
+    //                 setTreninzi(res.data)
+    //             }
+    //         }
+    //         catch (err) {
+    //             alert('Doslo je do greske prilikom ucitavanja')
+    //         }
+    //     }
+
+    //     get()
+
+    // }, [])
 
     const promeniTab = (event, newValue) => {
         setValue(newValue);
@@ -95,7 +111,7 @@ const Trener = (props) => {
                                 <FormaDodajTermin idTrenera={user.trenerId} onClose={() => { setNoviTermini(false) }} />
                             </Modal>
                         }
-                                {/* <Grid container spacing={2} >
+                        {/* <Grid container spacing={2} >
                                     {treninziGrupni.map((tr) => (
                                         <Grid item xs={12} sm={6} md={4} lg={3}>
                                             <Card className='cardShadow' key={tr.id} sx={{ maxWidth: 345 }} >
@@ -137,8 +153,8 @@ const Trener = (props) => {
                                         </Grid>
                                     ))}
                                     </Grid>*/}
-                                    </Box> 
-                        </Grid>  
+                    </Box>
+                </Grid>
             </Grid>
 
 

@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext, Fragment, useRef } from 'react';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { DeleteMetoda, PutMetoda, GetData } from '../../komponente/Fetch'
 import { UserContext } from '../../context/UserContext';
 import Typography from '@mui/material/Typography';
@@ -12,6 +11,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Box } from '@mui/system';
 
+
+// ovo ne koristimo
 
 //vrati svoje treninge
 //zakazi grupni trening
@@ -28,10 +29,10 @@ const TreninziTrenera = () => {
     const [refresh, setRefresh] = useState(false)
     const [noviTrening, setNoviTrening] = useState(false)
 
-    useEffect(() => {
-        GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading)
+    // useEffect(() => {
+    //     GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading)
         
-    }, [])
+    // }, [])
 
 
     const dodajTrening = () => {

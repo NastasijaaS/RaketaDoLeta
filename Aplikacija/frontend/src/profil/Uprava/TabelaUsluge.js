@@ -11,8 +11,11 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import TableContainer from '@mui/material/TableContainer';
 import Modal from '../../komponente/Modal';
+import useAxiosPrivate from '../../api/useAxiosPrivate';
 
 const TabelaUsluge = () => {
+
+    const axiosPrivate = useAxiosPrivate()
 
     const [nizUsluga, setUsluge] = useState([])
     const [greska, setGreska] = useState(false)
@@ -37,12 +40,27 @@ const TabelaUsluge = () => {
     const trajanjeUsluge = useRef()
 
     useEffect(() => {
-       
-            GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
 
+        //  GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
+
+        const get = async () => {
+            setIsLoading(true)
+            try {
+                const res = await axiosPrivate.get("http://localhost:8800/api/usluga/vidiUsluge")
+                if (res.data) {
+                    setUsluge(res.data)
+                }
+                setIsLoading(false)
+
+            } catch (err) {
+                setIsLoading(false)
+                alert('Doslo je do greske')
+            }
+        }
+        get()
     }, [refresh])
 
-    const izmeniUslugu =  (idUsluge) => {
+    const izmeniUslugu = async (idUsluge) => {
         const zahtev = {
             url: 'http://localhost:8800/api/usluga/izmeniUslugu/' + idUsluge,
             body: {
@@ -52,11 +70,17 @@ const TabelaUsluge = () => {
             }
         }
 
-         PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        // PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
+        try {
+            await axiosPrivate.put(zahtev.url, zahtev.body)
+        } catch (err) {
+            alert('Doslo je do greske')
         }
+
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+        // }
         setCena(-1)
         setIzmena(-1)
         setTrajanje(-1)
@@ -64,7 +88,7 @@ const TabelaUsluge = () => {
         setRefresh(!refresh)
     }
 
-    const obrisiUslugu =  (idUsluge, opis) => {
+    const obrisiUslugu = async (idUsluge, opis) => {
 
         // console.log(opis)
         // console.log(idUsluge)
@@ -74,17 +98,23 @@ const TabelaUsluge = () => {
         }
 
         // console.log('http://localhost:8800/api/uprava/obrisiUslugu/' + idUsluge)
-         DeleteMetoda(zahtev, setGreska, setIsLoading)
+        //   DeleteMetoda(zahtev, setGreska, setIsLoading)
+        try {
+            await axiosPrivate.delete(zahtev.url)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
+        } catch (err) {
+            alert('Doslo je do greske')
         }
+
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+        // }
         setCena(-1)
         setIzmena(-1)
         setRefresh(!refresh)
     }
 
-    const dodajUslugu =  () => {
+    const dodajUslugu = async () => {
 
         if (nazivUsluge.current.value === '') {
             alert('morate uneti naziv')
@@ -106,12 +136,19 @@ const TabelaUsluge = () => {
             }
         }
 
-         PostMetoda(zahtev, setData, setGreska, setIsLoading)
+        // PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
-
+        try {
+            await axiosPrivate.post(zahtev.url, zahtev.body)
+           
+        } catch (err) {
+            alert('Doslo je do greske')
         }
+
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+
+        // }
         setCena(-1)
         setIzmena(-1)
         setNovaUsluga(false)

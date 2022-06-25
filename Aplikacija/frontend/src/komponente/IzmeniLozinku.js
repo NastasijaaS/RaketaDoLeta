@@ -10,9 +10,12 @@ import Alert from '@mui/material/Alert';
 import { Button, TextField, Card, Paper, Typography, Grid, CardActions, CardContent } from "@mui/material";
 import './../styles/input.css'
 import { Container } from "@mui/system";
+import useAxiosPrivate from "../api/useAxiosPrivate";
 
 
 const IzmeniLozinku = (props) => {
+
+    const axiosPrivate = useAxiosPrivate()
 
     const { user } = useContext(UserContext);
     const [novaLozinka, setNova] = useState(false)
@@ -33,7 +36,7 @@ const IzmeniLozinku = (props) => {
             return
         }
 
-        await axios.post(' http://localhost:8800/api/auth/proveriSifru', {
+        await axiosPrivate.post(' http://localhost:8800/api/auth/proveriSifru', {
             id: user.id,
             password: pass.current.value
         }).then((p) => {
@@ -62,7 +65,7 @@ const IzmeniLozinku = (props) => {
             return
         }
 
-        await axios.put('http://localhost:8800/api/registrovaniKorisnik/' + user.id, {
+        await axiosPrivate.put('http://localhost:8800/api/registrovaniKorisnik/' + user.id, {
             registrovaniKorisnikId: user.id,
             password: pass.current.value
         }).then((p) => {

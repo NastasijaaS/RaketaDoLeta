@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Obavestenja from './Obavestenja'
 import { GetData } from './Fetch';
-
+import useAxiosPrivate from '../api/useAxiosPrivate'
 
 const notifications = [
     {
@@ -19,6 +19,8 @@ const notifications = [
 ];
 
 const Zvonce = ({ iconColor, user, status }) => {
+
+    const axiosPrivate = useAxiosPrivate()
 
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -40,24 +42,39 @@ const Zvonce = ({ iconColor, user, status }) => {
             url = 'http://localhost:8800/api/zahtev/vidiZahteveZaKorisnika/' + user
         }
 
-        const get = async () => {
-            const res = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Bearer': JSON.parse(localStorage.getItem("token"))
-                },
-            })
-            if (res.ok) {
-                // console.log(await res.json())
+        // const get = async () => {
+        //     const res = await fetch(url, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json',
+        //             
+        //         },
+        //     })
+        //     if (res.ok) {
+        //         // console.log(await res.json())
 
-                const obavestenja = await res.json()
-                if (data !== obavestenja) {
-                    setData(obavestenja)
+        //         const obavestenja = await res.json()
+        //         if (data !== obavestenja) {
+        //             setData(obavestenja)
+        //         }
+        //     }
+        // }
+
+        const get = async () => {
+            await axiosPrivate.get(url).then(res => {
+                if (res.status === 200) {
+                   
+                    if (res.data && data !== res.data) {
+                        setData(res.data)
+                    }
                 }
-            }
+            }).catch((error) => {
+                alert('Doslo je do greske')
+                console.log(error)
+            });
         }
+        
 
         get()
 
@@ -104,7 +121,6 @@ const Zvonce = ({ iconColor, user, status }) => {
 
             <Obavestenja
                 open={open}
-                anchorEl={anchorEl}
                 handleClose={handleClose}
                 menuItems={data}
             />

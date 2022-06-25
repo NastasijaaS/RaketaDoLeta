@@ -14,8 +14,11 @@ import { Checkbox } from "@mui/material";
 import Greska from './Alert'
 import { PostMetoda, GetData } from './Fetch'
 import ruLocale from 'date-fns/locale/ru'
+import useAxiosPrivate from "../api/useAxiosPrivate";
 
 const FormaDodajTermin = (props) => {
+
+    const axiosPrivate = useAxiosPrivate()
 
     const [date, setDate] = useState(new Date());
     const [vreme, setVreme] = useState(
@@ -40,19 +43,19 @@ const FormaDodajTermin = (props) => {
     }
 
     const unesiTermin = async () => {
-       // console.log(vreme)
+        // console.log(vreme)
         let uniqueArray = vreme.map(function (date) { return date.getTime() })
             .filter(function (date, i, array) {
                 return array.indexOf(date) === i;
             })
             .map(function (time) { return new Date(time); });
 
-      //  console.log(uniqueArray)
+        //  console.log(uniqueArray)
         if (uniqueArray.length === 0) {
             alert('morate uneti razlicita vremena')
             return
         }
-        
+
         niz.forEach(async i => {
             const zahtev = {
                 url: 'http://localhost:8800/api/termin/dodajTerminTreneru/' + props.idTrenera,
@@ -61,8 +64,14 @@ const FormaDodajTermin = (props) => {
                     vremePocetka: vreme[i]
                 }
             }
-            await PostMetoda(zahtev, setData, setGreska, setIsLoading)
-            console.log(greska)
+            // await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+
+            // console.log(greska)
+            try {
+                await axiosPrivate.post(zahtev.url, zahtev.body)
+            } catch (err) {
+                alert('Doslo je do greske')
+            }
         })
 
         props.onClose()

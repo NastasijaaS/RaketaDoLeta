@@ -13,9 +13,12 @@ import { Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Register from '../../pocetna/RegisterForma';
 import DodajTrenera from '../../komponente/DodajTrenera';
+import useAxiosPrivate from '../../api/useAxiosPrivate';
 
 
 const TabelaTreneri = () => {
+
+    const axiosPrivate = useAxiosPrivate()
 
     const { user } = useContext(UserContext);
 
@@ -59,21 +62,46 @@ const TabelaTreneri = () => {
     //ovde se zavrsava
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/trener/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
+       // GetData("http://localhost:8800/api/trener/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
+
+        const get = async () => {
+            setIsLoading(true)
+            try {
+                const res = await axiosPrivate.get("http://localhost:8800/api/trener/vidiTrenereSvi")
+                if (res.data) {
+                    setTreneri(res.data)
+                    console.log(res.data)
+                }
+                setIsLoading(false)
+
+            } catch (err) {
+                setIsLoading(false)
+                alert('Doslo je do greske')
+            }
+        }
+        get()
+
     }, [refresh])
 
-    const obrisiTrenera = (id) => {
+    const obrisiTrenera = async (id) => {
         const zahtev = {
             url: 'http://localhost:8800/api/trener/obrisiTrenera/' + id,
         }
 
         //    console.log(zahtev)
 
-        DeleteMetoda(zahtev, setGreska, setIsLoading)
+        //DeleteMetoda(zahtev, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
+        try {
+            await axiosPrivate.delete('http://localhost:8800/api/trener/obrisiTrenera/' + id)
+           
+        } catch (err) {
+            alert('Doslo je do greske')
         }
+
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+        // }
         setRefresh(!refresh)
     }
 
@@ -96,8 +124,8 @@ const TabelaTreneri = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {sviTreneri.map((tr) => (
-                        <TableRow key={tr.id}>
+                    {sviTreneri.map((tr,i) => (
+                        <TableRow key={i}>
                             <TableCell>{tr.ime}</TableCell>
                             <TableCell>{tr.prezime}</TableCell>
                             <TableCell>{tr.email}</TableCell>

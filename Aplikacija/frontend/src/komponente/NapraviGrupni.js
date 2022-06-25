@@ -14,7 +14,7 @@ import { Checkbox } from "@mui/material";
 import Greska from './Alert'
 import { PostMetoda, GetData } from './Fetch'
 import hrLocale from 'date-fns/locale/hr'
-
+import useAxiosPrivate from '../api/useAxiosPrivate'
 
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
 const trajanje = ["30min", "45min", "1h"]
@@ -44,7 +44,8 @@ const DropDown = ({ labela, set, niz, value }) => {
 
 const NapraviGrupni = (props) => {
 
-  
+    const axiosPrivate = useAxiosPrivate()
+
     let isOnline = false
     const [intenzitetTreninga, setIntenzitet] = useState('')
     const [trajanjeTreninga, setTrajanje] = useState('')
@@ -61,7 +62,22 @@ const NapraviGrupni = (props) => {
 
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/trening/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) 
+        // GetData("http://localhost:8800/api/trening/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) 
+        const get = async () => {
+            await axiosPrivate.get("http://localhost:8800/api/trening/vidiGrupneUsluge")
+                .then(res => {
+                    if (res.status === 200) {
+
+                        if (res.data) {
+                            setTreninzi(res.data)
+                        }
+                    }
+                }).catch((error) => {
+                    alert('Doslo je do greske')
+                    console.log(error)
+                });
+        }
+        get()
     }, [])
 
     const onlineTrening = (ev) => {
@@ -97,14 +113,21 @@ const NapraviGrupni = (props) => {
             }
         }
 
-        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+        // await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
+        try {
+            await axiosPrivate.post(zahtev.url)
+            alert('Uspesno dodat trening')
+        } catch (err) {
+            alert('Doslo je do greske')
         }
-        else {
-            alert('uspesno dodat trenig')
-        }
+
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+        // }
+        // else {
+        //     alert('uspesno dodat trenig')
+        // }
 
         props.onClose()
     }

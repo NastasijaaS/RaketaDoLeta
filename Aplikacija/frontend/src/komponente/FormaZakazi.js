@@ -3,6 +3,7 @@ import '../styles/formaZakazi.css'
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
 import Button from "@mui/material/Button";
+import useAxiosPrivate from "../api/useAxiosPrivate";
 
 //mislim da ovo ne koristimo
 
@@ -11,6 +12,8 @@ const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
 const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
 
 const FormaZakazi = (props) => {
+
+    const axiosPrivate = useAxiosPrivate()
     //  console.log(props)
     const { user } = useContext(UserContext);
 
@@ -27,7 +30,7 @@ const FormaZakazi = (props) => {
         // console.log(tr.value)
         // console.log(props.datum.datumTreninga)
 
-        axios.post('http://localhost:8800/api/trening/zakaziPersonalniTrening/' + user.korisnikId, {
+        axiosPrivate.post('http://localhost:8800/api/trening/zakaziPersonalniTrening/' + user.korisnikId, {
             // trenerId: props.idTrenera,
             trenerId: "6273e6c7c1e2c23c29c8c1ba",
             datum: props.datum.datumTreninga,

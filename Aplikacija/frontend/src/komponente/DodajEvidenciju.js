@@ -11,7 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Checkbox } from "@mui/material";
 import Greska from './Alert'
 import { PostMetoda } from './Fetch'
-
+import useAxiosPrivate from '../api/useAxiosPrivate'
 
 const Info = ({ labela, tip, reff }) => {
     return (
@@ -29,6 +29,9 @@ const Info = ({ labela, tip, reff }) => {
 }
 
 const DodajEvidenciju = (props) => {
+
+    const axiosPrivate = useAxiosPrivate()
+
     const { user } = useContext(UserContext);
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -55,15 +58,22 @@ const DodajEvidenciju = (props) => {
             }
         }
 
-        await PostMetoda(zahtev, setData, setGreska, setIsLoading)
+        //await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            console.log('doslo je do greske: ' + greska)
-            setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
-        }
-        else {
+        try {
+            await axiosPrivate.post(zahtev.url, zahtev.body)
             setAlert({ prikazi: true, tip: 'success', greska: 'Uspesno dodat napredak' })
+        } catch (err) {
+            alert('Doslo je do greske')
         }
+
+        // if (greska !== false) {
+        //     console.log('doslo je do greske: ' + greska)
+        //     setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
+        // }
+        // else {
+        //     setAlert({ prikazi: true, tip: 'success', greska: 'Uspesno dodat napredak' })
+        // }
 
         props.onClose()
     }

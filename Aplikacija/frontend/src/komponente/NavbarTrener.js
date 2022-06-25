@@ -106,7 +106,7 @@ const NavbarTrener = () => {
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
-                            sx = {{color: 'white'}}
+                            sx={{ color: 'white' }}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -144,7 +144,7 @@ const NavbarTrener = () => {
 
 
                     {/*ZA MOBILNI SREDINA */}
-                    <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' },  color: 'white', mr: 1 }} />
+                    <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, color: 'white', mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
@@ -164,11 +164,11 @@ const NavbarTrener = () => {
                     </Typography>
 
 
-                    <Box sx={{ my: 2, display: { xs: 'flex', md: 'none' }  }}>
+                    <Box sx={{ my: 2, display: { xs: 'flex', md: 'none' } }}>
                         <NoviZahtev />
                     </Box>
 
-                    {user && <Zvonce user={user.id} status={"Ukinuto"} />}
+                    {/* {user && <Zvonce user={user.id} status={"Ukinuto"} />} */}
 
                     <Tooltip title="Account">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>

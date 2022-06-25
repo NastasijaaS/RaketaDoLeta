@@ -10,10 +10,14 @@ import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHea
 import { GetData, PutMetoda } from './Fetch'
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import useAxiosPrivate from '../api/useAxiosPrivate'
 
 const RasporedGrupni = (props) => {
 
     // console.log(props)
+
+    const axiosPrivate = useAxiosPrivate()
+
     const { user } = useContext(UserContext);
 
     const [termini, setTermini] = useState([])
@@ -25,10 +29,26 @@ const RasporedGrupni = (props) => {
 
 
     useEffect(() => {
-        GetData(`http://localhost:8800/api/trening/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`, setTermini, setGreska, setIsLoading)
+
+        // GetData(`http://localhost:8800/api/trening/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`, setTermini, setGreska, setIsLoading)
+
+        const get = async () => {
+            await axiosPrivate.get(`http://localhost:8800/api/trening/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`).then(res => {
+                if (res.status === 200) {
+                    if (res.data) {
+                        setTermini(res.data)
+                    }
+                }
+            }).catch((error) => {
+                alert('Doslo je do greske')
+                console.log(error)
+            });
+        }
+        get()
+
     }, [props.datum])
 
-    const zakaziForma = (treningId) => {
+    const zakaziForma = async (treningId) => {
         console.log(treningId)
 
         if (!user) {
@@ -40,14 +60,21 @@ const RasporedGrupni = (props) => {
             url: 'http://localhost:8800/api/trening/prijavaGrupniTrening/' + user.korisnikId + '/' + treningId
         }
 
-        PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        //PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert(greska)
+        try {
+            await axiosPrivate.put(zahtev.url)
+            alert('Uspesno ste se prijavili za trening')
+        } catch (err) {
+            alert('Doslo je do greske')
         }
-        else {
-            alert('uspesno ste se prijavili za trening')
-        }
+
+        // if (greska !== false) {
+        //     alert(greska)
+        // }
+        // else {
+        //     alert('uspesno ste se prijavili za trening')
+        // }
 
         window.location.reload(false)
     }

@@ -12,11 +12,12 @@ import { Card, CardMedia, CardContent, CardActionArea, CardActions, Grid } from 
 import FormaIzmeniTrening from "../../komponente/FormaIzmeniTrening";
 import Modal from '../../komponente/Modal'
 import '../../styles/stil.css'
-
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 
 const ZakazaniTreninzi = () => {
+    const axiosPrivate = useAxiosPrivate();
 
-    const { user, dispatch } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     const [zakazaniTreninzi, setZakazaniTreninzi] = useState([])
 
@@ -33,8 +34,24 @@ const ZakazaniTreninzi = () => {
 
     useEffect(() => {
         const get = async () => {
-            await GetData("http://localhost:8800/api/trening/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
-            await GetData("http://localhost:8800/api/trening/vidiZakazaneTreningeGrupni/" + user.korisnikId, setGrupni, setGreska, setIsLoading)
+            //  GetData("http://localhost:8800/api/trening/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
+            //  GetData("http://localhost:8800/api/trening/vidiZakazaneTreningeGrupni/" + user.korisnikId, setGrupni, setGreska, setIsLoading)
+
+            try {
+
+                setIsLoading(true)
+                const res = await axiosPrivate.get("http://localhost:8800/api/trening/vidiZakazaneTreningePersonalni/" + user.korisnikId)
+                setZakazaniTreninzi(res.data)
+                const res1 = await axiosPrivate.get("http://localhost:8800/api/trening/vidiZakazaneTreningeGrupni/" + user.korisnikId)
+                setGrupni(res1.data)
+                setIsLoading(false)
+            }
+            catch (err) {
+                setIsLoading(false)
+                if (err.response.status !== 404)
+                    alert('Doslo je do greske prilikom ucitavanja')
+            }
+
         }
         get()
     }, [refresh])
@@ -45,14 +62,11 @@ const ZakazaniTreninzi = () => {
         setIzmeni(i)
     }
 
-    const otkaziTrening = (idTreninga) => {
+    const otkaziTrening = async (idTreninga) => {
 
-        // console.log(idTreninga)
-
-        axios.put('http://localhost:8800/api/trening/ukiniTrening/' + idTreninga,)
+        await axiosPrivate.put('http://localhost:8800/api/trening/ukiniTrening/' + idTreninga)
             .then((p) => {
                 if (p.status === 200) {
-                    console.log(p)
                     alert('Uspesno ukinut trening')
                 }
             }).catch((error) => {
@@ -166,8 +180,8 @@ const ZakazaniTreninzi = () => {
                     <Typography>Nemate zakazanih personalnih treninga</Typography>
                 }
 
-                <Typography gutterBottom variant="h4" component="div" textAlign="center" mt = {2}>Grupni treninzi</Typography>
-                
+                <Typography gutterBottom variant="h4" component="div" textAlign="center" mt={2}>Grupni treninzi</Typography>
+
                 <Grid container spacing={2} >
                     {grupniTreninzi.map((tr, i) => (
                         <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
@@ -204,7 +218,7 @@ const ZakazaniTreninzi = () => {
                     !grupniTreninzi &&
                     <Typography>Nemate zakazanih personalnih treninga</Typography>
                 }
-             
+
             </Box>
         </Box>)
 }

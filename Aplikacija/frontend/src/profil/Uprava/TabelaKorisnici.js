@@ -29,6 +29,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
 import Modal from '../../komponente/Modal'
 import DodajNapredak from '../../komponente/DodajNapredak';
+import useAxiosPrivate from '../../api/useAxiosPrivate';
 
 function TablePaginationActions(props) {
 
@@ -68,6 +69,8 @@ function TablePaginationActions(props) {
 
 export default function Tabela(props) {
 
+    const axiosPrivate = useAxiosPrivate()
+
     let buttonSelected = ''
 
     const { user } = useContext(UserContext);
@@ -83,7 +86,7 @@ export default function Tabela(props) {
     useEffect(() => {
 
         const getKorisnici = async (url) => {
-            await axios.get(url).then(p => {
+            await axiosPrivate.get(url).then(p => {
                 if (p.status === 200) {
                     p.data.sort((a, b) => new Date(a.clanarinaDo) - new Date(b.clanarinaDo));
 
@@ -94,7 +97,7 @@ export default function Tabela(props) {
                 }
             }).catch((error) => {
                 alert('Doslo je do greske')
-                console.log('greska prilko ucitavanja korisnika: ' + error)
+                console.log('greska prilkom ucitavanja korisnika: ' + error)
             });
         }
 
@@ -109,7 +112,19 @@ export default function Tabela(props) {
 
     useEffect(() => {
 
-        GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        //GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
+
+        const get = async () => {
+            await axiosPrivate.get("http://localhost:8800/api/usluga/vidiUsluge").then(p => {
+                if (p.status === 200) {
+                   setUsluge(p.data)
+                }
+            }).catch((error) => {
+                alert('Doslo je do greske')
+                console.log(error)
+            });
+        }
+        get()
 
     }, [])
 
@@ -160,7 +175,7 @@ export default function Tabela(props) {
         setRows(korisnici)
     };
 
-    const obrisiKorisnika =  (id) => {
+    const obrisiKorisnika = (id) => {
 
         const zahtev = {
             url: 'http://localhost:8800/api/uprava/' + user.id,
@@ -169,7 +184,7 @@ export default function Tabela(props) {
             }
         }
 
-         DeleteMetoda(zahtev, setGreska, setIsLoading)
+        DeleteMetoda(zahtev, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -178,7 +193,7 @@ export default function Tabela(props) {
 
     }
 
-    const unesiClanarinu =  (idKorisnika) => {
+    const unesiClanarinu = (idKorisnika) => {
         // console.log(buttonSelected)
         // console.log(idKorisnika)
 
@@ -188,7 +203,7 @@ export default function Tabela(props) {
             url: 'http://localhost:8800/api/clanarina/dodajClanarinu/' + idKorisnika + '/' + buttonSelected
         }
 
-         PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
+        PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')
@@ -197,13 +212,13 @@ export default function Tabela(props) {
         setRefresh(!refresh)
     }
 
-    const verifikujNalog =  (id) => {
+    const verifikujNalog = (id) => {
 
         const zahtev = {
             url: 'http://localhost:8800/api/korisnik//verifikujNalog/' + id
         }
 
-         PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
+        PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
 
         if (greska !== false) {
             alert('doslo je do greske')

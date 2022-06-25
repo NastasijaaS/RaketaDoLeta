@@ -12,6 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Checkbox } from "@mui/material";
 import Greska from './Alert'
 import { PutMetoda } from './Fetch'
+import useAxiosPrivate from "../api/useAxiosPrivate";
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
@@ -20,6 +21,8 @@ const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
 const FormaIzmeniTrening = (props) => {
 
     console.log(props.idTreninga)
+
+    const axiosPrivate = useAxiosPrivate()
 
     // console.log(new Date(Date.parse('01 Jan 1970 ' + props.vreme)))
 
@@ -58,14 +61,21 @@ const FormaIzmeniTrening = (props) => {
             }
         }
 
-        await PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        // await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert(greska)
+        try {
+            await axiosPrivate.put(zahtev.url, zahtev.body)
+            alert('Uspesno ste se izmenili trening')
+        } catch (err) {
+            alert('Doslo je do greske')
         }
-        else {
-            alert('Uspesno izmenjen trening')
-        }
+
+        // if (greska !== false) {
+        //     alert(greska)
+        // }
+        // else {
+        //     alert('Uspesno izmenjen trening')
+        // }
 
         props.onClose()
     }

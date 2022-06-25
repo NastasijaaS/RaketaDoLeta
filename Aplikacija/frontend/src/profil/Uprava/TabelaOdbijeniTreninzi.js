@@ -15,8 +15,10 @@ import TableFooter from '@mui/material/TableFooter';
 import TableHead from '@mui/material/TableHead';
 
 //vratiZahteveOdbijeni
+//ovo ne zovemo nigde
 
 const OdbijeniTreninzi = () => {
+
 
     const [nizUsluga, setUsluge] = useState([])
     const [greska, setGreska] = useState(false)
@@ -31,8 +33,23 @@ const OdbijeniTreninzi = () => {
 
     useEffect(() => {
         const get = async () => {
-            await
-                GetData("http://localhost:8800/api/zahtev/vratiZahteveOdbijeni", setUsluge, setGreska, setIsLoading)
+            // await
+            //     GetData("http://localhost:8800/api/zahtev/vratiZahteveOdbijeni", setUsluge, setGreska, setIsLoading)
+
+            // setIsLoading(true)
+            // try {
+            //     const res = await axiosPrivate.get("http://localhost:8800/api/zahtev/vratiZahteveOdbijeni")
+            //     if (res.data) {
+            //         setUsluge(res.data)
+            //     }
+            //     setIsLoading(false)
+
+            // } catch (err) {
+            //     setIsLoading(false)
+            //     alert('Doslo je do greske')
+
+            // }
+            console.log('tabela odbijeni trenizi pod komentar je')
         }
         get()
     }, [refresh])

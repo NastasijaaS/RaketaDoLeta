@@ -5,11 +5,13 @@ import { Box, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContain
 import { GetData, PutMetoda, DeleteMetoda } from './Fetch'
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
+import useAxiosPrivate from '../api/useAxiosPrivate'
 
 const RasporedTrener = (props) => {
 
-     console.log(props)
+    console.log(props)
+
+    const axiosPrivate = useAxiosPrivate()
 
     const { user } = useContext(UserContext);
 
@@ -25,19 +27,49 @@ const RasporedTrener = (props) => {
 
     useEffect(() => {
 
-        if (props.datum) {
-            GetData(`http://localhost:8800/api/termin/vratiZauzeteTermineZaTreneraPoDatumu/${props.idTrenera}/${props.datum}`, setTermini, setGreska, setIsLoading)
-            GetData(`http://localhost:8800/api/trening/vratiTreningeGrupni/${props.idTrenera}/${props.datum}`, setGrupniTreninzi, setGreska, setIsLoading)
+        // if (props.datum) {
+        //     GetData(`http://localhost:8800/api/termin/vratiZauzeteTermineZaTreneraPoDatumu/${props.idTrenera}/${props.datum}`, setTermini, setGreska, setIsLoading)
+        //     GetData(`http://localhost:8800/api/trening/vratiTreningeGrupni/${props.idTrenera}/${props.datum}`, setGrupniTreninzi, setGreska, setIsLoading)
 
+        // }
+        // else {
+        //     GetData("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId,
+        //         setTreninzi, setGreska, setIsLoading)
+        // }
+
+        const get = async () => {
+            try {
+
+                if (props.datum) {
+                    let res = await axiosPrivate.get(`http://localhost:8800/api/termin/vratiZauzeteTermineZaTreneraPoDatumu/${props.idTrenera}/${props.datum}`)
+                    if (res.data) {
+                        setTermini(res.data)
+                    }
+                    res = await axiosPrivate.get(`http://localhost:8800/api/trening/vratiTreningeGrupni/${props.idTrenera}/${props.datum}`)
+                    if (res.data) {
+                        setGrupniTreninzi(res.data)
+                    }
+                }
+                else {
+                    const res = axiosPrivate.get("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId)
+                    if (res.data) {
+                        setTreninzi(res.data)
+                    }
+                }
+
+            }
+            catch (err) {
+                if (err.response?.status !== 404) {
+                    alert('Doslo je do greske')
+                }
+            }
         }
-        else {
-            GetData("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId,
-                setTreninzi, setGreska, setIsLoading)
-        }
+
+        get()
 
     }, [props.datum, reload])
 
-    const unesiEvidenciju = (treningId, korisnikId) => {
+    const unesiEvidenciju = async (treningId, korisnikId) => {
 
         const zahtev = {
             url: 'http://localhost:8800/api/evidencija/izmeniEvidenciju/' + user.trenerId + '/' + treningId,
@@ -46,18 +78,29 @@ const RasporedTrener = (props) => {
             }
         }
 
-        PutMetoda(zahtev, setData, setGreska, setIsLoading)
+       // PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        try {
+            await axiosPrivate.put(zahtev.url, zahtev.body)
+        } catch (err) {
+            alert('Doslo je do greske')
+        }
 
         setReload(!reload)
     }
 
-    const obrisiTrening = (treningId) => {
+    const obrisiTrening = async (treningId) => {
 
-        const zahtev = {
-            url: 'http://localhost:8800/api/trening/obrisiTrening/' + treningId,
+        // const zahtev = {
+        //     url: 'http://localhost:8800/api/trening/obrisiTrening/' + treningId,
+        // }
+
+        // DeleteMetoda(zahtev, setData, setGreska, setIsLoading)
+
+        try {
+            await axiosPrivate.delete('http://localhost:8800/api/trening/obrisiTrening/' + treningId)
+        } catch (err) {
+            alert('Doslo je do greske')
         }
-
-        DeleteMetoda(zahtev, setData, setGreska, setIsLoading)
 
         setReload(!reload)
 

@@ -1,7 +1,6 @@
 
 const UserReducer = (state, action) => {
     switch (action.tip) {
-
         case "LOGIN_SUCCESS":
             return {
                 user: action.payload,

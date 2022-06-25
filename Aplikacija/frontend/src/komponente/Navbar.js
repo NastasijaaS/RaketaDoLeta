@@ -123,7 +123,7 @@ const Navbar = ({ check, change }) => {
               </Button>
             ))}
           </Box>
-          
+
 
 
           {/*OVO JE ZA MOBILNI MENI LEVO */}
@@ -134,7 +134,7 @@ const Navbar = ({ check, change }) => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              sx = {{color:"white"}}
+              sx={{ color: "white" }}
             >
               <MenuIcon />
             </IconButton>
@@ -168,7 +168,7 @@ const Navbar = ({ check, change }) => {
           </Box>
 
           {/*ZA MOBILNI SREDINA */}
-          <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 ,color: 'white'}} />
+          <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: 'white' }} />
           <Typography
             variant="h5"
             noWrap
@@ -263,13 +263,13 @@ const Navbar = ({ check, change }) => {
 
             }
             {user &&
-              <Box display = 'inline-flex'>
-                <Zvonce user = {user.id}/>
+              <Box display='inline-flex'>
+                {/* <Zvonce user={user.id} /> */}
                 <Tooltip title="Account">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
                     <AccountCircleOutlinedIcon />
                   </IconButton>
-                </Tooltip>       
+                </Tooltip>
               </Box>
             }
             {user &&

@@ -10,7 +10,7 @@ export const GetData = async (url, setData, setError, setIsLoading) => {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Bearer': JSON.parse(localStorage.getItem("token"))
+                'Bearer': localStorage.getItem("token")
             },
         })
         console.log(response)
@@ -51,6 +51,7 @@ export const LoginMetoda = async (zahtev, dispatch, setGreska) => {
                 if (p.ok) {
                     setGreska(false)
                     dispatch(LoginSuccess(data))
+                    localStorage.setItem('token'.JSON.stringify(data.token))
                 }
                 else if (p.status === 404) {
                     setGreska('Ne postoji takav korisnik')
@@ -85,7 +86,7 @@ export const PostMetoda = async (zahtev, setData, setGreska) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
 
-            'Bearer': JSON.parse(localStorage.getItem("token"))
+            'Bearer': localStorage.getItem("token")
 
         },
         body: JSON.stringify(zahtev.body)
@@ -118,7 +119,7 @@ export const PutMetoda = async (zahtev, setData, setGreska, setIsLoading) => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Bearer': JSON.parse(localStorage.getItem("token"))
+            'Bearer':localStorage.getItem("token")
 
         },
         body: JSON.stringify(zahtev.body)
@@ -156,7 +157,7 @@ export const DeleteMetoda = async (zahtev, setGreska, setIsLoading) => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Bearer': JSON.parse(localStorage.getItem("token"))
+            'Bearer':localStorage.getItem("token")
         },
         body: JSON.stringify(zahtev.body)
     }).then(p => {

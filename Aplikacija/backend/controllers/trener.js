@@ -118,13 +118,13 @@ export const vidiTrenereSvi = async (req, res) => {
                 const t = await RegistrovaniKorisnik.findById(trener[i].registrovaniKorisnikId)
                 let tr = {
                     id: trener[i]._id,
-                    ime: t.ime,
-                    prezime: t.prezime,
+                    ime: t?.ime,
+                    prezime: t?.prezime,
                     opis: trener[i].opis,
                     slika: trener[i].slika,
                     sertifikati: trener[i].sertifikati,
                     iskustvo: trener[i].iskustvo,
-                    email: t.email,
+                    email: t?.email,
                     // registrovaniKorisnikId:trener[i].registrovaniKorisnikId
                 }
 
@@ -184,8 +184,8 @@ export const obrisiTrenera = async (req, res) => {
 
     const trener=await Trener.findById(req.params.idTrenera)
     //res.status(200).json(korisnik)
-      await RegistrovaniKorisnik.findOneAndDelete({_id:trener.registrovaniKorisnikId})
-      await Trener.findOneAndDelete({_id:trener._id})
+      await RegistrovaniKorisnik.findByIdAndDelete(trener.registrovaniKorisnikId)
+      await Trener.findByIdAndDelete(trener._id)
       res.status(200).json("Account has been deleted");
     
 
