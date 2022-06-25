@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 import  RegistrovaniKorisnik  from "../models/RegistrovaniKorisnik.js";
 import  Uprava from "../models/Uprava.js"
 import  Trener from "../models/Trener.js"
@@ -250,7 +251,126 @@ export const refresh = async (req, res) => {
   }
 };
 
+export const vratiKorisnikaPrekoTokena = (req, res) => {
+  try {
+      //Vadimo token iz header-a zahteva:
+      if (req.headers.authorization) {
+          //console.log(req.headers.authorization)
+          const token = req.headers.authorization.split(" ")[1];
+          if (token) {
+           //   console.log(token)
+              //Proveravamo da li je token ispravan:
+              jwt.verify(token, process.env.TOKEN_KEY,async (err, user) => {
+                  if (err) {
+                      return res.status(403).json("Token is not valid!");
+                  }
 
+                  
+
+                  const korisnik1 = await RegistrovaniKorisnik.findById(user.id);
+                  if (!korisnik1) {
+                    res.status(404).json("Nema takvog korisnika");
+                    return
+                  }
+                  if (korisnik1.tipKorisnika == "Korisnik") {
+                    const korisnik = await Korisnik.findOne({ registrovaniKorisnikId: korisnik1._id });
+
+                    
+              
+                    if (korisnik != null) {
+                      let novi = {
+                        id: user.id,
+                        ime: user.ime,
+                        prezime: user.prezime,
+                        email: user.email,
+                        brojTelefona: user.brojTelefona,
+                        password: user.password,
+                        tip: user.tipKorisnika,
+                        korisnikId: korisnik._id,
+                        brojGodina: korisnik.brojGodina,
+                        visina: korisnik.visina,
+                        verifikovan:korisnik.verifikovan,
+                        zeljeniProcenatProteina: korisnik.zeljeniProcenatProteina,
+                        zeljenaTezinaMisica: korisnik.zeljenaTezinaMisica,
+                        zeljeniProcenatMasti: korisnik.zeljeniProcenatMasti,
+                        zeljenaTezina: korisnik.zeljenaTezina,
+                        token:token,
+                        //refreshToken:refreshToken
+                      }
+                      return res.status(200).json(novi)
+                    }
+                    else {
+                      return res.status(404).json("Nema korisnika");
+                    }
+                  }
+                  else if (korisnik1.tipKorisnika == "Uprava") {
+                    const uprava = await Uprava.findOne({ registrovaniKorisnikId: korisnik1._id });
+              
+                    if (uprava != null) {
+
+              
+                      let novi = {
+                        id: user.id,
+                        ime: user.ime,
+                        prezime: user.prezime,
+                        email: user.email,
+                        brojTelefona: user.brojTelefona,
+                        password: user.password,
+                        tip: user.tipKorisnika,
+                        upravaId: uprava._id,
+                        token:token,
+                        //refreshToken:refreshToken
+                      }
+                      return res.status(200).json(novi)
+                    }
+                    else {
+                      return res.status(404).json("Nema uprave");
+                    }
+                  }
+                  else {
+                    const trener = await Trener.findOne({ registrovaniKorisnikId: korisnik1._id });
+              
+                    if (trener != null) {
+
+              
+                      let novi = {
+                        id: user.id,
+                        ime: user.ime,
+                        prezime: user.prezime,
+                        email: user.email,
+                        brojTelefona: user.brojTelefona,
+                        //password: user.password,
+                        tip: user.tipKorisnika,
+                        trenerId: trener._id,
+                        sertifikati:trener.sertifikati,
+                        iskustvo:trener.iskustvo,
+                        token:token,
+                        //refreshToken:refreshToken
+                      }
+                      return res.status(200).json(novi)
+                    }
+                    else {
+                     return res.status(404).json("Nema trenera");
+                    }
+                  }
+
+
+  
+
+              });
+          }
+          else {
+              //Za slucaj da nema tokena:
+              return res.status(401).json('You are not authorized!');
+          }
+      }
+      else {
+          res.status(403).json("Auth token is missing!");
+      }
+  } catch (err) {
+      console.log(err);
+  }
+};
 
 
 

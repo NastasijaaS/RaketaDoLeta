@@ -140,4 +140,23 @@ export const vratiZahteveOdbijeni = async (req, res) => {
 
 }
 
+export const napraviZahtevTrener =async (req, res) => {
+
+  try {
+
+      const zahtev = await new Zahtev({
+        poruka: req.params.poruka
+      })
+
+      const zahtevSave = await zahtev.save()
+      return res.status(200).json(zahtev)
+
+    }
+
+  catch (err) {
+    return res.status(500).json(err);
+  }
+
+} 
+
 export default router;

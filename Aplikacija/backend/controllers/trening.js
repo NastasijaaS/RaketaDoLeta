@@ -22,7 +22,7 @@ export const  zakaziPersonalniTrening = async (req, res) => {
 
             // const trenerKorisnika = await Trener.findById(korisnik.trenerId);
 
-            const trenerKorisnika = await Trener.findById(req.params.idTrenera);
+            const trenerKorisnika = await Trener.findById(req.params.idTrenera)
 
             const termin = await Termin.findById(req.params.idTermina)
 
@@ -450,13 +450,22 @@ export const prijavaGrupniTrening= async (req, res) => {
 export const vidiGrupneTreninge= async (req, res) => {
 
     try {
+        //res.status(200).json("OK")
 
         const treninzi = await Trening.find({ $and: [{ uslugaId: req.params.idUsluge }, { datum: req.params.datum }] })
-        if (treninzi.length != 0) {
+        if (treninzi.length != 0) 
+        {
             let vrati = []
-            for (let i = 0; i < treninzi.length; i++) {
+            for (let i = 0; i < treninzi.length; i++) 
+            {
                 const trener = await Trener.findById(treninzi[i].trenerId)
+                if(trener!=null)
+                {
+
+                
                 const regT = await RegistrovaniKorisnik.findById(trener.registrovaniKorisnikId)
+                if(regT!=null)
+                {
 
                 let datum = treninzi[i].datum;
                 let samoDatum = datum.toLocaleDateString()
@@ -466,7 +475,6 @@ export const vidiGrupneTreninge= async (req, res) => {
                 //const usluga=await Usluga.findbyId(treninzi[i].uslugaId)
                 let brojzauzetih = treninzi[i].clanovi.length
                 let slobodanbroj = treninzi[i].brojMaxClanova - brojzauzetih;
-
 
                 let tr = {
 
@@ -483,10 +491,26 @@ export const vidiGrupneTreninge= async (req, res) => {
                 }
                 vrati.push(tr)
             }
-            res.status(200).json(vrati)
+            else
+            {
+                res.status(404).json("Nije pronadjen registrovani korisnik")
+
+
+            }
+            }
+            
+            else
+            {
+                return res.status(404).json("Nije pronadjen trener")
+
+            }
+            return res.status(200).json(vrati)
+        }
+     
+           
         }
         else {
-            res.status(404).json("nema zakazanih treninga")
+            return res.status(404).json("nema zakazanih treninga")
         }
 
     }
@@ -649,10 +673,10 @@ export const vratiTreningePersonalniC = async (req, res) => {
                 for (let i = 0; i < zahtevi.length; i++) {
                     const trening = await Trening.findOne({ _id: zahtevi[i].treningId })
                     if (trening != null && trening.trenerId == trener._id && trening.brojMaxClanova == 1) {
-                        if (trening.datum > new Date()) {
+                    
 
                             vrati.push({ trening: trening, idZahteva: zahtevi[i]._id })
-                        }
+                        
                     }
                 }
 
@@ -720,6 +744,7 @@ export const vratiTreningeGrupni = async (req, res) => {
         const trener = await Trener.findById(req.params.id);
         if (trener != null) {
             const treninzi = await Trening.find({ $and: [{ trenerId: req.params.id },{ datum: req.params.datum }, { brojMaxClanova: { $gte: 2 } }] })
+            console.log(treninzi)
 
             if (treninzi.length != 0) {
 
@@ -750,18 +775,18 @@ export const vratiTreningeGrupni = async (req, res) => {
 
             }
             else {
-                res.status(404).json("nema zakazane personalne treninge")
+                return res.status(404).json("nema zakazane grupne treninge")
             }
 
         }
         else {
-            res.status(404).json("trener nije pronadjen")
+            return res.status(404).json("trener nije pronadjen")
         }
 
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }

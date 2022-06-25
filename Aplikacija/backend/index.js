@@ -18,6 +18,8 @@ import zahtevRoute from"./routes/zahtev.js";
 import clanarinaRoute from"./routes/clanarina.js";
 import napredakRoute from"./routes/napredak.js";
 import uslugaRoute from"./routes/usluga.js";
+import evidencijaRoute from"./routes/evidencija.js";
+
 
 //const napredakRoute=require("./routes/napredak");
 //const cors = require('cors');
@@ -54,6 +56,7 @@ app.use("/api/zahtev", zahtevRoute);
 app.use("/api/clanarina", clanarinaRoute);
 app.use("/api/napredak", napredakRoute);
 app.use("/api/usluga", uslugaRoute);
+app.use("/api/evidencija", evidencijaRoute);
 
 
 app.listen(8800, () => {

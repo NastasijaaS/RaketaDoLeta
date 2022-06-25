@@ -199,17 +199,24 @@ export const vratiKorisnike = async (req, res) => {
 }
 
 //obrisi korisnika 
-export const obrisiKorisnika= async (req, res) => {
+export const obrisiKorisnika = async (req, res) => {
 
   try {
   const uprava = await RegistrovaniKorisnik.findById(req.params.id);
   if (uprava.tipKorisnika == "Uprava") {
 
     const korisnik=await Korisnik.findById(req.body.korisnikId)
+    if(korisnik!=null)
+    {
     //res.status(200).json(korisnik)
       await RegistrovaniKorisnik.findOneAndDelete({_id:korisnik.registrovaniKorisnikId})
       await Korisnik.findOneAndDelete({_id:korisnik._id})
       return res.status(200).json("Account has been deleted");
+    }
+    else
+    {
+      return res.status(404).json("Korisnik nije pronadjen")
+    }
   }
 
   }
@@ -255,8 +262,12 @@ export const vratiVerifikovaneNaloge = async (req, res) => {
       let vrati = []
       for (let i = 0; i < korisnici.length; i++) {
         const regKorisnik = await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
+        if(regKorisnik!=null)
+        {
 
         const clanarina = await Clanarina.findById(korisnici[i].clanarinaId)
+        if(clanarina!=null)
+        {
 
         let kor = {
           id: korisnici[i]._id,
@@ -266,6 +277,8 @@ export const vratiVerifikovaneNaloge = async (req, res) => {
           clanarinaDo: clanarina.vaziDo ? clanarina.vaziDo.toLocaleDateString() : 0
         }
         vrati.push(kor)
+      }
+      }
       }
      return res.status(200).json(vrati)
     }
@@ -291,6 +304,8 @@ export const vratiNeverifikovaneNaloge = async (req, res) => {
       let vrati = []
       for (let i = 0; i < korisnici.length; i++) {
         const regKorisnik = await RegistrovaniKorisnik.findById(korisnici[i].registrovaniKorisnikId)
+        if(regKorisnik!=null)
+        {
 
         let kor = {
           id: korisnici[i]._id,
@@ -299,6 +314,8 @@ export const vratiNeverifikovaneNaloge = async (req, res) => {
           email: regKorisnik.email
         }
         vrati.push(kor)
+      }
+      
       }
       return res.status(200).json(vrati)
     }

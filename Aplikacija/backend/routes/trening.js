@@ -17,7 +17,7 @@ router.get('/vidiTreningeZaUslugu/:idUsluge/:datum', vidiTreningeZaUslugu);
 router.post('/zakaziGrupniTrening/:id/:idUsluge',auth, zakaziGrupniTrening);
 router.get('/vratiTreningePersonalni/:id',auth, vratiTreningePersonalni);
 router.get('/vratiTreningePersonalniC/:id', auth,vratiTreningePersonalniC);
-router.get('/vratiTreningeGrupni/:id/:datum',auth,vratiTreningeGrupni);
+router.get('/vratiTreningeGrupni/:id/:datum',vratiTreningeGrupni);
 router.put('/prihvatiTrening/:idZahteva', auth,prihvatiTrening);
 router.put('/odbijTrening/:idZahteva', auth,odbijTrening);
 router.get('/vratiTreningePersonalniO/:id',auth, vratiTreningePersonalniO);

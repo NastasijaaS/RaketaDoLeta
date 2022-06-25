@@ -100,15 +100,20 @@ export const izmeniEvidenciju = async (req, res) => {
 }
 
 //pregledaj evidenciju
-export const vidiEvidenciju= async (req, res) => {
+export const vidiEvidenciju = async (req, res) => {
 
     try {
 
+
         const trener = await Trener.findById(req.params.idTrenera)
+        //return res.status(200).json(trener)
         if (trener != null) {
+            //return res.status(200).json(trener)
             const korisnik = await Korisnik.findById(req.params.idKorisnika)
             if (korisnik != null) {
                 const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
+                if(regK!=null)
+                {
               
                     const evidencija = await Evidencija.findOne({ korisnikId: req.params.idKorisnika })
                     if (evidencija != null) {
@@ -118,11 +123,15 @@ export const vidiEvidenciju= async (req, res) => {
                             tipTreninga: evidencija.tipTreninga,
                             intenzitet: evidencija.intenzitet
                         }
-                        return res.status(200).json(evidencija)
+                        return res.status(200).json(vrati)
                     }
                     else {
                         return res.status(404).json("ne postoji dodata evidencija za ovog klijenta")
                     }
+                }
+                else{
+                    return res.status(404).json("Nije pronadjen registrovani korisnik")
+                }
 
 
             }
