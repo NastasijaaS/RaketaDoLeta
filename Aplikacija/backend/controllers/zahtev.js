@@ -9,11 +9,11 @@ import RegistrovaniKorisnik from "../models/RegistrovaniKorisnik.js"
 export const obrisiZahtev = async (req, res) => {
     try {
         await Zahtev.findByIdAndDelete(req.params.idZahteva)
-        res.status(200).json("Zahtev je uspesno obrisan")
+        return res.status(200).json("Zahtev je uspesno obrisan")
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 };
 
@@ -27,21 +27,21 @@ export const vidiZahteve = async (req, res) => {
             const zahtev = await Zahtev.find({$and:[{registrovaniKorisnikId:registrovaniKorisnik._id}, {status:req.params.status}]})
             console.log(zahtev)
             if (zahtev != null) {
-                res.status(200).json(zahtev)
+                return res.status(200).json(zahtev)
             }
             else {
-                res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+                return res.status(404).json("ne postoji dodat napredak za ovog klijenta")
             }
 
         }
         else {
-            res.status(404).json("korisnik nije pronadjen")
+           return res.status(404).json("korisnik nije pronadjen")
         }
 
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -51,28 +51,28 @@ export const vidiZahteveZaKorisnika = async (req, res) => {
     try {
 
         const registrovaniKorisnik = await RegistrovaniKorisnik.findById(req.params.idRegKorisnika)
-        console.log(req.params.idRegKorisnika)
-        console.log(registrovaniKorisnik)
+        //console.log(req.params.idRegKorisnika)
+        //console.log(registrovaniKorisnik)
         if (registrovaniKorisnik != null) {
 
             const zahtev = await Zahtev.find({registrovaniKorisnikId:registrovaniKorisnik._id})
 
             if (zahtev != null) {
-                res.status(200).json(zahtev)
+                return res.status(200).json(zahtev)
             }
             else {
-                res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+                return res.status(404).json("ne postoji dodat napredak za ovog klijenta")
             }
 
         }
         else {
-            res.status(404).json("korisnik nije pronadjen")
+            return res.status(404).json("korisnik nije pronadjen")
         }
 
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -89,17 +89,17 @@ export const napraviZahtev =async (req, res) => {
       })
 
       const zahtevSave = await zahtev.save()
-      res.status(200).json(zahtev)
+      return res.status(200).json(zahtev)
 
     }
     else {
-      res.status(404).json("Trening nije pronadjen")
+      return res.status(404).json("Trening nije pronadjen")
     }
 
 
   }
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 
 } 
@@ -109,7 +109,7 @@ export const vratiZahteveOdbijeni = async (req, res) => {
 
   try {
     const zahtev = await Zahtev.find({ status: ("Ukinuto" || "Odbijeno") })
-    res.status(200).json(zahtev)
+    //res.status(200).json(zahtev)
     if (zahtev.length != 0) {
 
       let zahtevi = []
@@ -126,16 +126,16 @@ export const vratiZahteveOdbijeni = async (req, res) => {
         zahtevi.push(zah)
       }
 
-      // res.status(200).json(zahtevi)
+       return res.status(200).json(zahtevi)
     }
 
     else {
-      res.status(400).json("Nema zahteva za prikaz")
+      return res.status(400).json("Nema zahteva za prikaz")
     }
 
   }
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 
 }

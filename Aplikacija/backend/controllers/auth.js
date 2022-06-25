@@ -7,8 +7,10 @@ import  Trener from "../models/Trener.js"
 import  Korisnik from "../models/Korisnik.js";
 //import  Evidencija from "../models/Evidencija.js";
 import  { generateAccessToken} from "../auth.js";
+import  { generateRefreshToken} from "../auth.js";
 
-//import Category from "../Models/Category.js";
+
+
 
 
 export const register = async (req, res) => {
@@ -110,6 +112,7 @@ export const login = async (req, res) => {
     if (user.tipKorisnika == "Korisnik") {
       const korisnik = await Korisnik.findOne({ registrovaniKorisnikId: user._id });
       const token = generateAccessToken(korisnik)
+      const refreshToken=generateRefreshToken(korisnik)
       
 
       if (korisnik != null) {
@@ -129,7 +132,8 @@ export const login = async (req, res) => {
           zeljenaTezinaMisica: korisnik.zeljenaTezinaMisica,
           zeljeniProcenatMasti: korisnik.zeljeniProcenatMasti,
           zeljenaTezina: korisnik.zeljenaTezina,
-          token:token
+          token:token,
+          refreshToken:refreshToken
         }
         return res.status(200).json(novi)
       }
@@ -142,6 +146,7 @@ export const login = async (req, res) => {
 
       if (uprava != null) {
         const token = generateAccessToken(uprava)
+        const refreshToken=generateRefreshToken(uprava)
 
         let novi = {
           id: user.id,
@@ -152,7 +157,8 @@ export const login = async (req, res) => {
           password: user.password,
           tip: user.tipKorisnika,
           upravaId: uprava._id,
-          token:token
+          token:token,
+          refreshToken:refreshToken
         }
         return res.status(200).json(novi)
       }
@@ -165,6 +171,7 @@ export const login = async (req, res) => {
 
       if (trener != null) {
         const token = generateAccessToken(trener)
+        const refreshToken=generateRefreshToken(trener)
 
         let novi = {
           id: user.id,
@@ -177,7 +184,8 @@ export const login = async (req, res) => {
           trenerId: trener._id,
           sertifikati:trener.sertifikati,
           iskustvo:trener.iskustvo,
-          token:token
+          token:token,
+          refreshToken:refreshToken
         }
         return res.status(200).json(novi)
       }
@@ -197,19 +205,19 @@ export const  proveriSifru = async (req, res) => {
     const user = await RegistrovaniKorisnik.findOne({ _id: req.body.id });
 
     if (!user)
-      res.status(404).json("Nema takvog korisnika");
+      return res.status(404).json("Nema takvog korisnika");
 
     const validPassword = await bcrypt.compare(req.body.password, user.password)
 
     if (!validPassword)
-      res.status(400).json("Pogresna lozinka")
+      return res.status(400).json("Pogresna lozinka")
     else {
-      res.status(200).json("Dobra sifra")
+      return res.status(200).json("Dobra sifra")
     }
 
   }
   catch (err) {
-    res.status(500).json(err)
+    return res.status(500).json(err)
   }
 };
 
@@ -219,16 +227,31 @@ export const proveriEmail = async (req, res) => {
     const mailNovi=await RegistrovaniKorisnik.findOne({email:email})
 
     if (mailNovi!=null)
-      res.status(404).json("Vec postoji korisnik sa zadati mailom");
+      return res.status(404).json("Vec postoji korisnik sa zadati mailom");
 
     else {
-      res.status(200).json("Dobar mail")
+      return res.status(200).json("Dobar mail")
     }
 
   }
   catch (err) {
-    res.status(500).json(err)
+    return res.status(500).json(err)
   }
 };
+
+export const refresh = async (req, res) => {
+  try {
+
+    return
+
+  }
+  catch (err) {
+    return res.status(500).json(err)
+  }
+};
+
+
+
+
 
 export default router;

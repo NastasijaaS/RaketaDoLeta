@@ -26,7 +26,7 @@ export const azurirajSvojNalog = async (req, res) => {
     }
   }
   else {
-    res.status(403).json("Mozete da izmenite samo svoj nalog");
+    return res.status(403).json("Mozete da izmenite samo svoj nalog");
   }
 };
 

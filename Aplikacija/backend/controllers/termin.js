@@ -16,10 +16,10 @@ export const vratiTermineZaTrenera= async (req, res) => {
         const trener = await Trener.findById(req.params.idTrenera)
         if (trener != null) {
             const sviTermini = await Termin.find({ trenerId: trener._id })
-            res.status(200).json(sviTermini);
+            return res.status(200).json(sviTermini);
         }
         else {
-            res.status(404).json("trener nije pronadjen")
+            return res.status(404).json("trener nije pronadjen")
         }
 
     }
@@ -43,16 +43,16 @@ export const dodajTerminTreneru = async (req, res) => {
             })
 
             const terminSave = await t.save()
-            res.status(200).json(terminSave)
+           return res.status(200).json(terminSave)
         }
         else {
-            res.status(404).json("trener nije pronadjen")
+            return res.status(404).json("trener nije pronadjen")
         }
 
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -65,14 +65,14 @@ export const zakaziTermin = async (req, res) => {
                 slobodan: false
             }
         })
-        res.status(200).json(zakazan)
+        return res.status(200).json(zakazan)
 
         // const zakazanSave=zakazan.save()
         // res.status(200).json(zakazanSave)
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 }
 
@@ -80,10 +80,10 @@ export const zakaziTermin = async (req, res) => {
 export const obrisiTermin = async (req, res) => {
     try {
         await Termin.findByIdAndDelete(req.params.idTermina)
-        res.status(200).json("Uspesno obrisan termin")
+        return res.status(200).json("Uspesno obrisan termin")
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 };
 
@@ -108,10 +108,10 @@ export const vratiSlobodneTermineZaTreneraPoDatumu = async (req, res) => {
                 }
                 sviTerminii.push(vrati)
             }
-            res.status(200).json(sviTerminii);
+            return res.status(200).json(sviTerminii);
         }
         else {
-            res.status(404).json("trener nije pronadjen")
+            return res.status(404).json("trener nije pronadjen")
         }
 
     }
@@ -159,15 +159,15 @@ export const vratiZauzeteTermineZaTreneraPoDatumu= async (req, res) => {
                         korisnikId: korisnik._id
                     }
                     
-                    sviTreninzi.push(vrati)
+                     sviTreninzi.push(vrati)
 
                 }
                   }
             }
-            res.status(200).json(sviTreninzi);
+            return res.status(200).json(sviTreninzi);
         }
         else {
-            res.status(404).json("trener nije pronadjen")
+            return res.status(404).json("trener nije pronadjen")
         }
 
     }

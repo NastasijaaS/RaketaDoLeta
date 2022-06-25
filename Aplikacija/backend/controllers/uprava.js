@@ -27,7 +27,7 @@ export const upravaUpdate = async (req, res) => {
     }
   }
   else {
-    res.status(403).json("You can't update this account");
+    return res.status(403).json("You can't update this account");
   }
 };
 
@@ -44,16 +44,16 @@ export const dodajUpravu = async (req, res) => {
 
       })
       const upravaSave = await novaUprava.save()
-      res.status(200).json(upravaSave)
+      return res.status(200).json(upravaSave)
     }
 
     else {
-      res.status(404).json("Nije nadjen registrovani korisnik");
+      return res.status(404).json("Nije nadjen registrovani korisnik");
     }
 
   }
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 
 };
@@ -67,12 +67,12 @@ export const obrisiUpravu = async (req, res) => {
     //res.status(200).json(korisnik)
       await RegistrovaniKorisnik.findOneAndDelete({_id:uprava.registrovaniKorisnikId})
       await Uprava.findOneAndDelete({_id:uprava._id})
-      res.status(200).json("Account has been deleted");
+      return res.status(200).json("Account has been deleted");
     
 
   }
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 

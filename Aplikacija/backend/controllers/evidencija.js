@@ -66,7 +66,7 @@ export const izmeniEvidenciju = async (req, res) => {
                                 return res.status(200).json(final)
                             }
                             else{
-                                res.status(404).json("termin nije pronadjen")
+                                return res.status(404).json("termin nije pronadjen")
                             }
                             
                             
@@ -94,7 +94,7 @@ export const izmeniEvidenciju = async (req, res) => {
     catch (err) {
         console.log(err)
 
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -118,26 +118,26 @@ export const vidiEvidenciju= async (req, res) => {
                             tipTreninga: evidencija.tipTreninga,
                             intenzitet: evidencija.intenzitet
                         }
-                        res.status(200).json(evidencija)
+                        return res.status(200).json(evidencija)
                     }
                     else {
-                        res.status(404).json("ne postoji dodata evidencija za ovog klijenta")
+                        return res.status(404).json("ne postoji dodata evidencija za ovog klijenta")
                     }
 
 
             }
             else {
-                res.status(404).json("korisnik nije pronadjen")
+                return res.status(404).json("korisnik nije pronadjen")
             }
 
         }
         else {
-            res.status(404).json("trener nije pronadjen")
+            return res.status(404).json("trener nije pronadjen")
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }

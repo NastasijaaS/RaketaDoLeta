@@ -11,13 +11,13 @@ let refreshTokens = [];
 export const generateAccessToken = (user) => {
     //Generise se na osnovu id-ja:
     //console.log(user._id)
-    return jwt.sign({ id: user._id }, process.env.TOKEN_KEY, { expiresIn: "1h" });
+    return jwt.sign({ id: user.registrovaniKorisnikId }, process.env.TOKEN_KEY, { expiresIn: "1h" });
 
 };
 
 //Metoda za generisanje refresh tokena:
 export const generateRefreshToken = (user) => {
-    const token = jwt.sign({ id: user._id }, process.env.REFRESH_KEY);
+    const token = jwt.sign({ id: user.registrovaniKorisnikId }, process.env.REFRESH_KEY);
     refreshTokens.push(token);
     return token;
 };

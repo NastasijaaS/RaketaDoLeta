@@ -16,21 +16,21 @@ export const vidiNapredakKorisnik = async (req, res) => {
             const napredak = await Napredak.findById(korisnik.napredakId)
 
             if (napredak != null) {
-                res.status(200).json(napredak)
+                return res.status(200).json(napredak)
             }
             else {
-                res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+               return res.status(404).json("ne postoji dodat napredak za ovog klijenta")
             }
 
         }
         else {
-            res.status(404).json("korisnik nije pronadjen")
+            return res.status(404).json("korisnik nije pronadjen")
         }
 
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -63,26 +63,26 @@ export const vidiNapredakPoslednji = async (req, res) => {
 
                 }
                 //vrati.push(tr)
-                res.status(200).json(tr)
+                return res.status(200).json(tr)
             
             }
             
         
             else {
-                res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+                return res.status(404).json("ne postoji dodat napredak za ovog klijenta")
             }
         
         }
         
         
         else {
-            res.status(404).json("korisnik nije pronadjen")
+            return res.status(404).json("korisnik nije pronadjen")
         }
 
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -127,17 +127,17 @@ export const dodajNapredak = async (req, res) => {
 
 
             else {
-                res.status(404).json(req.params.idKorisnika + "  Korisnik nije pronadjen")
+                return res.status(404).json(req.params.idKorisnika + "  Korisnik nije pronadjen")
             }
 
         }
         else {
-            res.status(404).json("Trener nije pronadjen")
+            return res.status(404).json("Trener nije pronadjen")
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -171,7 +171,7 @@ export const izmeniNapredak = async (req, res) => {
                 }
             });
 
-            res.status(200).json(napredaknovi)
+            return res.status(200).json(napredaknovi)
 
 
         }
@@ -179,12 +179,12 @@ export const izmeniNapredak = async (req, res) => {
 
 
         else {
-            res.status(404).json("Napredak nije pronadjen")
+            return res.status(404).json("Napredak nije pronadjen")
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -204,10 +204,10 @@ export const vidiNapredak = async (req, res) => {
                 const napredak = await Napredak.findById(korisnik.napredakId)
                    
                     if (napredak != null) {
-                        res.status(200).json(napredak)
+                        return res.status(200).json(napredak)
                     }
                     else {
-                        res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+                        return res.status(404).json("ne postoji dodat napredak za ovog klijenta")
                     }
 
                 //}
@@ -217,17 +217,17 @@ export const vidiNapredak = async (req, res) => {
 
             }
             else {
-                res.status(404).json("korisnik nije pronadjen")
+                return res.status(404).json("korisnik nije pronadjen")
             }
 
         }
         else {
-            res.status(404).json("trener nije pronadjen")
+            return res.status(404).json("trener nije pronadjen")
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }

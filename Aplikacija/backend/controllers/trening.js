@@ -73,15 +73,15 @@ export const  zakaziPersonalniTrening = async (req, res) => {
                 }
             })
 
-            res.status(200).json(trening);
+            return res.status(200).json(trening);
         }
         else
         {
-            res.status(404).json("Vas nalog nije verifikovan!")
+            return res.status(404).json("Vas nalog nije verifikovan!")
         }
         }
         else {
-            res.status(404).json("Korisnik nije pronadjen")
+            return res.status(404).json("Korisnik nije pronadjen")
         }
 
 

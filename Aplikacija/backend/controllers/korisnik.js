@@ -3,17 +3,19 @@ const router = express.Router();
 import Trener from "../models/Trener.js"
 import Korisnik from "../models/Korisnik.js"
 import RegistrovaniKorisnik from "../models/RegistrovaniKorisnik.js"
+import Clanarina from "../models/Clanarina.js"
 
 //izmeni parametre
 export const izmeniParametre= async (req, res) => {
     try {
 
         const korisnik = await Korisnik.findByIdAndUpdate(req.params.idKorisnika, { $set: req.body })
+        console.log(korisnik)
 
-        res.status(200).json(korisnik);
+        return res.status(200).json(korisnik);
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 }
 
@@ -45,21 +47,21 @@ export const dodajKorisnika = async (req, res) => {
 
                 await kor.updateOne({ trenerId: trener._id })
                 await trener.updateOne({ $push: { listaKlijenata: kor._id } });
-                res.status(200).json(kor);
+                return res.status(200).json(kor);
 
             }
             else {
-                res.status(404).json("Nije nadjen korisnik");
+                return res.status(404).json("Nije nadjen korisnik");
             }
 
         }
         else {
-            res.status(404).json("Nije nadjen trener");
+            return res.status(404).json("Nije nadjen trener");
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 };
@@ -77,26 +79,26 @@ export const izmeniKorisnika = async (req, res) => {
 
                 if (trener.listaKlijenata.includes(korisnik._id)) {
                     await korisnik.updateOne({ $set: req.body })
-                    res.status(200).json(korisnik);
+                    return res.status(200).json(korisnik);
 
                 }
                 else {
-                    res.status(400).json("Mozete menjati samo svoje klijente");
+                    return res.status(400).json("Mozete menjati samo svoje klijente");
                 }
 
             }
             else {
-                res.status(404).json("Nije pronadjen korisnik")
+                return res.status(404).json("Nije pronadjen korisnik")
             }
 
         }
         else {
-            res.status(404).json("Nije pronadjen trener")
+            return res.status(404).json("Nije pronadjen trener")
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 };
 
@@ -114,26 +116,26 @@ export const obrisiSvogKlijenta = async (req, res) => {
                 if (trener.listaKlijenata.includes(korisnik._id)) {
                     await trener.updateOne({ $pull: { listaKlijenata: korisnik._id } });
                     await korisnik.updateOne({ $set: { trenerId: null } })
-                    res.status(200).json("Uspesno obrisan klijent");
+                    return res.status(200).json("Uspesno obrisan klijent");
 
                 }
                 else {
-                    res.status(400).json("Ovaj korisnik nije vas klijent");
+                    return res.status(400).json("Ovaj korisnik nije vas klijent");
                 }
 
             }
             else {
-                res.status(404).json("Nije pronadjen korisnik")
+                return res.status(404).json("Nije pronadjen korisnik")
             }
 
         }
         else {
-            res.status(404).json("Nije pronadjen trener")
+            return res.status(404).json("Nije pronadjen trener")
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 };
 
@@ -176,22 +178,22 @@ export const vratiKorisnike = async (req, res) => {
 
                 }
 
-                res.status(200).json(vrati)
+                return res.status(200).json(vrati)
 
             }
             else {
-                res.status(404).json("nema nijednog korisnika")
+                return res.status(404).json("nema nijednog korisnika")
             }
 
         }
         else {
-            res.status(404).json("trener nije pronadjen")
+            return res.status(404).json("trener nije pronadjen")
         }
 
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -207,12 +209,12 @@ export const obrisiKorisnika= async (req, res) => {
     //res.status(200).json(korisnik)
       await RegistrovaniKorisnik.findOneAndDelete({_id:korisnik.registrovaniKorisnikId})
       await Korisnik.findOneAndDelete({_id:korisnik._id})
-      res.status(200).json("Account has been deleted");
+      return res.status(200).json("Account has been deleted");
   }
 
   }
   catch (err) {
-    return res.status(500).json(err);
+    return  res.status(500).json(err);
   }
 };
 
@@ -234,11 +236,11 @@ export const verifikujNalog = async (req, res) => {
 
     await korisnik.updateOne({ $set: { clanarinaId: clanarinaSave._id } })
 
-    res.status(200).json(korisnik);
+    return res.status(200).json(korisnik);
   }
 
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 
 }
@@ -265,15 +267,15 @@ export const vratiVerifikovaneNaloge = async (req, res) => {
         }
         vrati.push(kor)
       }
-      res.status(200).json(vrati)
+     return res.status(200).json(vrati)
     }
     else {
-      res.status(404).json("nema verifikovanih korisnika")
+      return res.status(404).json("nema verifikovanih korisnika")
     }
 
   }
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 
 }
@@ -298,15 +300,15 @@ export const vratiNeverifikovaneNaloge = async (req, res) => {
         }
         vrati.push(kor)
       }
-      res.status(200).json(vrati)
+      return res.status(200).json(vrati)
     }
     else {
-      res.status(404).json("nema neverifikovanih korisnika")
+      return res.status(404).json("nema neverifikovanih korisnika")
     }
 
   }
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 
 }

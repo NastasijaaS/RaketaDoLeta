@@ -14,21 +14,21 @@ export const vidiClanarinu = async (req, res) => {
             // const clanarina = await Clanarina.find({ korisnikId: req.params.idKorisnika })
             const clanarina = await Clanarina.findById(korisnik.clanarinaId)
             if (clanarina != null) {
-                res.status(200).json(clanarina)
+                return res.status(200).json(clanarina)
             }
             else {
-                res.status(404).json("Nije pronadjena clanarina za ovog korisnika")
+                return res.status(404).json("Nije pronadjena clanarina za ovog korisnika")
             }
 
         }
         else {
-            res.status(404).json("Nije pronadjen korisnik")
+            return res.status(404).json("Nije pronadjen korisnik")
         }
 
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -78,16 +78,16 @@ export const dodajClanarinu = async (req, res) => {
         }
       })
 
-      res.status(200).json(clanarina);
+     return res.status(200).json(clanarina);
 
     }
 
     else {
-      res.status(404).json("Korisnik nije pronadjen")
+      return res.status(404).json("Korisnik nije pronadjen")
     }
   }
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 
 }

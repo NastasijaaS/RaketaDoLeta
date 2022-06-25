@@ -9,11 +9,11 @@ export const dodajSliku = async (req, res) => {
 
     try {
         const trener = await Trener.findOneAndUpdate(req.params.idTrenera, { $set: { slika: req.body.slika } })
-        res.status(200).json(trener)
+        return res.status(200).json(trener)
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 };
@@ -23,11 +23,11 @@ export const dodajOpis = async (req, res) => {
 
     try {
         const trener = await Trener.findOneAndUpdate(req.params.idTrenera, { $set: { opis: req.body.opis } })
-        res.status(200).json(trener)
+        return res.status(200).json(trener)
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 };
@@ -56,16 +56,16 @@ export const vidiTrenereGrupni = async (req, res) => {
 
                 treneri.push(tr)
             }
-            res.status(200).json(treneri)
+            return res.status(200).json(treneri)
         }
 
         else {
-            res.status(400).json("Nema trenera za prikaz")
+           return res.status(400).json("Nema trenera za prikaz")
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -93,15 +93,15 @@ export const vidiTrenerePersonalni =async (req, res) => {
 
                 treneri.push(tr)
             }
-            res.status(200).json(treneri)
+            return res.status(200).json(treneri)
         }
         else {
-            res.status(400).json("Nema trenera za prikaz")
+            return res.status(400).json("Nema trenera za prikaz")
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -132,17 +132,17 @@ export const vidiTrenereSvi = async (req, res) => {
                 treneri.push(tr)
                 //res.status(200).json(treneri)
             }
-            res.status(200).json(treneri)
+            return res.status(200).json(treneri)
         }
 
         else {
-            res.status(404).json("Nema trenera za prikaz")
+            return res.status(404).json("Nema trenera za prikaz")
         }
 
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -163,16 +163,16 @@ export const dodajTrenera = async (req, res) => {
 
       })
       const trenerSave = await noviTrener.save()
-      res.status(200).json(trenerSave)
+      return res.status(200).json(trenerSave)
     }
 
     else {
-      res.status(404).json("Nije nadjen registrovani korisnik");
+      return res.status(404).json("Nije nadjen registrovani korisnik");
     }
 
   }
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 
 };
@@ -186,12 +186,12 @@ export const obrisiTrenera = async (req, res) => {
     //res.status(200).json(korisnik)
       await RegistrovaniKorisnik.findByIdAndDelete(trener.registrovaniKorisnikId)
       await Trener.findByIdAndDelete(trener._id)
-      res.status(200).json("Account has been deleted");
+      return res.status(200).json("Account has been deleted");
     
 
   }
   catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 };
 

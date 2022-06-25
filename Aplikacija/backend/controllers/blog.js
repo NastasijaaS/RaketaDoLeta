@@ -8,14 +8,14 @@ export const vratiBlogove = async (req, res) => {
     try {
         const blogovi = await Blog.find()
         if (blogovi.length != 0) {
-            res.status(200).json(blogovi)
+            return res.status(200).json(blogovi)
         }
         else {
-            res.status(400).json("Nema  za prikaz")
+            return res.status(400).json("Nema  za prikaz")
         }
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 }
 
@@ -56,7 +56,7 @@ export const dodajBlog = async (req, res) => {
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 
 }
@@ -67,15 +67,15 @@ export const  izmeniBlog= async (req, res) => {
         const blog = await Blog.findById(req.params.idBloga)
         if (blog != null) {
             await blog.updateOne({ $set: req.body })
-            res.status(200).json(blog);
+            return res.status(200).json(blog);
         }
         else {
-            res.status(404).json("Blog nije pronadjen")
+            return res.status(404).json("Blog nije pronadjen")
         }
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 }
 
@@ -83,11 +83,11 @@ export const  izmeniBlog= async (req, res) => {
 export const obrisiBlog = async (req, res) => {
     try {
         await Blog.findOneAndDelete(req.params.idBloga)
-        res.status(200).json("Blog je uspesno obrisan")
+        return res.status(200).json("Blog je uspesno obrisan")
 
     }
     catch (err) {
-        res.status(500).json(err);
+        return res.status(500).json(err);
     }
 };
 
