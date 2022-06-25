@@ -46,7 +46,7 @@ const format = (datum) => {
 
 const KalendarForma = (props) => {
 
-    //  console.log(props.idUsluge)
+    console.log(props)
 
     const dan = (new Date()).getDay();
     const dateOD = new Date()
@@ -131,11 +131,14 @@ const KalendarForma = (props) => {
 
             {termin.status &&
 
-                props.idUsluge ?
-                <RasporedGrupni idUsluge={props.idUsluge} datum={termin.datum} />
-                :
-                <RasporedTrener idTrenera={props.idTrenera} datum={termin.datum} />
+                <>
 
+                    {
+                        props.idUsluge && <RasporedGrupni idUsluge={props.idUsluge} datum={termin.datum} />
+                    }
+                    {props.idTrenera && <RasporedTrener idTrenera={props.idTrenera} datum={termin.datum} />}
+
+                </>
             }
         </Box >
     )

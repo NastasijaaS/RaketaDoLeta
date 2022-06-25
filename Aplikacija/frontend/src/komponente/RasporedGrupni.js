@@ -14,7 +14,7 @@ import useAxiosPrivate from '../api/useAxiosPrivate'
 
 const RasporedGrupni = (props) => {
 
-    // console.log(props)
+    console.log(props)
 
     const axiosPrivate = useAxiosPrivate()
 
@@ -32,17 +32,21 @@ const RasporedGrupni = (props) => {
 
         // GetData(`http://localhost:8800/api/trening/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`, setTermini, setGreska, setIsLoading)
 
+        setTermini([])
         const get = async () => {
-            await axiosPrivate.get(`http://localhost:8800/api/trening/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`).then(res => {
-                if (res.status === 200) {
-                    if (res.data) {
-                        setTermini(res.data)
+            await axiosPrivate.get(`http://localhost:8800/api/trening/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`)
+                .then(res => {
+                    if (res.status === 200) {
+                        if (res.data) {
+                            setTermini(res.data)
+                        }
                     }
-                }
-            }).catch((error) => {
-                alert('Doslo je do greske')
-                console.log(error)
-            });
+                }).catch((error) => {
+
+                    if (error.response?.status !== 404) {
+                        alert('Doslo je do greske')
+                    }
+                });
         }
         get()
 
@@ -63,10 +67,17 @@ const RasporedGrupni = (props) => {
         //PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         try {
-            await axiosPrivate.put(zahtev.url)
+            await axiosPrivate.put('http://localhost:8800/api/trening/prijavaGrupniTrening/' + user.korisnikId + '/' + treningId)
             alert('Uspesno ste se prijavili za trening')
+            window.location.reload(false)
         } catch (err) {
-            alert('Doslo je do greske')
+
+            if (err.response?.status === 400) {
+                alert('Nemate clanarinu za ovaj trening')
+            } else {
+                alert('Doslo je do greske')
+                console.log(err)
+            }
         }
 
         // if (greska !== false) {
@@ -76,13 +87,12 @@ const RasporedGrupni = (props) => {
         //     alert('uspesno ste se prijavili za trening')
         // }
 
-        window.location.reload(false)
     }
 
 
     return (
         <Fragment>
-            {termini ? <Typography color='error'>Nema dostupnih treninga</Typography>
+            {termini.length === 0 ? <Typography color='error'>Nema dostupnih treninga</Typography>
                 :
                 <TableContainer component={Paper}>
                     <Table

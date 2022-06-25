@@ -1,7 +1,8 @@
 import { TextField } from "@mui/material";
 
 
-const Info = ({ labela, tip, reff, err, tekst }) => {
+const Info = (props) => {
+    const { labela, tip, reff, err, tekst } = props
     return (
         <div>
             <TextField
@@ -15,6 +16,7 @@ const Info = ({ labela, tip, reff, err, tekst }) => {
                 size="small"
                 placeholder={tekst}
                 // helperText={tekst}
+                {...props}
                 />
         </div>
     )

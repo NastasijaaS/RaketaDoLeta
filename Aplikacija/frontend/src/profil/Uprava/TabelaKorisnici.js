@@ -117,7 +117,7 @@ export default function Tabela(props) {
         const get = async () => {
             await axiosPrivate.get("http://localhost:8800/api/usluga/vidiUsluge").then(p => {
                 if (p.status === 200) {
-                   setUsluge(p.data)
+                    setUsluge(p.data)
                 }
             }).catch((error) => {
                 alert('Doslo je do greske')
@@ -175,25 +175,29 @@ export default function Tabela(props) {
         setRows(korisnici)
     };
 
-    const obrisiKorisnika = (id) => {
+    const obrisiKorisnika = async (id) => {
 
         const zahtev = {
-            url: 'http://localhost:8800/api/uprava/' + user.id,
+            url: 'http://localhost:8800/api/korisnik/' + user.id,
             body: {
                 korisnikId: id
             }
         }
 
-        DeleteMetoda(zahtev, setGreska, setIsLoading)
-
-        if (greska !== false) {
-            alert('doslo je do greske')
+        //   DeleteMetoda(zahtev, setGreska, setIsLoading)
+        try {
+            const res = await axiosPrivate.delete(zahtev.url, zahtev.body)
         }
+        catch (err) {
+            alert('Doslo je do greske')
+        }
+
+
         setRefresh(!refresh)
 
     }
 
-    const unesiClanarinu = (idKorisnika) => {
+    const unesiClanarinu = async (idKorisnika) => {
         // console.log(buttonSelected)
         // console.log(idKorisnika)
 
@@ -203,28 +207,44 @@ export default function Tabela(props) {
             url: 'http://localhost:8800/api/clanarina/dodajClanarinu/' + idKorisnika + '/' + buttonSelected
         }
 
-        PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
+       // PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
-            console.log(greska)
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+        //     console.log(greska)
+        // }
+
+        try {
+            const res = await axiosPrivate.put(zahtev.url)
+            setRefresh(!refresh)
         }
-        setRefresh(!refresh)
+        catch (err) {
+            alert('Doslo je do greske')
+        }
+
     }
 
-    const verifikujNalog = (id) => {
+    const verifikujNalog = async (id) => {
 
         const zahtev = {
             url: 'http://localhost:8800/api/korisnik//verifikujNalog/' + id
         }
 
-        PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
+        // PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
 
-        if (greska !== false) {
-            alert('doslo je do greske')
-        } else {
+        // if (greska !== false) {
+        //     alert('doslo je do greske')
+        // } else {
+        //     setRefresh(!refresh)
+        // }
+        try {
+            const res = await axiosPrivate.put(zahtev.url)
             setRefresh(!refresh)
         }
+        catch (err) {
+            alert('Doslo je do greske')
+        }
+
 
     }
 

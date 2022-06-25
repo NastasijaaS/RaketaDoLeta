@@ -38,23 +38,34 @@ const RasporedTrener = (props) => {
         // }
 
         const get = async () => {
+            setTermini([])
+            setGrupniTreninzi([])
+            setTreninzi([])
             try {
 
                 if (props.datum) {
                     let res = await axiosPrivate.get(`http://localhost:8800/api/termin/vratiZauzeteTermineZaTreneraPoDatumu/${props.idTrenera}/${props.datum}`)
+
                     if (res.data) {
                         setTermini(res.data)
                     }
+                   
+
                     res = await axiosPrivate.get(`http://localhost:8800/api/trening/vratiTreningeGrupni/${props.idTrenera}/${props.datum}`)
+
                     if (res.data) {
                         setGrupniTreninzi(res.data)
                     }
+                   
+                    
                 }
                 else {
-                    const res = axiosPrivate.get("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId)
+                    const res = await axiosPrivate.get("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId)
+                    
                     if (res.data) {
                         setTreninzi(res.data)
                     }
+                   
                 }
 
             }
@@ -62,6 +73,7 @@ const RasporedTrener = (props) => {
                 if (err.response?.status !== 404) {
                     alert('Doslo je do greske')
                 }
+                
             }
         }
 
@@ -78,7 +90,7 @@ const RasporedTrener = (props) => {
             }
         }
 
-       // PutMetoda(zahtev, setData, setGreska, setIsLoading)
+        // PutMetoda(zahtev, setData, setGreska, setIsLoading)
         try {
             await axiosPrivate.put(zahtev.url, zahtev.body)
         } catch (err) {

@@ -71,6 +71,9 @@ const NapraviGrupni = (props) => {
                         if (res.data) {
                             setTreninzi(res.data)
                         }
+                        else{
+                            setTreninzi([])
+                        }
                     }
                 }).catch((error) => {
                     alert('Doslo je do greske')
@@ -116,7 +119,7 @@ const NapraviGrupni = (props) => {
         // await PostMetoda(zahtev, setData, setGreska, setIsLoading)
 
         try {
-            await axiosPrivate.post(zahtev.url)
+            await axiosPrivate.post(zahtev.url, zahtev.body)
             alert('Uspesno dodat trening')
         } catch (err) {
             alert('Doslo je do greske')

@@ -64,13 +64,13 @@ const ZahteviTrenera = () => {
 
 
         const zahtev = {
-            url: 'http://localhost:8800/api/trener/prihvatiTrening/' + id
+            url: 'http://localhost:8800/api/trening/prihvatiTrening/' + id
         }
 
         // await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         try {
-            await axiosPrivate.put('http://localhost:8800/api/trener/prihvatiTrening/' + id)
+            await axiosPrivate.put('http://localhost:8800/api/trening/prihvatiTrening/' + id)
 
         } catch (err) {
             alert('Doslo je do greske')
@@ -95,7 +95,7 @@ const ZahteviTrenera = () => {
         // await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         try {
-            await axiosPrivate.put('http://localhost:8800/api/trener/odbijTrening/' + id)
+            await axiosPrivate.put('http://localhost:8800/api/trening/odbijTrening/' + id)
 
         } catch (err) {
             alert('Doslo je do greske')
