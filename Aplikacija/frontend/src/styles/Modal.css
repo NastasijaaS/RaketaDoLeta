@@ -1,16 +1,25 @@
 .modal {
   overflow-y: initial !important;
-  background-color:inherit;
+  /* background-color:inherit; */
+  background-color: aliceblue;
+
   position: fixed;
-  top: 10vh;
-  padding: 1rem;
+  
+ 
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(39, 38, 39, 0.25);
-  z-index: 30;
+ 
   animation: slide-down 300ms ease-out forwards;
   align-items: center;
   gap: 10px;
+
   font-size: larger;
+
+  
+  /* top: 10vh;
+  padding: 1rem;
+  z-index: 30; */
+
 }
 
 .btnZatvori {
@@ -32,7 +41,7 @@
 @media (min-width: 768px) {
   .modal {
     width: 40rem;
-    left: calc(50% - 20rem);
+    /* left: calc(50% - 20rem); */
     align-self: center;
   }
 }

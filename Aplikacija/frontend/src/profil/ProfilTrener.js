@@ -107,7 +107,7 @@ const Trener = (props) => {
 
                         {noviTermini
                             &&
-                            <Modal onClose={() => { setNoviTermini(false) }}>
+                            <Modal open ={noviTermini}  onClose={() => { setNoviTermini(false) }}>
                                 <FormaDodajTermin idTrenera={user.trenerId} onClose={() => { setNoviTermini(false) }} />
                             </Modal>
                         }
