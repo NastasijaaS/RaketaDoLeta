@@ -3,9 +3,6 @@ import ReactDOM from "react-dom";
 
 import '../styles/Modal.css'
 
-import { Modal as MuiModal } from "@mui/material"
-
-
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -41,51 +38,30 @@ const modalRoot = document.getElementById("forma");
 
 const Modal = (props) => {
 
-    console.log(props)
-
     const t = sessionStorage.getItem('tema')
 
     const theme = t === 'light' ? darkTheme : lightTheme
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <MuiModal open = {props.open}  onClose={props.onClose}
-             sx={{ display: 'flex', justifyContent: 'center' }}
-             >
+        ReactDOM.createPortal(
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Paper>
+                    <div className="pozadina" >
 
-                {/* <div className="pozadina" onClick={props.onClose} /> */}
-
-                <Box className="cardCenter" sx={{backgroundColor:'white'}}>
-                    <button className="btnZatvori" onClick={props.onClose}>X</button>
-                    <Box className="cardCenter">
-                        {props.children}
-                    </Box>
-                </Box>
-
-            </MuiModal>
-
-        </ThemeProvider >
-
-        // ReactDOM.createPortal(
-        //     <ThemeProvider theme={theme}>
-        //         <CssBaseline />
-        //         <Paper>
-        //             <div className="pozadina" onClick={props.onClose} />
-
-        //             <Box className="modal cardCenter">
-        //                 <button className="btnZatvori" onClick={props.onClose}>X</button>
-        //                 <Box className="modal-body cardCenter">
-        //                     {props.children}
-        //                 </Box>
-        //             </Box>
-
-        //         </Paper>
-        //     </ThemeProvider >
-        //     ,
-        //     modalRoot
+                        <Box className="modal">
+                            <button className="btnZatvori" onClick={props.onClose}>X</button>
+                            <Box className="modal-body">
+                                {props.children}
+                            </Box>
+                        </Box>
+                    </div>
+                </Paper>
+            </ThemeProvider >
+            ,
+            modalRoot
+        )
     )
-//     )
- }
+}
 
 export default Modal

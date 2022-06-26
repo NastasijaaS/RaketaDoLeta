@@ -176,9 +176,9 @@ export default function Tabela(props) {
     };
 
     const obrisiKorisnika = async (id) => {
-
+        console.log(id)
         const zahtev = {
-            url: 'http://localhost:8800/api/korisnik/' + user.id,
+            url: 'http://localhost:8800/api/korisnik/obrisiKorisnika/' + user.id,
             body: {
                 korisnikId: id
             }
@@ -186,7 +186,8 @@ export default function Tabela(props) {
 
         //   DeleteMetoda(zahtev, setGreska, setIsLoading)
         try {
-            const res = await axiosPrivate.delete(zahtev.url, zahtev.body)
+            await axiosPrivate.delete('http://localhost:8800/api/korisnik/obrisiKorisnika/' + user.id + '?korisnikId=' + id)
+            alert('Uspesno ste izbrisali korisnika')
         }
         catch (err) {
             alert('Doslo je do greske')
@@ -207,7 +208,7 @@ export default function Tabela(props) {
             url: 'http://localhost:8800/api/clanarina/dodajClanarinu/' + idKorisnika + '/' + buttonSelected
         }
 
-       // PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
+        // PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
 
         // if (greska !== false) {
         //     alert('doslo je do greske')
@@ -227,7 +228,7 @@ export default function Tabela(props) {
     const verifikujNalog = async (id) => {
 
         const zahtev = {
-            url: 'http://localhost:8800/api/korisnik//verifikujNalog/' + id
+            url: 'http://localhost:8800/api/korisnik/verifikujNalog/' + id
         }
 
         // PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
@@ -239,6 +240,7 @@ export default function Tabela(props) {
         // }
         try {
             const res = await axiosPrivate.put(zahtev.url)
+            alert('Uspesno verifikovan nalog')
             setRefresh(!refresh)
         }
         catch (err) {

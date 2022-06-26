@@ -69,10 +69,10 @@ const NapredakGrafici = ({napredak, zeljeno,user}) => {
        return option
     }
   
-    let data = setdata('Tezina', napredak.tezina, 'Zeljena tezina', user.zeljenaTezina)
-    let data1 = setdata('Tezina misica', napredak.tezinaMisica, 'Zeljena tezina misica', user.zeljenaTezinaMisica)
-    let data2 = setdata('Procenat proteina', napredak.procenatProteina, 'Zeljeni procenat proteina', user.zeljeniProcenatProteina)
-    let data3 = setdata('Procenat masti', napredak.procenatMasti, 'Zeljena procenat masti', user.zeljeniProcenatMasti)
+    let data = setdata('Tezina', napredak?.tezina, 'Zeljena tezina', user?.zeljenaTezina)
+    let data1 = setdata('Tezina misica', napredak?.tezinaMisica, 'Zeljena tezina misica', user?.zeljenaTezinaMisica)
+    let data2 = setdata('Procenat proteina', napredak?.procenatProteina, 'Zeljeni procenat proteina', user?.zeljeniProcenatProteina)
+    let data3 = setdata('Procenat masti', napredak?.procenatMasti, 'Zeljena procenat masti', user?.zeljeniProcenatMasti)
 
     let options = setoptions('Napredak tezina')
     let options1 = setoptions('Napredak misica')

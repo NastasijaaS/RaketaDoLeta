@@ -8,8 +8,12 @@ import Greska from '../komponente/Alert';
 import { LoginSuccess, LoginFailure, LoginStart } from '../context/UserActions.js'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const LogIn = (props) => {
+
+    const [cookies, setCookie] = useCookies(['user']);
+
 
     let navigate = useNavigate()
     const { ucitavaSe, error, dispatch } = useContext(UserContext);
@@ -35,7 +39,7 @@ const LogIn = (props) => {
         if (lozinka === '' || lozinka.length < 5) {
             setGreska((greska) => ({ ...greska, lozinka: true }))
         }
-        else{
+        else {
             setGreska((greska) => ({ ...greska, lozinka: false }))
         }
     }
@@ -75,7 +79,22 @@ const LogIn = (props) => {
                 if (p.status === 200) {
                     dispatch(LoginSuccess(p.data))
                     console.log(p.data)
-                    localStorage.setItem('token',p.data?.token)
+                    localStorage.setItem('token', p.data?.token)
+
+                    let userId = ''
+                    if (p.data?.korisnikId)
+                        userId = p.data?.korisnikId
+                    else if (p.data?.trenerId)
+                        userId = p.data.trenerId
+                    else if (p.data?.upravaId)
+                        userId = p.data.upravaId
+
+                    // localStorage.setItem("user", JSON.stringify(state.user))
+
+                    localStorage.setItem("userId", userId)
+
+               // setCookie('user', p.data, { path: '/' });
+
                 }
             }).catch((error) => {
                 if (error.response.status === 404) {
@@ -128,7 +147,7 @@ const LogIn = (props) => {
                     className='loginInp'
                     value={lozinka}
                     error={greska.lozinka}
-                    onChange={(ev) => { setLozinka(ev.target.value) ; proveriPass(ev.target.value); }}
+                    onChange={(ev) => { setLozinka(ev.target.value); proveriPass(ev.target.value); }}
                     label="Lozinka"
                     type="password"
                     minlenght="6"

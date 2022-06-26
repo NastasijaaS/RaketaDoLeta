@@ -9,7 +9,7 @@ router.post('/dodajKorisnika/:id/:korid',auth, dodajKorisnika);
 router.put('/izmeniKorisnika/:id', izmeniKorisnika);
 router.put('/obrisiSvogKlijenta/:id',auth, obrisiSvogKlijenta);
 router.get('/vratiKorisnike/:id',auth, vratiKorisnike);
-router.delete('/:id',auth, obrisiKorisnika);
+router.delete('/obrisiKorisnika/:id',auth, obrisiKorisnika);
 router.put('/verifikujNalog/:idKorisnika',auth, verifikujNalog);
 router.get('/vratiVerifikovaneNaloge',auth, vratiVerifikovaneNaloge);
 router.get('/vratiNeverifikovaneNaloge',auth, vratiNeverifikovaneNaloge);

@@ -3,7 +3,7 @@
   /* background-color:inherit; */
   background-color: aliceblue;
 
-  position: fixed;
+  /* position: fixed; */
   
  
   border-radius: 14px;
@@ -14,7 +14,7 @@
   gap: 10px;
 
   font-size: larger;
-
+  top: 10vh;
   
   /* top: 10vh;
   padding: 1rem;
@@ -59,7 +59,7 @@
 }
 
 .pozadina {
-  display: block !important;
+  /* display: block !important; */
   position: fixed;
   top: 0;
   left: 0;
@@ -68,12 +68,16 @@
   z-index: 10;
   background: rgba(94, 91, 91, 0.2);
   align-items: center;
+  display: flex;
+    justify-content: center;
 }
 
 .modal-body {
   max-height: 70vh;
   overflow-y: auto;
-  /* margin-top: 30px; */
+  top: 10vh;
+  display: flex;
+  padding: 5vh;
 }
 
 /* .modal{

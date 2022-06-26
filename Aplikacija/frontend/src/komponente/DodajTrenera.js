@@ -80,9 +80,10 @@ function DodajTrenera(props) {
 
         try {
             await axiosPrivate.post(zahtev.url, zahtev.body)
-            alert('Uspesno dodat napredak')
+        //    alert('Uspesno dodat trener')
         } catch (err) {
             setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
+            console.log(err)
         }
 
         // if (greska) {

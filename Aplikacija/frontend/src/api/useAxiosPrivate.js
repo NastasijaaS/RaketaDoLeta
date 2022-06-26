@@ -1,4 +1,4 @@
-import  axios  from "axios";
+import axios from "axios";
 import { useContext, useEffect } from 'react'
 import { UserContext } from '../context/UserContext'
 import useRefreshToken from "./useRefreshToken";
@@ -6,7 +6,8 @@ import useRefreshToken from "./useRefreshToken";
 const useAxiosPrivate = () => {
 
   const { user } = useContext(UserContext)
-  const refresh = useRefreshToken()
+  //console.log(user?.refreshToken)
+  const refresh = useRefreshToken(user?.refreshToken)
 
   useEffect(() => {
 
@@ -15,7 +16,7 @@ const useAxiosPrivate = () => {
       //pitam da li u heder ima token ako nema dodam ga
 
       if (!config.headers['Authorization']) {
-        config.headers['Authorization'] = 'Bearer ' + user?.token;
+        config.headers['Authorization'] = 'Bearer ' + localStorage.getItem("token");
         config.headers['withCredentials'] = true
       }
 
@@ -35,10 +36,19 @@ const useAxiosPrivate = () => {
       //dodam novi token i vratim zxios
       const prevRequest = error?.config;  // ovde nadjem gresku iz prethodnog
       if (error?.response?.status === 403 && !prevRequest?.sent) {
-        // prevRequest.sent = true;
-        // const newAccessToken = await refresh();
-        // prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-        // return axios(prevRequest);
+        console.log(error?.response)
+        prevRequest.sent = true;
+        
+        const newAccessToken = await refresh();
+       // console.log('use axios')
+        //console.log(newAccessToken)
+
+        prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+      //  console.log('use axios')
+        // console.log(prevRequest)
+
+        return axios(prevRequest);
         console.log(error)
         console.log(user)
       }

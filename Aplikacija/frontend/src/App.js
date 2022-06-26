@@ -157,6 +157,8 @@ function App() {
                 <OdbijeniTreninzi /> : <Navigate replace to="/pocetna" />
               } />
 
+            <Route path="*" element={<p>There's nothing here: 404!</p>} />
+
           </Routes>
           <Fab sx={{
             margin: 0,
@@ -168,8 +170,10 @@ function App() {
           }} onClick={toggleColorMode}>
             {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </Fab>
-          {(user && user.tip === 'Korisnik') && <Footer />}
-          {(!user) && <Footer />}
+
+
+          {(!user && user?.tip === 'Korisnik') && <Footer />}
+          {/* {(!user) && <Footer />} */}
 
         </Router>
       </ThemeProvider >

@@ -7,9 +7,12 @@ export const UpdateUser = (user) => ({
     payload: user,
 });
 
-export const Odjavi = (user) => ({
-    tip: "ODJAVI",
-});
+export const Odjavi = () => {
+    localStorage.clear()
+    return {
+        tip: "ODJAVI",
+    }
+};
 
 
 export const LoginSuccess = (user) => ({

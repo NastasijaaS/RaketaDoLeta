@@ -172,7 +172,8 @@ export const vidiZakazaneTreningePersonalni = async (req, res) => {
 
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
 
-        if (req.user.id == req.params.registrovaniKorisnikId) {
+        if (req.user.id == korisnik.registrovaniKorisnikId) 
+        {
 
 
             //res.status(200).json(korisnik)

@@ -48,7 +48,7 @@ const ZahteviTrenera = () => {
             }
             catch (err) {
                 setIsLoading(false)
-                console.error(err.response)
+                console.error(err)
             }
         }
 

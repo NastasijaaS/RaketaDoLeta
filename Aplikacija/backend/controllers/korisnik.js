@@ -205,7 +205,8 @@ export const obrisiKorisnika = async (req, res) => {
   const uprava = await RegistrovaniKorisnik.findById(req.params.id);
   if (uprava.tipKorisnika == "Uprava") {
 
-    const korisnik=await Korisnik.findById(req.body.korisnikId)
+    const korisnik=await Korisnik.findById(req.query.korisnikId)
+
     if(korisnik!=null)
     {
     //res.status(200).json(korisnik)

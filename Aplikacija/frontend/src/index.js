@@ -7,8 +7,6 @@ import Navbar from './komponente/Navbar';
 import Footer from './komponente/Footer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-
 const footer = ReactDOM.createRoot(document.getElementById('footer'));
 
 

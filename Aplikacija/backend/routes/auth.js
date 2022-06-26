@@ -7,6 +7,6 @@ router.post('/register', register);
 router.post('/login', login);
 router.post('/proveriSifru', proveriSifru);
 router.post('/proveriEmail', proveriEmail);
-router.get('/refresh', refreshAuth,refresh);
+router.post('/refresh', refreshAuth,refresh);
 router.get('/vratiKorisnikaPrekoTokena', vratiKorisnikaPrekoTokena);
 export default router;

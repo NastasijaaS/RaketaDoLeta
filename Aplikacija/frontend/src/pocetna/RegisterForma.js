@@ -47,13 +47,14 @@ const Register = (props) => {
     setGreska((greska) => ({ ...greska, mail: false }))
 
     try {
-        await axios.post('http://localhost:8800/api/auth/proveriMejl', {
+        await axios.post('http://localhost:8800/api/auth/proveriEmail', {
             email: email.current.value
         })
         
     } catch (err) {
         if (err.response?.status === 404) {
             setGreska((greska) => ({ ...greska, mail: true }))
+            console.log(err.response)
         }
     }
 
