@@ -212,7 +212,7 @@ export const obrisiKorisnika = async (req, res) => {
     //res.status(200).json(korisnik)
       await RegistrovaniKorisnik.findOneAndDelete({_id:korisnik.registrovaniKorisnikId})
       await Korisnik.findOneAndDelete({_id:korisnik._id})
-      return res.status(200).json("Account has been deleted");
+      return res.status(200).json("Korisnik je obrisan");
     }
     else
     {

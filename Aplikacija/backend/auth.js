@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import jwt from 'jsonwebtoken';
+import RegistrovaniKorisnik from "../backend/models/RegistrovaniKorisnik.js";
 
 //Lista validnih refresh tokena (cuva se na serverskoj strani, zbog sigurnosti):
 //Ukoliko neko ukrade token, nakon isteka vremena nece moci nista da uradi bez refresh token-a!
@@ -11,7 +12,7 @@ let refreshTokens = [];
 export const generateAccessToken = (user) => {
     //Generise se na osnovu id-ja:
     //console.log(user._id)
-    return jwt.sign({ id: user }, process.env.TOKEN_KEY, { expiresIn: "1m" });
+    return jwt.sign({ id: user }, process.env.TOKEN_KEY, { expiresIn: "1h" });
 
 };
 
@@ -122,5 +123,41 @@ export const refreshAuth = (req, res) => {
         console.log(err);
     }
 };
+
+export const upravaMethod = async (req, res, next) => {
+    try {
+        //Pre ovoga je svakako bio auth, koji u req.user postavlja id korisnika koji je pozvao metodu
+        const users = await RegistrovaniKorisnik.findById(req.user.id);
+
+        if(users.tipKorisnika!="Uprava")
+            return res.status(403).json("Samo uprava moze da pristupi!");
+        else
+            return next();
+        //Prelazi na obradjivanje same metode, sto znaci da je uprava i da ne treba da u metodi
+        //proveravas, pozvace se samo ako se izvrsi ova provera!
+
+    } catch (err) {
+        //console.log("Poruka nastala u auth", err);
+        return res.status(500).json(err.Message);
+    }
+}
+
+export const trenerMethod = async (req, res, next) => {
+    try {
+        //Pre ovoga je svakako bio auth, koji u req.user postavlja id korisnika koji je pozvao metodu
+        const users = await RegistrovaniKorisnik.findById(req.user.id);
+
+        if(users.tipKorisnika!="Trener")
+            return res.status(403).json("Samo trener moze da pristupi!");
+        else
+            return next();
+        //Prelazi na obradjivanje same metode, sto znaci da je uprava i da ne treba da u metodi
+        //proveravas, pozvace se samo ako se izvrsi ova provera!
+
+    } catch (err) {
+        //console.log("Poruka nastala u auth", err);
+        return res.status(500).json(err.Message);
+    }
+}
 
 export default router;

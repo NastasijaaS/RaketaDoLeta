@@ -21,13 +21,13 @@ export const upravaUpdate = async (req, res) => {
       const user = await RegistrovaniKorisnik.findByIdAndUpdate(req.body.registrovaniKorisnikId, {
         $set: req.body,
       });
-      res.status(200).json("Account has been updated");
+      res.status(200).json("Izmenjeno!");
     } catch (err) {
       return res.status(500).json(err);
     }
   }
   else {
-    return res.status(403).json("You can't update this account");
+    return res.status(403).json("Ne mozete da izmenite");
   }
 };
 
