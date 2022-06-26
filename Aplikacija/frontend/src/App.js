@@ -33,37 +33,39 @@ import OdbijeniTreninzi from './profil/Trener/OdbijeniTreninzi';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Fab from '@mui/material/Fab';
 import Rute from './Rute';
+import Loading from './komponente/Loading';
+import { lightTheme, darkTheme } from './komponente/Theme';
 
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#f8af00',
-    },
-    secondary: {
-      main: '#f8af00',
-    },
-    error: {
-      main: '#f83200',
-    },
-  },
-});
+// const darkTheme = createTheme({
+//   palette: {
+//     mode: 'dark',
+//     primary: {
+//       main: '#f8af00',
+//     },
+//     secondary: {
+//       main: '#f8af00',
+//     },
+//     error: {
+//       main: '#f83200',
+//     },
+//   },
+// });
 
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#f8af00',
-    },
-    secondary: {
-      main: '#000000',
-    },
-    error: {
-      main: '#f83200',
-    },
-  },
-});
+// const lightTheme = createTheme({
+//   palette: {
+//     mode: 'light',
+//     primary: {
+//       main: '#f8af00',
+//     },
+//     secondary: {
+//       main: '#000000',
+//     },
+//     error: {
+//       main: '#f83200',
+//     },
+//   },
+// });
 
 
 function App() {
@@ -89,7 +91,7 @@ function App() {
   const theme = mode === 'light' ? darkTheme : lightTheme
 
   if (ucitavaSe) {
-    return <p>ucitava se</p>
+    return <Loading />
   }
   else
     return (

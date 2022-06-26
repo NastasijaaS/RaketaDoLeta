@@ -48,7 +48,7 @@ const TabelaTreneri = () => {
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return <Register setIdTrenera={setIdTrenera} />;
+                return <Register sx = {{margin: '0%'}} setIdTrenera={setIdTrenera} />;
             case 1:
                 return <DodajTrenera idTrenera={idTrenera} />;
             default:
@@ -148,7 +148,7 @@ const TabelaTreneri = () => {
                 &&
                 <Modal onClose={() => { setDodaj(false); handleReset() }}>
                     <Box sx={{ width: '100%' }}>
-                        <Stepper activeStep={activeStep}>
+                        <Stepper sx = {{margin:'1vh'}}activeStep={activeStep}>
                             {steps.map((label, index) => {
                                 const stepProps = {};
                                 const labelProps = {};

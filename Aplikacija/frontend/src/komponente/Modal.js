@@ -1,38 +1,9 @@
-import { Paper, Box, CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { Paper, Box, CssBaseline, ThemeProvider, createTheme, IconButton } from "@mui/material";
 import ReactDOM from "react-dom";
+import CancelIcon from '@mui/icons-material/Cancel';
+import { lightTheme, darkTheme } from "./Theme";
 
 import '../styles/Modal.css'
-
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
-        primary: {
-            main: '#f8af00',
-        },
-        secondary: {
-            main: '#004af8',
-        },
-        error: {
-            main: '#f83200',
-        },
-    },
-});
-
-const lightTheme = createTheme({
-    palette: {
-        mode: 'light',
-        primary: {
-            main: '#f8af00',
-        },
-        secondary: {
-            main: '#004af8',
-        },
-        error: {
-            main: '#f83200',
-        },
-    },
-});
-
 
 const modalRoot = document.getElementById("forma");
 
@@ -47,15 +18,17 @@ const Modal = (props) => {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <Paper>
-                    <div className="pozadina" >
+                    <Box className="poz" >
 
-                        <Box className="modal">
-                            <button className="btnZatvori" onClick={props.onClose}>X</button>
+                        <Box className="modal" sx = {{backgroundColor: 'primary.contrastText'}}>
+                            <IconButton className="btnZatvori" onClick={props.onClose} disableRipple={true}>
+                                <CancelIcon></CancelIcon>
+                            </IconButton>
                             <Box className="modal-body">
                                 {props.children}
                             </Box>
                         </Box>
-                    </div>
+                    </Box>
                 </Paper>
             </ThemeProvider >
             ,

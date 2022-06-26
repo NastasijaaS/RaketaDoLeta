@@ -195,12 +195,14 @@ const ZahteviTrenera = () => {
 
                         <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '1% 0% 1% 1%' }}>
                             <IconButton
+                                disableRipple={true}
                                 sx={{ p: 0, color: 'green' }}
                                 onClick={() => potvrdiZahtev(z.idZahteva)}
                             >
                                 <CheckCircleIcon sx={{ fontSize: "1.5em" }} />
                             </IconButton>
                             <IconButton
+                                disableRipple={true}
                                 sx={{ p: 0, color: 'red' }}
                                 onClick={() => odbijZahtev(z.idZahteva)}
                             >
