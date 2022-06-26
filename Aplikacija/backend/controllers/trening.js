@@ -957,8 +957,15 @@ export const vratiProsleTreninge = async (req, res) => {
                 for (let i = 0; i < treninzi.length; i++) {
 
                     const trening = await Trening.findById(treninzi[i]._id)
+                    if(trening!=null)
+                    {
+                    const korisnik = await Korisnik.findById(trening.clanovi[0])
+                    
+                    const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
 
                     let tr = {
+                        imeK:regK.ime,
+                        prezimeK:regK.prezime,
                         datum:trening?.datum,
                         vreme:trening?.vreme,
                         trener: trening?.trenerId,
@@ -968,8 +975,10 @@ export const vratiProsleTreninge = async (req, res) => {
                     }
                     vrati.push(tr)
                 }
-              
+            
+            }
                 return res.status(200).json(vrati)
+            
             }
             else {
                 res.status(404).json("Nisu pronadjeni prosli treninzi")

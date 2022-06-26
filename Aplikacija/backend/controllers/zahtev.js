@@ -3,6 +3,7 @@ const router = express.Router();
 import Zahtev from "../models/Zahtev.js";
 import Trening from "../models/Trening.js";
 import RegistrovaniKorisnik from "../models/RegistrovaniKorisnik.js"
+import Korisnik from "../models/Korisnik.js"
 
 
 //obrisi zahtev
@@ -30,7 +31,7 @@ export const vidiZahteve = async (req, res) => {
                 return res.status(200).json(zahtev)
             }
             else {
-                return res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+                return res.status(404).json("ne postoji zahtev za trenera")
             }
 
         }
@@ -61,7 +62,7 @@ export const vidiZahteveZaKorisnika = async (req, res) => {
                 return res.status(200).json(zahtev)
             }
             else {
-                return res.status(404).json("ne postoji dodat napredak za ovog klijenta")
+                return res.status(404).json("ne postoji zahtev za klijenta")
             }
 
         }
@@ -143,16 +144,28 @@ export const vratiZahteveOdbijeni = async (req, res) => {
 export const napraviZahtevTrener =async (req, res) => {
 
   try {
+    
+    const korisnik = await Korisnik.findById(req.body.idKorisnika)
+    
+    console.log(korisnik)
+    if(korisnik!=null)
+    {
+    
 
       const zahtev = await new Zahtev({
-        poruka: req.params.poruka
+        poruka: req.body.poruka,
+        registrovaniKorisnikId:korisnik.registrovaniKorisnikId
       })
 
       const zahtevSave = await zahtev.save()
       return res.status(200).json(zahtev)
 
     }
-
+    else
+    {
+      return res.status(404).json("Korisnik nije pronadjen")
+    }
+  }
   catch (err) {
     return res.status(500).json(err);
   }
