@@ -169,7 +169,7 @@ const NavbarTrener = () => {
                         <NoviZahtev />
                     </Box>
 
-                    {/* {user && <Zvonce user={user.id} status={"Ukinuto"} />} */}
+                     {user && <Zvonce user={user.id} status={"Ukinuto"} />} 
 
                     <Tooltip title="Account">
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>

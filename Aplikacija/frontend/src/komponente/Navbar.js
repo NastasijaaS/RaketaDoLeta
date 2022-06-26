@@ -264,7 +264,9 @@ const Navbar = ({ check, change }) => {
             }
             {user &&
               <Box display='inline-flex'>
-                {/* <Zvonce user={user.id} /> */}
+
+                <Zvonce user={user.id} />
+                
                 <Tooltip title="Account">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, color: 'white' }}>
                     <AccountCircleOutlinedIcon />

@@ -64,23 +64,20 @@ const Zvonce = ({ iconColor, user, status }) => {
         const get = async () => {
             await axiosPrivate.get(url).then(res => {
                 if (res.status === 200) {
-                   
+
                     if (res.data && data !== res.data) {
                         setData(res.data)
                     }
+                    console.log(data)
                 }
             }).catch((error) => {
                 alert('Doslo je do greske')
                 console.log(error)
             });
         }
-        
 
         get()
 
-        // if (data !== data1) {
-        //     setData(data1)
-        // }
     }, [refresh])
 
     // setInterval(() => {
@@ -106,12 +103,12 @@ const Zvonce = ({ iconColor, user, status }) => {
         <div>
             <Tooltip title={data.length ? newNotifications : noNotifications}>
                 <IconButton
-                    sx={{ color: 'white' }}
-                    onClick={data.length ? handleOpen : null}
+                    // sx={{ color: 'white' }}
+                    onClick={data?.length ? handleOpen : null}
                 //  anchorEl={anchorEl}
                 >
                     <Badge
-                        badgeContent={data.length}
+                        badgeContent={data?.length}
                         color="error"
                     >
                         <NotificationsIcon />
@@ -123,6 +120,8 @@ const Zvonce = ({ iconColor, user, status }) => {
                 open={open}
                 handleClose={handleClose}
                 menuItems={data}
+                anchorEl={anchorEl}
+                refresh = { () => setRefresh(!refresh)}
             />
 
         </div>

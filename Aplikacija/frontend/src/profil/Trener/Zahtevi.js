@@ -44,6 +44,7 @@ const ZahteviTrenera = () => {
                 if (res.data) {
                     setZahtevi(res.data)
                 }
+                console.log(res.data)
                 setIsLoading(false)
             }
             catch (err) {

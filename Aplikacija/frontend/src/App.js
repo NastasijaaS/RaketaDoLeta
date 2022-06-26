@@ -151,7 +151,7 @@ function App() {
 
 
               <Route path='/RDL/trener/korisnici'
-                element={ user?.tip === 'Trener' ?
+                element={user?.tip === 'Trener' ?
                   <KorisniciTrenera /> : <Navigate replace to="/pocetna" />} />
 
               <Route path='/RDL/trener/:username/zahtevi'

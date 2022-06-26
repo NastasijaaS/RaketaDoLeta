@@ -44,6 +44,7 @@ const useRefreshToken = (props) => {
         }
         catch(err){
             alert('Doslo je do greske')
+            console.log(err)
             dispatch(Odjavi())
         }
        

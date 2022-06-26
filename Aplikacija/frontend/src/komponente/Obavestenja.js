@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import Menu from '@mui/material/Menu';
 import Delete from '@mui/icons-material/Delete';
 import { DeleteMetoda } from './Fetch';
-import { ListItemText, Typography, ListItem, Divider, Box, ListItemIcon } from '@mui/material';
+import { ListItemText, Typography, ListItem, Divider, Box, ListItemIcon, ButtonBase } from '@mui/material';
 import useAxiosPrivate from '../api/useAxiosPrivate';
 
 
-const Obavestenja = async ({  handleClose, open, menuItems }) => {
-  console.log(menuItems)
+const Obavestenja =  ({  handleClose, open, menuItems, anchorEl,refresh }) => {
+  //console.log(menuItems)
 
   const axiosPrivate = useAxiosPrivate()
 
@@ -15,7 +15,7 @@ const Obavestenja = async ({  handleClose, open, menuItems }) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const obrisiZahtev = async (id) => {
-
+console.log(id)
     const zahtev = {
       url: 'http://localhost:8800/api/zahtev/obrisiZahtev/' + id
     }
@@ -34,6 +34,7 @@ const Obavestenja = async ({  handleClose, open, menuItems }) => {
       alert('Doslo je do greske')
     }
 
+    refresh()
     handleClose()
   }
 
@@ -41,6 +42,7 @@ const Obavestenja = async ({  handleClose, open, menuItems }) => {
     <Menu
       open={open}
       onClose={handleClose}
+      anchorEl={anchorEl}
     >
 
       {menuItems.map((item) => (
@@ -60,9 +62,9 @@ const Obavestenja = async ({  handleClose, open, menuItems }) => {
                 </Typography>
               }
             />
-            <ListItemIcon className='cardCenter' sx={{ marginTop: '0%', marginLeft: '2px', minWidth: '0px' }}>
+            <ButtonBase className='cardCenter' sx={{ marginTop: '0%', marginLeft: '2px', minWidth: '0px' }}>
               <Delete onClick={() => { obrisiZahtev(item._id) }} />
-            </ListItemIcon>
+            </ButtonBase>
           </ListItem>
           <Divider />
         </Box>
