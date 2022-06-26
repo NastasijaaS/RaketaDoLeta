@@ -111,10 +111,6 @@ const KorisnikVeliko = (props) => {
                             <DodajNapredak prvi={prvi} napredakId={k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />
                         </Modal>
                         }
-                        {evidencija && <Modal onClose={() => { setEvidencija(false) }}>
-                            <DodajEvidenciju idKorisnika={k.idkorisnika} onClose={() => { setEvidencija(false) }} />
-                        </Modal>
-                        }
                     </Card>
                 </Grid>
                 <Grid item xs={12} md={9} sx={{ maxHeight: '75vh' }}>

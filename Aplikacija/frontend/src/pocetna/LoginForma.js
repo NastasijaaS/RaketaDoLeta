@@ -16,8 +16,6 @@ const LogIn = (props) => {
     const [greska, setGreska] = useState({ mail: false, lozinka: false });
     const [alert, setAlert] = useState({ prikazi: false, tip: 'error', greska: '' })
 
-    // const mail = useRef('')
-    // const lozinka = useRef('')
     const [mail, setMail] = useState('');
     const [lozinka, setLozinka] = useState('');
 
@@ -67,18 +65,6 @@ const LogIn = (props) => {
 
         let pom = validacija();
 
-        // const Email = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
-
-        // if (mail === '' || !mail.match(Email)) {
-        //     setGreska((greska) => ({ ...greska, mail: true }))
-        //     pom = false
-        // }
-
-        // if (lozinka === '' || lozinka.length < 6) {
-        //     setGreska((greska) => ({ ...greska, lozinka: true }))
-        //     pom = false
-        // }
-
         if (pom === true) {
 
             let nesto = ''
@@ -97,25 +83,12 @@ const LogIn = (props) => {
                 }
                 else if (error.response.status === 400) {
                     nesto = 'Pogresna lozinka'
-                    // dispatch(LoginFailure(nesto))
                 }
                 else {
                     nesto = 'doslo je do greske'
                 }
 
             });
-
-
-            // const zahtev = {
-            //     url: 'http://localhost:8800/api/auth/login',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: { 'email': mail, 'password': lozinka }
-            // }
-
-            //  await LoginMetoda(zahtev, dispatch)
 
             if (nesto !== '') {
                 setAlert({ prikazi: true, tip: 'error', greska: nesto })
@@ -151,8 +124,6 @@ const LogIn = (props) => {
                     size="small"
                 />
 
-                {/* {greska.mail && <p className='greska'>Molimo unesite ispravnu e-mail adresu</p>} */}
-
                 <TextField
                     className='loginInp'
                     value={lozinka}
@@ -164,8 +135,6 @@ const LogIn = (props) => {
                     color="primary"
                     size="small"
                 />
-
-                {/* {greska.lozinka && <p className='greska'>Lozinka mora imati najmanje 6 karaktera</p>} */}
 
                 {ucitavaSe && <CircularProgress size='2rem' disableShrink />}
 

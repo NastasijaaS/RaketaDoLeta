@@ -158,6 +158,7 @@ const NavbarTrener = () => {
                             letterSpacing: '.2rem',
                             color: 'white',
                             textDecoration: 'none',
+                            flexGrow: '1'
                         }}
                     >
                         RDL

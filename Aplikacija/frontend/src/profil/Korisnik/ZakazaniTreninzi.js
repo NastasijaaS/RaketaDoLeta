@@ -99,23 +99,6 @@ const ZakazaniTreninzi = () => {
     return (
         <Box className='marginS'>
 
-            {/* <Modal
-            sx={{ display: 'flex', justifyContent: 'center' }}
-            open={(zakazaniTreninzi || grupniTreninzi) ? true : false}
-            onClose={() => navigate("../profil", { replace: true })}
-        >
-            <Alert
-                severity="error"
-                sx={{
-                    height: 100,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignSelf: 'center'
-                }}
-
-            >Doslo je do greske prilikom ucitavanja ):</Alert>
-        </Modal> */}
-
             <Box className="zakazaniTreninzi">
                 <Typography gutterBottom variant="h4" component="div" textAlign="center">Personalni treninzi</Typography>
 

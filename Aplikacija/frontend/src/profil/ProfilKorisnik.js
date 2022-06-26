@@ -118,10 +118,6 @@ const Korisnik = (props) => {
 
 
         setIzmeniPodatke(true)
-        // console.log(korisnik)
-        // console.log(user)
-
-        // window.location.reload()
     }
 
     let navigate = useNavigate()
@@ -130,24 +126,6 @@ const Korisnik = (props) => {
         <Box sx={{ padding: "5% 5%" }}>
 
             {isLoading && <CircularProgress size='2rem' disableShrink />}
-
-
-            {/* <Modal
-                sx={{ display: 'flex', justifyContent: 'center' }}
-                open={greska ? true : false}
-                onClose={() => navigate(-1)}
-            >
-                <Alert
-                    severity="error"
-                    sx={{
-                        height: 100,
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignSelf: 'center'
-                    }}
-
-                >Doslo je do greske prilikom ucitavanja ):</Alert>
-            </Modal> */}
 
             {/* <Typography display='flex' mb={5} justifyContent="center" variant="h4" >{user.ime} {user.prezime}</Typography> */}
             <Grid container spacing={2}>
@@ -192,10 +170,6 @@ const Korisnik = (props) => {
                             {izmena && <Button mb={2} variant="outlined" fullWidth onClick={() => { setIzmena(false) }}>Promeni lozinku</Button>}
                             {!izmena &&
                                 <IzmeniLozinku onClose={() => { setIzmena(true) }} />
-                                // <Container className='lozinka'>
-                                //     {!novaLozinka && <Lozinka tekst='Unesite staru lozinku' OKonClick={proveriLozinku} />}
-                                //     {novaLozinka && <Lozinka tekst='Unesite novu lozinku' OKonClick={izmeniLozinku} />}
-                                // </Container>
                             }
                         </CardActions>
                     </Card>

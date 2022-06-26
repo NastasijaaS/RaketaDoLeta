@@ -26,25 +26,6 @@ const Trener = (props) => {
     const [noviTermini, setNoviTermini] = useState(false)
 
 
-    // useEffect(() => {
-    //    // GetData("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId, setTreninzi, setGreska, setIsLoading)
-
-    //     const get = async () => {
-    //         try {
-    //             const res = await axiosPrivate.get("http://localhost:8800/api/trener/vratiTreninge/" + user.trenerId)
-    //             if (res.status === 200) {
-    //                 setTreninzi(res.data)
-    //             }
-    //         }
-    //         catch (err) {
-    //             alert('Doslo je do greske prilikom ucitavanja')
-    //         }
-    //     }
-
-    //     get()
-
-    // }, [])
-
     const promeniTab = (event, newValue) => {
         setValue(newValue);
     };
@@ -111,6 +92,7 @@ const Trener = (props) => {
                                 <FormaDodajTermin idTrenera={user.trenerId} onClose={() => { setNoviTermini(false) }} />
                             </Modal>
                         }
+                        
                         {/* <Grid container spacing={2} >
                                     {treninziGrupni.map((tr) => (
                                         <Grid item xs={12} sm={6} md={4} lg={3}>

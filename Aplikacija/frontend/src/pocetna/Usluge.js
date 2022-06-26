@@ -40,29 +40,8 @@ const Usluge = () => {
                         <Typography gutterBottom>
                             {usl.opis}
                         </Typography>
-                        {/* <Button variant='contained' fullWidth>Cena:{usl.cena}</Button> */}
                     </AccordionDetails>
                 </Accordion>
-
-                // <div key={usl._id} >
-
-                //     {prikaziOpis !== i && <div className="usluga" onClick={() => setPrikaziOpis(i)}>
-                //         <span className="nazivUsluge">{usl.naziv}</span>
-                //         <span className="cenaUsluge">Cena: {usl.cena}</span>
-                //     </div>}
-
-                //     {prikaziOpis === i &&
-                //         <Fragment>
-                //             <div className="usluga" onClick={() => setPrikaziOpis(-1)}>
-                //                 <span className="nazivUsluge">{usl.naziv}</span>
-                //                 <span className="cenaUsluge">Cena: {usl.cena}</span>
-                //             </div>
-                //             <div>
-                //                 <p>{usl.opis}</p>
-                //             </div>
-                //         </Fragment>
-                //     }
-                // </div>
             ))}
 
         </div >

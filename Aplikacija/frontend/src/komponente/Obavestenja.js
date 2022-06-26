@@ -31,7 +31,7 @@ const Obavestenja = async ({  handleClose, open, menuItems }) => {
 
 
     if (greska !== false) {
-      alert('doslo je do greske')
+      alert('Doslo je do greske')
     }
 
     handleClose()
@@ -39,8 +39,6 @@ const Obavestenja = async ({  handleClose, open, menuItems }) => {
 
   return (
     <Menu
-      // id="basic-menu"
-      // anchorEl={anchorEl}
       open={open}
       onClose={handleClose}
     >
@@ -51,11 +49,8 @@ const Obavestenja = async ({  handleClose, open, menuItems }) => {
             alignItems="flex-start"
           >
             <ListItemText
-              // primary={item.status}
-              // sx = { {display: 'flex'}}
               secondary={
                 <Typography
-                  // sx={{ display: 'inline', alignItems: 'center'}}
                   component="div"
                   variant="body2"
                   color="text.primary"
@@ -72,8 +67,6 @@ const Obavestenja = async ({  handleClose, open, menuItems }) => {
           <Divider />
         </Box>
       ))}
-
-      {/* </List> */}
     </Menu>
 
   )

@@ -1,11 +1,10 @@
 import { useLocation, } from "react-router-dom";
 import { Card, CardContent, CardMedia, Grid, Paper, Typography } from '@mui/material';
 import '../styles/blog.css'
-import '../styles/blog.css'
 import { Box, Container } from "@mui/system";
 
 const VelikiBlog = (props) => {
-    // const { state } = props.location
+
     console.log(props)
 
     const location = useLocation();
@@ -13,13 +12,6 @@ const VelikiBlog = (props) => {
     console.log(location.state)
 
     const blog = location.state
-
-    //datum
-    //naslov
-    //slika
-    //tagovi
-    //kratakopis
-    //tekst
 
     return (
         <Card className="marginaVeliki" elevation={3} >

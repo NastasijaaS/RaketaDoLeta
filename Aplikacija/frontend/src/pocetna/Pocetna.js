@@ -1,8 +1,5 @@
-import '../styles/pocetnan.css'
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { HashLink } from 'react-router-hash-link';
-import { UserContext } from '../context/UserContext';
 import { Button, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Carousel } from 'react-carousel-minimal';

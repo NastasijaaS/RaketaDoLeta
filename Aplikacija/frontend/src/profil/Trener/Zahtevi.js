@@ -213,18 +213,6 @@ const ZahteviTrenera = () => {
                         }
 
                     </Box>
-                    // <div key={i}>
-                    //     <p>Datum: {z.datum}</p>
-                    //     <p>Vreme: {z.vreme}</p>
-                    //     <p>Trajanje: {z.trajanje}</p>
-                    //     <p>{z.imeT} {z.prezimeT}</p>
-                    //     <p>Broj telefona: {z.brojtelefonaT}</p>
-                    //     <p>Intenzitet: {z.intenzitet}</p>
-                    //     <p>Tip: {z.tip}</p>
-                    //     <Button onClick={() => { odbijZahtev(z.idZahteva) }}>otkazi</Button>
-                    //     <Button onClick={() => { potvrdiZahtev(z.idZahteva) }}>potvrdi</Button>
-
-                    // </div>
                 ))
             }
 

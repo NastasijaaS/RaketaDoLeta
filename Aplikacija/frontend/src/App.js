@@ -19,13 +19,11 @@ import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
 import ZakazaniTreninzi from './profil/Korisnik/ZakazaniTreninzi';
 import Napredak from './profil/Korisnik/Napredak';
 import GrupniTreninzi from './pocetna/GrupniTreninzi';
-import Zelje from './pocetna/FormaZaZelje';
 import VelikiBlog from './pocetna/VelikiBlog'
 import NavbarTrener from './komponente/NavbarTrener';
 import Tabela from './profil/Uprava/TabelaKorisnici';
 import ZahteviTrenera from './profil/Trener/Zahtevi';
 import TreninziTrenera from './profil/Trener/Treninzi';
-import TaboviLevo from './komponente/TaboviLevo';
 import KorisniciTrenera from './profil/Trener/Korisnici';
 import NavbarUprava from './komponente/NavbarUprava';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
@@ -65,20 +63,13 @@ const lightTheme = createTheme({
     },
   },
 });
-const fabStyle = {
-  position: 'absolute',
-  bottom: 16,
-  right: 16,
-};
 
-const ColorModeContext = createContext({ toggleColorMode: () => { } });
 
 function App() {
 
   const { user } = useContext(UserContext);
 
   const prefersDarkMode = window.matchMedia && window.matchMedia('refers-color-scheme: dark').matches
-  //useMediaQuery('(prefers-color-scheme: dark)');
 
   if (!sessionStorage.getItem('tema')) {
     sessionStorage.setItem('tema', prefersDarkMode ? 'dark' : 'light')
@@ -94,23 +85,6 @@ function App() {
 
   const theme = mode === 'light' ? darkTheme : lightTheme
 
-  // createTheme({
-  //   palette: {
-  //     mode,
-  //   },
-  // })
-
-  // useMemo(
-  //   () =>
-  //     createTheme({
-  //       palette: {
-  //         mode,
-  //       },
-  //     }),
-  //   [mode],
-  // );
-
-
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -118,12 +92,6 @@ function App() {
         <Router>
           <ScrollToTop enableColorScheme />
 
-          {/* <div >{theme.palette.mode} mode
-            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-              <Brightness7Icon />
-            </IconButton></div> */}
-
-          {/* <Navbar check={mode} change={() => setMode(!mode)} /> */}
           {
             (user && user.tip === 'Uprava' && <NavbarUprava />)
             ||
@@ -156,11 +124,8 @@ function App() {
 
             {/* <Route path='/signup' element={<Register />} /> */}
 
-            <Route path='/registracija/podaci' element={<Zelje />} />
-
             <Route path='/profil' element=
               {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />} />
-
             {/* <Route path='/RDL/uprava/:username' element={<Uprava />} /> */}
 
             <Route path='/napredak' element={<Napredak />} />
@@ -201,9 +166,7 @@ function App() {
             left: 'auto',
             position: 'fixed'
           }} onClick={toggleColorMode}>
-            {/* <IconButton> */}
             {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-            {/* </IconButton> */}
           </Fab>
           {(user && user.tip === 'Korisnik') && <Footer />}
           {(!user) && <Footer />}
@@ -214,35 +177,5 @@ function App() {
     </>
   );
 }
-
-// function ToggleColorMode() {
-//   const [mode, setMode] = useState();
-//   const colorMode = useMemo(
-//     () => ({
-//       toggleColorMode: () => {
-//         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-//       },
-//     }),
-//     [],
-//   );
-
-//   const theme = useMemo(
-//     () =>
-//       createTheme({
-//         palette: {
-//           mode,
-//         },
-//       }),
-//     [mode],
-//   );
-
-//   return (
-//     <ColorModeContext.Provider value={colorMode}>
-//       <ThemeProvider theme={theme}>
-//         <App />
-//       </ThemeProvider>
-//     </ColorModeContext.Provider>
-//   );
-// }
 
 export default App;

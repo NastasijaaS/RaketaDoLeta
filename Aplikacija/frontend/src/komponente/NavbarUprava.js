@@ -11,27 +11,11 @@ const NavbarUprava = () => {
 
     const { user, dispatch } = useContext(UserContext);
 
-    // const pages = [
-    //     { val: 'Profil', link: '/profil' },
-    //     { val: 'Korisnici', link: `/RDL/trener/korisnici` },
-    //     { val: 'zahtevi', link: `/RDL/trener/${user.ime}/zahtevi` },
-    //     { val: 'Treninzi', link: `/RDL/trener/${user.ime}/treninzi` },
-    // ];
-
-    // const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
-
-    // const handleOpenNavMenu = (event) => {
-    //     setAnchorElNav(event.currentTarget);
-    // };
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
-
-    // const handleCloseNavMenu = () => {
-    //     setAnchorElNav();
-    // };
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
@@ -68,7 +52,8 @@ const NavbarUprava = () => {
 
 
                     {/*ZA MOBILNI SREDINA */}
-                    <RocketLaunchOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color:'white' }} />
+
+                    <RocketLaunchOutlinedIcon sx={{ display: { xs: 'block', md: 'none' }, mr: 1, color:'white' }} />
                     <Typography
                         variant="h5"
                         noWrap
@@ -76,8 +61,8 @@ const NavbarUprava = () => {
                         href="/profil"
                         sx={{
                             mr: 2,
-                            display: { xs: 'flex', md: 'none' },
-                            flexGrow: 1,
+                            display: { xs: 'block', md: 'none' },
+                            flexGrow: '1',
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.2rem',

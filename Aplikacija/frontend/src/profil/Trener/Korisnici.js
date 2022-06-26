@@ -64,13 +64,6 @@ const KorisniciTrenera = () => {
             console.error(error.response)
         }
 
-
-
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-        // }
-
-        // window.location.reload(false);
         setRefresh(!refresh)
 
     }

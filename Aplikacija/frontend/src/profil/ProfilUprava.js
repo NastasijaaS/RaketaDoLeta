@@ -55,7 +55,7 @@ export const Uprava = () => {
                         <Tab label="Neverifikovani nalozi" />
                         <Tab label="Usluge" />
                         <Tab label="Treneri" />
-                        <Tab label="Treninzi" />
+                        {/* <Tab label="Treninzi" /> */}
 
                     </Tabs>
                 </Grid>
