@@ -121,10 +121,7 @@ export const vidiEvidenciju = async (req, res) => {
                         let vratiDatume = []
                         for (let i = 0; i < evidencija.datumi.length; i++) 
                         {
-                            let tre= 
-                            {
-                                datumi:evidencija.datumi[i].toLocaleDateString()
-                            }
+                            let tre= evidencija.datumi[i].toLocaleDateString()
                             vratiDatume.push(tre)
                         }
                         
