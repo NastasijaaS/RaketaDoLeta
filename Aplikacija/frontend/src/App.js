@@ -8,7 +8,7 @@ import Blog from './pocetna/Blog'
 import Register from './pocetna/RegisterForma';
 import ScrollToTop from './komponente/ScrollToTop';
 import UserPocetna from './pocetna/UserPocetna';
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext, Suspense, useContext, useMemo, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, NavigationType } from "react-router-dom";
 import { UserContext } from './context/UserContext';
 import { CssBaseline, IconButton } from '@mui/material';
@@ -32,6 +32,7 @@ import KorisnikVeliko from './profil/Trener/KorisnikVeliko'
 import OdbijeniTreninzi from './profil/Trener/OdbijeniTreninzi';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Fab from '@mui/material/Fab';
+import Rute from './Rute';
 
 
 const darkTheme = createTheme({
@@ -67,7 +68,9 @@ const lightTheme = createTheme({
 
 function App() {
 
-  const { user } = useContext(UserContext);
+  const { user, ucitavaSe } = useContext(UserContext);
+  console.log(ucitavaSe)
+  console.log(user)
 
   const prefersDarkMode = window.matchMedia && window.matchMedia('refers-color-scheme: dark').matches
 
@@ -85,101 +88,113 @@ function App() {
 
   const theme = mode === 'light' ? darkTheme : lightTheme
 
-  return (
-    <>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <ScrollToTop enableColorScheme />
+  if (ucitavaSe) {
+    return <p>ucitava se</p>
+  }
+  else
+    return (
 
-          {
-            (user && user.tip === 'Uprava' && <NavbarUprava />)
-            ||
-            ((user && user.tip === 'Trener') ? (<NavbarTrener />) : <Navbar check={mode} change={() => setMode(!mode)} />)
-          }
+      <>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
 
+          <Router>
+            <ScrollToTop enableColorScheme />
 
-          <Routes>
-
-            <Route path='/' element={<Pocetna />} />
-
-            <Route path='/pocetna' element={<Pocetna />} />
-
-            <Route path='/treneri' element={<Treneri />} />
-
-            <Route path='/onama' element={<Onama />} />
-
-            <Route path='/usluge' element={<Usluge />} />
-
-            <Route path='/blog' element={<Blog />} />
-
-            <Route path='/blog/:tag/:naslov' element={<VelikiBlog />} />
-
-            <Route path='/login' element=
-              {user ? <Navigate replace to="/profil" /> : <LogIn />} />
+            {
+              (user?.tip === 'Uprava' && <NavbarUprava />)
+              ||
+              (user?.tip === 'Trener' ? <NavbarTrener /> : <Navbar check={mode} change={() => setMode(!mode)} />)
+            }
 
 
-            <Route path='/signup' element=
-              {user ? <Navigate replace to="/profil" /> : <Register />} />
+            <Routes>
 
-            {/* <Route path='/signup' element={<Register />} /> */}
+              <Route path='/' element={<Pocetna />} />
 
-            <Route path='/profil' element=
-              {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />} />
-            {/* <Route path='/RDL/uprava/:username' element={<Uprava />} /> */}
+              <Route path='/pocetna' element={<Pocetna />} />
 
-            <Route path='/napredak' element={<Napredak />} />
-            <Route path='/vasitreninzi' element={<ZakazaniTreninzi />} />
+              <Route path='/treneri' element={<Treneri />} />
 
-            <Route path='/grupnitreninzi' element={<GrupniTreninzi />} />
+              <Route path='/onama' element={<Onama />} />
 
-            {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
+              <Route path='/usluge' element={<Usluge />} />
 
-            { }
-            <Route path='/RDL/trener/korisnici'
-              element={user && user.tip === 'Trener' ?
-                <KorisniciTrenera /> : <Navigate replace to="/pocetna" />} />
+              <Route path='/blog' element={<Blog />} />
 
-            <Route path='/RDL/trener/:username/zahtevi'
-              element={user && user.tip === 'Trener' ?
-                <ZahteviTrenera /> : <Navigate replace to="/pocetna" />} />
+              <Route path='/blog/:tag/:naslov' element={<VelikiBlog />} />
 
+              <Route path='/login' element=
+                {user ? <Navigate replace to="/profil" /> : <LogIn />} />
+
+
+              <Route path='/signup' element=
+                {user ? <Navigate replace to="/profil" /> : <Register />} />
+
+              {/* <Route path='/signup' element={<Register />} /> */}
+
+              <Route path='/profil' element=
+                {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />} />
+              {/* <Route path='/RDL/uprava/:username' element={<Uprava />} /> */}
+
+              <Route path='/napredak' element={<Napredak />} />
+              <Route path='/vasitreninzi' element={<ZakazaniTreninzi />} />
+
+              <Route path='/grupnitreninzi' element={<GrupniTreninzi />} />
+
+              {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
+
+
+              {/* <Route element={<Rute />}>
+              <Route path="/RDL/trener/korisnici" element={<KorisniciTrenera />} />
+            </Route> */}
+
+
+              <Route path='/RDL/trener/korisnici'
+                element={ user?.tip === 'Trener' ?
+                  <KorisniciTrenera /> : <Navigate replace to="/pocetna" />} />
+
+              <Route path='/RDL/trener/:username/zahtevi'
+                element={user?.tip === 'Trener' ?
+                  <ZahteviTrenera /> : <Navigate replace to="/pocetna" />} />
+              {/* 
             <Route path='/RDL/trener/:username/treninzi'
-              element={user && user.tip === 'Trener' ?
-                <TreninziTrenera /> : <Navigate replace to="/pocetna" />} />
+              element={!ucitavaSe && user && user.tip === 'Trener' ?
+                <TreninziTrenera /> : <Navigate replace to="/pocetna" />} /> */}
 
-            <Route path='/trener/korisnik/:ime'
-              element={user && user.tip === 'Trener' ?
-                <KorisnikVeliko /> : <Navigate replace to="/pocetna" />} />
+              <Route path='/trener/korisnik/:ime'
+                element={user?.tip === 'Trener' ?
+                  <KorisnikVeliko /> : <Navigate replace to="/pocetna" />} />
 
-            <Route path='/RDL/trener/odbijenizahtevi'
-              element={user && user.tip === 'Trener' ?
-                <OdbijeniTreninzi /> : <Navigate replace to="/pocetna" />
-              } />
+              <Route path='/RDL/trener/odbijenizahtevi'
+                element={user?.tip === 'Trener' ?
+                  <OdbijeniTreninzi /> : <Navigate replace to="/pocetna" />
+                } />
 
-            <Route path="*" element={<p>There's nothing here: 404!</p>} />
+              <Route path="*" element={<p>There's nothing here: 404!</p>} />
 
-          </Routes>
-          <Fab sx={{
-            margin: 0,
-            top: 'auto',
-            right: 20,
-            bottom: 20,
-            left: 'auto',
-            position: 'fixed'
-          }} onClick={toggleColorMode}>
-            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </Fab>
+            </Routes>
+            <Fab sx={{
+              margin: 0,
+              top: 'auto',
+              right: 20,
+              bottom: 20,
+              left: 'auto',
+              position: 'fixed'
+            }} onClick={toggleColorMode}>
+              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </Fab>
 
 
-          {(!user && user?.tip === 'Korisnik') && <Footer />}
-          {/* {(!user) && <Footer />} */}
+            {(!user || user?.tip === 'Korisnik') && <Footer />}
+            {/* {(!user) && <Footer />} */}
 
-        </Router>
-      </ThemeProvider >
+          </Router>
 
-    </>
-  );
+        </ThemeProvider >
+
+      </>
+    );
 }
 
 export default App;

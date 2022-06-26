@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Carousel } from 'react-carousel-minimal';
@@ -7,12 +7,17 @@ import { UserContext } from "../context/UserContext";
 
 const Pocetna = () => {
     //const toTop = () => window.scrollTo(0,0)
-  const { user, ucitavaSe } = useContext(UserContext)
+    const { user, ucitavaSe } = useContext(UserContext)
     // let navigate = useNavigate()
     // if (user) navigate(-1)
 
     // console.log(ucitavaSe)
-   
+
+    // const navigate = useNavigate()
+    // const location = useLocation()
+    // const from = location.state?.from?.pathname || "/";
+
+    // if (user) navigate(from, { replace: true })
 
     const data = [
         {
