@@ -116,13 +116,22 @@ export const vidiEvidenciju = async (req, res) => {
                 {
               
                     const evidencija = await Evidencija.findOne({ korisnikId: req.params.idKorisnika })
+                    
                     if (evidencija != null) {
+                        let vratiDatume = []
+                        for (let i = 0; i < evidencija.datumi.length; i++) 
+                        {
+                            let tre= evidencija.datumi[i].toLocaleDateString()
+                            vratiDatume.push(tre)
+                        }
+                        
                         let vrati = {
                             imeKorisnika: regK.ime,
                             prezimeKorisnika: regK.prezime,
                             tipTreninga: evidencija.tipTreninga,
                             intenziteti: evidencija.intenziteti,
-                            datumi:evidencija.datumi
+                            datumi:vratiDatume
+                            //datumi:evidencija.datumi
                         }
                         return res.status(200).json(vrati)
                     }
