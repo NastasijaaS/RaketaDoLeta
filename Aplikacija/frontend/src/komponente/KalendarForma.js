@@ -53,7 +53,7 @@ const KalendarForma = (props) => {
     let dateDO = new Date()
     dateDO.setDate(dateOD.getDate() + 7)
 
-    const [termin, setTermin] = useState({ status: false, datum: new Date().toDateString(), vreme: '', trajanje: '' })
+    const [termin, setTermin] = useState({ status: true, datum: new Date().toDateString(), vreme: '', trajanje: '' })
 
     const prikaziTermine = async (ev) => {
 
@@ -133,9 +133,8 @@ const KalendarForma = (props) => {
 
                 <>
 
-                    {
-                        props.idUsluge && <RasporedGrupni idUsluge={props.idUsluge} datum={termin.datum} />
-                    }
+                    {props.idUsluge && <RasporedGrupni idUsluge={props.idUsluge} datum={termin.datum} />}
+
                     {props.idTrenera && <RasporedTrener idTrenera={props.idTrenera} datum={termin.datum} />}
 
                 </>

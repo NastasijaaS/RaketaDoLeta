@@ -49,36 +49,28 @@ const RasporedTrener = (props) => {
                     if (res.data) {
                         setTermini(res.data)
                     }
-                   
-
                     res = await axiosPrivate.get(`http://localhost:8800/api/trening/vratiTreningeGrupni/${props.idTrenera}/${props.datum}`)
 
                     if (res.data) {
                         setGrupniTreninzi(res.data)
                     }
-                   
-                    
                 }
                 else {
-                    const res = await axiosPrivate.get("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId)
-                    console.log(res)
-                    if (res.data) {
-                        setTreninzi(res.data)
-                    }
-                   
-                }
 
+                    // const res = await axiosPrivate.get("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId)
+                    // console.log(res)
+                    // if (res.data) {
+                    //     setTreninzi(res.data)
+                    // }
+                }
             }
             catch (err) {
                 if (err.response?.status !== 404) {
                     alert('Doslo je do greske')
                 }
-                
             }
         }
-
         get()
-
     }, [props.datum, reload])
 
     const unesiEvidenciju = async (treningId, korisnikId) => {
@@ -102,12 +94,6 @@ const RasporedTrener = (props) => {
 
     const obrisiTrening = async (treningId) => {
 
-        // const zahtev = {
-        //     url: 'http://localhost:8800/api/trening/obrisiTrening/' + treningId,
-        // }
-
-        // DeleteMetoda(zahtev, setData, setGreska, setIsLoading)
-
         try {
             await axiosPrivate.delete('http://localhost:8800/api/trening/obrisiTrening/' + treningId)
         } catch (err) {
@@ -125,6 +111,8 @@ const RasporedTrener = (props) => {
                     sx={{ maxWidth: 650 }} size="small" >
                     <TableHead>
                         <TableRow>
+                            {props.treninzi && <TableCell align="right">Datum</TableCell>}
+
                             {row.map((r, i) => (
                                 <TableCell key={i} align="right">{r}</TableCell>
                             ))}
@@ -136,9 +124,12 @@ const RasporedTrener = (props) => {
                         {niz.map((t, i) => (
                             <TableRow key={i}>
 
+                                {t.datum && <TableCell align="right">{t.datum}</TableCell>}
+
                                 <TableCell align="right"> {t.vreme}</TableCell>
                                 <TableCell align="right">{t.trajanje}</TableCell>
                                 <TableCell align="right">{t.intenzitet}</TableCell>
+
 
                                 {t.imeK && <TableCell align="right">{t.imeK} {t.prezimeK}</TableCell>}
                                 {t.brojSlobodnihMesta && <TableCell align="right">{t.brojSlobodnihMesta}</TableCell>}
@@ -163,7 +154,6 @@ const RasporedTrener = (props) => {
 
     return (
         <Fragment>
-
             {props.datum ?
                 <Fragment>
                     <Typography variant='h5' >Personalni treninzi</Typography>
@@ -185,15 +175,14 @@ const RasporedTrener = (props) => {
                 </Fragment>
                 :
                 <Fragment>
-                    {treninzi.length !== 0 ?
+                    {props.treninzi.length !== 0 ?
 
-                        <Tabela row={rowPersonalni} niz={treninzi} />
+                        <Tabela row={rowPersonalni} niz={props.treninzi} />
                         :
                         <Typography color='error'>sve treninge ste potvrdili</Typography>
                     }
                 </Fragment>
             }
-
         </Fragment>
     )
 

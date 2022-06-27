@@ -29,9 +29,7 @@ const RasporedGrupni = (props) => {
 
 
     useEffect(() => {
-
         // GetData(`http://localhost:8800/api/trening/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`, setTermini, setGreska, setIsLoading)
-
         setTermini([])
         const get = async () => {
             await axiosPrivate.get(`http://localhost:8800/api/trening/vidiGrupneTreninge/${props.idUsluge}/${props.datum}`)
