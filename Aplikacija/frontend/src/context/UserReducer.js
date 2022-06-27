@@ -6,7 +6,6 @@ const UserReducer = (state, action) => {
 
         case "LOGIN_SUCCESS":
             {
-                
                 return {
                     user: action.payload,
                     ucitavaSe: false,

@@ -2,14 +2,17 @@ import axios from "axios";
 import { useContext, useEffect } from 'react'
 import { UserContext } from '../context/UserContext'
 import useRefreshToken from "./useRefreshToken";
+import { useCookies } from "react-cookie";
 
 const useAxiosPrivate = () => {
 
   const { user } = useContext(UserContext)
-  //console.log(user?.refreshToken)
+  const [cookie, setCookie] = useCookies(['user'])
+  // console.log(user)
   const refresh = useRefreshToken(user?.refreshToken)
 
   useEffect(() => {
+    const refToken = user?.refreshToken
 
     const requestIntercept = axios.interceptors.request.use(function (config) {
       // Do something before request is sent
@@ -34,23 +37,22 @@ const useAxiosPrivate = () => {
       // Do something with response error
       //ako je istekao token zovem da mi vrati novi
       //dodam novi token i vratim zxios
+      console.log(error + '  ' + user)
       const prevRequest = error?.config;  // ovde nadjem gresku iz prethodnog
       if (error?.response?.status === 403 && !prevRequest?.sent) {
         console.log(error?.response)
         prevRequest.sent = true;
-        
-        const newAccessToken = await refresh();
-       // console.log('use axios')
-        //console.log(newAccessToken)
+
+
+        const newAccessToken = await refresh(cookie['ref-token']);
+
 
         prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
-      //  console.log('use axios')
+        //  console.log('use axios')
         // console.log(prevRequest)
 
         return axios(prevRequest);
-        console.log(error)
-        console.log(user)
       }
 
       return Promise.reject(error);

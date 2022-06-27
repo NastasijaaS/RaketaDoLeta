@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer, useMemo } from "react";
 import UserReducer from "./UserReducer";
 import useAxiosPrivate from '../api/useAxiosPrivate'
 import { LoginSuccess, LoginStart, LoginFailure } from "./UserActions";
-
+import { useCookies } from "react-cookie";
 
 const defaultValue = {
     // user: JSON.parse(localStorage.getItem("user")) || null,
@@ -17,6 +17,7 @@ const UserContextProvider = ({ children }) => {
     const axiosPrivate = useAxiosPrivate()
     const [state, dispatch] = useReducer(UserReducer, defaultValue);
 
+    const [cookie, setCookie] = useCookies(['user'])
 
     useEffect(() => {
         let userId = localStorage.getItem("userId")
@@ -31,6 +32,7 @@ const UserContextProvider = ({ children }) => {
                 if (res.data) {
                     dispatch(LoginSuccess(res.data))
                     localStorage.setItem('token', res.data?.token)
+                    setCookie('ref-token', res.data?.refreshToken)
                 }
 
             }

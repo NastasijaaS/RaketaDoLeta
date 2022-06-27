@@ -12,7 +12,7 @@ let refreshTokens = [];
 export const generateAccessToken = (user) => {
     //Generise se na osnovu id-ja:
     //console.log(user._id)
-    return jwt.sign({ id: user }, process.env.TOKEN_KEY, { expiresIn: "10min" });
+    return jwt.sign({ id: user }, process.env.TOKEN_KEY, { expiresIn: "30s" });
 
 };
 
@@ -74,12 +74,16 @@ export const auth = (req, res, next) => {
 
 //Zovemo nakon svake interakcije sa nekim delom sajta
 //FIXME: Ukloni nakon prepravljanja:
-export const refreshAuth = (req, res) => {
+export const refreshAuth = async (req, res) => {
     try {
 
-        console.log(refreshTokens)
+        
         //Uzimamo refresh token i proveravamo da li je validan?
-        const refreshToken = req.body.refreshToken;
+        const refreshToken = await  req.body.refreshToken;
+
+        console.log(req.body)
+
+        console.log('ref token ' + refreshToken)
 
         //Ako nema refresh token-a?
         if (!refreshToken)
@@ -129,7 +133,7 @@ export const upravaMethod = async (req, res, next) => {
         //Pre ovoga je svakako bio auth, koji u req.user postavlja id korisnika koji je pozvao metodu
         const users = await RegistrovaniKorisnik.findById(req.user.id);
 
-        if(users.tipKorisnika!="Uprava")
+        if (users.tipKorisnika != "Uprava")
             return res.status(403).json("Samo uprava moze da pristupi!");
         else
             return next();
@@ -147,7 +151,7 @@ export const trenerMethod = async (req, res, next) => {
         //Pre ovoga je svakako bio auth, koji u req.user postavlja id korisnika koji je pozvao metodu
         const users = await RegistrovaniKorisnik.findById(req.user.id);
 
-        if(users.tipKorisnika!="Trener")
+        if (users.tipKorisnika != "Trener")
             return res.status(403).json("Samo trener moze da pristupi!");
         else
             return next();

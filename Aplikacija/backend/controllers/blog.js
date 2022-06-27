@@ -82,7 +82,7 @@ export const  izmeniBlog= async (req, res) => {
 //obrisiBlog
 export const obrisiBlog = async (req, res) => {
     try {
-        await Blog.findOneAndDelete(req.params.idBloga)
+        await Blog.findByIdAndDelete(req.params.idBloga)
         return res.status(200).json("Blog je uspesno obrisan")
 
     }

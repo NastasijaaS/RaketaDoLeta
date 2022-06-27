@@ -150,7 +150,6 @@ export default function Tabela(props) {
 
     const [napredak, setNapredak] = useState(false);
 
-
     const searchByName = (ev) => {
         const filteredRows = korisnici.filter((row) => {
             return (row.ime + ' ' + row.prezime).toLowerCase().includes(ev.target.value.toLowerCase());
@@ -184,7 +183,6 @@ export default function Tabela(props) {
             }
         }
 
-        //   DeleteMetoda(zahtev, setGreska, setIsLoading)
         try {
             await axiosPrivate.delete('http://localhost:8800/api/korisnik/obrisiKorisnika/' + user.id + '?korisnikId=' + id)
             alert('Uspesno ste izbrisali korisnika')
@@ -193,27 +191,14 @@ export default function Tabela(props) {
             alert('Doslo je do greske')
         }
 
-
         setRefresh(!refresh)
-
     }
 
     const unesiClanarinu = async (idKorisnika) => {
-        // console.log(buttonSelected)
-        // console.log(idKorisnika)
-
-        ///dodajClanarinu/:idKorisnika/:idUsluge
 
         const zahtev = {
             url: 'http://localhost:8800/api/clanarina/dodajClanarinu/' + idKorisnika + '/' + buttonSelected
         }
-
-        // PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
-
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-        //     console.log(greska)
-        // }
 
         try {
             const res = await axiosPrivate.put(zahtev.url)
@@ -222,7 +207,6 @@ export default function Tabela(props) {
         catch (err) {
             alert('Doslo je do greske')
         }
-
     }
 
     const verifikujNalog = async (id) => {
@@ -231,13 +215,6 @@ export default function Tabela(props) {
             url: 'http://localhost:8800/api/korisnik/verifikujNalog/' + id
         }
 
-        // PutMetoda(zahtev, setNalog, setGreska, setIsLoading)
-
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-        // } else {
-        //     setRefresh(!refresh)
-        // }
         try {
             const res = await axiosPrivate.put(zahtev.url)
             alert('Uspesno verifikovan nalog')
@@ -246,8 +223,6 @@ export default function Tabela(props) {
         catch (err) {
             alert('Doslo je do greske')
         }
-
-
     }
 
     const handleRadioChange = (ev) => {
@@ -357,118 +332,6 @@ export default function Tabela(props) {
                         </Collapse>
                     </TableCell>
                 </TableRow >
-            </Fragment>)
-    }
-
-    const vidiNapredak = () => {
-        //.get("/vidiNapredak/:idTrenera/:idKorisnika
-    }
-
-
-    const dodajEvidenciju = () => {
-        //post("/dodajEvidenciju/:idTrenera
-        //"korisnikId": req.body.korisnikId,
-        // "brojTreninga": req.body.brojTreninga,
-        // "tipTreninga": req.body.tipTreninga,
-        // "nivo": req.body.nivo
-    }
-
-    const vidiEvidenciju = () => {
-        //get("trener/vidiEvidenciju/:idTrenera/:idKorisnika
-    }
-
-    const obrisiKlijenta = () => {
-
-    }
-
-    const RedTrener = ({ row }) => {
-
-        const [open, setOpen] = useState(false);
-
-        return (
-            <Fragment>
-                < TableRow >
-                    <TableCell style={{ width: 10 }}>
-                        <IconButton
-                            size="small"
-                            onClick={() => { setOpen(!open) }}
-                        >
-                            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                        </IconButton>
-                    </TableCell>
-
-                    <TableCell style={{ width: 100 }} component="th" scope="row">
-                        {row.ime + ' ' + row.prezime}
-                    </TableCell>
-
-                    <TableCell style={{ width: 100 }} align="right">
-                        {row.email}
-                    </TableCell>
-
-
-                    <TableCell
-                        style={{ width: 100, color: new Date() > new Date(row.clanarinaDo) ? 'red' : 'inherit' }}
-                        align="right">
-                        {row.clanarinaDo}
-                    </TableCell>
-
-
-                    <TableCell style={{ width: 100 }} align="right">
-                        <Button
-                            onClick={() => setNapredak(true)}
-                            size="small"
-                            variant="outlined">
-                            dodaj napredak
-                        </Button>
-                    </TableCell>
-
-                    <TableCell style={{ width: 100 }} align="right">
-                        <Button
-                            onClick={() => vidiEvidenciju(row.id)}
-                            size="small"
-                            variant="outlined">
-                            vidi evidenciju
-                        </Button>
-                    </TableCell>
-
-                    <TableCell style={{ width: 100 }} align="right">
-                        <Button
-                            onClick={() => dodajEvidenciju(row.id)}
-                            size="small"
-                            variant="outlined">
-                            dodaj evidenciju
-                        </Button>
-                    </TableCell>
-
-                    <TableCell style={{ width: 100 }} align="right">
-                        <Button
-                            onClick={() => obrisiKlijenta(row.id)}
-                            size="small"
-                            variant="outlined"
-                            color="error"
-                            startIcon={<DeleteIcon />}>
-                            Obrisi
-                        </Button>
-                    </TableCell>
-
-
-                </TableRow>
-                <TableRow >
-                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-
-                            <div>ovde mozda da stavimo evidenciju ili napredak umesto dugme</div>
-
-                        </Collapse>
-                    </TableCell>
-                </TableRow >
-
-
-                {napredak && <Modal onClose={() => setNapredak(false)}>
-                    <DodajNapredak idKorisnika={row.id} onClose={() => setNapredak(false)} />
-                </Modal>}
-
-
             </Fragment>)
     }
 
