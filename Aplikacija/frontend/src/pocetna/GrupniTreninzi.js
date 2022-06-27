@@ -63,7 +63,7 @@ const GrupniTreninzi = () => {
 
                     {kalendar === i
                         &&
-                        <Box sx={{ marginTop: '1%' }}>
+                        <Box sx={{ margin: { lg: '2%'}}}>
                             <KalendarForma idUsluge={tr._id} />
                         </Box>
                     }

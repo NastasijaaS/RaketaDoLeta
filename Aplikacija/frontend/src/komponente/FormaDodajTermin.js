@@ -78,11 +78,14 @@ const FormaDodajTermin = (props) => {
     }
 
     return (
-        <Box >
+        <Box className = "cardCenter marginS" sx = {{gap: '1vh', padding: {sm:'0% 20%'}, alignItems: "stretch"}}>
+
+            <Typography variant="h5" component="div"  gutterBottom sx={{ textAlign: 'center' }}>Termini</Typography>
+
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Box spacing={3} sx={{ margin: '3%' }}>
 
                     <DatePicker
+                        sx={{ width: '100%' }}
                         label="izaberite datum"
                         value={date}
                         onChange={(newValue) => {
@@ -92,15 +95,14 @@ const FormaDodajTermin = (props) => {
                         renderInput={(params) => <TextField size='small' {...params} />}
                         focused
                     />
-                </Box>
             </LocalizationProvider>
 
             <LocalizationProvider dateAdapter={AdapterDateFns}
                 adapterLocale={ruLocale}>
                 {
                     niz.map((i) => (
-                        <Box key={i} spacing={3} sx={{ margin: '3%' }}>
                             <TimePicker
+                                key={i}
                                 renderInput={(params) => <TextField size='small' {...params} />}
                                 size='small'
                                 value={vreme[i]}
@@ -112,13 +114,12 @@ const FormaDodajTermin = (props) => {
                                 minTime={new Date(0, 0, 0, 8)}
                                 maxTime={new Date(0, 0, 0, 18, 45)}
                             />
-                        </Box>
                     ))
                 }
 
             </LocalizationProvider>
 
-            <Button onClick={unesiTermin}>unesi</Button>
+            <Button  fullWidth size='small' variant = 'outlined' onClick={unesiTermin}>unesi</Button>
         </Box>
     )
 }

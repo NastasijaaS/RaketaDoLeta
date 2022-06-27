@@ -148,7 +148,7 @@ const TabelaTreneri = () => {
                 &&
                 <Modal onClose={() => { setDodaj(false); handleReset() }}>
                     <Box sx={{ width: '100%' }}>
-                        <Stepper sx = {{margin:'1vh'}}activeStep={activeStep}>
+                        <Stepper sx = {{mt:'1vh'}}activeStep={activeStep}>
                             {steps.map((label, index) => {
                                 const stepProps = {};
                                 const labelProps = {};
@@ -161,18 +161,18 @@ const TabelaTreneri = () => {
                         </Stepper>
                         {activeStep === steps.length ? (
                             <Fragment>
-                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                <Typography component = 'div' variant = 'h4' className = 'cardCenter' sx={{ width: '100%', height:'50vh' }}>
                                     Uspesno dodat trener!
                                 </Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', pt: 2 }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
                                     <Box sx={{ flex: '1 1 auto' }} />
                                     <Button onClick={handleReset}>Reset</Button>
                                 </Box>
                             </Fragment>
                         ) : (
-                            <Fragment>
+                            <Fragment >
                                 {getStepContent(activeStep)}
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', pt: 2 }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
                                     <Button onClick={handleNext}>
                                         {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                     </Button>

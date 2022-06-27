@@ -10,6 +10,7 @@ const Info = ({ labela, tip, reff }) => {
             {/* <label>{labela}: */}
 
             <TextField
+                fullWidth
                 className='loginInp'
                 multiline
                 inputRef={reff}
@@ -18,7 +19,7 @@ const Info = ({ labela, tip, reff }) => {
                 color="primary"
                 size="small"
                 placeholder={labela}
-                focused />
+                />
 
             {/* <input className='loginInp' ref={reff}
                     type={tip} placeholder={labela} /> */}
@@ -111,8 +112,10 @@ function DodajTrenera(props) {
                 greska={alert.greska}
             />
 
-            {!success && <form className="login" >
-                <h2>Dodajte trenera</h2>
+            {!success &&
+            
+            <Box className="cardCenter" sx = {{gap: '1vh', padding: {sm:'0% 20%'}, alignItems: "stretch"}} >
+                <Typography variant="h5" component="div"  gutterBottom sx={{ textAlign: 'center' }}>Dodaj trenera</Typography>
 
                 <Info multiline labela='opis' tip='text' reff={opis} />
                 <Info multiline labela='iskustvo' tip='text' reff={iskustvo} />
@@ -120,14 +123,17 @@ function DodajTrenera(props) {
 
                 <Info labela='slika' tip='text' reff={slika} />
 
-                <FormControlLabel
-                    onChange={(ev) => { grupni = ev.target.checked }}
-                    control={<Checkbox defaultChecked />}
-                    label="Drzi grupne treninge" />
+                <Box className = "cardCenter">
+                    <FormControlLabel
+                        onChange={(ev) => { grupni = ev.target.checked }}
+                        control={<Checkbox defaultChecked />}
+                        label="Drzi grupne treninge" />
+                </Box>
+                
 
-                <Button onClick={dodajTrenera}>Unesi</Button>
+                <Button  fullWidth variant = 'outlined' onClick={dodajTrenera}>Unesi</Button>
 
-            </form>}
+            </Box>}
 
             {success && <div>animacija success</div>}
 

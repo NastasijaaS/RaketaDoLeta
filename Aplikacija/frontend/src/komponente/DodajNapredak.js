@@ -1,7 +1,7 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, Fragment } from "react";
 import { UserContext } from "../context/UserContext";
 import Button from "@mui/material/Button";
-import { TextField } from '@mui/material';
+import { TextField, Typography } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select, FormControlLabel, Box } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import Stack from '@mui/material/Stack';
@@ -13,20 +13,19 @@ import Greska from './Alert'
 import { PostMetoda, PutMetoda } from './Fetch'
 import useAxiosPrivate from "../api/useAxiosPrivate";
 
+
 const Info = ({ labela, tip, reff }) => {
     return (
-        <div>
+        <Fragment>
             <TextField
-                style={{ margin: '1%' }}
                 inputRef={reff}
                 defaultValue={0}
                 label={labela}
                 type={tip}
-                color="primary"
                 size="small"
                 placeholder={labela}
-                focused />
-        </div>
+                />
+        </Fragment>
     )
 }
 
@@ -139,7 +138,9 @@ const DodajNapredak = (props) => {
     return (
 
 
-        <div style={{ margin: '3%' }}>
+        <Box className="cardCenter" sx = {{gap: '1vh', padding: {sm:'0% 20%'}, margin: {xs: '5%', sm: '1%'}, alignItems: "stretch"}}>
+
+            <Typography variant="h5" component="div"  gutterBottom sx={{ textAlign: 'center' }}>Napredak:</Typography>
 
             <Info labela='bodyAge' tip='number' reff={bodyAge} />
             <Info labela='procenatVode' tip='number' reff={procenatVode} />
@@ -151,15 +152,11 @@ const DodajNapredak = (props) => {
             <Info labela='tezina' tip='number' reff={tezina} />
 
 
-            {/* <div> */}
-            {props.prvi && <Button size='small' variant="outlined" className="btn" onClick={dodajNapredak}>Unesi</Button>}
-            <Button size='small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
-
-            {!props.prvi && <Button size='small' variant="outlined" className="btn" onClick={izmeniNapredak}>Unesi</Button>}
-
-
-            {/* </div> */}
-        </div>
+            <Box>
+            {props.prvi && <Button fullWidth size='small' variant="outlined" className="btn" onClick={dodajNapredak}>Unesi</Button>}
+            {!props.prvi && <Button fullWidth size='small' variant="outlined" className="btn" onClick={izmeniNapredak}>Unesi</Button>}
+            </Box>
+        </Box>
 
 
     )

@@ -1,9 +1,9 @@
-import { Button, ButtonGroup, FormControl, Grid, InputLabel, MenuItem, Select, Card, CardActionArea, CardMedia, CardContent, Typography, Box } from '@mui/material';
+import { Button, ButtonGroup, FormControl, Grid, InputLabel, MenuItem, Select, Card, CardActionArea, CardMedia, CardContent, Typography, Box, ToggleButton, ToggleButtonGroup} from '@mui/material';
 import { useState, useEffect } from 'react';
-import '../styles/blog.css'
 import { GetData } from '../komponente/Fetch';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
 
 const Blog = () => {
 
@@ -22,21 +22,23 @@ const Blog = () => {
     }, [naslov])
 
     return (
-        <Box className="sviBlogovi margina">
+        <Box className="cardCenter marginS">
 
-            <ButtonGroup onClick={(ev) => { setNaslov(ev.target.value) }} className='divZaIzbor' size="large" sx={{ display: { xs: 'none', s: 'none', md: 'flex' } }}>
-                <Button value='Zdravlje' className='btnBlog zdravlje'>Zdravlje</Button>
-                <Button value='Ishrana' className='btnBlog ishrana'>Ishrana</Button>
-                <Button value='Trening' className='btnBlog treninzi'>Trening</Button>
-                <Button value='Fitness' className='btnBlog fitnes'>Fitnes</Button>
-            </ButtonGroup>
-            <FormControl fullWidth sx={{ minWidth: 120, display: { xs: 'flex', md: 'none' } }}>
-                <InputLabel id="demo-simple-select-helper-label">{naslov}</InputLabel>
+            <ToggleButtonGroup
+                exclusive 
+                fullWidth
+                onChange={(ev) => { setNaslov(ev.target.value) }}
+                value = {naslov}  
+                sx={{ display: {xs: 'none', sm: 'flex', md: 'flex' }, justifyContent:'space-around', mb:'5%'}}>
+                <ToggleButton value='Zdravlje'color = 'primary'>Zdravlje</ToggleButton>
+                <ToggleButton value='Ishrana' color = 'primary' >Ishrana</ToggleButton>
+                <ToggleButton value='Trening' color = 'primary'>Trening</ToggleButton>
+                <ToggleButton value='Fitness' color = 'primary'>Fitnes</ToggleButton>
+            </ToggleButtonGroup>
+            <FormControl focused fullWidth sx={{ maxWidth: 345, display: { xs: 'flex', sm: 'none' }, mb:'5%' }}>
                 <Select
-                    id="demo-simple-select-helper"
-                    label="Kategorija"
                     onChange={(ev) => { setNaslov(ev.target.value) }}
-                    value={naslov}
+                    value={naslov}             
                 >
                     <MenuItem value='Zdravlje'>Zdravlje</MenuItem>
                     <MenuItem value='Ishrana'>Ishrana</MenuItem>
@@ -47,7 +49,7 @@ const Blog = () => {
 
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
-            <Typography variant="h4" component="div">{naslov}</Typography>
+            {/* <Typography variant="h4" component="div" sx ={{margin: '2% 0%', display:{xs:'none', md:'block'}}}>{naslov}</Typography> */}
 
             {greska && <p className='greska'>Doslo je do greske</p>}
 
@@ -56,6 +58,7 @@ const Blog = () => {
                 {nizBlogova
                     .map((usl, i) => (
                         <Grid key={i} item xs={12} sm={6} md={4}
+                            className = 'cardCenter'
                             onClick={() => {
                                 navigate(`/blog/${usl.tagovi}/${usl.naslov}`, { state: usl });
                             }}>
