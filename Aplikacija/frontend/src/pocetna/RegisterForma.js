@@ -146,7 +146,7 @@ return (
         {!success &&
             <form className="login" onSubmit={upis}>
 
-                <div className="login">
+                <Box className="login">
                     <Typography variant="h5" component="div" sx={{ textAlign: 'center' }}>Registrujte se:</Typography>
 
                     <Info labela='Ime*' tip='text' reff={ime} err={greska.ime} tekst='najmanje 3 slova' />
@@ -165,7 +165,7 @@ return (
 
                     <Info labela='Broj telefona*' tip='text' reff={brojTelefona} err={greska.brojTelefona} tekst='+381 623 212 123' />
                     {/* {greska.brojTelefona && <span className='greska'>Broj telefona mora imati najmanje 9 cifara</span>} */}
-                </div>
+                </Box>
 
                 <Button size='small' variant="contained" onClick={upis}>Registruj se</Button>
             </form>}

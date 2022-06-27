@@ -3,23 +3,14 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
 import { Badge } from '@mui/material';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import LoginIcon from '@mui/icons-material/Login';
 import { UserContext } from '../context/UserContext';
 import Zvonce from './Zvonce'
 import { GetData } from './Fetch'
 import useAxiosPrivate from "../api/useAxiosPrivate";
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 const NoviZahtev = () => {
     const { user } = useContext(UserContext);
@@ -62,13 +53,22 @@ const NoviZahtev = () => {
             <Badge
                 badgeContent={data.length}
                 color="error"
+                sx = {{padding:'0px'}}
             >
                 <Button
                     href={`/RDL/trener/${user.ime}/zahtevi`}
-                    sx={{ m: 0, color: 'white', textAlign: 'center', display: 'block' }}
+                    sx={{ m: 0, color: 'white', textAlign: 'center', display: { xs: 'none', md: 'flex'} }}
                 >
                     Zahtevi
                 </Button>
+                <IconButton
+                size="large"
+                href={`/RDL/trener/${user.ime}/zahtevi`}
+                sx={{ color: "white", display:{ xs: 'flex', md: 'none'}, padding: '0px'}}
+                >
+                <AssignmentTurnedInIcon />
+                </IconButton>
+
             </Badge>
         </Fragment>
     )

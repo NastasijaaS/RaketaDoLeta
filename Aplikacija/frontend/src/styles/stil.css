@@ -117,3 +117,9 @@ a{
     margin: 5vw;
     gap: 20px;
 }
+
+/*FORMA BLOG*/
+.prelomi{
+    max-height: 20vh;
+    overflow-y: auto;
+}

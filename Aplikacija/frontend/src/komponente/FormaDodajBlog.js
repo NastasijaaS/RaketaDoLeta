@@ -1,11 +1,13 @@
 import { Button, Typography, TextField } from "@mui/material"
 import { Box, } from "@mui/system"
-import Info from "./Info"
 import { useRef, useState } from "react"
 import DropDown from "./DropDown"
 import useAxiosPrivate from "../api/useAxiosPrivate"
+import Info from "./Info"
+
 
 const tagovi = ['Zdravlje', 'Fitnes', 'Ishrana', 'Trening']
+
 
 const FormaDodajBlog = (props) => {
 
@@ -14,12 +16,12 @@ const FormaDodajBlog = (props) => {
     const file = useRef()
     const naslov = useRef()
     const kratakOpis = useRef()
-    const duziOpis = useRef()
+    const tekst = useRef()
     const slika = useRef()
 
     const [tag, setTag] = useState('')
 
-    function dodajBlog(event) {
+    const dodajBlog = async (event) => {
 
         const formData = new FormData();
         formData.append('file', file);
@@ -27,6 +29,23 @@ const FormaDodajBlog = (props) => {
 
         console.log(file)
         console.log(formData)
+
+        await axiosPrivate.post('http://localhost:8800/api/blog/dodajBlog', {
+
+            naslov: naslov.current.value,
+            tekst: tekst.current.value,
+            slika: slika.current.value,
+            tagovi: tag,
+            kratakopis: kratakOpis.current.value,
+        }).then(p => {
+            if (p.status === 200) {
+                alert('Uspesno dodat blog')
+            }
+        }).catch((error) => {
+            alert('Doslo je do greske')
+            console.log('greska prilkom upisa: ' + error.message)
+        });
+        props.onClose()
     }
 
     //labela, tip, reff, err, tekst
@@ -34,21 +53,20 @@ const FormaDodajBlog = (props) => {
 
     return (
 
-        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: '0% 20%', alignItems: "stretch", display: 'flex', flexDirection: 'column' }}>
+        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: '0% 20%', alignItems: "stretch"}}>
 
             <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Blog</Typography>
 
-            <Info labela='naslov' tip='text' reff={naslov} tekst='naslov' />
-            <DropDown labela='tag' set={setTag} niz={tagovi} value={tag} />
-            <Info multiline labela='kratak opis' tip='text' reff={kratakOpis} tekst='kratak opis' />
-            <Info multiline labela='tekst' tip='text' reff={duziOpis} tekst='tekst' width='100%' />
+            <Info sx = {{width: '100%'}} labela='Naslov' tip='text' reff={naslov}  />
+            <DropDown labela='Tag' set={setTag} niz={tagovi} value={tag} />
+            <Info sx = {{width: '100%'}} multiline labela='Kratak opis' tip='text' reff={kratakOpis}  />
+            <Info sx = {{width: '100%'}} className = 'prelomi' multiline labela='Tekst' tip='text' reff={tekst} />
 
-            <Info labela='slika' tip='text' reff={slika} tekst='slika' />
-            <Info tip='file' reff={file} />
+            <Info sx = {{width: '100%'}} labela='Slika' tip='text' reff={slika} />
+            <Info sx = {{width: '100%'}} fullWidth tip='file' reff={file} />
 
-            <Box sx={{ alignItems: 'center' }} fullWidth>
-                <Button variant='outlined' onClick={dodajBlog} >Unesi</Button>
-                <Button variant='outlined' onClick={props.onClose} >otkazi</Button>
+            <Box sx={{ alignItems: 'center' }} >
+                <Button fullWidth variant='outlined' onClick={dodajBlog} >Unesi</Button>
             </Box>
 
         </Box>

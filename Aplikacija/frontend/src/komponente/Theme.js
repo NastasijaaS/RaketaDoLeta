@@ -7,7 +7,8 @@ const darkTheme = createTheme({
       mode: 'dark',
       primary: {
         main: '#f8af00',
-        contrastText: '#111111'
+        light: '#111111',
+        contrastText: '#ffffff'
       },
       secondary: {
         main: '#f8af00',
@@ -15,6 +16,7 @@ const darkTheme = createTheme({
       error: {
         main: '#f83200',
       },
+      
     },
   });
   
@@ -23,7 +25,7 @@ const darkTheme = createTheme({
       mode: 'light',
       primary: {
         main: '#f8af00',
-        contrastText: 'white'
+        light: 'white',
       },
       secondary: {
         main: '#000000',
@@ -32,6 +34,7 @@ const darkTheme = createTheme({
         main: '#f83200',
       },
     },
+    
   });
 
  export{lightTheme,darkTheme}

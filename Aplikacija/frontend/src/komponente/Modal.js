@@ -20,7 +20,7 @@ const Modal = (props) => {
                 <Paper>
                     <Box className="poz" >
 
-                        <Box className="modal" sx = {{backgroundColor: 'primary.contrastText'}}>
+                        <Box className="modal" sx = {{backgroundColor: 'primary.light'}}>
                             <IconButton className="btnZatvori" onClick={props.onClose} disableRipple={true}>
                                 <CancelIcon></CancelIcon>
                             </IconButton>

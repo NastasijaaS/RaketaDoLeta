@@ -1,14 +1,14 @@
 import { TextField } from "@mui/material";
+import { Fragment } from "react";
 
 
 const Info = (props) => {
     const { labela, tip, reff, err, tekst } = props
     return (
-        //<div>
+        <Fragment>
             <TextField
-                sx={{ maxWidth: 300 }}
                 error={err}
-                className='loginInp'
+                className='prelomi'
                 inputRef={reff}
                 label={labela}
                 type={tip}
@@ -18,8 +18,9 @@ const Info = (props) => {
                 // helperText={tekst}
                 {...props}
                 />
-       // </div>
+        </Fragment>
     )
 }
+
 
 export default Info;

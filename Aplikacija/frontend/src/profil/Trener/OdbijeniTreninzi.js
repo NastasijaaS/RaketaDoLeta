@@ -2,15 +2,14 @@ import RasporedTrener from "../../komponente/RasporedTrener";
 import { useContext, useEffect, useState } from "react";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 import { UserContext } from "../../context/UserContext";
-import Loading from '../../komponente/Loading'
-import { CircularProgress, Box, Typography } from '@mui/material'
+import { CircularProgress, Box, Typography, getTouchRippleUtilityClass} from '@mui/material'
 
 const OdbijeniTreninzi = () => {
 
     const axiosPrivate = useAxiosPrivate()
     const { user } = useContext(UserContext)
     const [treninzi, setTreninzi] = useState([])
-    const [loading, setIsLoading] = useState(false)
+    const [loading, setIsLoading] = useState(true)
 
     const rowGrupni = ['Vreme', 'Trajanje', 'Intenzitet', 'Mesta']
 
@@ -35,15 +34,19 @@ const OdbijeniTreninzi = () => {
         get()
     }, [])
 
-    if (loading) {
-        return <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>
-    }
-    return (
-        <Box className="cardCenter marginS">
-            <Typography gutterBottom component="div" variant="h4" textAlign="center">Prosli treninzi</Typography>
-            <RasporedTrener prosli={true} treninzi={treninzi} />
-        </Box>
 
+    return (
+        <Box className = "cardCenter marginS">
+           
+            <Typography gutterBottom component="div" variant="h4" textAlign="center">Prosli treninzi</Typography>
+            {
+                loading && <CircularProgress size='2rem' />
+            }
+            {
+                !loading && <RasporedTrener prosli={true} treninzi={treninzi} />
+            }
+           
+        </Box>  
     )
 
 }
