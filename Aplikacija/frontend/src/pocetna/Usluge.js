@@ -34,7 +34,7 @@ const Usluge = () => {
                         <Typography sx={{ width: '77%', flexShrink: 0 }}>
                             {usl.naziv}
                         </Typography>
-                        <Typography>Cena: {usl.cena}</Typography>
+                        <Typography color = 'primary' fontWeight={600}>Cena: {usl.cena}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography gutterBottom>

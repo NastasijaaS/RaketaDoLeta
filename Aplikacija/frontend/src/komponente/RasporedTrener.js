@@ -106,9 +106,9 @@ const RasporedTrener = (props) => {
 
     const Tabela = ({ row, niz }) => {
         return (
-            <TableContainer component={Paper} sx={{ maxWidth: 650 }}>
+            <TableContainer component={Paper} >
                 <Table
-                    sx={{ maxWidth: 650 }} size="small" >
+                     size="small" >
                     <TableHead>
                         <TableRow>
                             {props.treninzi && <TableCell align="right">Datum</TableCell>}

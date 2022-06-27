@@ -94,48 +94,53 @@ function Footer() {
               
             </Grid>
             <Grid item xs = {12} sm ={4}>
-              <Box border borderBottom={1}>Kontaktirajte nas:</Box>
-              <Box sx = {{display:'flex'}}>
+              <Box border borderBottom={1} >Kontaktirajte nas:</Box>
+              <Box sx = {{display:'flex', flexDirection:'row', alignItems: 'center', marginTop: '2%'}}>
                 <LocationOnOutlinedIcon/>
-                <Link href="https://goo.gl/maps/Akp9XkeKBDunKv41A" target="_blank" rel="noopener" >
+                <Link sx = {{marginLeft: '2%'}} href="https://goo.gl/maps/Akp9XkeKBDunKv41A" target="_blank" rel="noopener" >
                   <Typography variant="caption" color="text.secondary">
                   Aleksandra Medvedeva 14
                   </Typography>
                 </Link>
               </Box>
-              <Box sx = {{display:'flex'}}>
+              <Box sx = {{display:'flex',flexDirection:'row', alignItems: 'center '}}>
                 <EmailOutlinedIcon/>
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography  sx = {{marginLeft: '2%'}} variant="caption" color="text.secondary">
                   raketadoleta@gmail.com
                   </Typography>
               </Box>
-              <Box sx = {{display:'flex'}}>
+              <Box sx = {{display:'flex', flexDirection:'row', alignItems: 'center '}}>
                 <PhoneOutlinedIcon/>             
-                  <Typography variant="caption" color="text.secondary">
+                  <Typography  sx = {{marginLeft: '2%'}} variant="caption" color="text.secondary">
                   +381 66 2568459
                   </Typography>
               </Box>
             </Grid>
             <Grid item xs = {12} sm ={4}>
               <Box border borderBottom={1}>Mapa sajta:</Box>
-              <Box>
-                <Link>
-                    Trenirajte s nama
-                </Link>
-              </Box>
-              <Box>
-                <Link>
+              <Box sx = {{marginTop: '2%'}}>
+                <Link href='/treneri'>
                     Treneri
                 </Link>
               </Box>
               <Box>
-                <Link>
+                <Link href='/grupnitreninzi'>
+                    Grupni treninzi
+                </Link>
+              </Box>
+              <Box>
+                <Link href='/onama' >
                     O nama
                 </Link>
               </Box>
               <Box>
-                <Link >
+                <Link href='/blog'>
                   Blog
+                </Link>
+              </Box>
+              <Box>
+                <Link href='/usluge' >
+                  Cenovnik
                 </Link>
               </Box>
             </Grid>
