@@ -4,7 +4,7 @@ import { TextField } from "@mui/material";
 const Info = (props) => {
     const { labela, tip, reff, err, tekst } = props
     return (
-        <div>
+        //<div>
             <TextField
                 sx={{ maxWidth: 300 }}
                 error={err}
@@ -18,7 +18,7 @@ const Info = (props) => {
                 // helperText={tekst}
                 {...props}
                 />
-        </div>
+       // </div>
     )
 }
 

@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 import { UserContext } from "../../context/UserContext";
 import Loading from '../../komponente/Loading'
-import { CircularProgress, Box } from '@mui/material'
+import { CircularProgress, Box, Typography } from '@mui/material'
 
 const OdbijeniTreninzi = () => {
 
@@ -39,11 +39,11 @@ const OdbijeniTreninzi = () => {
         return <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>
     }
     return (
-        <Box className = "cardCenter marginS">
+        <Box className="cardCenter marginS">
             <Typography gutterBottom component="div" variant="h4" textAlign="center">Prosli treninzi</Typography>
             <RasporedTrener prosli={true} treninzi={treninzi} />
         </Box>
-        
+
     )
 
 }

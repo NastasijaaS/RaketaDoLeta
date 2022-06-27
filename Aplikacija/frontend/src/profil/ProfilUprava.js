@@ -9,6 +9,7 @@ import TabelaUsluge from './Uprava/TabelaUsluge';
 import OdbijeniTreninzi from './Uprava/TabelaOdbijeniTreninzi';
 import TabelaTreneri from './Uprava/TabelaTreneri';
 import { Grid } from "@mui/material";
+import Blogovi from "./Uprava/Blogovi";
 
 //zahtev za treningom
 //obrisi odbijen trening
@@ -51,10 +52,11 @@ export const Uprava = () => {
                         value={tab}
                         onChange={promeniTab}
                     >
-                        <Tab label="Korisnici"  value={0}/>
+                        <Tab label="Korisnici"  />
                         <Tab label="Neverifikovani nalozi" />
                         <Tab label="Usluge" />
                         <Tab label="Treneri" />
+                        <Tab label="Blogovi" />
                         {/* <Tab label="Treninzi" /> */}
 
                     </Tabs>
@@ -68,10 +70,11 @@ export const Uprava = () => {
                         onChange={promeniTab}
                         sx={{ borderRight: 1, borderColor: 'divider' }} >
 
-                        <Tab label="Korisnici" value={0} />
+                        <Tab label="Korisnici" />
                         <Tab label="Neverifikovani nalozi" />
                         <Tab label="Usluge" />
                         <Tab label="Treneri" />
+                        <Tab label="Blogovi" />
                         {/* <Tab label="Treninzi" /> */}
 
                     </Tabs>
@@ -92,6 +95,10 @@ export const Uprava = () => {
 
                     <TabPanel value={tab} index={3}>
                         <TabelaTreneri />
+                    </TabPanel>
+
+                    <TabPanel value={tab} index={4}>
+                        <Blogovi/>
                     </TabPanel>
 
                     {/* <TabPanel value={tab} index={4}>
