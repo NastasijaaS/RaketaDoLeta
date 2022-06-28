@@ -18,7 +18,7 @@ const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
 
     return (
-        <div hidden={value !== index}>
+        <Box hidden={value !== index}>
 
             {value === index && (
                 <Box sx={{ p: 3 }}>
@@ -26,7 +26,7 @@ const TabPanel = (props) => {
                 </Box>
             )}
 
-        </div>
+        </Box>
     );
 }
 
@@ -55,7 +55,6 @@ export const Uprava = () => {
                         <Tab label="Usluge" />
                         <Tab label="Treneri" />
                         <Tab label="Blogovi" />
-                        {/* <Tab label="Treninzi" /> */}
 
                     </Tabs>
                 </Grid>
@@ -66,14 +65,13 @@ export const Uprava = () => {
                         variant="scrollable"
                         value={tab}
                         onChange={promeniTab}
-                        sx={{ borderRight: 1, borderColor: 'divider' }} >
+                        sx={{ borderRight: 1, borderColor: 'divider',width: '100%' }} >
 
                         <Tab label="Korisnici" />
                         <Tab label="Neverifikovani nalozi" />
                         <Tab label="Usluge" />
                         <Tab label="Treneri" />
                         <Tab label="Blogovi" />
-                        {/* <Tab label="Treninzi" /> */}
 
                     </Tabs>
                 </Grid>
@@ -98,10 +96,6 @@ export const Uprava = () => {
                     <TabPanel value={tab} index={4}>
                         <Blogovi/>
                     </TabPanel>
-
-                    {/* <TabPanel value={tab} index={4}>
-                        <OdbijeniTreninzi />
-                    </TabPanel> */}
                 </Grid>
             </Grid>
         </Box>

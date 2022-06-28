@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef, Fragment } from 'react'
-import { GetData, DeleteMetoda, PutMetoda, PostMetoda } from '../../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { TextField, Box, Checkbox, FormControlLabel } from '@mui/material';
+import { TextField, Box, Paper, Input} from '@mui/material';
 import '../../styles/input.css'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -116,7 +115,8 @@ const TabelaUsluge = () => {
     }
 
     return (
-        <Box style={{ width: '100%' }}>
+        <Box>
+
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
             {greska && <p className='greska'>Doslo je do greske prilikom ucitavanje</p>}
@@ -129,27 +129,28 @@ const TabelaUsluge = () => {
                 </Modal>
             }
 
-
             <Button
                 size="medium"
                 variant="outlined"
                 onClick={() => setNovaUsluga(true)}
             >  dodaj novu uslugu
             </Button>
-
+            
+            <Paper>
             <TableContainer>
                 <Table>
                     <TableBody>
                         {nizUsluga.map((usl, i) => (
 
                             <Fragment key={usl._id}>
-                                <TableRow key={usl._id} style={{ padding: 1 }}>
+                                <TableRow key={usl._id}>
 
-                                    <TableCell style={{ margin: 0, width: 70 }}>{usl.naziv}</TableCell>
-                                    {/* <span style={{ width: '200px', margin: 0 }}>{usl.naziv}</span> */}
+                                    <TableCell >{usl.naziv}</TableCell>
 
-                                    <TableCell style={{ width: 70, padding: 1 }}>
-                                        <input className='cenaUsluge'
+                                    <TableCell  >
+                                        <input
+                                            className = 'inputCSS'                                         
+                                            fullWidth
                                             type='number'
                                             step={10}
                                             value={izmeni === i ? (cena === 0 ? usl.cena : cena) : usl.cena}
@@ -157,37 +158,11 @@ const TabelaUsluge = () => {
                                             onChange={(ev) => setCena(ev.target.value)} />
                                     </TableCell>
 
-
-                                    {/* <TextField
-                        sx={{
-                            alignSelf: 'center',
-                            '&:disabled': {
-                                color: 'red',
-                                backgroundColor: 'red',
-                            },
-                        }}
-                        InputProps={{
-                            classes: {
-                                root: classes.inputRoot,
-                                disabled: classes.disabled
-                            }
-                        }}
-                        className='cenaUsluge'
-                        size='small'
-                        type='number'
-                        step={10}
-                        value={izmeni === i ? (cena === 0 ? usl.cena : cena) : usl.cena}
-                        disabled={izmeni !== i}
-                        onChange={(ev) => setCena(ev.target.value)}
-                        focused
-                    /> */}
-
-                                    <TableCell style={{ width: 70, padding: 1 }}>
+                                    <TableCell>
                                         <input
-                                            style={{ color: 'black' }}
-                                            className='cenaUsluge'
+                                            className = 'inputCSS'             
                                             type='number'
-                                            step={10}
+                                            fullWidth
                                             value={izmeni === i ? (trajanje === 0 ? usl.trajanje : trajanje) : usl.trajanje}
                                             disabled={izmeni !== i}
                                             onChange={(ev) => setTrajanje(ev.target.value)} />
@@ -224,11 +199,10 @@ const TabelaUsluge = () => {
                                     {/* </div> */}
                                 </TableRow>
 
-                                {izmeni === i && <TableRow style={{ alignItems: 'center', boxSizing: 400 }}>
+                                {izmeni === i && <TableRow style={{ alignItems: 'center'}}>
 
                                     <TextField
-                                        style={{ width: 400, alignSelf: 'center' }}
-                                        sx={{ alignSelf: 'center', m: 1, width: '100%' }}
+                                        sx={{ m: 1, width: 400, alignSelf: 'center' }}
                                         label="opis"
                                         multiline
                                         rows={5}
@@ -237,29 +211,33 @@ const TabelaUsluge = () => {
                                         // defaultValue={usl.opis}
                                         value={opis}
                                         onChange={(ev) => setOpis(ev.target.value)}
-                                        variant="standard"
+                                        variant="outlined"
                                         focused
                                     />
 
 
-                                    <TableCell style={{ width: 100, padding: 2 }}>
+                                    <TableCell className = 'cardCenter'>
                                         <Button
+                                            sx = {{mb: 1}}
+                                            fullWidth
+                                            color = 'success'
                                             size="small"
-                                            variant="outlined"
+                                            variant="contained"
                                             onClick={() => { izmeniUslugu(usl._id) }}
                                         // disabled={izmeni !== i}
                                         > Ok
                                         </Button>
-                                    </TableCell>
-                                    <TableCell style={{ width: 100, padding: 2 }}>
                                         <Button
+                                            fullWidth
+                                            color = 'error'
                                             size="small"
-                                            variant="outlined"
+                                            variant="contained"
                                             onClick={() => { setCena(usl.cena); setIzmena(-1); setOpis(usl.opis); setTrajanje(usl.trajanje) }}
                                         // disabled={izmeni !== i}
                                         > Otkazi
                                         </Button>
                                     </TableCell>
+                                    <TableCell></TableCell>
 
                                 </TableRow>}
                             </Fragment>
@@ -268,6 +246,7 @@ const TabelaUsluge = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </Paper>
         </Box>
     )
 

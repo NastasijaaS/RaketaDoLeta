@@ -333,8 +333,8 @@ export default function Tabela(props) {
     }
 
     return (
-        <Paper >
-            <div className='divZaSearch'>
+        <Paper>
+            <Box className='divZaSearch'>
                 <div>
                     <SearchIcon />
                     <input className='search' value={searchName} placeholder="ime i prezime" onChange={searchByName} />
@@ -351,25 +351,10 @@ export default function Tabela(props) {
                     </Button>
                 </div>
 
-            </div>
+            </Box>
 
-            <TableContainer sx={{ maxWidth: '950px', alignSelf: 'center' }}>
+            <TableContainer sx={{ padding: '0px',alignSelf: 'center' }}>
                 <Table>
-                    <TableHead>
-                        {/* <TableRow sx={{ 'borderBottom': '1px solid rgba(224, 224, 224, 1) ' }}>
-
-                            <TableCell sx={{ 'textAlign': 'center' }}>
-                                Ime i prezime
-                            </TableCell>
-
-                            <TableCell sx={{ 'textAlign': 'center' }}>
-                                E-mail
-                            </TableCell>
-                            {props.verifikovan && <TableCell sx={{ 'textAlign': 'center' }}>
-                                Datum isteka clanarine
-                            </TableCell>}
-                        </TableRow> */}
-                    </TableHead>
                     <TableBody>
                         {
                             (rowsPerPage > 0
@@ -390,6 +375,7 @@ export default function Tabela(props) {
                         <TableRow>
 
                             <TablePagination
+                                sx = {{overflow:'revert'}}
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                                 colSpan={3}
                                 count={rows.length}
@@ -397,7 +383,6 @@ export default function Tabela(props) {
                                 page={page}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
-                                ActionsComponent={TablePaginationActions}
                             />
 
                         </TableRow>

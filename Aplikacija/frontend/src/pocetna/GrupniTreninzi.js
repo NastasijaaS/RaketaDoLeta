@@ -27,23 +27,24 @@ const GrupniTreninzi = () => {
 
 
     return (
-        <Box className="grupneUsluge">
+        <Box>
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
             {greska && <p className='greska'>Doslo je do greske prilikom ucitavanja</p>}
 
             {treninzi.map((tr, i) => (
-                <Card key={i}>
+                <Card key={i} className = 'marginS'>
                     <Grid container spacing = {2}>
                         <Grid item xs={12} md={4}>
-                            <CardMedia
+                            <CardMedia                      
+                                sx = {{maxHeight: "50vh"}}
                                 component="img"
                                 src={tr.slika}
                                 alt={tr.naziv}
                                 className="trImg" />
 
                         </Grid>
-                        <Grid item xs={12} md={8} >
+                        <Grid item xs={12} md={8} sx = {{display: 'flex', flexDirection: 'column'}}>
                             <CardContent>
                                 <Typography variant="h5" component="div">
                                     {tr.naziv}
@@ -52,7 +53,7 @@ const GrupniTreninzi = () => {
                                     {tr.opis}
                                 </Typography>
                             </CardContent>
-                            <CardActions >
+                            <CardActions sx = {{flexGrow: '1', alignItems: 'flex-end'}}>
                                 <Button fullWidth
                                     variant="contained"
                                     size="small"

@@ -64,12 +64,6 @@ a{
     object-fit: cover;
 }
 
-/*PRIKAZ GRUPNIH USLUGA*/
-.grupneUsluge{
-    align-content: center;
-    margin: 5vh 15vw 25vw 15vw;
-}
-
 /*POCETNA*/
 
 /* slika pozadina */
@@ -118,8 +112,22 @@ a{
     gap: 20px;
 }
 
-/*FORMA BLOG*/
-.prelomi{
-    max-height: 20vh;
-    overflow-y: auto;
+/*INPUTI*/
+
+.inputCSS {
+    border: 1px solid #f8af00;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5px ;
+    margin: 1%;
+}
+
+.inputCSS:disabled{
+    background-color: transparent;
+    border: none;
+    text-align: left;
+}
+.inputCSS:focus {
+    outline: 1px solid #f8af00;
+    font-weight: bold;
 }

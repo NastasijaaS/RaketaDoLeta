@@ -144,7 +144,7 @@ const Korisnik = (props) => {
 
                             <Typography className="zelje">
                                 Godine:
-                                <input className='korisnik'
+                                <input className='inputCSS'
                                     type='number'
                                     minvalue={0}
                                     maxvalue={100}
@@ -156,7 +156,7 @@ const Korisnik = (props) => {
 
                             <Typography className="zelje">
                                 Visina:
-                                <input className='korisnik'
+                                <input className='inputCSS'
                                     type='number'
                                     minvalue={0}
                                     maxvalue={260}
@@ -180,7 +180,7 @@ const Korisnik = (props) => {
                             <Typography gutterBottom variant="h6">Zeljene vrednosti</Typography>
                             <Box className="zelje">
                                 Zeljena tezina:
-                                <input className='korisnik'
+                                <input className='inputCSS'
                                     type='number'
                                     minvalue={0}
                                     maxvalue={200}
@@ -192,7 +192,7 @@ const Korisnik = (props) => {
 
                             <Box className="zelje">
                                 Zeljena tezina misica:
-                                <input className='korisnik'
+                                <input className='inputCSS'
                                     type='number'
                                     minvalue={0}
                                     maxvalue={100}
@@ -203,7 +203,7 @@ const Korisnik = (props) => {
 
                             <Box className="zelje">
                                 Zeljeni procenat masti:
-                                <input className='korisnik'
+                                <input className='inputCSS'
                                     type='number'
                                     minvalue={0}
                                     maxvalue={100}
@@ -214,7 +214,7 @@ const Korisnik = (props) => {
 
                             <Box className="zelje">
                                 Zeljeni procenat proteina:
-                                <input className='korisnik'
+                                <input className='inputCSS'
                                     type='number'
                                     minvalue={0}
                                     maxvalue={100}

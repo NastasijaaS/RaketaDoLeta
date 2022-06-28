@@ -16,6 +16,8 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link, useNavigate } from 'react-router-dom';
+import { FormControl, InputAdornment, Input, Paper } from '@mui/material';
+
 
 function TablePaginationActions(props) {
 
@@ -143,26 +145,38 @@ const TabelaZaReciklazu = (props) => {
     };
 
     return (
-        <>
-            <div className='divZaSearch'>
-                <div>
+        <Paper>
+            <Box sx = {{display: 'flex', flexDirection:'row', alignItems:'center'}}>
+
+            <FormControl sx = {{m:'2%'}}>
+                <Input
+                placeholder={props.search1}
+                value={search1}
+                onChange={trazi1}
+                startAdornment={
+                    <InputAdornment position="start">
                     <SearchIcon />
-                    <input className='search' placeholder={props.search1} value={search1} onChange={trazi1} />
-                </div>
+                    </InputAdornment>
+                 }
+                />
+            </FormControl>
 
-                <div>
+            <FormControl sx = {{m:'2%'}}>
+                <Input
+                placeholder={props.search2}
+                value={search2}
+                onChange={trazi2}
+                startAdornment={
+                    <InputAdornment position="start">
                     <SearchIcon />
-                    <input className='search' placeholder={props.search2} value={search2} onChange={trazi2} />
-                </div>
+                    </InputAdornment>
+                 }
+                />
+            </FormControl>
 
-                <div>
-                    <Button onClick={cancelSearch} size="medium" variant="outlined" color="error" >
-                        Otkazi
-                    </Button>
-                </div>
-            </div>
+            </Box>
 
-            <TableContainer sx={{ maxWidth: '950px', alignSelf: 'center' }}>
+            <TableContainer sx={{alignSelf: 'center' }}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -191,6 +205,7 @@ const TabelaZaReciklazu = (props) => {
                     <TableFooter>
                         <TableRow>
                             <TablePagination
+                                sx = {{overflow:'revert'}}
                                 rowsPerPageOptions={[7, 14, 25, { label: 'All', value: -1 }]}
                                 colSpan={3}
                                 count={red.length}
@@ -204,7 +219,7 @@ const TabelaZaReciklazu = (props) => {
                     </TableFooter>
                 </Table>
             </TableContainer>
-        </>
+        </Paper>
     )
 
 }
