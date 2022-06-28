@@ -32,6 +32,9 @@ const UserContextProvider = ({ children }) => {
                 if (res.data) {
                     dispatch(LoginSuccess(res.data))
                     localStorage.setItem('token', res.data?.token)
+                    // console.log('')
+                    // console.log(res.data?.refreshToken)
+                    // console.log('')
                     setCookie('ref-token', res.data?.refreshToken)
                 }
             }
@@ -50,7 +53,7 @@ const UserContextProvider = ({ children }) => {
         }
 
     }, [])
-    
+
 
     return (
         <UserContext.Provider

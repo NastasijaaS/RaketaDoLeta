@@ -11,27 +11,26 @@ export const vratiBlogove = async (req, res) => {
             let vrati = []
             for (let i = 0; i < blogovi.length; i++) {
                 const blog = await Blog.findById(blogovi[i]._id)
-                if(blog)
-                {
-                    let datum = blog[i].datum;
+                if (blog) {
+                    let datum = blog.datum;
                     let samoDatum = datum.toLocaleDateString()
 
-                let tr = {
-                    id:blog[i]._id,
-                    naslov:blog[i].naslov,
-                    datum:samoDatum,
-                    tekst:blog[i].tekst,
-                    tagovi:blog[i].tagovi,
-                    kratakopis:blog[i].kratakopis
-
+                    let tr = {
+                        id: blog._id,
+                        naslov: blog.naslov,
+                        datum: samoDatum,
+                        tekst: blog.tekst,
+                        tagovi: blog.tagovi,
+                        kratakopis: blog.kratakopis,
+                        slika: blog.slika
+                    }
+                    vrati.push(tr)
                 }
-                vrati.push(tr)
             }
-        }
-            res.status(200).json(vrati)  
+            res.status(200).json(vrati)
 
         }
-        
+
         else {
             return res.status(400).json("Nema  za prikaz")
         }
@@ -44,10 +43,10 @@ export const vratiBlogove = async (req, res) => {
 
 
 //Metoda za vracanje bloga sa datim tagom:
-export const vratiBlogTag =  async (req, res) => {
+export const vratiBlogTag = async (req, res) => {
 
     try {
-        const firstArray = await Blog.find({ tagovi: req.params.tag});
+        const firstArray = await Blog.find({ tagovi: req.params.tag });
         if (firstArray.length === 0)
             return res.status(404).json("Ne postoji blog sa zadatim tagom");
         else
@@ -63,14 +62,14 @@ export const vratiBlogTag =  async (req, res) => {
 export const dodajBlog = async (req, res) => {
 
     try {
-        const datum=new Date();
+        const datum = new Date();
         const blog = await new Blog({
             naslov: req.body.naslov,
             datum: datum,
             tekst: req.body.tekst,
             tagovi: req.body.tagovi,
-            slika:req.body.slika,
-            kratakopis:req.body.kratakopis
+            slika: req.body.slika,
+            kratakopis: req.body.kratakopis
         })
 
         const blogSave = await blog.save()
@@ -84,7 +83,7 @@ export const dodajBlog = async (req, res) => {
 }
 
 //izmeniBlog
-export const  izmeniBlog= async (req, res) => {
+export const izmeniBlog = async (req, res) => {
     try {
         const blog = await Blog.findById(req.params.idBloga)
         if (blog != null) {

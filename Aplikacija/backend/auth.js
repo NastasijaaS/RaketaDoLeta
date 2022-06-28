@@ -81,9 +81,13 @@ export const refreshAuth = async (req, res) => {
         //Uzimamo refresh token i proveravamo da li je validan?
         const refreshToken = await  req.body.refreshToken;
 
-        console.log(req.body)
+        console.log('')
+
+        console.log(refreshTokens)
 
         console.log('ref token ' + refreshToken)
+        console.log('')
+
 
         //Ako nema refresh token-a?
         if (!refreshToken)
