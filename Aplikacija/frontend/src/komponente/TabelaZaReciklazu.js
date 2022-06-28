@@ -15,6 +15,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
+import { Link, useNavigate } from 'react-router-dom';
 
 function TablePaginationActions(props) {
 
@@ -55,11 +56,21 @@ function TablePaginationActions(props) {
 
 const Red = (props) => {
     const { row, rowNames } = props
+    const navigate = useNavigate()
+
+    const velikiBlog = (blog) => {
+        if (row.tagovi) {
+            //  navigate(`/blog/${row.tagovi}/${row.naslov}`, { state: row }, { replace: false });
+            let handle = window.open(`/blog/${row.tagovi}/${row.naslov}`);
+            handle.window.parameters = JSON.stringify(row );
+        }
+    }
+
     return (
         <Fragment>
-            <TableRow>
+            <TableRow onClick={velikiBlog}>
                 {rowNames?.map((name, i) => (
-                    <TableCell key={i}>
+                    <TableCell key={i} >
                         {row[name]}
                     </TableCell>
                 ))}
@@ -83,6 +94,7 @@ const Red = (props) => {
 const TabelaZaReciklazu = (props) => {
     const { head, rows, rowName } = props
     //  console.log(props)
+
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(7);

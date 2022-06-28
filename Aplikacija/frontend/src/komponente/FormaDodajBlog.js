@@ -23,6 +23,11 @@ const FormaDodajBlog = (props) => {
 
     const dodajBlog = async (event) => {
 
+        if (naslov.current.value === '' || tekst.current.value === '' || tag === '') {
+            alert('Morate uneti sve podatke')
+            return
+        }
+
         const formData = new FormData();
         formData.append('file', file);
         formData.append('fileName', file.name);
@@ -53,17 +58,17 @@ const FormaDodajBlog = (props) => {
 
     return (
 
-        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: '0% 20%', alignItems: "stretch"}}>
+        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: '0% 20%', alignItems: "stretch" }}>
 
             <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Blog</Typography>
 
-            <Info sx = {{width: '100%'}} labela='Naslov' tip='text' reff={naslov}  />
+            <Info sx={{ width: '100%' }} labela='Naslov' tip='text' reff={naslov} />
             <DropDown labela='Tag' set={setTag} niz={tagovi} value={tag} />
-            <Info sx = {{width: '100%'}} multiline labela='Kratak opis' tip='text' reff={kratakOpis}  />
-            <Info sx = {{width: '100%'}} className = 'prelomi' multiline labela='Tekst' tip='text' reff={tekst} />
+            <Info sx={{ width: '100%' }} multiline labela='Kratak opis' tip='text' reff={kratakOpis} />
+            <Info sx={{ width: '100%' }} className='prelomi' multiline labela='Tekst' tip='text' reff={tekst} />
 
-            <Info sx = {{width: '100%'}} labela='Slika' tip='text' reff={slika} />
-            <Info sx = {{width: '100%'}} fullWidth tip='file' reff={file} />
+            <Info sx={{ width: '100%' }} labela='Slika' tip='text' reff={slika} />
+            <Info sx={{ width: '100%' }} fullWidth tip='file' reff={file} />
 
             <Box sx={{ alignItems: 'center' }} >
                 <Button fullWidth variant='outlined' onClick={dodajBlog} >Unesi</Button>

@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 const useAxiosPrivate = () => {
 
   const { user } = useContext(UserContext)
-  const [cookie, setCookie] = useCookies(['user'])
+  const [cookie, setCookie] = useCookies(['ref-token'])
   // console.log(user)
   const refresh = useRefreshToken(user?.refreshToken)
 
@@ -43,9 +43,11 @@ const useAxiosPrivate = () => {
         console.log(error?.response)
         prevRequest.sent = true;
 
+        console.log(' ')
+        console.log(cookie)
+        console.log(' ')
 
         const newAccessToken = await refresh(cookie['ref-token']);
-
 
         prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 

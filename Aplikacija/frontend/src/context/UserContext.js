@@ -34,7 +34,6 @@ const UserContextProvider = ({ children }) => {
                     localStorage.setItem('token', res.data?.token)
                     setCookie('ref-token', res.data?.refreshToken)
                 }
-
             }
             catch (err) {
                 console.log(err)
@@ -51,33 +50,7 @@ const UserContextProvider = ({ children }) => {
         }
 
     }, [])
-
-    // console.log(state.user)
-    // useEffect(() => {
-    //     // let userId = ''
-
-    //     // if (state.user?.korisnikId)
-    //     //     userId = state.user.korisnikId
-    //     // else if (state.user?.trennerId)
-    //     //     userId = state.user.trennerId
-    //     // else if (state.user?.upravaId)
-    //     //     userId = state.user.upravaId
-
-    //     // //   localStorage.setItem("user", JSON.stringify(state.user))
-
-    //     // localStorage.setItem("userId", JSON.stringify(userId))
-    //     // localStorage.setItem("token", JSON.stringify(state.user?.token))
-
-    //     setCookie('user', state.user, { path: '/' });
-
-    // }, [state.user])
-
-    // const contextValue = useMemo(() => ({
-    //     user: state.user,
-    //     ucitavaSe: state.ucitavaSe,
-    //     error: state.error,
-    //     dispatch,
-    // }), [state.user])
+    
 
     return (
         <UserContext.Provider

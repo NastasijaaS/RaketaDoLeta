@@ -2,11 +2,13 @@ import axios from 'axios';
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 import { UpdateUser, Odjavi } from '../context/UserActions';
+import { useCookies } from 'react-cookie';
 
 const useRefreshToken = () => {
 
     const { user, dispatch } = useContext(UserContext)
-    //  console.log(props)
+
+    const [cookie, setCookie] = useCookies(['ref-token'])
 
     const refresh = async (token) => {
 
@@ -18,7 +20,9 @@ const useRefreshToken = () => {
             const updatedUser = { ...user, token: response.data.accessToken, refreshToken: response.data.refreshToken }
             // dispatch(UpdateUser(updatedUser))
             localStorage.setItem('token', response.data.accessToken)
-           // dispatch({ tip: "UPDATE_USER", payload: { ...user, ...updatedUser } })
+            // dispatch({ tip: "UPDATE_USER", payload: updatedUser })
+
+            setCookie('ref-token', response.data.refreshToken)
 
             return response.data.accessToken;
         }

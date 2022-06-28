@@ -16,9 +16,7 @@ const Blog = () => {
     const [naslov, setNaslov] = useState('Zdravlje')
 
     useEffect(() => {
-
         GetData("http://localhost:8800/api/blog/VratiBlogTag/" + naslov, setBlogovi, setGreska, setIsLoading)
-
     }, [naslov])
 
     return (

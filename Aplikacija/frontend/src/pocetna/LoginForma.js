@@ -11,9 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 const LogIn = (props) => {
-
     const [cookies, setCookie] = useCookies(['user']);
-
 
     let navigate = useNavigate()
     const { ucitavaSe, error, dispatch } = useContext(UserContext);
@@ -79,6 +77,7 @@ const LogIn = (props) => {
                 if (p.status === 200) {
                     dispatch(LoginSuccess(p.data))
                     console.log(p.data)
+
                     localStorage.setItem('token', p.data?.token)
 
                     let userId = ''
@@ -93,7 +92,7 @@ const LogIn = (props) => {
 
                     localStorage.setItem("userId", userId)
 
-               // setCookie('user', p.data, { path: '/' });
+                    setCookie('ref-token', p.data.refreshToken, { path: '/' });
 
                 }
             }).catch((error) => {
