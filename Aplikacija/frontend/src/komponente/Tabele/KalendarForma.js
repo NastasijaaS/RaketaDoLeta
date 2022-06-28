@@ -1,4 +1,4 @@
-import '../styles/kalendar.css'
+import '../../styles/kalendar.css'
 import { useState, Fragment } from 'react'
 import { Box, } from '@mui/material'
 import Tabs, { tabsClasses } from '@mui/material/Tabs';

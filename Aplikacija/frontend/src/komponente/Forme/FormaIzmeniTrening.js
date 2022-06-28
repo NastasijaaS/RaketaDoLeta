@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import '../styles/formaZakazi.css'
-import { UserContext } from "../context/UserContext";
+import '../../styles/formaZakazi.css'
+import { UserContext } from "../../context/UserContext";
 import Button from "@mui/material/Button";
 import { TextField } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select, FormControlLabel } from '@mui/material';
@@ -10,9 +10,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Checkbox } from "@mui/material";
-import Greska from './Alert'
-import { PutMetoda } from './Fetch'
-import useAxiosPrivate from "../api/useAxiosPrivate";
+import Greska from '../Alert'
+import { PutMetoda } from '../Fetch'
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]

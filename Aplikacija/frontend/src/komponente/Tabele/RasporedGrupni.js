@@ -1,16 +1,12 @@
 import { useState, Fragment, useEffect } from 'react'
-import FormaZakazi from './FormaZakazi'
-import Modal from './Modal'
-import LogIn from '../pocetna/LoginForma'
-import Register from '../pocetna/RegisterForma'
+import Modal from '../Modal'
+import LogIn from '../../pocetna/LoginForma'
+import Register from '../../pocetna/RegisterForma'
 import { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import Button from '@mui/material/Button';
 import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import { GetData, PutMetoda } from './Fetch'
-import Tabs, { tabsClasses } from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import useAxiosPrivate from '../api/useAxiosPrivate'
+import useAxiosPrivate from '../../api/useAxiosPrivate'
 
 const RasporedGrupni = (props) => {
 

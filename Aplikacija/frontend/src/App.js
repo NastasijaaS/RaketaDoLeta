@@ -12,7 +12,6 @@ import React, { createContext, Suspense, useContext, useMemo, useState } from "r
 import { BrowserRouter as Router, Routes, Route, Navigate, NavigationType } from "react-router-dom";
 import { UserContext } from './context/UserContext';
 import { CssBaseline, IconButton } from '@mui/material';
-import Navbar from './komponente/Navbar';
 import Uprava from './profil/ProfilUprava'
 import Footer from './komponente/Footer';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
@@ -20,12 +19,12 @@ import ZakazaniTreninzi from './profil/Korisnik/ZakazaniTreninzi';
 import Napredak from './profil/Korisnik/Napredak';
 import GrupniTreninzi from './pocetna/GrupniTreninzi';
 import VelikiBlog from './pocetna/VelikiBlog'
-import NavbarTrener from './komponente/NavbarTrener';
 import Tabela from './profil/Uprava/TabelaKorisnici';
 import ZahteviTrenera from './profil/Trener/Zahtevi';
-import TreninziTrenera from './profil/Trener/Treninzi';
 import KorisniciTrenera from './profil/Trener/Korisnici';
-import NavbarUprava from './komponente/NavbarUprava';
+import NavbarUprava from './komponente/Navbar/NavbarUprava';
+import NavbarTrener from './komponente/Navbar/NavbarTrener';
+import Navbar from './komponente/Navbar/Navbar';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import KorisnikVeliko from './profil/Trener/KorisnikVeliko'

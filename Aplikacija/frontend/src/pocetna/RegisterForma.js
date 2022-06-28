@@ -6,7 +6,7 @@ import { UserContext } from '../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, TextField, Box, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import Info from '../komponente/Info'
+import Info from '../komponente/Inputi/Info'
 import axios from 'axios';
 
 

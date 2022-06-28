@@ -1,8 +1,8 @@
 import { Checkbox, FormControlLabel, TextField, Button, Box, Typography } from '@mui/material'
 import React, { useRef, useState, Fragment } from 'react'
-import { PostMetoda } from './Fetch'
-import Greska from './Alert'
-import useAxiosPrivate from '../api/useAxiosPrivate'
+import { PostMetoda } from '../Fetch'
+import Greska from '../Alert'
+import useAxiosPrivate from '../../api/useAxiosPrivate'
 
 const Info = ({ labela, tip, reff }) => {
     return (

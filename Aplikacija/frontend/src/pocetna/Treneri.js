@@ -7,7 +7,7 @@ import { UserContext } from '../context/UserContext';
 import Modal from '../komponente/Modal'
 import LogIn from './LoginForma';
 import Register from './RegisterForma';
-import FormaZakaziPersonalni from '../komponente/FormaZakaziPersonalni';
+import FormaZakaziPersonalni from '../komponente/Forme/FormaZakaziPersonalni';
 
 const Treneri = () => {
 

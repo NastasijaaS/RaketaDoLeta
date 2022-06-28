@@ -1,7 +1,5 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import { UserContext } from '../../context/UserContext'
-import { GetData } from '../../komponente/Fetch'
-import axios from 'axios'
 import CircularProgress from '@mui/material/CircularProgress';
 import { Typography, Grid, Card, CardContent, } from '@mui/material';
 import Modal from '@mui/material/Modal';

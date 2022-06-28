@@ -1,15 +1,10 @@
 import { Fragment } from "react"
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import { Badge } from '@mui/material';
 import Button from '@mui/material/Button';
-import { UserContext } from '../context/UserContext';
-import Zvonce from './Zvonce'
-import { GetData } from './Fetch'
-import useAxiosPrivate from "../api/useAxiosPrivate";
+import { UserContext } from '../../context/UserContext';
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 const NoviZahtev = () => {

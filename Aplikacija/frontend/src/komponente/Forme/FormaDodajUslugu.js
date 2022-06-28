@@ -1,8 +1,7 @@
 import { useState, useRef, } from 'react'
-import Button from '@mui/material/Button';
-import { TextField, Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
-import '../styles/input.css'
-import useAxiosPrivate from '../api/useAxiosPrivate';
+import {Button, TextField, Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import '../../styles/input.css'
+import useAxiosPrivate from '../../api/useAxiosPrivate';
 
 
 const FormaDodajUslugu = (props) => {
@@ -108,7 +107,7 @@ const FormaDodajUslugu = (props) => {
                 <FormControlLabel
                     sx={{ alignSelf: 'center' }}
                     value="online"
-                    onChange={(ev) => { grupniTrening = ev.target.checked }}
+                    onChange={(ev) => { isGrupni(ev.target.checked) }}
                     control={<Checkbox color="primary" />}
                     label="Grupni trening"
                     labelPlacement="start"

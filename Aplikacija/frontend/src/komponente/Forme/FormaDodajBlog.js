@@ -1,9 +1,9 @@
 import { Button, Typography, TextField } from "@mui/material"
 import { Box, } from "@mui/system"
 import { useRef, useState } from "react"
-import DropDown from "./DropDown"
-import useAxiosPrivate from "../api/useAxiosPrivate"
-import Info from "./Info"
+import DropDown from "../Inputi/DropDown"
+import useAxiosPrivate from "../../api/useAxiosPrivate"
+import Info from "../Inputi/Info"
 
 
 const tagovi = ['Zdravlje', 'Fitnes', 'Ishrana', 'Trening']
@@ -13,17 +13,23 @@ const FormaDodajBlog = (props) => {
 
     const axiosPrivate = useAxiosPrivate()
 
-    const file = useRef()
+    // const file = useRef()
     const naslov = useRef()
     const kratakOpis = useRef()
     const tekst = useRef()
     const slika = useRef()
 
     const [tag, setTag] = useState('')
+    const [file, setFile] = useState('')
+
 
     const dodajBlog = async (event) => {
 
-        if (naslov.current.value === '' || tekst.current.value === '' || tag === '') {
+        if (naslov.current.value === ''
+            || tekst.current.value === ''
+            || tag === ''
+            || kratakOpis.current.value === ''
+            || slika.current.value === '') {
             alert('Morate uneti sve podatke')
             return
         }
@@ -32,24 +38,32 @@ const FormaDodajBlog = (props) => {
         formData.append('file', file);
         formData.append('fileName', file.name);
 
-        console.log(file)
+        console.log(file.name)
         console.log(formData)
 
-        await axiosPrivate.post('http://localhost:8800/api/blog/dodajBlog', {
 
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        }
+        await axiosPrivate.post('http://localhost:8800/api/blog/dodajBlog', {
             naslov: naslov.current.value,
             tekst: tekst.current.value,
-            slika: slika.current.value,
+            // slika: slika.current.value,
             tagovi: tag,
             kratakopis: kratakOpis.current.value,
-        }).then(p => {
-            if (p.status === 200) {
-                alert('Uspesno dodat blog')
-            }
-        }).catch((error) => {
-            alert('Doslo je do greske')
-            console.log('greska prilkom upisa: ' + error.message)
-        });
+            slika: formData
+
+        }, config)
+            .then(p => {
+                if (p.status === 200) {
+                    alert('Uspesno dodat blog')
+                }
+            }).catch((error) => {
+                alert('Doslo je do greske')
+                console.log('greska prilkom upisa: ' + error.message)
+            });
         props.onClose()
     }
 
@@ -68,7 +82,7 @@ const FormaDodajBlog = (props) => {
             <Info sx={{ width: '100%' }} className='prelomi' multiline labela='Tekst' tip='text' reff={tekst} />
 
             <Info sx={{ width: '100%' }} labela='Slika' tip='text' reff={slika} />
-            <Info sx={{ width: '100%' }} fullWidth tip='file' reff={file} />
+            <Info sx={{ width: '100%' }} fullWidth tip='file' onChange={(ev) => { setFile(ev.target.files[0]) }} />
 
             <Box sx={{ alignItems: 'center' }} >
                 <Button fullWidth variant='outlined' onClick={dodajBlog} >Unesi</Button>

@@ -1,11 +1,10 @@
 import { useState, Fragment, useEffect } from 'react'
 import { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { Box, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import { GetData, PutMetoda, DeleteMetoda } from './Fetch'
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import useAxiosPrivate from '../api/useAxiosPrivate'
+import useAxiosPrivate from '../../api/useAxiosPrivate'
 
 const RasporedTrener = (props) => {
 

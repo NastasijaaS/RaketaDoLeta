@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
 import { Button,  Card,  Typography, Grid, CardActions, CardContent } from "@mui/material";
 import './../styles/input.css'
-import IzmeniLozinku from "../komponente/IzmeniLozinku";
+import IzmeniLozinku from "../komponente/Inputi/IzmeniLozinku";
 import useAxiosPrivate from "../api/useAxiosPrivate";
 
 const Korisnik = (props) => {

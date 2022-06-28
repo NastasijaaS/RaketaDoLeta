@@ -1,9 +1,9 @@
 import { Button, } from "@mui/material"
 import { useEffect, useState } from "react"
 import useAxiosPrivate from "../../api/useAxiosPrivate"
-import FormaDodajBlog from "../../komponente/FormaDodajBlog"
+import FormaDodajBlog from "../../komponente/Forme/FormaDodajBlog"
 import Modal from "../../komponente/Modal"
-import TabelaZaReciklazu from "../../komponente/TabelaZaReciklazu"
+import TabelaZaReciklazu from "../../komponente/Tabele/TabelaZaReciklazu"
 
 
 const head = ['naslov', 'datum', 'tagovi']

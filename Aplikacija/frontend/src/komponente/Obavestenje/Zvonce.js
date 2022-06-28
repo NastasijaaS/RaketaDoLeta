@@ -4,21 +4,9 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Obavestenja from './Obavestenja'
-import { GetData } from './Fetch';
-import useAxiosPrivate from '../api/useAxiosPrivate'
+import useAxiosPrivate from '../../api/useAxiosPrivate'
 
-const notifications = [
-    {
-        id: 0,
-        poruka: 'vas trening za datum je odobren'
-    },
-    {
-        id: 1,
-        poruka: 'vas trening za datum je odbijen'
-    },
-];
-
-const Zvonce = ({ iconColor, user, status }) => {
+const Zvonce = ({ user, status }) => {
 
     const axiosPrivate = useAxiosPrivate()
 
@@ -41,25 +29,6 @@ const Zvonce = ({ iconColor, user, status }) => {
             //  GetData('http://localhost:8800/api/korisnik/vidiZahteveZaKorisnika/' + user, setData, setGreska, setIsLoading)
             url = 'http://localhost:8800/api/zahtev/vidiZahteveZaKorisnika/' + user
         }
-
-        // const get = async () => {
-        //     const res = await fetch(url, {
-        //         method: 'GET',
-        //         headers: {
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json',
-        //             
-        //         },
-        //     })
-        //     if (res.ok) {
-        //         // console.log(await res.json())
-
-        //         const obavestenja = await res.json()
-        //         if (data !== obavestenja) {
-        //             setData(obavestenja)
-        //         }
-        //     }
-        // }
 
         const get = async () => {
             await axiosPrivate.get(url).then(res => {

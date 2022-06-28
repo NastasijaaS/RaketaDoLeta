@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import { Card, CardMedia, CardContent, CardActionArea, CardActions, Grid } from '@mui/material';
-import FormaIzmeniTrening from "../../komponente/FormaIzmeniTrening";
+import FormaIzmeniTrening from "../../komponente/Forme/FormaIzmeniTrening";
 import Modal from '../../komponente/Modal'
 import '../../styles/stil.css'
 import useAxiosPrivate from "../../api/useAxiosPrivate";

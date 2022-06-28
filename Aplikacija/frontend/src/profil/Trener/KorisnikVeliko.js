@@ -1,14 +1,11 @@
 import { useState, useEffect, useContext, Fragment, useRef } from 'react';
 import Button from '@mui/material/Button';
 import Modal from '../../komponente/Modal'
-import DodajNapredak from '../../komponente/DodajNapredak';
+import DodajNapredak from '../../komponente/Forme/FormaDodajNapredak';
 import { Card, CardContent, Typography, CardActions, Grid } from '@mui/material';
 import { useLocation } from 'react-router-dom';
-import DodajEvidenciju from '../../komponente/DodajEvidenciju';
 import { UserContext } from '../../context/UserContext';
-import { GetData } from '../../komponente/Fetch';
 import NapredakGrafici from '../../komponente/NapredakGrafici';
-import axios from 'axios';
 import { Box } from '@mui/system';
 import useAxiosPrivate from '../../api/useAxiosPrivate';
 
@@ -104,8 +101,6 @@ const KorisnikVeliko = (props) => {
                         <CardActions>
                             {!nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
                             {nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
-
-                            {/* <Button onClick={() => setEvidencija(true)}>Dodaj evidenciju</Button> */}
                         </CardActions>
                         {napredak && <Modal onClose={() => { setNapredak(false) }}>
                             <DodajNapredak prvi={prvi} napredakId={k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />

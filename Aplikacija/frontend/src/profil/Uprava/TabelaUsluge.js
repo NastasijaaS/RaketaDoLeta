@@ -12,7 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import TableContainer from '@mui/material/TableContainer';
 import Modal from '../../komponente/Modal';
 import useAxiosPrivate from '../../api/useAxiosPrivate';
-import FormaDodajUslugu from '../../komponente/FormaDodajUslugu';
+import FormaDodajUslugu from '../../komponente/Forme/FormaDodajUslugu';
 
 const TabelaUsluge = () => {
 

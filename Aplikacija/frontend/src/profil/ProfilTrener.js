@@ -4,10 +4,10 @@ import { UserContext } from '../context/UserContext';
 import { Typography, Card, CardMedia, CardContent, Grid, Button, CardActions, IconButton } from '@mui/material';
 import { GetData } from '../komponente/Fetch';
 import Modal from '../komponente/Modal';
-import IzmeniLozinku from '../komponente/IzmeniLozinku'
-import KalendarForma from '../komponente/KalendarForma';
-import FormaDodajTermin from '../komponente/FormaDodajTermin';
-import NapraviGrupni from '../komponente/NapraviGrupni'
+import IzmeniLozinku from '../komponente/Inputi/IzmeniLozinku'
+import KalendarForma from '../komponente/Tabele/KalendarForma';
+import FormaDodajTermin from '../komponente/Forme/FormaDodajTermin';
+import NapraviGrupni from '../komponente/Forme/FormaNapraviGrupni'
 import useAxiosPrivate from "../api/useAxiosPrivate";
 
 const Trener = (props) => {

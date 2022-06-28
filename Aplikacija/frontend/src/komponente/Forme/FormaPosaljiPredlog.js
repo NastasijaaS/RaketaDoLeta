@@ -2,9 +2,9 @@ import React, { useContext, useState } from "react";
 import Button from "@mui/material/Button";
 import { Box } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { PutMetoda } from './Fetch'
-import Modal from './Modal'
-import { UserContext } from "../context/UserContext";
+import { PutMetoda } from '../Fetch'
+import Modal from '../Modal'
+import { UserContext } from "../../context/UserContext";
 
 
 const DropDown = ({ labela, set, niz, value }) => {

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { GetData } from '../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';
 import { Card, CardActions, CardContent, CardMedia, Grid, Typography, Button, Box } from '@mui/material';
-import KalendarForma from '../komponente/KalendarForma'
+import KalendarForma from '../komponente/Tabele/KalendarForma'
 
 
 const GrupniTreninzi = () => {

@@ -1,4 +1,4 @@
-import RasporedTrener from "../../komponente/RasporedTrener";
+import RasporedTrener from "../../komponente/Tabele/RasporedTrener";
 import { useContext, useEffect, useState } from "react";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 import { UserContext } from "../../context/UserContext";

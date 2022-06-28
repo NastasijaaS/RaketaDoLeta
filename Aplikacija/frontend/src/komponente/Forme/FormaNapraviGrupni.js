@@ -1,7 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import '../styles/formaZakazi.css'
-import '../styles/stil.css'
-import { UserContext } from "../context/UserContext";
+import '../../styles/formaZakazi.css'
+import '../../styles/stil.css'
 import Button from "@mui/material/Button";
 import { Box, Grid, TextField, Typography } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select, FormControlLabel } from '@mui/material';
@@ -10,11 +9,9 @@ import Stack from '@mui/material/Stack';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Checkbox } from "@mui/material";
-import Greska from './Alert'
-import { PostMetoda, GetData } from './Fetch'
+import Greska from '../Alert'
 import hrLocale from 'date-fns/locale/hr'
-import useAxiosPrivate from '../api/useAxiosPrivate'
+import useAxiosPrivate from '../../api/useAxiosPrivate'
 
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
 const trajanje = ["30min", "45min", "1h"]

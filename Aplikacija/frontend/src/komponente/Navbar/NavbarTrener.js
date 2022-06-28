@@ -14,8 +14,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { UserContext } from '../context/UserContext';
-import Zvonce from './Zvonce'
+import { UserContext } from '../../context/UserContext';
+import Zvonce from '../Obavestenje/Zvonce'
 import NoviZahtev from "./NoviZahtev";
 
 

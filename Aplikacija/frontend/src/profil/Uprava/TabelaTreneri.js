@@ -12,7 +12,7 @@ import Modal from '../../komponente/Modal'
 import { Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import Register from '../../pocetna/RegisterForma';
-import DodajTrenera from '../../komponente/DodajTrenera';
+import DodajTrenera from '../../komponente/Forme/FormaDodajTrenera';
 import useAxiosPrivate from '../../api/useAxiosPrivate';
 
 

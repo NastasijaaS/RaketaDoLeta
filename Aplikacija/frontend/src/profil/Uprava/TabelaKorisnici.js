@@ -17,8 +17,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../../styles/tabela.css'
-import { DeleteMetoda, PutMetoda, GetData } from '../../komponente/Fetch'
-import axios from 'axios'
 import { UserContext } from '../../context/UserContext';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
@@ -28,7 +26,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
 import Modal from '../../komponente/Modal'
-import DodajNapredak from '../../komponente/DodajNapredak';
 import useAxiosPrivate from '../../api/useAxiosPrivate';
 
 function TablePaginationActions(props) {

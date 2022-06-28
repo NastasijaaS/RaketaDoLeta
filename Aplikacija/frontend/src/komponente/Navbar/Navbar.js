@@ -15,9 +15,9 @@ import MenuItem from '@mui/material/MenuItem';
 import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LoginIcon from '@mui/icons-material/Login';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { Switch } from "@mui/material";
-import Zvonce from './Zvonce'
+import Zvonce from '../Obavestenje/Zvonce'
 
 
 const pages = [

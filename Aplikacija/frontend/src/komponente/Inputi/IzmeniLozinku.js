@@ -1,16 +1,9 @@
-import { useState, useContext, useEffect, useRef, Fragment } from "react";
-import { UserContext } from '../context/UserContext'
-import { GetData, PutMetoda } from '../komponente/Fetch'
-import axios from 'axios'
-import CircularProgress from '@mui/material/CircularProgress';
-import Modal from '@mui/material/Modal';
+import { useState, useContext, useRef, Fragment } from "react";
+import { UserContext } from '../../context/UserContext'
 import Box from '@mui/material/Box';
-import { useNavigate } from "react-router-dom";
-import Alert from '@mui/material/Alert';
-import { Button, TextField, Card, Paper, Typography, Grid, CardActions, CardContent } from "@mui/material";
-import './../styles/input.css'
-import { Container } from "@mui/system";
-import useAxiosPrivate from "../api/useAxiosPrivate";
+import { Button, TextField } from "@mui/material";
+import './../../styles/input.css'
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 
 
 const IzmeniLozinku = (props) => {

@@ -1,11 +1,10 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, CircularProgress, Grid, IconButton, List, ListItem, Paper, Typography } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
-import { GetData, PutMetoda } from "../../komponente/Fetch";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import FormaPosaljiPredlog from "../../komponente/FormaPosaljiPredlog";
+import FormaPosaljiPredlog from "../../komponente/Forme/FormaPosaljiPredlog";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 
 const ZahteviTrenera = () => {

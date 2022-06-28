@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext, Fragment, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { GetData, PutMetoda } from '../../komponente/Fetch'
 import { UserContext } from '../../context/UserContext';
 import { Card, CardMedia, CardContent, CardActionArea, CardAction, Typography, Grid, CardActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';

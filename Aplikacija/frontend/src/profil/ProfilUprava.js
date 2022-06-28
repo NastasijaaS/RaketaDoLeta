@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Tabela from './Uprava/TabelaKorisnici';
 import TabelaUsluge from './Uprava/TabelaUsluge';
-import OdbijeniTreninzi from './Uprava/TabelaOdbijeniTreninzi';
 import TabelaTreneri from './Uprava/TabelaTreneri';
 import { Grid } from "@mui/material";
 import Blogovi from "./Uprava/Blogovi";

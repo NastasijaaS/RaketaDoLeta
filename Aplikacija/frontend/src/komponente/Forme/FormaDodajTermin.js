@@ -1,20 +1,14 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
-import '../styles/formaZakazi.css'
-import '../styles/stil.css'
-import { UserContext } from "../context/UserContext";
+import React, { useState} from "react";
+import '../../styles/formaZakazi.css'
+import '../../styles/stil.css'
 import Button from "@mui/material/Button";
-import { Box, Grid, TextField, Typography } from '@mui/material';
-import { FormControl, InputLabel, MenuItem, Select, FormControlLabel } from '@mui/material';
+import { Box,TextField, Typography } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import Stack from '@mui/material/Stack';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Checkbox } from "@mui/material";
-import Greska from './Alert'
-import { PostMetoda, GetData } from './Fetch'
 import ruLocale from 'date-fns/locale/ru'
-import useAxiosPrivate from "../api/useAxiosPrivate";
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 
 const FormaDodajTermin = (props) => {
 

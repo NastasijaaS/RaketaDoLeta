@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Menu from '@mui/material/Menu';
 import Delete from '@mui/icons-material/Delete';
-import { DeleteMetoda } from './Fetch';
+import { DeleteMetoda } from '../Fetch';
 import { ListItemText, Typography, ListItem, Divider, Box, ListItemIcon, ButtonBase } from '@mui/material';
-import useAxiosPrivate from '../api/useAxiosPrivate';
+import useAxiosPrivate from '../../api/useAxiosPrivate';
 
 
 const Obavestenja =  ({  handleClose, open, menuItems, anchorEl,refresh }) => {

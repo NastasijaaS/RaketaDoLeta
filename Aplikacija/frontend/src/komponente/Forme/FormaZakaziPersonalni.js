@@ -1,15 +1,14 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import '../styles/stil.css'
-import { UserContext } from "../context/UserContext";
+import '../../styles/stil.css'
+import { UserContext } from "../../context/UserContext";
 import Button from "@mui/material/Button";
 import { Box, Grid, TextField, Typography } from '@mui/material';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import Greska from './Alert'
-import { PostMetoda, GetData } from './Fetch'
-import useAxiosPrivate from "../api/useAxiosPrivate";
+import Greska from '../Alert'
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
