@@ -8,8 +8,30 @@ export const vratiBlogove = async (req, res) => {
     try {
         const blogovi = await Blog.find()
         if (blogovi.length != 0) {
-            return res.status(200).json(blogovi)
+            let vrati = []
+            for (let i = 0; i < blogovi.length; i++) {
+                const blog = await Blog.findById(blogovi[i]._id)
+                if(blog)
+                {
+                    let datum = blog[i].datum;
+                    let samoDatum = datum.toLocaleDateString()
+
+                let tr = {
+                    id:blog[i]._id,
+                    naslov:blog[i].naslov,
+                    datum:samoDatum,
+                    tekst:blog[i].tekst,
+                    tagovi:blog[i].tagovi,
+                    kratakopis:blog[i].kratakopis
+
+                }
+                vrati.push(tr)
+            }
         }
+            res.status(200).json(vrati)  
+
+        }
+        
         else {
             return res.status(400).json("Nema  za prikaz")
         }

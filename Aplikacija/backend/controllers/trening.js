@@ -960,24 +960,30 @@ export const vratiProsleTreninge = async (req, res) => {
                     if(trening!=null)
                     {
                     const korisnik = await Korisnik.findById(trening.clanovi[0])
-                    
+
                     const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
+
+                    let datum = trening[i].datum;
+                    let samoDatum = datum.toLocaleDateString()
+                    let vremee = trening[i].datum;
+                    let samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
 
                     let tr = {
                         imeK:regK.ime,
                         prezimeK:regK.prezime,
-                        datum:trening?.datum,
-                        vreme:trening?.vreme,
-                        trener: trening?.trenerId,
-                        tip: trening?.tip,
-                        intenzitet: trening?.intenzitet,
-                        trajanje: trening?.trajanje
+                        datum:samoDatum,
+                        vreme:samovreme,
+                        trener: trening[i].trenerId,
+                        tip: trening[i].tip,
+                        intenzitet: trening[i].intenzitet,
+                        trajanje: trening[i].trajanje
                     }
                     vrati.push(tr)
                 }
             
             }
                 return res.status(200).json(vrati)
+        
             
             }
             else {
