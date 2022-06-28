@@ -1,9 +1,10 @@
-import { Button, } from "@mui/material"
+import { Button, Box} from "@mui/material"
 import { useEffect, useState } from "react"
 import useAxiosPrivate from "../../api/useAxiosPrivate"
 import FormaDodajBlog from "../../komponente/Forme/FormaDodajBlog"
 import Modal from "../../komponente/Modal"
 import TabelaZaReciklazu from "../../komponente/Tabele/TabelaZaReciklazu"
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const head = ['naslov', 'datum', 'tagovi']
@@ -29,7 +30,7 @@ const Blogovi = () => {
                 .then(p => {
                     if (p.status === 200) {
                         setBlogovi(p.data)
-                        // console.log(p.data)
+                        console.log(p.data)
                         setLoading(false)
                     }
                 }).catch((error) => {
@@ -59,12 +60,12 @@ const Blogovi = () => {
     }
 
     if (loading)
-        return (<p>ucitava se</p>)
+        return (<Box><CircularProgress /></Box>)
     return (
         <>
             {dodajBlog &&
                 <Modal onClose={() => { setDodajBlog(false) }}>
-                    <FormaDodajBlog onClose={() => { setDodajBlog(false) }} />
+                    <FormaDodajBlog onClose={() => { setDodajBlog(false); setReload(!reload) }} />
                 </Modal>
             }
             <Button onClick={() => setDodajBlog(true)}>novi blog</Button>

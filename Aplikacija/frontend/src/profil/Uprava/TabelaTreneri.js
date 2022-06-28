@@ -14,6 +14,8 @@ import { Box } from '@mui/system';
 import Register from '../../pocetna/RegisterForma';
 import DodajTrenera from '../../komponente/Forme/FormaDodajTrenera';
 import useAxiosPrivate from '../../api/useAxiosPrivate';
+import TabelaZaReciklazu from "../../komponente/Tabele/TabelaZaReciklazu"
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const TabelaTreneri = () => {
@@ -48,7 +50,7 @@ const TabelaTreneri = () => {
     function getStepContent(step) {
         switch (step) {
             case 0:
-                return <Register sx = {{margin: '0%'}} setIdTrenera={setIdTrenera} />;
+                return <Register sx={{ margin: '0%' }} setIdTrenera={setIdTrenera} />;
             case 1:
                 return <DodajTrenera idTrenera={idTrenera} />;
             default:
@@ -62,7 +64,7 @@ const TabelaTreneri = () => {
     //ovde se zavrsava
 
     useEffect(() => {
-       // GetData("http://localhost:8800/api/trener/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
+        // GetData("http://localhost:8800/api/trener/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
 
         const get = async () => {
             setIsLoading(true)
@@ -94,7 +96,7 @@ const TabelaTreneri = () => {
 
         try {
             await axiosPrivate.delete('http://localhost:8800/api/trener/obrisiTrenera/' + id)
-           
+
         } catch (err) {
             alert('Doslo je do greske')
         }
@@ -105,8 +107,11 @@ const TabelaTreneri = () => {
         setRefresh(!refresh)
     }
 
+    const head = ['Ime', 'Prezime', 'E-mail']
+    const rowName = ['ime', 'prezime', 'email']
 
-
+    if (isLoading)
+        return (<Box><CircularProgress /></Box>)
 
     return (
         <div>
@@ -114,7 +119,10 @@ const TabelaTreneri = () => {
                 variant="outlined"
                 onClick={() => setDodaj(true)}>novi trener</Button>
 
-            <Table>
+            <TabelaZaReciklazu head={head} rows={sviTreneri} rowName={rowName} onDelete={obrisiTrenera} search1='ime' search2='prezime' />
+
+
+            {/* <Table>
                 <TableHead>
                     <TableRow>
                         <th>ime</th>
@@ -142,13 +150,13 @@ const TabelaTreneri = () => {
                     ))}
 
                 </TableBody>
-            </Table>
+            </Table> */}
 
             {dodaj
                 &&
                 <Modal onClose={() => { setDodaj(false); handleReset() }}>
                     <Box sx={{ width: '100%' }}>
-                        <Stepper sx = {{mt:'1vh'}}activeStep={activeStep}>
+                        <Stepper sx={{ mt: '1vh' }} activeStep={activeStep}>
                             {steps.map((label, index) => {
                                 const stepProps = {};
                                 const labelProps = {};
@@ -161,10 +169,10 @@ const TabelaTreneri = () => {
                         </Stepper>
                         {activeStep === steps.length ? (
                             <Fragment>
-                                <Typography component = 'div' variant = 'h4' className = 'cardCenter' sx={{ width: '100%', height:'50vh' }}>
+                                <Typography component='div' variant='h4' className='cardCenter' sx={{ width: '100%', height: '50vh' }}>
                                     Uspesno dodat trener!
                                 </Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
                                     <Box sx={{ flex: '1 1 auto' }} />
                                     <Button onClick={handleReset}>Reset</Button>
                                 </Box>

@@ -3,12 +3,12 @@ import { Card, CardContent, CardMedia, Grid, Paper, Typography } from '@mui/mate
 
 const VelikiBlog = (props) => {
 
-    console.log(props)
+    // console.log(props)
 
     const location = useLocation();
 
-    console.log(location.state)
-    console.log(JSON.parse(window.parameters))
+    // console.log(location.state)
+ //   console.log(JSON.parse(window.parameters))
 
     const blog = location.state ? location.state : JSON.parse(window.parameters)
 
