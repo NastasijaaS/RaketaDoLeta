@@ -20,10 +20,23 @@ export const zakaziPersonalniTrening = async (req, res) => {
             if (korisnik.verifikovan) {
 
                 // const trenerKorisnika = await Trener.findById(korisnik.trenerId);
+                
+                const clanarina = await Clanarina.findById(korisnik.clanarinaId)
+                if (clanarina === null) {
+                    res.status(404).json("Clanarina nije pronadjena")
+                    return
+                  }
+
+
+                const danas = new Date()
+                
+        
+                if (new Date(clanarina.vaziDo) > danas)
+                {
 
                 const trenerKorisnika = await Trener.findById(req.params.idTrenera)
 
-                const termin = await Termin.findById(req.params.idTermina)
+                //const termin = await Termin.findById(req.params.idTermina)
 
 
 
@@ -74,6 +87,13 @@ export const zakaziPersonalniTrening = async (req, res) => {
 
                 return res.status(200).json(trening);
             }
+            else{
+                return res.status(404).json("Istekla vam je clanarina!")
+
+            }
+
+        }
+            
             else {
                 return res.status(404).json("Vas nalog nije verifikovan!")
             }
@@ -987,9 +1007,9 @@ export const vratiProsleTreninge = async (req, res) => {
 
                     const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
 
-                    let datum = trening[i].datum;
+                    let datum = trening.datum;
                     let samoDatum = datum.toLocaleDateString()
-                    let vremee = trening[i].datum;
+                    let vremee = trening.datum;
                     let samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
 
                     let tr = {

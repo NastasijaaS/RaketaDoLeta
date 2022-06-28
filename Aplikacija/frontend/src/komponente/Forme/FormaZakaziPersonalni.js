@@ -97,6 +97,7 @@ const FormaZakaziPersonalni = (props) => {
             await axiosPrivate.post(zahtev.url, zahtev.body)
             alert('Uspesno ste zakazali trening')
         } catch (err) {
+            console.log(err.response.data)
             alert('Doslo je do greske')
         }
 
@@ -108,7 +109,7 @@ const FormaZakaziPersonalni = (props) => {
         //     alert('Uspesno zakazan trening')
         // }
 
-        props.onClose()
+       // props.onClose()
     }
 
 

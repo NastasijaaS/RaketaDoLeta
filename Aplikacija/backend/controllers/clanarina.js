@@ -74,7 +74,7 @@ export const dodajClanarinu = async (req, res) => {
           cena: usluga.cena,
           datumUplate: new Date(),
           vaziDo: datumDo,
-          uslugaId: usluga._id
+          uslugaId: usluga.treningGrupni ? usluga._id : ''
         }
       })
 
