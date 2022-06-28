@@ -39,7 +39,8 @@ export const dodajTerminTreneru = async (req, res) => {
                 datum: req.body.datum,
                 vremePocetka: req.body.vremePocetka,
                 vremeKraja: req.body.vremeKraja,
-                slobodan: true
+                slobodan: true,
+                treningId:""
             })
 
             const terminSave = await t.save()
@@ -151,6 +152,7 @@ export const vratiZauzeteTermineZaTreneraPoDatumu = async (req, res) => {
                             vreme: samovreme,
                             trajanje: "1h",
                             intenzitet: trening.intenzitet,
+                            tip:trening.tip,
                             treningId: trening._id,
                             korisnikId: korisnik._id
                         }

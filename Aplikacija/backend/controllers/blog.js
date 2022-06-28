@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import Blog from "../models/Blog.js"
+import multer from "multer";
 
 //vrati sve blogove
 export const vratiBlogove = async (req, res) => {
@@ -27,7 +28,7 @@ export const vratiBlogove = async (req, res) => {
                     vrati.push(tr)
                 }
             }
-            res.status(200).json(vrati)
+            return res.status(200).json(vrati)
 
         }
 
@@ -111,5 +112,6 @@ export const obrisiBlog = async (req, res) => {
         return res.status(500).json(err);
     }
 };
+
 
 export default router;

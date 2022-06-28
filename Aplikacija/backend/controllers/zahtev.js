@@ -18,6 +18,8 @@ export const obrisiZahtev = async (req, res) => {
     }
 };
 
+
+
 export const vidiZahteve = async (req, res) => {
 
     try {
@@ -46,6 +48,8 @@ export const vidiZahteve = async (req, res) => {
     }
 
 }
+
+
 
 export const vidiZahteveZaKorisnika = async (req, res) => {
 
@@ -106,39 +110,30 @@ export const napraviZahtev =async (req, res) => {
 } 
 
 //vrati listu odbijenih  
-export const vratiZahteveOdbijeni = async (req, res) => {
+export const vratiZahteveTrenera = async (req, res) => {
 
   try {
-    const zahtev = await Zahtev.find({ status: ("Ukinuto" || "Odbijeno") })
-    //res.status(200).json(zahtev)
-    if (zahtev.length != 0) {
+    const registrovaniKorisnik = await RegistrovaniKorisnik.findById(req.params.idRegKorisnika)
+    if (registrovaniKorisnik != null) {
 
-      let zahtevi = []
-
-
-      for (let i = 0; i < zahtev.length; i++) {
-
-        const zah = {
-
-          poruka: zahtev[i].poruka
-
+        const zahtev = await Zahtev.find({$and:[{registrovaniKorisnikId:registrovaniKorisnik._id}, {status: { $in: ['Odobreno','Ukinuto']}}]})
+        console.log(zahtev)
+        if (zahtev != null) {
+            return res.status(200).json(zahtev)
+        }
+        else {
+            return res.status(404).json("ne postoji zahtev za trenera")
         }
 
-        zahtevi.push(zah)
-      }
-
-       return res.status(200).json(zahtevi)
     }
-
     else {
-      return res.status(400).json("Nema zahteva za prikaz")
+       return res.status(404).json("korisnik nije pronadjen")
     }
 
-  }
-  catch (err) {
+}
+catch (err) {
     return res.status(500).json(err);
-  }
-
+}
 }
 
 export const napraviZahtevTrener =async (req, res) => {
@@ -147,7 +142,7 @@ export const napraviZahtevTrener =async (req, res) => {
     
     const korisnik = await Korisnik.findById(req.body.idKorisnika)
     
-    console.log(korisnik)
+    //console.log(korisnik)
     if(korisnik!=null)
     {
     
