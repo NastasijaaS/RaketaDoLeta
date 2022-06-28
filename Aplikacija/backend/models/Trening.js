@@ -31,9 +31,7 @@ const TreningSchema = new mongoose.Schema({
     brojMaxClanova:{
         type:Number
     },
-    //brojTrenClanova:{
-        //type:Number
-    //},
+
     
     trenerId:{
         type:String
@@ -46,30 +44,10 @@ const TreningSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
-    //imeT: {
-        //type: String,
-        //max: 20
-      
 
-    //},
-    //prezimeT: {
-        //type: String,
-        //max: 20
-    //},
-    //brojTrenClanova:{
-        //type:String
-    //}
     uslugaId:{
         type:String
-    },
-    //status:{
-        //type: String,
-        //enum:["Odobreno", "Odbijeno", "Na cekanju"],
-        
-    //},
-    //idZahteva:{
-        //type:String
-    //}
+    }
     
 },
 {timestamps:true}

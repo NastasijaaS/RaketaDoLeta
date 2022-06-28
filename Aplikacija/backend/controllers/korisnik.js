@@ -210,8 +210,8 @@ export const obrisiKorisnika = async (req, res) => {
     if(korisnik!=null)
     {
     //res.status(200).json(korisnik)
-      await RegistrovaniKorisnik.findOneAndDelete({_id:korisnik.registrovaniKorisnikId})
-      await Korisnik.findOneAndDelete({_id:korisnik._id})
+      await RegistrovaniKorisnik.findByIdAndDelete(korisnik.registrovaniKorisnikId)
+      await Korisnik.findByIdAndDelete(korisnik._id)
       return res.status(200).json("Korisnik je obrisan");
     }
     else

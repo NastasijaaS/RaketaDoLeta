@@ -22,8 +22,8 @@ const Zvonce = ({ user, status }) => {
     useEffect(() => {
         let url = ''
         if (status) {
-            //  GetData('http://localhost:8800/api/korisnik/vidiZahteve/' + user + '/' + status, setData1, setGreska, setIsLoading)
-            url = 'http://localhost:8800/api/zahtev/vidiZahteve/' + user + '/' + status
+            //  GetData('http://localhost:8800/api/korisnik/vratiZahteveTrenera/' + user + '/' + status, setData1, setGreska, setIsLoading)
+            url = 'http://localhost:8800/api/zahtev/vratiZahteveTrenera/' + user 
         }
         else {
             //  GetData('http://localhost:8800/api/korisnik/vidiZahteveZaKorisnika/' + user, setData, setGreska, setIsLoading)
