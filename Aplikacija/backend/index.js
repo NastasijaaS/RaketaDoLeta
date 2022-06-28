@@ -4,8 +4,6 @@ import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
-//const multer = require("multer");
-//import usersRoute from "./Routes/users.js";
 import authRoute from "./routes/auth.js";
 import registrovaniKorisnikRoute from "./routes/registrovaniKorisnik.js";
 import trenerRoute from "./routes/trener.js";
@@ -37,8 +35,7 @@ mongoose.connect(
 const app = express();
 app.use(helmet());
 app.use(express.json());
-
-
+//app.use(multer())
 app.use(cors())
 
 
