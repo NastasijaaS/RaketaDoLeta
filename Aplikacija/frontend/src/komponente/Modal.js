@@ -11,7 +11,7 @@ const Modal = (props) => {
 
     const t = sessionStorage.getItem('tema')
 
-    const theme = t === 'light' ? darkTheme : lightTheme
+    const theme = t === 'dark' ? darkTheme : lightTheme
 
     return (
         ReactDOM.createPortal(

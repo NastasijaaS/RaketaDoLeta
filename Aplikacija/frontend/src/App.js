@@ -70,24 +70,25 @@ import { lightTheme, darkTheme } from './komponente/Theme';
 function App() {
 
   const { user, ucitavaSe } = useContext(UserContext);
-  console.log(ucitavaSe)
-  console.log(user)
 
   const prefersDarkMode = window.matchMedia && window.matchMedia('refers-color-scheme: dark').matches
 
   if (!sessionStorage.getItem('tema')) {
+    //  console.log(prefersDarkMode)
     sessionStorage.setItem('tema', prefersDarkMode ? 'dark' : 'light')
   }
 
   const t = sessionStorage.getItem('tema')
-  const [mode, setMode] = useState(t ? t : 'light');
+  console.log(t)
+  const [mode, setMode] = useState(t ? t : 'dark');
 
   const toggleColorMode = () => {
-    setMode(mode === 'light' ? 'dark' : 'light')
-    sessionStorage.setItem('tema', mode === 'light' ? 'dark' : 'light')
+    const newMode = mode === 'light' ? 'dark' : 'light'
+    setMode(newMode)
+    sessionStorage.setItem('tema', newMode)
   }
 
-  const theme = mode === 'light' ? darkTheme : lightTheme
+  const theme = mode === 'light' ? lightTheme : darkTheme
 
   if (ucitavaSe) {
     return <Loading />
@@ -140,7 +141,6 @@ function App() {
 
               <Route path='/napredak' element={<Napredak />} />
               <Route path='/vasitreninzi' element={<ZakazaniTreninzi />} />
-
               <Route path='/grupnitreninzi' element={<GrupniTreninzi />} />
 
               {/* <Route path='/profil' element={<UserPocetna />} ></Route> */}
