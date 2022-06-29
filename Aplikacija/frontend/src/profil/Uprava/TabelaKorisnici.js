@@ -1,68 +1,18 @@
 import { useState, useEffect, useContext, Fragment, useRef } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
+import {Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow} from '@mui/material';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SearchIcon from '@mui/icons-material/Search';
-import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import '../../styles/tabela.css'
 import { UserContext } from '../../context/UserContext';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Grid from '@mui/material/Grid';
-import Radio from '@mui/material/Radio';
-import RadioGroup, { useRadioGroup } from '@mui/material/RadioGroup';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
-import Modal from '../../komponente/Modal'
 import useAxiosPrivate from '../../api/useAxiosPrivate';
-
-function TablePaginationActions(props) {
-
-    const theme = useTheme();
-    const { count, page, rowsPerPage, onPageChange } = props;
-
-    const handleBackButtonClick = (event) => {
-        onPageChange(event, page - 1);
-    };
-
-    const handleNextButtonClick = (event) => {
-        onPageChange(event, page + 1);
-    };
-
-    return (
-        <Box sx={{ flexShrink: 0 }}>
-
-            <IconButton
-                onClick={handleBackButtonClick}
-                disabled={page === 0}
-                aria-label="previous page"
-            >
-                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-            </IconButton>
-
-            <IconButton
-                onClick={handleNextButtonClick}
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                aria-label="next page"
-            >
-                {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-            </IconButton>
-
-        </Box>
-    );
-}
+import { useRadioGroup, FormControlLabel,Paper,IconButton,FormControl,Grid,Radio,RadioGroup,Button} from '@mui/material';
+import {Input, InputAdornment} from  '@mui/material';
 
 export default function Tabela(props) {
 
@@ -108,8 +58,6 @@ export default function Tabela(props) {
     }, [refresh])
 
     useEffect(() => {
-
-        //GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
 
         const get = async () => {
             await axiosPrivate.get("http://localhost:8800/api/usluga/vidiUsluge").then(p => {
@@ -164,12 +112,6 @@ export default function Tabela(props) {
         setRows(filteredRows)
         setSearchBroj(ev.target.value);
     }
-
-    const cancelSearch = () => {
-        setSearchBroj("");
-        setSearchName('')
-        setRows(korisnici)
-    };
 
     const obrisiKorisnika = async (id) => {
         console.log(id)
@@ -231,29 +173,30 @@ export default function Tabela(props) {
     const RadioButtons = (props) => {
 
         return (
-            <RadioGroup
-                sx={{ justifyContent: 'center' }}
-            >
-                <Grid container spacing={4} sx={{ justifyContent: 'center' }} >
-                    <Grid item xs={6} sm={6} sx={{ justifyContent: 'center' }} >
-
+            <RadioGroup sx = {{display:'flex', alignItems:'center', padding:'2%'}}>
+                <Grid container >
+                   
                         {nizUsluga.map((usl) => (
+                             <Grid item xs = {6} sm={6} md ={4}>
+
                             <FormControlLabel
+                                sx = {{justifyContent: 'center', width: '100%'}}
                                 key={usl._id}
                                 value={usl._id}
                                 control={<Radio />}
                                 onChange={handleRadioChange}
                                 label={usl.naziv} />
+                                                    </Grid>
+
                         ))}
-                    </Grid>
                 </Grid>
 
                 <Button
                     size="medium"
-                    variant="text"
+                    variant="contained"
                     onClick={() => unesiClanarinu(props.idKorisnika)}
                 >
-                    Plati
+                    Uplati clanarinu
                 </Button>
             </RadioGroup >
 
@@ -277,19 +220,19 @@ export default function Tabela(props) {
                         </IconButton>
                     </TableCell>}
 
-                    <TableCell style={{ width: 160 }} component="th" scope="row">
+                    <TableCell  component="th" scope="row">
                         {row.ime + ' ' + row.prezime}
                     </TableCell>
 
-                    <TableCell style={{ width: 160 }} align="right">
+                    <TableCell  align="left">
                         {row.email}
                     </TableCell>
 
                     {
                         props.verifikovan &&
                         <TableCell
-                            style={{ width: 160, color: new Date() > new Date(row.clanarinaDo) ? 'red' : 'inherit' }}
-                            align="right">
+                            style={{ color: new Date() > new Date(row.clanarinaDo) ? 'red' : 'inherit' }}
+                            align="left">
 
                             {row.clanarinaDo}
                         </TableCell>
@@ -297,7 +240,7 @@ export default function Tabela(props) {
                     }
 
                     {
-                        !props.verifikovan && <TableCell style={{ width: 160 }} align="right">
+                        !props.verifikovan && <TableCell align="left">
                             <Button
                                 onClick={() => verifikujNalog(row.id)}
                                 size="medium"
@@ -307,7 +250,7 @@ export default function Tabela(props) {
                         </TableCell>
                     }
 
-                    <TableCell style={{ width: 160 }} align="right">
+                    <TableCell align="left">
                         <Button
                             onClick={() => obrisiKorisnika(row.id)}
                             size="medium"
@@ -318,42 +261,53 @@ export default function Tabela(props) {
                         </Button>
                     </TableCell>
                 </TableRow>
-                <TableRow >
+                {
+                props.verifikovan
+                &&
+                <TableRow>
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                         <Collapse in={open} timeout="auto" unmountOnExit>
-
-                            <Box size="small" sx={{ margin: 1, dispay: 'flex', justifyContent: 'center' }} >
-                                <RadioButtons idKorisnika={row.id} />
-
-                            </Box>
+                            <RadioButtons idKorisnika={row.id} />
                         </Collapse>
                     </TableCell>
-                </TableRow >
+                </TableRow>
+                }
             </Fragment>)
     }
 
     return (
         <Paper>
-            <Box className='divZaSearch'>
-                <div>
+
+            <Box sx = {{display: 'flex', flexDirection:'row', alignItems:'center'}}>
+
+            <FormControl sx = {{m:'2%'}}>
+                <Input
+                placeholder="Ime"
+                value={searchName}
+                onChange={searchByName}
+                startAdornment={
+                    <InputAdornment position="start">
                     <SearchIcon />
-                    <input className='search' value={searchName} placeholder="ime i prezime" onChange={searchByName} />
-                </div>
+                    </InputAdornment>
+                }
+                />
+            </FormControl>
 
-                <div>
+            <FormControl sx = {{m:'2%'}}>
+                <Input
+                placeholder="E-mail"
+                value={searchBroj}
+                onChange={searchByBroj}
+                startAdornment={
+                    <InputAdornment position="start">
                     <SearchIcon />
-                    <input onChange={searchByBroj} value={searchBroj} className='search' placeholder="e-mail" />
-                </div>
-
-                <div>
-                    <Button onClick={cancelSearch} size="medium" variant="outlined" color="error" >
-                        Otkazi
-                    </Button>
-                </div>
-
+                    </InputAdornment>
+                }
+                />
+            </FormControl>
             </Box>
 
-            <TableContainer sx={{ padding: '0px',alignSelf: 'center' }}>
+            <TableContainer>
                 <Table>
                     <TableBody>
                         {
@@ -384,7 +338,6 @@ export default function Tabela(props) {
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                             />
-
                         </TableRow>
                     </TableFooter>
                 </Table>

@@ -12,6 +12,7 @@ const darkTheme = createTheme({
       },
       secondary: {
         main: '#f8af00',
+        contrastText:'#000000'
       },
       error: {
         main: '#f83200',
@@ -30,6 +31,7 @@ const darkTheme = createTheme({
       },
       secondary: {
         main: '#000000',
+        contrastText:'#fff'
       },
       error: {
         main: '#f83200',

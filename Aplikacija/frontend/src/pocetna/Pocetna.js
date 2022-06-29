@@ -69,10 +69,10 @@ const Pocetna = () => {
         <Box>
 
             <Box className='container' sx={{ marginBottom: '10%' }}>
-                <Box>
-                    <div className="poruka"> Krenimo zajedno u novu avanturu </div>
+                <Box fullWidth className = 'pozadinaPoruka'>
+                    <Box className="poruka"> Krenimo zajedno u novu avanturu </Box>
                     <Link to='/treneri'>
-                        <Button variant="outlined" id='centralBtn' size='large' sx={{ backgroundColor: 'white', fontWeight: '800' }} >
+                        <Button variant="outlined" id='centralBtn' size='large' sx={{ backgroundColor: 'secondary.contrastText'}} >
                             Zakazite trening
                         </Button>
                     </Link>
@@ -81,16 +81,27 @@ const Pocetna = () => {
             <Box sx={{ margin: "0% 5%" }}>
                 <Grid container spacing={5}>
                     <Grid item xs={12} md={4} >
-                        <Typography gutterBottom variant='h6' textAlign='center'> Krenimo zajedno u novu avanturu</Typography>
-                        <Typography variant='body1' textAlign='justify'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Typography>
+                        <Typography gutterBottom variant='h6' textAlign='center'> Personalni treninzi</Typography>
+                        <Typography variant='body1' textAlign='justify'>
+                        Personalni trener je tu da od početka do kraja prati tvoje fitnes putovanje – od inicijalnog merenja i razogovora na početku, preko redovnih treninga i njihovih modifikacija u skladu sa tvojim napretkom, pa sve do kontrolnih merenja i provera ostvarenih rezultata.
+
+Trening uz sprave, slobodno vežbanje, kardio, core, funkcionalni ili trening snage – sve ovo ti je, između ostalog, na raspolaganju.
+
+Personalni trener će zadovoljiti tvoje posebne potrebe i želje, bilo da se radi o potrebi poboljšanja opšteg stanja i kondicije, smanjenja težine ili sprovođenju programa rehabilitacionog sadržaja.                        
+                         </Typography>
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <Typography gutterBottom variant='h6' textAlign='center'> Krenimo zajedno u novu avanturu</Typography>
-                        <Typography variant='body1' textAlign='justify' >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Typography>
+                        <Typography gutterBottom variant='h6' textAlign='center'> Mens sana in corpore sano</Typography>
+                        <Typography variant='body1' textAlign='justify' >
+                        Često govorimo o psihi i telu kao da su potpuno odvojeni, što naravno ne može biti istina. Jednostavno je, stanje uma utiče na telo, i obrnuto. Istina je sledeća: Da bi um i telo funkcionisali ispravno i bili u skladu, telu je potrebna redovna fizička aktivnost. Svakako ako vežbate i ako ste aktivni osećaćete se odlično i bićete puni energije. Većina ljudi počinje da vežba zbog fizičke kondicije, lepog izgleda, odlaska na bazen ili na more, unapređenja fizičkog zdravlja, ali mnogi nisu svesni neverovatne mentalne koristi koja se dobija kroz kontinuiranu fizičku aktivnost.
+                        </Typography>
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <Typography gutterBottom variant='h6' textAlign='center'> Krenimo zajedno u novu avanturu</Typography>
-                        <Typography variant='body1' textAlign='justify'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Typography>
+                        <Typography gutterBottom variant='h6' textAlign='center'> Grupni treninzi</Typography>
+                        
+                        <Typography variant='body1' textAlign='justify'>
+                        Grupne vežbe pružaju nesvakidašnju priliku druženja tokom vežbanja i pružaju mnogo više samopouzdanja. Pored toga, ne moraš da angažuješ personalnog trenera jer imaš grupnog, koji ti pruža sve neophodne informacije da uradiš vežbu pravilno. Pored toga, studije pokazuju da se mnogo više topi salo u toku grupnog vežbanja iz razloga što ti ne želiš da odustaneš i budeš baš ta osoba koja nije izgubila ni gram. Pa se trudiš da treniraš jače, bolje i više.Grupne vežbe odlične su za motivaciju jer cela grupa ohrabruje i daje energiju drugima da urade više.                          
+                        </Typography>
                     </Grid>
                 </Grid>
             </Box>
