@@ -1,10 +1,7 @@
 import express from "express";
 const router = express.Router();
 import Blog from "../models/Blog.js"
-import multer from "multer";
-import fs from 'fs';
-import path from 'path'
-import sharp from 'sharp'
+import {slika} from "./auth.js";
 
 //vrati sve blogove
 export const vratiBlogove = async (req, res) => {
@@ -66,13 +63,15 @@ export const vratiBlogTag = async (req, res) => {
 export const dodajBlog = async (req, res) => {
 
     const pom = await slika(req)
+
     
     if (pom === false) {
         console.log('nema slika')
-       // return res.status(500).json('greska prilikom unosa slike');
+ 
     }
-    // console.log(req.body.naslov)
-    // return res.status(500).json('greska prilikom unosa slike');
+
+    
+ 
     try {
         const datum = new Date();
         const blog = await new Blog({
@@ -83,6 +82,7 @@ export const dodajBlog = async (req, res) => {
             slika: pom,
             kratakopis: req.body.kratakopis
         })
+
 
         const blogSave = await blog.save()
         return res.status(200).json(blogSave)
@@ -125,22 +125,7 @@ export const obrisiBlog = async (req, res) => {
 };
 
 
-export const slika = async (req) => {
-     console.log(req.file)
-    const imagePath = './Photos'
-    if (!req.file) {
-        return false
-    }
-    const filename = req.file.originalname;//da ga pozeves s blog i mozes da mu stavis koje god ime
-    const filepath = path.resolve(`${imagePath}/${filename}`)
-    await sharp(req.file.buffer).resize(300, 300,
-        {
-            fit: sharp.fit.inside,
-            withoutEnlargement: true
-        }).toFile(filepath);
 
-    return filename; //vrati naziv slike
-};
 
 
 

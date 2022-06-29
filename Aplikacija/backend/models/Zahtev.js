@@ -15,6 +15,10 @@ const ZahtevSchema = new mongoose.Schema({
     },
     poruka:{
         type:String
+    },
+    predlog:{
+        type:Boolean,
+        default:false
     }
    
     

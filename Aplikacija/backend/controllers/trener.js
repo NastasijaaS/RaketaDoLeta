@@ -2,6 +2,8 @@ import express from "express";
 const router = express.Router();
 import Trener from "../models/Trener.js"
 import RegistrovaniKorisnik from "../models/RegistrovaniKorisnik.js"
+import { slika } from "./auth.js";
+
 
 
 //dodaj profilnu sliku
@@ -151,13 +153,20 @@ export const vidiTrenereSvi = async (req, res) => {
 export const dodajTrenera = async (req, res) => {
   try {
 
+    const pom = await slika(req)
+    
+    if (pom === false) {
+        console.log('nema slika')
+       // return res.status(500).json('greska prilikom unosa slike');
+    }
+
     const kor = await RegistrovaniKorisnik.findById(req.params.id);
     if (kor != null) {
       const noviTrener = await new Trener({
         registrovaniKorisnikId: kor._id,
         iskustvo: req.body.iskustvo,
         sertifikati: req.body.sertifikati,
-        slika: req.body.slika,
+        slika: pom,
         opis: req.body.opis,
         drzigrupne: req.body.drzigrupne
 

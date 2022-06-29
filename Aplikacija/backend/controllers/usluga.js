@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import Usluga from "../models/Usluga.js"
-
+import {slika} from "./auth.js";
 
 
 //pregledaj sve usluge
@@ -28,6 +28,11 @@ export const  vidiUsluge = async (req, res) => {
 export const dodajUslugu = async (req, res) => {
 
   try {
+    const pom = await slika(req)
+
+    if (pom === false) {
+        console.log('nema slika')
+    }
 
     const usluga = await new Usluga({
       cena: req.body.cena,
@@ -35,7 +40,7 @@ export const dodajUslugu = async (req, res) => {
       naziv: req.body.naziv,
       trajanje: req.body.trajanje,
       treningGrupni:req.body.treningGrupni,
-      slika:req.body.slika
+      slika:pom
     })
 
     const uslugaSave = await usluga.save()

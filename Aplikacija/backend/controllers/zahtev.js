@@ -141,21 +141,37 @@ export const napraviZahtevTrener =async (req, res) => {
   try {
     
     const korisnik = await Korisnik.findById(req.body.idKorisnika)
+
+
     
-    //console.log(korisnik)
     if(korisnik!=null)
     {
+      const trening=await Trening.findById(req.body.idTreninga)
+      if(trening!=null)
+      {
+        let datumm = trening.datum
+        let datumm1 = datumm.toLocaleDateString()
     
 
       const zahtev = await new Zahtev({
-        poruka: req.body.poruka,
-        registrovaniKorisnikId:korisnik.registrovaniKorisnikId
+        poruka: "Predlog izmene treninga za datum: " + datumm1 + "\n" + req.body.intezitet + "\n" + req.body.tip + "\n" + req.body.trajanje ,
+        registrovaniKorisnikId:korisnik.registrovaniKorisnikId,
+        predlog:true
       })
+
+
 
       const zahtevSave = await zahtev.save()
       return res.status(200).json(zahtev)
 
     }
+    else
+    {
+      return res.status(404).json("Trening nije pronadjen")
+
+    }
+  }
+
     else
     {
       return res.status(404).json("Korisnik nije pronadjen")

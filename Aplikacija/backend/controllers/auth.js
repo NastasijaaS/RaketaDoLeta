@@ -9,8 +9,8 @@ import Korisnik from "../models/Korisnik.js";
 //import  Evidencija from "../models/Evidencija.js";
 import { generateAccessToken } from "../auth.js";
 import { generateRefreshToken } from "../auth.js";
-
-
+import path from 'path'
+import sharp from 'sharp'
 
 
 
@@ -402,6 +402,21 @@ export const vratiKorisnikaPrekoTokena = async (req, res) => {
   }
 };
 
+export const slika = async (req) => {
+  console.log(req.file)
+ const imagePath = './Photos'
+ if (!req.file) {
+     return false
+ }
+ const filename = req.file.originalname;//da ga pozeves s blog i mozes da mu stavis koje god ime
+ const filepath = path.resolve(`${imagePath}/${filename}`)
+ await sharp(req.file.buffer).resize(300, 300,
+     {
+         fit: sharp.fit.inside,
+         withoutEnlargement: true
+     }).toFile(filepath);
 
+ return filename; //vrati naziv slike
+};
 
 export default router;
