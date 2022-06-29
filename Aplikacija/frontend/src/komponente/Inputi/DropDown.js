@@ -3,8 +3,8 @@ import { FormControl, InputLabel, MenuItem, Select, FormControlLabel } from '@mu
 
 
 const DropDown = ({ labela, set, niz, value }) => {
-    return (<FormControl sx={{ minWidth: 150, }}>
-        <InputLabel>{labela}</InputLabel>
+    return (<FormControl>
+        <InputLabel size = "small">{labela}</InputLabel>
         <Select
             label={labela}
             value={value}

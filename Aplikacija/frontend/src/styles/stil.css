@@ -123,6 +123,7 @@ a{
 
 .inputCSS {
     border: 1px solid #f8af00;
+    background-color: transparent;
     text-align: center;
     border-radius: 8px;
     padding: 5px ;
@@ -137,4 +138,5 @@ a{
 .inputCSS:focus {
     outline: 1px solid #f8af00;
     font-weight: bold;
+    background-color: transparent;
 }

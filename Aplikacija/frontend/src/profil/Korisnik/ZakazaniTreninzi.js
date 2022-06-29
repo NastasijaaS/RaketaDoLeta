@@ -43,6 +43,7 @@ const ZakazaniTreninzi = () => {
                 const res = await axiosPrivate.get("http://localhost:8800/api/trening/vidiZakazaneTreningePersonalni/" + user.korisnikId)
                 setZakazaniTreninzi(res.data)
                 const res1 = await axiosPrivate.get("http://localhost:8800/api/trening/vidiZakazaneTreningeGrupni/" + user.korisnikId)
+                console.log(res1.data)
                 setGrupni(res1.data)
                 setIsLoading(false)
             }
@@ -171,12 +172,12 @@ const ZakazaniTreninzi = () => {
                             <Card className='cardShadow' key={tr.id} sx={{ maxWidth: 345 }} >
                                 <CardContent>
                                     <Typography gutterBottom variant="h5" component="div">
-                                        {tr.imeT} {tr.prezimeT}
+                                        {tr.nazivGrupnogTreninga}
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography variant="body1" color="text">
                                         Datum: {tr.datum}
                                     </Typography>
-                                    <Typography variant="body2" color="text.secondary">
+                                    <Typography variant="body1" color="text">
                                         Vreme: {tr.vreme}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">

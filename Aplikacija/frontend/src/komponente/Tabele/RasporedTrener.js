@@ -142,7 +142,7 @@ const RasporedTrener = (props) => {
 
     const rowPersonalni = ['Vreme', 'Trajanje', 'Intenzitet', 'Tip', 'Klijent',]
     const rowGrupni = ['Vreme', 'Trajanje', 'Intenzitet', 'Mesta']
-    const rowNamesGrupni = ['vreme', 'trajanje', 'intenzitet', 'brojSlobodnihMesta']
+    const rowNamesGrupni = ['vreme', 'trajanje', 'intenzitet', 'brojslobodnih']
     const rowNamesPersonalni = ['vreme', 'trajanje', 'intenzitet', 'tip', 'imeK', 'prezimeK']
     const rowNamesOdbijeni = ['datum','vreme', 'trajanje', 'intenzitet', 'tip', 'imeK', 'prezimeK']
 

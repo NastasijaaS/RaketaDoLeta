@@ -192,7 +192,8 @@ export default function Tabela(props) {
                 </Grid>
 
                 <Button
-                    size="medium"
+                    sx = {{mt:'1%'}}
+                    size="small"
                     variant="contained"
                     onClick={() => unesiClanarinu(props.idKorisnika)}
                 >
@@ -309,6 +310,27 @@ export default function Tabela(props) {
 
             <TableContainer>
                 <Table>
+                    <TableHead>
+                            <TableRow>
+                                {props.verifikovan && 
+                                    <TableCell></TableCell>
+                                }
+                                <TableCell sx={{ 'textAlign': 'left' }}>
+                                    Ime prezime
+                                </TableCell>
+
+                                <TableCell sx={{ 'textAlign': 'left' }}>
+                                    E-mail
+                                </TableCell>
+                                {props.verifikovan && <TableCell sx={{ 'textAlign': 'left' }}>
+                                    Datum isteka clanarine
+                                </TableCell>}
+                                <TableCell></TableCell>
+                                {!props.verifikovan && 
+                                    <TableCell></TableCell>
+                                }
+                            </TableRow>
+                    </TableHead>
                     <TableBody>
                         {
                             (rowsPerPage > 0
@@ -331,13 +353,14 @@ export default function Tabela(props) {
                             <TablePagination
                                 sx = {{overflow:'revert'}}
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                colSpan={3}
+                                colSpan={2}
                                 count={rows.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                             />
+                            
                         </TableRow>
                     </TableFooter>
                 </Table>

@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
-import Button from "@mui/material/Button";
-import { Box } from '@mui/material';
-import Modal from '../Modal'
-import { UserContext } from "../../context/UserContext";
+import { Box,Button, Typography } from '@mui/material';
+import Modal from '../Modal';
 import DropDown from "../Inputi/DropDown";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 
@@ -15,9 +13,9 @@ const FormaPosaljiPredlog = (props) => {
 
     const axiosPrivate = useAxiosPrivate()
 
-    const [tipTreninga, setTip] = useState(tip[0])
-    const [intenzitetTreninga, setIntenzitet] = useState(intenzitet[0])
-    const [trajanjeTreninga, setTrajanje] = useState(trajanje[0])
+    const [tipTreninga, setTip] = useState("")
+    const [intenzitetTreninga, setIntenzitet] = useState("")
+    const [trajanjeTreninga, setTrajanje] = useState("")
 
     const posaljiIzmenu = async () => {
 
@@ -42,14 +40,16 @@ const FormaPosaljiPredlog = (props) => {
 
     return (
         <Modal onClose={props.onClose}>
-            <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: '0% 20%', alignItems: "stretch", display: 'flex', flexDirection: 'column' }}>
+            <Box className='cardCenter marginS' sx={{ gap: '1vh', padding:{xs:'0% 2%', md:'0% 20%'}, alignItems: "stretch", display: 'flex', flexDirection: 'column' }}>
+ 
+            <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Predlog treninga</Typography>
+                   
                 <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />
                 <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
                 <DropDown labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
 
                 <Box sx={{ alignItems: 'center' }}>
-                    <Button onClick={posaljiIzmenu}>ok</Button>
-                    <Button onClick={props.onClose}>otkazi</Button>
+                    <Button fullWidth variant = "outlined" onClick={posaljiIzmenu}>Posalji</Button>
                 </Box>
 
             </Box>

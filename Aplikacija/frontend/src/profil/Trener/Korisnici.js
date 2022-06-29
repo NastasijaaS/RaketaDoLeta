@@ -80,7 +80,7 @@ const KorisniciTrenera = () => {
                                 navigate(`/trener/korisnik/${k.imeK + k.prezimeK}`, { state: k });
                             }}>
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
+                                    <Typography gutterBottom variant="h5" component="div" sx = {{ textTransform: 'capitalize'}}>
                                         {k.imeK} {k.prezimeK}
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">

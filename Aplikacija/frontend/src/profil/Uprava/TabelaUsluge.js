@@ -150,7 +150,7 @@ const TabelaUsluge = () => {
                                         <TableCell  >
                                             <input
                                                 className='inputCSS'
-
+                                                style ={{color: 'primary.textContrast'}}
                                                 type='number'
                                                 step={10}
                                                 value={izmeni === i ? (cena === 0 ? usl.cena : cena) : usl.cena}
