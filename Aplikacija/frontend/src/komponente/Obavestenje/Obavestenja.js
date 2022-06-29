@@ -8,7 +8,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { UserContext } from '../../context/UserContext';
 
 const Obavestenja = ({ handleClose, open, menuItems, anchorEl, refresh }) => {
-  console.log(menuItems)
+  //console.log(menuItems)
 
   const { user } = useContext(UserContext)
 

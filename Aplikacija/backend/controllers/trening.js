@@ -105,8 +105,6 @@ export const izmeniTrening = async (req, res) => {
     try {
         const korisnik = await Korisnik.findById(req.params.idKorisnika);
 
-
-
         if (korisnik != null) {
             const regkor = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
             const trening = await Trening.findById(req.params.idTreninga)
@@ -190,13 +188,7 @@ export const vidiZakazaneTreningePersonalni = async (req, res) => {
 
     try {
 
-
-
-
-
         const korisnik = await Korisnik.findById(req.params.idKorisnika)
-
-
 
         //res.status(200).json(korisnik)
         if (korisnik != null) {
@@ -355,28 +347,25 @@ export const vidiZakazaneTreningeGrupni = async (req, res) => {
                 let vrati = []
                 for (let i = 0; i < treninzi.length; i++) {
                     const trener = await Trener.findById(treninzi[i].trenerId)
-                    const regT = await RegistrovaniKorisnik.findOne({ _id: trener.registrovaniKorisnikId })
+                    const regT = await RegistrovaniKorisnik.findOne({ _id: trener?.registrovaniKorisnikId })
                     const usluga = await Usluga.findById(treninzi[i].uslugaId)
                     let datum = treninzi[i].datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = treninzi[i].vreme;
                     let samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
 
-
                     let tr = {
 
-                        imeT: regT.ime,
-                        prezimeT: regT.prezime,
-                        brojtelefonaT: regT.brojTelefona,
+                        imeT: regT?.ime,
+                        prezimeT: regT?.prezime,
+                        brojtelefonaT: regT?.brojTelefona,
                         datum: samoDatum,
                         vreme: samovreme,
                         nazivGrupnogTreninga: usluga?.naziv,
-
                         intenzitet: treninzi[i].intenzitet,
                         trajanje: treninzi[i].trajanje,
                         id: treninzi[i]._id,
                         isOnline: treninzi[i].isOnline
-
                     }
                     vrati.push(tr)
                 }
@@ -1016,7 +1005,9 @@ export const vratiProsleTreninge = async (req, res) => {
                             tip: trening.tip,
                             intenzitet: trening.intenzitet,
                             trajanje: trening.trajanje,
-                            nazivTreninga: nazivTreninga
+                            nazivTreninga: nazivTreninga,
+                            treningId: trening._id,
+                            korisnikId:korisnik._id
                         }
                         vrati.push(tr)
                     }
@@ -1111,5 +1102,32 @@ export const prihvatiIzmene = async (req, res) => {
     }
 }
 
+export const otkaziGrupni = async (req, res) => {
+
+    try {
+        const korisnik = await Korisnik.findById(req.params.idKorisnika)
+
+        if (korisnik != null) {
+
+            const tr = await Trening.findById(req.params.idTreninga)
+            if (tr != null) {
+
+                //res.status(200).json(brojTren)
+                await tr.updateOne({ $pull: { clanovi: korisnik._id } })
+
+                return res.status(200).json(tr);
+            }
+            else {
+                return res.status(404).json("Trening nije pronadjen")
+            }
+        } else {
+            return res.status(404).json("Korisnik nije pronadjen")
+        }
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+
+}
 
 export default router;

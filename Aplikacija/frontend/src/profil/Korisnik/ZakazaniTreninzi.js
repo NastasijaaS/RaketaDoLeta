@@ -112,6 +112,21 @@ const ZakazaniTreninzi = () => {
         return pom
     }
 
+    const otkaziTreningGrupni = async (id) => {
+
+        await axiosPrivate.put('http://localhost:8800/api/trening/otkaziGrupni/' + user.korisnikId + '/' + id)
+            .then((p) => {
+                if (p.status === 200) {
+                    alert('Uspesno ukinut trening')
+                }
+            }).catch((error) => {
+                if (error.response.status)
+                    alert(error.response.data)
+                else
+                    alert('Doslo je do greske')
+            });
+        setRefresh(!refresh)
+    }
 
 
     if (isLoading) {
@@ -181,7 +196,7 @@ const ZakazaniTreninzi = () => {
                 </Grid>
                 {
                     greska.personalni &&
-                    <Box sx = {{margin: '10%'}} >
+                    <Box sx={{ margin: '10%' }} >
                         <Typography sx={{ textAlign: 'center' }} color='error'>Nemate zakazanih personalnih treninga</Typography>
                     </Box>
                 }
@@ -213,7 +228,7 @@ const ZakazaniTreninzi = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+                                    <Button variant="contained" size='small' onClick={otkaziTreningGrupni.bind(undefined, tr.id)}>Otkazi trening</Button>
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -222,7 +237,7 @@ const ZakazaniTreninzi = () => {
 
                 {
                     greska.grupni &&
-                    <Box sx = {{margin: '10%'}} >
+                    <Box sx={{ margin: '10%' }} >
                         <Typography sx={{ textAlign: 'center' }} color='error'>Nemate zakazanih personalnih treninga</Typography>
                     </Box>
                 }

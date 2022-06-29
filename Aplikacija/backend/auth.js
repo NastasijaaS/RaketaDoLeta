@@ -12,7 +12,7 @@ let refreshTokens = [];
 export const generateAccessToken = (user) => {
     //Generise se na osnovu id-ja:
     //console.log(user._id)
-    return jwt.sign({ id: user }, process.env.TOKEN_KEY, { expiresIn: "2m" });
+    return jwt.sign({ id: user }, process.env.TOKEN_KEY, { expiresIn: "30s" });
 
 };
 
@@ -78,10 +78,10 @@ export const refreshAuth = async (req, res) => {
         //Uzimamo refresh token i proveravamo da li je validan?
         const refreshToken = await req.body.refreshToken;
 
-        // console.log('')
-        // console.log(refreshTokens)
-        // console.log('ref token ' + refreshToken)
-        // console.log('')
+        console.log('')
+        console.log(refreshTokens)
+        console.log('ref token ' + refreshToken)
+        console.log('')
 
 
         //Ako nema refresh token-a?
@@ -103,12 +103,12 @@ export const refreshAuth = async (req, res) => {
             if (err)
                 console.log(err);
             //U nizu ostaju samo tokeni koji su razliciti od trenutno upotrebljenog
-            refreshTokens = refreshTokens.filter(token => token !== refreshToken);
+        //    refreshTokens = refreshTokens.filter(token => token !== refreshToken);
 
             //Pravimo novi i token i refresh token i saljemo ih korisniku na cuvanje:
 
             const newAccessToken = generateAccessToken(user.id);
-            const newRefreshToken = generateRefreshToken(user.id);
+         //   const newRefreshToken = generateRefreshToken(user.id);
 
             //Dodajemo refresh token u listu koja se cuva na serveru:
             // refreshTokens.push(newRefreshToken); // ne mora da se doda jer ga doda fja generateRefreshToken(user.id);
@@ -119,7 +119,7 @@ export const refreshAuth = async (req, res) => {
             //Sve okej, vracamo tokene nazad:
             res.status(200).json({
                 accessToken: newAccessToken,
-                refreshToken: newRefreshToken
+                refreshToken: refreshToken
             });
         });
     } catch (err) {

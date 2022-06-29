@@ -10,7 +10,7 @@ import DropDown from '../Inputi/DropDown'
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
-const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
+const trajanje = ["30min", "45min", "1h"]
 
 const FormaIzmeniTrening = (props) => {
     // console.log(props.idTreninga)

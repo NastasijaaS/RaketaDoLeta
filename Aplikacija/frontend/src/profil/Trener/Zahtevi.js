@@ -188,7 +188,7 @@ const ZahteviTrenera = () => {
 
                         {
                             predlog === i &&
-                            <FormaPosaljiPredlog onClose={() => setPredlog(-1)} idKorisnika={z.idKorisnika} idTreninga={z.idTreninga} idZahteva={z.idZahteva} />
+                            <FormaPosaljiPredlog onClose={() => { setPredlog(-1); setRefresh(!refresh) }} idKorisnika={z.idKorisnika} idTreninga={z.idTreninga} idZahteva={z.idZahteva} />
                         }
 
                     </Box>

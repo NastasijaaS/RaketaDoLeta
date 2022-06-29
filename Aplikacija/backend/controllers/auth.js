@@ -79,7 +79,7 @@ export const register = async (req, res) => {
         zeljenaTezina: noviKor.zeljenaTezina,
         verifikovan: noviKor.verifikovan,
         token: token,
-        refreshToken:refreshToken
+        refreshToken: refreshToken
       }
 
       return res.status(200).json(novi)
@@ -186,6 +186,7 @@ export const login = async (req, res) => {
           trenerId: trener._id,
           sertifikati: trener.sertifikati,
           iskustvo: trener.iskustvo,
+          slika: trener.slika,
           token: token,
           refreshToken: refreshToken
         }
@@ -303,7 +304,7 @@ export const vratiKorisnikaPrekoTokena = async (req, res) => {
               const korisnik = await Korisnik.findOne({ registrovaniKorisnikId: korisnik1._id });
 
               if (korisnik._id.toString() !== req.query.userId) {
-                
+
                 return res.status(402).json('Nije vas nalog')
               }
 
@@ -393,6 +394,7 @@ export const vratiKorisnikaPrekoTokena = async (req, res) => {
                   trenerId: trener._id,
                   sertifikati: trener.sertifikati,
                   iskustvo: trener.iskustvo,
+                  slika: trener.slika,
                   token: noviToken,
                   refreshToken: refreshToken
                 }
@@ -423,19 +425,19 @@ export const vratiKorisnikaPrekoTokena = async (req, res) => {
 
 export const slika = async (req) => {
   console.log(req.file)
- const imagePath = './Photos'
- if (!req.file) {
-     return false
- }
- const filename = req.file.originalname;
- const filepath = path.resolve(`${imagePath}/${filename}`)
- await sharp(req.file.buffer).resize(300, 300,
-     {
-         fit: sharp.fit.inside,
-         withoutEnlargement: true
-     }).toFile(filepath);
+  const imagePath = './Photos'
+  if (!req.file) {
+    return false
+  }
+  const filename = req.file.originalname;
+  const filepath = path.resolve(`${imagePath}/${filename}`)
+  await sharp(req.file.buffer).resize(300, 300,
+    {
+      fit: sharp.fit.inside,
+      withoutEnlargement: true
+    }).toFile(filepath);
 
- return filename; //vrati naziv slike
+  return filename; //vrati naziv slike
 };
 
 export default router;

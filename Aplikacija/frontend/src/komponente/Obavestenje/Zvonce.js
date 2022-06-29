@@ -22,7 +22,7 @@ const Zvonce = ({ user, status }) => {
     useEffect(() => {
         let url = ''
         if (status) {
-            url = 'http://localhost:8800/api/zahtev/vratiZahteveTrenera/' + user 
+            url = 'http://localhost:8800/api/zahtev/vratiZahteveTrenera/' + user
         }
         else {
             url = 'http://localhost:8800/api/zahtev/vidiZahteveZaKorisnika/' + user
@@ -35,7 +35,7 @@ const Zvonce = ({ user, status }) => {
                     if (res.data && data !== res.data) {
                         setData(res.data)
                     }
-                    console.log(data)
+                   // console.log(data)
                 }
             }).catch((error) => {
                 alert('Doslo je do greske')
@@ -47,9 +47,9 @@ const Zvonce = ({ user, status }) => {
 
     }, [refresh])
 
-    // setInterval(() => {
-    //     setRefresh(!refresh)
-    // }, 1000);
+    setInterval(() => {
+        setRefresh(!refresh)
+    }, 100000);
 
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -87,7 +87,7 @@ const Zvonce = ({ user, status }) => {
                 handleClose={handleClose}
                 menuItems={data}
                 anchorEl={anchorEl}
-                refresh = { () => setRefresh(!refresh)}
+                refresh={() => setRefresh(!refresh)}
             />
 
         </div>

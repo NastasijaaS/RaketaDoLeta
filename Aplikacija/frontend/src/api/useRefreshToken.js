@@ -19,9 +19,9 @@ const useRefreshToken = () => {
 
         const cookie = splitCookies()
         // console.log(cookie)
-        console.log(cookie['token'])
-        // alert('cekaj')
-        console.log('use refresh')
+        // console.log(cookie['token'])
+        // // alert('cekaj')
+        // console.log('use refresh')
 
         try {
             const response = await axios.post('http://localhost:8800/api/auth/refresh', {
@@ -38,7 +38,7 @@ const useRefreshToken = () => {
             console.log(err.response.data)
             alert('Istekla vam je sesija molimo ulogujte se opet')
             console.log(err)
-            document.cookie = 'token=' + ''
+          //  document.cookie = 'token=' + ''
             window.location.reload()
         }
 

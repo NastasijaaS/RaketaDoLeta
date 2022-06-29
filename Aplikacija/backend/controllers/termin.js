@@ -100,8 +100,8 @@ export const vratiSlobodneTermineZaTreneraPoDatumu = async (req, res) => {
 
             for (let i = 0; i < sviTermini.length; i++) {
 
-                let vremee = sviTermini[i].vremePocetka
-                let samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
+                let vremee = sviTermini[i]?.vremePocetka
+                let samovreme = vremee?.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
 
                 let vrati = {
                     vreme: samovreme,

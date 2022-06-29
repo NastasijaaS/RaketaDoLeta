@@ -70,9 +70,9 @@ const Red = (props) => {
 
     return (
         <Fragment>
-            <TableRow onClick={velikiBlog}>
+            <TableRow >
                 {rowNames?.map((name, i) => (
-                    <TableCell key={i} >
+                    <TableCell key={i} onClick={velikiBlog}>
                         {row[name]}
                     </TableCell>
                 ))}
