@@ -978,16 +978,19 @@ export const vratiProsleTreninge = async (req, res) => {
 
     try {
         const trener = await Trener.findById(req.params.trenerId)
+        //console.log(trener)
         if (trener != null) {
             let treninzi = []
             let danasnji = new Date()
-            for (let i = 0; i < trener.listaTreninga.length; i++) {
+            for (let i = 0; i < trener.listaTreninga?.length; i++) {
                 const trening = await Trening.findById(trener.listaTreninga[i] )
-                    if (trening.datum < danasnji) {
+                    if (trening?.datum < danasnji) {
                         treninzi.push(trener.listaTreninga[i])
                       
                     }
                 }
+
+                //console.log(treninzi)
 
             if (treninzi.length !== 0) {
                 let vrati = []
@@ -996,28 +999,40 @@ export const vratiProsleTreninge = async (req, res) => {
                     const trening = await Trening.findById(treninzi[i]._id)
                     if(trening!=null)
                     {
-                    const korisnik = await Korisnik.findById(trening.clanovi[0])
+                        let korisnik ='' 
 
-                    const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
-                    const usluga = await Usluga.findById(treninzi[i].uslugaId)
-    
-                    let datum = trening.datum;
-                    let samoDatum = datum.toLocaleDateString()
-                    let vremee = trening.datum;
-                    let samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
+                        let regK = ''
+                        const usluga = await Usluga.findById(treninzi[i].uslugaId)
+        
+                        let datum = trening.datum;
+                        let samoDatum = datum.toLocaleDateString()
+                        let vremee = '';
+                        let samovreme = '';
 
-                    let tr = {
-                        imeK:regK.ime,
-                        prezimeK:regK.prezime,
-                        datum:samoDatum,
-                        vreme:samovreme,
-                        trener: trening.trenerId,
-                        tip: trening.tip,
-                        intenzitet: trening.intenzitet,
-                        trajanje: trening.trajanje,
-                        nazivGrupnogTreninga:usluga?.naziv
-                    }
-                    vrati.push(tr)
+                        if(trening.brojMaxClanova === 1){
+                            vremee = trening.datum;
+                            samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
+                            korisnik = await Korisnik.findById(trening.clanovi[0])
+                            regK =  await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
+                        }
+                        else{
+                            vremee = trening.vreme;
+                            samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
+                            
+                        }
+
+                        let tr = {
+                            imeK:regK?.ime,
+                            prezimeK:regK?.prezime,
+                            datum:samoDatum,
+                            vreme:samovreme,
+                            trener: trening.trenerId,
+                            tip: trening.tip,
+                            intenzitet: trening.intenzitet,
+                            trajanje: trening.trajanje,
+                            nazivGrupnogTreninga:usluga?.naziv
+                        }
+                        vrati.push(tr)
                 }
             
             }
@@ -1076,7 +1091,7 @@ export const prihvatiIzmene = async (req, res) => {
             const regkor=await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
             const trening = await Trening.findById(req.body.idTreninga)
             const trener=await Trener.findById(trening.trenerId)
-            const zahtev=await Trener.findById(req.body.idZahteva)
+            const zahtev=await Zahtev.findById(req.body.idZahteva)
 
             if (trening != null) 
             {
@@ -1087,7 +1102,8 @@ export const prihvatiIzmene = async (req, res) => {
                     const noviZahtev = await Zahtev.findByIdAndUpdate(zahtev._id, {
                         $set: {
                         poruka: "Korisnik " + regkor.ime + " " + regkor.prezime +  " je prihvatio izmene treninga za datum: " + datumm1,
-                        registrovaniKorisnikId: trener.registrovaniKorisnikId
+                        registrovaniKorisnikId: trener.registrovaniKorisnikId,
+                        predlog:false
                     }
                 })
                 return res.status(200).json(noviZahtev);
