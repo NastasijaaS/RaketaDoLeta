@@ -427,7 +427,7 @@ export const slika = async (req) => {
  if (!req.file) {
      return false
  }
- const filename = req.file.originalname;//da ga pozeves s blog i mozes da mu stavis koje god ime
+ const filename = req.file.originalname;
  const filepath = path.resolve(`${imagePath}/${filename}`)
  await sharp(req.file.buffer).resize(300, 300,
      {

@@ -17,10 +17,13 @@ import clanarinaRoute from"./routes/clanarina.js";
 import napredakRoute from"./routes/napredak.js";
 import uslugaRoute from"./routes/usluga.js";
 import evidencijaRoute from"./routes/evidencija.js";
+import path from "path"
+import {fileURLToPath} from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
-//const napredakRoute=require("./routes/napredak");
-//const cors = require('cors');
 
 dotenv.config();
 
@@ -32,11 +35,17 @@ mongoose.connect(
   }
 );
 
+
+
 const app = express();
 app.use(helmet());
 app.use(express.json());
 //app.use(multer())
 app.use(cors())
+
+
+
+app.use(express.static('Photos'));
 
 
 app.use(morgan("common"));
