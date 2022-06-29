@@ -386,7 +386,7 @@ export const vidiZakazaneTreningeGrupni = async (req, res) => {
                         brojtelefonaT: regT.brojTelefona,
                         datum: samoDatum,
                         vreme: samovreme,
-                        nazivGrupnogTreninga: usluga.naziv,
+                        nazivGrupnogTreninga: usluga?.naziv,
 
                         intenzitet: treninzi[i].intenzitet,
                         trajanje: treninzi[i].trajanje,
@@ -982,18 +982,12 @@ export const vratiProsleTreninge = async (req, res) => {
             let treninzi = []
             let danasnji = new Date()
             for (let i = 0; i < trener.listaTreninga.length; i++) {
-                const termin = await Termin.findOne({ treningId: trener.listaTreninga[i] })
-                if (termin != null) {
-                    if (termin.datum < danasnji) {
+                const trening = await Trening.findById(trener.listaTreninga[i] )
+                    if (trening.datum < danasnji) {
                         treninzi.push(trener.listaTreninga[i])
-                       // console.log(trener.listaTreninga[i])
+                      
                     }
                 }
-                // else{
-                //     res.status(404).json("termin nije pronadjen")
-                // }
-
-            }
 
             if (treninzi.length !== 0) {
                 let vrati = []
@@ -1005,7 +999,8 @@ export const vratiProsleTreninge = async (req, res) => {
                     const korisnik = await Korisnik.findById(trening.clanovi[0])
 
                     const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
-
+                    const usluga = await Usluga.findById(treninzi[i].uslugaId)
+    
                     let datum = trening.datum;
                     let samoDatum = datum.toLocaleDateString()
                     let vremee = trening.datum;
@@ -1019,7 +1014,8 @@ export const vratiProsleTreninge = async (req, res) => {
                         trener: trening.trenerId,
                         tip: trening.tip,
                         intenzitet: trening.intenzitet,
-                        trajanje: trening.trajanje
+                        trajanje: trening.trajanje,
+                        nazivGrupnogTreninga:usluga?.naziv
                     }
                     vrati.push(tr)
                 }
