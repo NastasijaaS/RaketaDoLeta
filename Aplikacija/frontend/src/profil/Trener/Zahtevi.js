@@ -14,13 +14,12 @@ const ZahteviTrenera = () => {
     const { user } = useContext(UserContext);
 
     const [zahtevi, setZahtevi] = useState([])
-    const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
     const [refresh, setRefresh] = useState(false)
-    const [data, setData] = useState(false)
+
     const [evidencija, setEvidencija] = useState({ intenziteti: [], tipTreninga: [], datumi: [] })
-    const [predlog, setPredlog] = useState(false)
+    const [predlog, setPredlog] = useState(-1)
 
 
     // Accordion
@@ -58,16 +57,9 @@ const ZahteviTrenera = () => {
 
 
     const potvrdiZahtev = async (id) => {
-
-        console.log('potvridi')
-        console.log(id)
-
-
         const zahtev = {
             url: 'http://localhost:8800/api/trening/prihvatiTrening/' + id
         }
-
-        // await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         try {
             await axiosPrivate.put('http://localhost:8800/api/trening/prihvatiTrening/' + id)
@@ -76,23 +68,15 @@ const ZahteviTrenera = () => {
             alert('Doslo je do greske')
         }
 
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-        // }
-
         setRefresh(!refresh)
     }
 
     const odbijZahtev = async (id) => {
-        console.log('odbij')
-        console.log(id)
-
 
         const zahtev = {
             url: 'http://localhost:8800/api/trener/odbijTrening/' + id
         }
 
-        // await PutMetoda(zahtev, setData, setGreska, setIsLoading)
 
         try {
             await axiosPrivate.put('http://localhost:8800/api/trening/odbijTrening/' + id)
@@ -101,17 +85,10 @@ const ZahteviTrenera = () => {
             alert('Doslo je do greske')
         }
 
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-        // }
-
         setRefresh(!refresh)
     }
 
     const vidiEvidenciju = async (id) => {
-        // GetData("http://localhost:8800/api/trener/vidiEvidenciju/" + user.trenerId + '/' + id,
-        //     setEvidencija, setGreska, setIsLoading)
-
 
         await axiosPrivate.get("http://localhost:8800/api/evidencija/vidiEvidenciju/" + user.trenerId + '/' + id)
             .then(res => {
@@ -128,9 +105,6 @@ const ZahteviTrenera = () => {
             });
     }
 
-    const posaljiIzmenu = () => {
-
-    }
 
     return (
 
@@ -166,6 +140,7 @@ const ZahteviTrenera = () => {
                                         <Typography>Intenzitet: {z.intenzitet}</Typography>
                                         <Typography>Tip: {z.tip}</Typography>
                                     </Grid>
+
                                     <Grid item xs={12} md={10}>
                                         <Box textAlign='center'>
                                             <Typography mb={1} textAlign='center' fontWeight='500'> EVIDENCIJA PROTEKLIH TRENINGA</Typography>
@@ -184,7 +159,7 @@ const ZahteviTrenera = () => {
                                                 }
                                             </Grid>
 
-                                            <Button variant="outlined" onClick={() => setPredlog(true)}>posalji izmenu</Button>
+                                            <Button variant="outlined" onClick={() => { setPredlog(i) }}>posalji izmenu</Button>
                                         </Box>
                                     </Grid>
                                 </Grid>
@@ -210,8 +185,8 @@ const ZahteviTrenera = () => {
                         </Box>
 
                         {
-                            predlog &&
-                            <FormaPosaljiPredlog onClose={() => setPredlog(false)} idKorisnika={z.korisnikId} />
+                            predlog === i &&
+                            <FormaPosaljiPredlog onClose={() => setPredlog(-1)} idKorisnika={z.idKorisnika} idTreninga={z.idTreninga} idZahteva={z.idZahteva} />
                         }
 
                     </Box>

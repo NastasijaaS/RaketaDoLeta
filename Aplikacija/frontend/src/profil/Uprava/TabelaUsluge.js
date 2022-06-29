@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, Fragment } from 'react'
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { TextField, Box, Paper, Input} from '@mui/material';
+import { TextField, Box, Paper, Input } from '@mui/material';
 import '../../styles/input.css'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -125,7 +125,7 @@ const TabelaUsluge = () => {
             {novaUsluga
                 &&
                 <Modal onClose={() => setNovaUsluga(false)}>
-                    <FormaDodajUslugu onClose={() => {setNovaUsluga(false); setRefresh(!refresh)}}/>
+                    <FormaDodajUslugu onClose={() => { setNovaUsluga(false); setRefresh(!refresh) }} />
                 </Modal>
             }
 
@@ -135,117 +135,118 @@ const TabelaUsluge = () => {
                 onClick={() => setNovaUsluga(true)}
             >  dodaj novu uslugu
             </Button>
-            
+
             <Paper>
-            <TableContainer>
-                <Table>
-                    <TableBody>
-                        {nizUsluga.map((usl, i) => (
+                <TableContainer>
+                    <Table>
+                        <TableBody>
+                            {nizUsluga.map((usl, i) => (
 
-                            <Fragment key={usl._id}>
-                                <TableRow key={usl._id}>
+                                <Fragment key={usl._id}>
+                                    <TableRow key={usl._id}>
 
-                                    <TableCell >{usl.naziv}</TableCell>
+                                        <TableCell >{usl.naziv}</TableCell>
 
-                                    <TableCell  >
-                                        <input
-                                            className = 'inputCSS'                                         
-                                            fullWidth
-                                            type='number'
-                                            step={10}
-                                            value={izmeni === i ? (cena === 0 ? usl.cena : cena) : usl.cena}
-                                            disabled={izmeni !== i}
-                                            onChange={(ev) => setCena(ev.target.value)} />
-                                    </TableCell>
+                                        <TableCell  >
+                                            <input
+                                                className='inputCSS'
 
-                                    <TableCell>
-                                        <input
-                                            className = 'inputCSS'             
-                                            type='number'
-                                            fullWidth
-                                            value={izmeni === i ? (trajanje === 0 ? usl.trajanje : trajanje) : usl.trajanje}
-                                            disabled={izmeni !== i}
-                                            onChange={(ev) => setTrajanje(ev.target.value)} />
-                                    </TableCell>
+                                                type='number'
+                                                step={10}
+                                                value={izmeni === i ? (cena === 0 ? usl.cena : cena) : usl.cena}
+                                                disabled={izmeni !== i}
+                                                onChange={(ev) => setCena(ev.target.value)} />
+                                        </TableCell>
+
+                                        <TableCell>
+                                            <input
+                                                className='inputCSS'
+                                                type='number'
+
+                                                value={izmeni === i ? (trajanje === 0 ? usl.trajanje : trajanje) : usl.trajanje}
+                                                disabled={izmeni !== i}
+                                                onChange={(ev) => setTrajanje(ev.target.value)} />
+                                        </TableCell>
 
 
-                                    {izmeni !== i &&
+                                        {izmeni !== i &&
+                                            <TableCell>
+                                                <Button
+                                                    size="small"
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        setCena(usl.cena);
+                                                        setOpis(usl.opis)
+                                                        setTrajanje(usl.trajanje)
+                                                        setIzmena(i);
+                                                    }}
+                                                // disabled={izmeni === i}
+                                                > Izmeni
+                                                </Button>
+                                            </TableCell>
+                                        }
                                         <TableCell>
                                             <Button
                                                 size="small"
                                                 variant="outlined"
-                                                onClick={() => {
-                                                    setCena(usl.cena);
-                                                    setOpis(usl.opis)
-                                                    setTrajanje(usl.trajanje)
-                                                    setIzmena(i);
-                                                }}
-                                            // disabled={izmeni === i}
-                                            > Izmeni
+                                                color="error"
+                                                onClick={() => obrisiUslugu(usl._id, usl.opis)}
+                                                startIcon={<DeleteIcon />}
+                                            >
+                                                Obrisi
                                             </Button>
                                         </TableCell>
-                                    }
-                                    <TableCell>
-                                        <Button
-                                            size="small"
-                                            variant="outlined"
-                                            color="error"
-                                            onClick={() => obrisiUslugu(usl._id, usl.opis)}
-                                            startIcon={<DeleteIcon />}
-                                        >
-                                            Obrisi
-                                        </Button>
-                                    </TableCell>
-                                    {/* </div> */}
-                                </TableRow>
+                                        {/* </div> */}
+                                    </TableRow>
 
-                                {izmeni === i && <TableRow style={{ alignItems: 'center'}}>
+                                    {izmeni === i && <TableRow style={{ alignItems: 'center' }}>
 
-                                    <TextField
-                                        sx={{ m: 1, width: 400, alignSelf: 'center' }}
-                                        label="opis"
-                                        multiline
-                                        rows={5}
-                                        color="primary"
-                                        inputRef={opisUsluge}
-                                        // defaultValue={usl.opis}
-                                        value={opis}
-                                        onChange={(ev) => setOpis(ev.target.value)}
-                                        variant="outlined"
-                                        focused
-                                    />
+                                        <TableCell>
+                                            <TextField
+                                                sx={{ m: 1, width: 400, alignSelf: 'center' }}
+                                                label="opis"
+                                                multiline
+                                                rows={5}
+                                                color="primary"
+                                                inputRef={opisUsluge}
+                                                // defaultValue={usl.opis}
+                                                value={opis}
+                                                onChange={(ev) => setOpis(ev.target.value)}
+                                                variant="outlined"
+                                                focused
+                                            />
 
+                                        </TableCell>
+                                        <TableCell className='cardCenter'>
+                                            <Button
+                                                sx={{ mb: 1 }}
+                                                fullWidth
+                                                color='success'
+                                                size="small"
+                                                variant="contained"
+                                                onClick={() => { izmeniUslugu(usl._id) }}
+                                            // disabled={izmeni !== i}
+                                            > Ok
+                                            </Button>
+                                            <Button
+                                                fullWidth
+                                                color='error'
+                                                size="small"
+                                                variant="contained"
+                                                onClick={() => { setCena(usl.cena); setIzmena(-1); setOpis(usl.opis); setTrajanje(usl.trajanje) }}
+                                            // disabled={izmeni !== i}
+                                            > Otkazi
+                                            </Button>
+                                        </TableCell>
+                                        <TableCell></TableCell>
 
-                                    <TableCell className = 'cardCenter'>
-                                        <Button
-                                            sx = {{mb: 1}}
-                                            fullWidth
-                                            color = 'success'
-                                            size="small"
-                                            variant="contained"
-                                            onClick={() => { izmeniUslugu(usl._id) }}
-                                        // disabled={izmeni !== i}
-                                        > Ok
-                                        </Button>
-                                        <Button
-                                            fullWidth
-                                            color = 'error'
-                                            size="small"
-                                            variant="contained"
-                                            onClick={() => { setCena(usl.cena); setIzmena(-1); setOpis(usl.opis); setTrajanje(usl.trajanje) }}
-                                        // disabled={izmeni !== i}
-                                        > Otkazi
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell></TableCell>
-
-                                </TableRow>}
-                            </Fragment>
-                        ))
-                        }
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                    </TableRow>}
+                                </Fragment>
+                            ))
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Paper>
         </Box>
     )

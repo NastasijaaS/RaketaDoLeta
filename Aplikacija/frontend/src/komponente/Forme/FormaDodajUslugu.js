@@ -1,7 +1,8 @@
 import { useState, useRef, } from 'react'
-import {Button, TextField, Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { Button, TextField, Box, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import '../../styles/input.css'
 import useAxiosPrivate from '../../api/useAxiosPrivate';
+import Info from '../Inputi/Info';
 
 
 const FormaDodajUslugu = (props) => {
@@ -13,6 +14,7 @@ const FormaDodajUslugu = (props) => {
     const nazivUsluge = useRef()
     const trajanjeUsluge = useRef()
     const slika = useRef()
+    const [file, setFile] = useState('')
 
     // let grupniTrening = false
 
@@ -42,92 +44,50 @@ const FormaDodajUslugu = (props) => {
             }
         }
 
-        // PostMetoda(zahtev, setData, setGreska, setIsLoading)
+        const formData = new FormData();
+        formData.append('file', file);
 
         try {
-            await axiosPrivate.post(zahtev.url, zahtev.body)
+            await axiosPrivate.post(zahtev.url, formData, zahtev.body)
             alert('Uspesno doadta usluga: ' + nazivUsluge.current.value)
 
         } catch (err) {
             alert('Doslo je do greske')
         }
 
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-
-        // }
-        // setCena(-1)
-        // setIzmena(-1)
-        // setNovaUsluga(false)
-        // window.location.reload(false);
-        // setRefresh(!refresh)
         props.onClose()
     }
 
     return (
-            <Box className = "cardCenter marginS" sx = {{gap: '1vh', padding: {sm:'0% 20%'}, alignItems: "stretch"}}>
-            
-                <Typography variant="h5" component="div"  gutterBottom sx={{ textAlign: 'center' }}>Usluga</Typography>
+        <Box className="cardCenter marginS" sx={{ gap: '1vh', padding: { sm: '0% 20%' }, alignItems: "stretch" }}>
 
-                <TextField                   
-                    label="Naziv"
-                    type="text"
-                    size="small"
-                    inputRef={nazivUsluge}
-                    variant="outlined"
-                     />
+            <Typography variant="h5" component="div" gutterBottom sx={{ textAlign: 'center' }}>Usluga</Typography>
 
-                <TextField
-                    label="Opis"
-                    multiline
-                    rows={4}
-                    inputRef={opisUsluge}
-                    variant="outlined"
-                />
+            <Info sx={{ width: '100%' }} labela='naziv' tip='text' tekst='naziv' reff={nazivUsluge} />
 
+            <Info sx={{ width: '100%' }} labela='opis' tip='text' tekst='opis' reff={opisUsluge} multiline rows={4} />
 
-                <TextField
-                    inputRef={cenaUsluge}
-                    label="Cena"
-                    type="number"
-                    step='10'
-                    color="primary"
-                    size="small"
-                    />
+            <Info sx={{ width: '100%' }} labela='Cena' tip='number' tekst='cena' reff={cenaUsluge} step='10' />
 
-                <TextField
-                    inputRef={trajanjeUsluge}
-                    label="Trajanje"
-                    type="number"
-                    step='10'
-                    color="primary"
-                    size="small"
-                     />
-                
-                <FormControlLabel
-                    sx={{ alignSelf: 'center' }}
-                    value="online"
-                    onChange={(ev) => { isGrupni(ev.target.checked) }}
-                    control={<Checkbox color="primary" />}
-                    label="Grupni trening"
-                    labelPlacement="start"
-                    color="primary"
-                />
+            <Info sx={{ width: '100%' }} labela='Trajanje' tip='number' tekst='Trajanje' reff={trajanjeUsluge} step='10' />
 
-                {grupniTrening &&
-                
-                <TextField
-                    sx={{ alignSelf: 'center', m: 1, }}
-                    inputRef={slika}
-                    label="slika"
-                    color="primary"
-                    size="small"
-                    focused />
-                }
+            <FormControlLabel
+                sx={{ alignSelf: 'center' }}
+                value="online"
+                onChange={(ev) => { isGrupni(ev.target.checked) }}
+                control={<Checkbox color="primary" />}
+                label="Grupni trening"
+                labelPlacement="start"
+                color="primary"
+            />
 
-                <Button fullWidth size='small' variant="outlined" onClick={dodajUslugu}>Unesi</Button>
+            {grupniTrening &&
+                <Info sx={{ alignSelf: 'center', m: 1, }} fullWidth tip='file' onChange={(ev) => { setFile(ev.target.files[0]); }} />
+            }
 
-            </Box>
+            <Button fullWidth size='small' variant="outlined" onClick={dodajUslugu}>Unesi</Button>
+
+        </Box>
     )
 }
 export default FormaDodajUslugu

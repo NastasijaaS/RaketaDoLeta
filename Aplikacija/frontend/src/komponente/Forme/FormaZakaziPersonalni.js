@@ -9,7 +9,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Greska from '../Alert'
 import useAxiosPrivate from "../../api/useAxiosPrivate";
-
+import DropDown from "../Inputi/DropDown";
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
@@ -23,13 +23,10 @@ const FormaZakaziPersonalni = (props) => {
 
     let isOnline = false
 
-    const [tipTreninga, setTip] = useState('')
-    const [intenzitetTreninga, setIntenzitet] = useState('')
-    const [trajanjeTreninga, setTrajanje] = useState('')
+    const [tipTreninga, setTip] = useState(tip[0])
+    const [intenzitetTreninga, setIntenzitet] = useState(intenzitet[0])
+    const [trajanjeTreninga, setTrajanje] = useState(trajanje[0])
     const [error, setError] = useState(false)
-    const [data, setData] = useState()
-    const [greska, setGreska] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
     const [date, setDate] = useState(new Date());
     const [termin, setTermin] = useState({ vreme: "", idTermina: "" });
     const [termini, setTermini] = useState([1])
@@ -41,8 +38,6 @@ const FormaZakaziPersonalni = (props) => {
 
         const datum = new Date(date.toDateString())
 
-        // GetData(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`,
-        //     setTermini, setGreska, setIsLoading)
         const get = async () => {
             await axiosPrivate.get(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`)
                 .then(res => {
@@ -70,12 +65,7 @@ const FormaZakaziPersonalni = (props) => {
             return
         }
 
-        // console.log(new Date(date.getFullYear() + ' ' + date.getMonth() + ' ' + date.getDate() + ' ' + termin))
-
-        // const datum = new Date(date.getFullYear(), date.getMonth(), date.getDate(), vreme.getHours(), vreme.getMinutes())
-
         const datum = (new Date(date.toDateString() + ' ' + termin.vreme.vreme))
-        // console.log(date.toDateString()+termin)
 
         const zahtev = {
             url: 'http://localhost:8800/api/trening/zakaziPersonalniTrening/' + user.korisnikId + '/' + props.idTrenera + '/' + termin.vreme.idTermina,
@@ -89,10 +79,6 @@ const FormaZakaziPersonalni = (props) => {
             }
         }
 
-
-
-        //  PostMetoda(zahtev, setData, setGreska, setIsLoading)
-
         try {
             await axiosPrivate.post(zahtev.url, zahtev.body)
             alert('Uspesno ste zakazali trening')
@@ -101,54 +87,10 @@ const FormaZakaziPersonalni = (props) => {
             alert('Doslo je do greske')
         }
 
-        // if (greska !== false) {
-        //     alert(greska)
-        //     // setError('Morate uneti sve podatke')
-        // }
-        // else {
-        //     alert('Uspesno zakazan trening')
-        // }
-
-       // props.onClose()
+         props.onClose()
     }
 
 
-    const DropDown = ({ labela, set, niz, value }) => {
-
-        return (
-            <FormControl
-                sx={{ width: '100%' }}
-            // disabled={termini.length === 0}
-            >
-                <InputLabel>{labela}</InputLabel>
-                <Select
-                    label={labela}
-                    value={value}
-                    size='small'
-                    onChange={(ev) => {
-                        set(ev.target.value)
-                    }}
-                >
-                    {
-                        niz.map(n => (
-                            <MenuItem key={n} value={n}>{n}</MenuItem>
-                        ))
-                    }
-
-                </Select>
-            </FormControl>)
-    }
-
-
-    // const nadjiTermin = (date) => {
-    //     //   console.log(new Date(date.toDateString()))
-    //     setTermin({ vreme: "", idTermina: "" })
-    //     setTermini([])
-    //     const datum = new Date(date.toDateString())
-
-    //     GetData(`http://localhost:8800/api/termin/vratiSlobodneTermineZaTreneraPoDatumu/${props.idTrenera}/${datum.toISOString()}`,
-    //         setTermini, setGreska, setIsLoading)
-    // }
 
     let datumDo = new Date();
     datumDo.setDate((new Date()).getDate() + 14)

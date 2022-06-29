@@ -8,7 +8,6 @@ const Info = (props) => {
         <Fragment>
             <TextField
                 error={err}
-                // className='prelomi'
                 inputRef={reff}
                 label={labela}
                 type={tip}

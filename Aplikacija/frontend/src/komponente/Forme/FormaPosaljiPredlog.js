@@ -1,47 +1,42 @@
 import React, { useContext, useState } from "react";
 import Button from "@mui/material/Button";
 import { Box } from '@mui/material';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { PutMetoda } from '../Fetch'
 import Modal from '../Modal'
 import { UserContext } from "../../context/UserContext";
-
-
-const DropDown = ({ labela, set, niz, value }) => {
-    return (<FormControl sx={{ minWidth: 150, }}>
-        <InputLabel>{labela}</InputLabel>
-        <Select
-            label={labela}
-            value={value}
-            size='small'
-            onChange={(ev) => {
-                set(ev.target.value)
-            }}
-        >
-            {
-                niz.map(n => (
-                    <MenuItem key={n} value={n}>{n}</MenuItem>
-                ))
-            }
-
-        </Select>
-    </FormControl>)
-}
-
+import DropDown from "../Inputi/DropDown";
+import useAxiosPrivate from "../../api/useAxiosPrivate";
 
 const tip = ["Gornji deo tela", "Donji deo tela", "Kardio"]
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
-const trajanje = ["30min", "45min", "1h", "1h30min", "2h"]
+const trajanje = ["30min", "45min", "1h"]
 
 const FormaPosaljiPredlog = (props) => {
+    console.log(props)
 
-    const [tipTreninga, setTip] = useState('')
-    const [intenzitetTreninga, setIntenzitet] = useState('')
-    const [trajanjeTreninga, setTrajanje] = useState('')
+    const axiosPrivate = useAxiosPrivate()
 
-    const {user} = useContext(UserContext)
+    const [tipTreninga, setTip] = useState(tip[0])
+    const [intenzitetTreninga, setIntenzitet] = useState(intenzitet[0])
+    const [trajanjeTreninga, setTrajanje] = useState(trajanje[0])
 
-    const posaljiIzmenu = () => {
+    const posaljiIzmenu = async () => {
+
+        try {
+            //napravi zahtev trening
+            await axiosPrivate.post('http://localhost:8800/api/zahtev/napraviZahtevTrener', {
+                idTreninga: props.idTreninga,
+                idKorisnika: props.idKorisnika,
+                idZahteva: props.idZahteva,
+                tip: tipTreninga,
+                intenzitet: intenzitetTreninga,
+                trajanje: trajanjeTreninga
+            })
+            alert('Uspesno poslat predlog')
+            props.onClose()
+        } catch (err) {
+            console.log(err.response.data)
+            alert('Doslo je do greske')
+        }
 
     }
 

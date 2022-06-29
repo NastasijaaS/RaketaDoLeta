@@ -183,8 +183,8 @@ const TabelaZaReciklazu = (props) => {
                             {head?.map((head, i) => (
                                 <TableCell key={i}>{head}</TableCell>
                             ))}
+                            <TableCell />
                         </TableRow>
-                        <TableCell />
                     </TableHead>
 
                     <TableBody>

@@ -3,57 +3,27 @@ import React, { useRef, useState, Fragment } from 'react'
 import { PostMetoda } from '../Fetch'
 import Greska from '../Alert'
 import useAxiosPrivate from '../../api/useAxiosPrivate'
+import Info from '../Inputi/Info'
 
-const Info = ({ labela, tip, reff }) => {
-    return (
-        <div>
-            {/* <label>{labela}: */}
 
-            <TextField
-                fullWidth
-                className='loginInp'
-                multiline
-                inputRef={reff}
-                label={labela}
-                type={tip}
-                color="primary"
-                size="small"
-                placeholder={labela}
-                />
-
-            {/* <input className='loginInp' ref={reff}
-                    type={tip} placeholder={labela} /> */}
-            {/* </label> */}
-        </div>
-    )
-}
 
 
 function DodajTrenera(props) {
     console.log(props);
 
     const axiosPrivate = useAxiosPrivate()
-
     const [alert, setAlert] = useState({ prikazi: false, tip: 'error', greska: '' })
 
-    const slika = useRef()
     const opis = useRef()
     const sertifikati = useRef()
     const iskustvo = useRef()
-    const [data, setData] = useState('')
-    const [greska, setGreskaa] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
+
     const [success, setSuccess] = useState(false)
+    const [file, setFile] = useState('')
 
     let grupni = false
 
-
     const dodajTrenera = async () => {
-        console.log(props)
-
-
-        // const idTrenera = JSON.parse(sessionStorage.getItem("idTrenera"))
-        // console.log(idTrenera)
 
         const idTrenera = props.idTrenera
 
@@ -73,33 +43,21 @@ function DodajTrenera(props) {
                 opis: opis.current.value,
                 sertifikati: sertifikati.current.value.split(','),
                 iskustvo: sertifikati.current.value.split(','),
-                slika: slika.current.value
             }
         }
 
-        //PostMetoda(zahtev, setData, setGreskaa, setIsLoading)
+        const formData = new FormData();
+        formData.append('file', file);
 
         try {
-            await axiosPrivate.post(zahtev.url, zahtev.body)
-        //    alert('Uspesno dodat trener')
+            await axiosPrivate.post(zahtev.url, formData, zahtev.body)
+
         } catch (err) {
             setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
             console.log(err)
         }
 
-        // if (greska) {
-        //     setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
-
-        //     // return
-        // }
-        // else {
-        //     setAlert({ prikazi: true, tip: 'success', greska: 'Uspesno dodat trener' })
-
-        // }
-
-        sessionStorage.clear();
         setSuccess(true)
-
     }
 
     return (
@@ -113,27 +71,27 @@ function DodajTrenera(props) {
             />
 
             {!success &&
-            
-            <Box className="cardCenter" sx = {{gap: '1vh', padding: {sm:'0% 20%'}, alignItems: "stretch"}} >
-                <Typography variant="h5" component="div"  gutterBottom sx={{ textAlign: 'center' }}>Dodaj trenera</Typography>
 
-                <Info multiline labela='opis' tip='text' reff={opis} />
-                <Info multiline labela='iskustvo' tip='text' reff={iskustvo} />
-                <Info multiline labela='sertifikati' tip='text' reff={sertifikati} />
+                <Box className="cardCenter" sx={{ gap: '1vh', padding: { sm: '0% 20%' }, alignItems: "stretch" }} >
+                    <Typography variant="h5" component="div" gutterBottom sx={{ textAlign: 'center' }}>Dodaj trenera</Typography>
 
-                <Info labela='slika' tip='text' reff={slika} />
+                    <Info multiline labela='opis' tip='text' reff={opis} />
+                    <Info multiline labela='iskustvo' tip='text' reff={iskustvo} />
+                    <Info multiline labela='sertifikati' tip='text' reff={sertifikati} />
 
-                <Box className = "cardCenter">
-                    <FormControlLabel
-                        onChange={(ev) => { grupni = ev.target.checked }}
-                        control={<Checkbox defaultChecked />}
-                        label="Drzi grupne treninge" />
-                </Box>
-                
+                    <Info sx={{ width: '100%' }} fullWidth tip='file' onChange={(ev) => { setFile(ev.target.files[0]); }} />
 
-                <Button  fullWidth variant = 'outlined' onClick={dodajTrenera}>Unesi</Button>
+                    <Box className="cardCenter">
+                        <FormControlLabel
+                            onChange={(ev) => { grupni = ev.target.checked }}
+                            control={<Checkbox defaultChecked />}
+                            label="Drzi grupne treninge" />
+                    </Box>
 
-            </Box>}
+
+                    <Button fullWidth variant='outlined' onClick={dodajTrenera}>Unesi</Button>
+
+                </Box>}
 
             {success && <div>animacija success</div>}
 
