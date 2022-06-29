@@ -34,79 +34,6 @@ export const dodajOpis = async (req, res) => {
 
 };
 
-//vidi trenere koji drze grupne
-export const vidiTrenereGrupni = async (req, res) => {
-
-    try {
-        const trener = await Trener.find({ drzigrupne: true })
-        if (trener.length != 0) {
-            let treneri = []
-            for (let i = 0; i < trener.length; i++) {
-                const t = await RegistrovaniKorisnik.findById(trener[i].registrovaniKorisnikId)
-
-                const tr = {
-                    id: trener[i]._id,
-                    ime: t.ime,
-                    prezime: t.prezime,
-                    opis: trener[i].opis,
-                    slika: trener[i].slika,
-                    sertifikati: trener[i].sertifikati,
-                    iskustvo: trener[i].iskustvo,
-                    email: t.email,
-                    // registrovaniKorisnikId:trener[i].registrovaniKorisnikId
-                }
-
-                treneri.push(tr)
-            }
-            return res.status(200).json(treneri)
-        }
-
-        else {
-           return res.status(400).json("Nema trenera za prikaz")
-        }
-
-    }
-    catch (err) {
-        return res.status(500).json(err);
-    }
-
-}
-
-//vidi trenere koji drze personalne
-export const vidiTrenerePersonalni =async (req, res) => {
-
-    try {
-        const trener = await Trener.find({ drzigrupne: false })
-        if (trener.length != 0) {
-            let treneri = []
-            for (let i = 0; i < trener.length; i++) {
-                const t = await RegistrovaniKorisnik.findById(trener[i].registrovaniKorisnikId)
-                const tr = {
-                    id: trener[i]._id,
-                    ime: t.ime,
-                    prezime: t.prezime,
-                    opis: trener[i].opis,
-                    slika: trener[i].slika,
-                    sertifikati: trener[i].sertifikati,
-                    iskustvo: trener[i].iskustvo,
-                    email: t.email,
-                    // registrovaniKorisnikId:trener[i].registrovaniKorisnikId
-                }
-
-                treneri.push(tr)
-            }
-            return res.status(200).json(treneri)
-        }
-        else {
-            return res.status(400).json("Nema trenera za prikaz")
-        }
-
-    }
-    catch (err) {
-        return res.status(500).json(err);
-    }
-
-}
 
 //pogledaj sve trenere
 export const vidiTrenereSvi = async (req, res) => {
@@ -122,6 +49,7 @@ export const vidiTrenereSvi = async (req, res) => {
                     id: trener[i]._id,
                     ime: t?.ime,
                     prezime: t?.prezime,
+                    brojtelefona:t?.brojTelefona,
                     opis: trener[i].opis,
                     slika: trener[i].slika,
                     sertifikati: trener[i].sertifikati,

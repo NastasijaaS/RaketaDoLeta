@@ -30,7 +30,7 @@ export const izmeniEvidenciju = async (req, res) => {
                     if (ev!==null){
 
                         console.log(ev)
-                        if(ev.tipTreninga.count===7){
+                        if(ev.tipTreninga.count===5){
                             const first = ev.tipTreninga[0];
                             console.log(first);
 

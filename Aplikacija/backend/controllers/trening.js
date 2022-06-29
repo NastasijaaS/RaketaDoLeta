@@ -1008,16 +1008,20 @@ export const vratiProsleTreninge = async (req, res) => {
                         let samoDatum = datum.toLocaleDateString()
                         let vremee = '';
                         let samovreme = '';
+                        let nazivTreninga=""
 
                         if(trening.brojMaxClanova === 1){
                             vremee = trening.datum;
                             samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
                             korisnik = await Korisnik.findById(trening.clanovi[0])
                             regK =  await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
+                            nazivTreninga="Personalni"
                         }
                         else{
                             vremee = trening.vreme;
                             samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
+                            nazivTreninga=usluga?.naziv
+
                             
                         }
 
@@ -1030,7 +1034,7 @@ export const vratiProsleTreninge = async (req, res) => {
                             tip: trening.tip,
                             intenzitet: trening.intenzitet,
                             trajanje: trening.trajanje,
-                            nazivGrupnogTreninga:usluga?.naziv
+                            nazivTreninga:nazivTreninga
                         }
                         vrati.push(tr)
                 }

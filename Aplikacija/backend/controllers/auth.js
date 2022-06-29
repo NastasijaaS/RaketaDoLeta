@@ -58,8 +58,8 @@ export const register = async (req, res) => {
 
       const noviKor = await noviKorisnik.save();
 
-      //const token = generateAccessToken(noviKor)
-      //console.log(token)
+      const token = generateAccessToken(noviKor.registrovaniKorisnikId)
+      const refreshToken = generateRefreshToken(noviKor.registrovaniKorisnikId)
 
 
       let novi = {
@@ -78,7 +78,8 @@ export const register = async (req, res) => {
         zeljeniProcenatMasti: noviKor.zeljeniProcenatMasti,
         zeljenaTezina: noviKor.zeljenaTezina,
         verifikovan: noviKor.verifikovan,
-        token: token
+        token: token,
+        refreshToken:refreshToken
       }
 
       return res.status(200).json(novi)
@@ -95,7 +96,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const user = await RegistrovaniKorisnik.findOne({ email: req.body.email });
+    const user = await RegistrovaniKorisnik.findOne({ username: req.body.username });
 
     if (!user) {
       res.status(404).json("Nema takvog korisnika");
@@ -232,6 +233,24 @@ export const proveriEmail = async (req, res) => {
 
     else {
       return res.status(200).json("Dobar mail")
+    }
+
+  }
+  catch (err) {
+    return res.status(500).json(err)
+  }
+};
+
+export const proveriUsername = async (req, res) => {
+  try {
+    const username = req.body.username;
+    const usernameNovi = await RegistrovaniKorisnik.findOne({ username: username })
+
+    if (usernameNovi != null)
+      return res.status(404).json("Vec postoji korisnik sa zadatim username");
+
+    else {
+      return res.status(200).json("Dobar username")
     }
 
   }

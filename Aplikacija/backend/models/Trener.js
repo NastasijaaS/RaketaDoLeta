@@ -29,10 +29,6 @@ const TrenerSchema = new mongoose.Schema({
     opis:{
         type:String
     },
-    drzigrupne:{
-        type:Boolean,
-        default:false
-    },
     termini:{
         type:Array,
         default:[]
