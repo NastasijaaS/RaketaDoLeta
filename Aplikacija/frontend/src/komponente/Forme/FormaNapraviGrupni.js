@@ -12,31 +12,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import Greska from '../Alert'
 import hrLocale from 'date-fns/locale/hr'
 import useAxiosPrivate from '../../api/useAxiosPrivate'
+import DropDown from "../Inputi/DropDown";
 
 const intenzitet = ["Lak", "Srednje tezak", "Tezak"]
 const trajanje = ["30min", "45min", "1h"]
-
-
-const DropDown = ({ labela, set, niz, value }) => {
-    return (<FormControl sx={{ width: '100%' }}>
-        <InputLabel>{labela}</InputLabel>
-        <Select
-            label={labela}
-            value={value}
-            size='small'
-            onChange={(ev) => {
-                set(ev.target.value)
-            }}
-        >
-            {
-                niz.map(n => (
-                    <MenuItem key={n} value={n}>{n}</MenuItem>
-                ))
-            }
-
-        </Select>
-    </FormControl>)
-}
 
 
 const NapraviGrupni = (props) => {
@@ -44,12 +23,11 @@ const NapraviGrupni = (props) => {
     const axiosPrivate = useAxiosPrivate()
 
     let isOnline = false
-    const [intenzitetTreninga, setIntenzitet] = useState('')
-    const [trajanjeTreninga, setTrajanje] = useState('')
+
+    const [intenzitetTreninga, setIntenzitet] = useState(intenzitet[0])
+    const [trajanjeTreninga, setTrajanje] = useState(trajanje[0])
+
     const [error, setError] = useState(false)
-    const [data, setData] = useState()
-    const [greska, setGreska] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
     const maxBrojClanova = useRef()
     const naziv = useRef()
     const [treninzi, setTreninzi] = useState([])
@@ -68,7 +46,7 @@ const NapraviGrupni = (props) => {
                         if (res.data) {
                             setTreninzi(res.data)
                         }
-                        else{
+                        else {
                             setTreninzi([])
                         }
                     }
@@ -113,21 +91,12 @@ const NapraviGrupni = (props) => {
             }
         }
 
-        // await PostMetoda(zahtev, setData, setGreska, setIsLoading)
-
         try {
             await axiosPrivate.post(zahtev.url, zahtev.body)
             alert('Uspesno dodat trening')
         } catch (err) {
             alert('Doslo je do greske')
         }
-
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-        // }
-        // else {
-        //     alert('uspesno dodat trenig')
-        // }
 
         props.onClose()
     }
@@ -136,7 +105,7 @@ const NapraviGrupni = (props) => {
     datumDo.setDate((new Date()).getDate() + 14)
 
     return (
-        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: {sm:'0% 20%'}, alignItems: "stretch" }}>
+        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: { sm: '0% 20%' }, alignItems: "stretch" }}>
 
             <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Grupni trening</Typography>
 
@@ -221,7 +190,7 @@ const NapraviGrupni = (props) => {
 
             <Box display='flex' flexDirection='row' justifyContent={"center"}>
 
-                <Button  fullWidth size='small' variant="outlined" onClick={zakaziGrupniTrening}>Potvrdi</Button>
+                <Button fullWidth size='small' variant="outlined" onClick={zakaziGrupniTrening}>Potvrdi</Button>
                 {/* <Button sx={{ marginLeft: '2%' }} size='small' variant="outlined" onClick={props.onClose}>Otkazi</Button> */}
             </Box>
 

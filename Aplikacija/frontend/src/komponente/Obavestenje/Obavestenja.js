@@ -4,10 +4,10 @@ import Delete from '@mui/icons-material/Delete';
 import { DeleteMetoda } from '../Fetch';
 import { ListItemText, Typography, ListItem, Divider, Box, ListItemIcon, ButtonBase } from '@mui/material';
 import useAxiosPrivate from '../../api/useAxiosPrivate';
+import CheckIcon from '@mui/icons-material/Check';
 
-
-const Obavestenja =  ({  handleClose, open, menuItems, anchorEl,refresh }) => {
-  //console.log(menuItems)
+const Obavestenja = ({ handleClose, open, menuItems, anchorEl, refresh }) => {
+  console.log(menuItems)
 
   const axiosPrivate = useAxiosPrivate()
 
@@ -15,7 +15,7 @@ const Obavestenja =  ({  handleClose, open, menuItems, anchorEl,refresh }) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const obrisiZahtev = async (id) => {
-console.log(id)
+    console.log(id)
     const zahtev = {
       url: 'http://localhost:8800/api/zahtev/obrisiZahtev/' + id
     }
@@ -36,6 +36,10 @@ console.log(id)
 
     refresh()
     handleClose()
+  }
+
+  const promeniTrening = (id) => {
+
   }
 
   return (
@@ -62,9 +66,15 @@ console.log(id)
                 </Typography>
               }
             />
+            {
+              item.predlog && <ButtonBase className='cardCenter' sx={{ marginTop: '0%', marginLeft: '2px', minWidth: '0px' }}>
+                <CheckIcon onClick={() => { promeniTrening(item._id) }} />
+              </ButtonBase>
+            }
             <ButtonBase className='cardCenter' sx={{ marginTop: '0%', marginLeft: '2px', minWidth: '0px' }}>
               <Delete onClick={() => { obrisiZahtev(item._id) }} />
             </ButtonBase>
+
           </ListItem>
           <Divider />
         </Box>

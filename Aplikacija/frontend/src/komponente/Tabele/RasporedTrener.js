@@ -26,16 +26,6 @@ const RasporedTrener = (props) => {
 
     useEffect(() => {
 
-        // if (props.datum) {
-        //     GetData(`http://localhost:8800/api/termin/vratiZauzeteTermineZaTreneraPoDatumu/${props.idTrenera}/${props.datum}`, setTermini, setGreska, setIsLoading)
-        //     GetData(`http://localhost:8800/api/trening/vratiTreningeGrupni/${props.idTrenera}/${props.datum}`, setGrupniTreninzi, setGreska, setIsLoading)
-
-        // }
-        // else {
-        //     GetData("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId,
-        //         setTreninzi, setGreska, setIsLoading)
-        // }
-
         const get = async () => {
             setTermini([])
             setGrupniTreninzi([])
@@ -47,11 +37,13 @@ const RasporedTrener = (props) => {
 
                     if (res.data) {
                         setTermini(res.data)
+                        console.log(res.data)
                     }
                     res = await axiosPrivate.get(`http://localhost:8800/api/trening/vratiTreningeGrupni/${props.idTrenera}/${props.datum}`)
 
                     if (res.data) {
                         setGrupniTreninzi(res.data)
+                        console.log(res.data)
                     }
                 }
                 else {
@@ -103,16 +95,17 @@ const RasporedTrener = (props) => {
 
     }
 
-    const Tabela = ({ row, niz }) => {
+    const Tabela = ({ row, niz, grupni, rowNames }) => {
+        console.log(rowNames)
         return (
             <TableContainer component={Paper} >
                 <Table
-                     size="small" >
+                    size="small" >
                     <TableHead>
                         <TableRow>
                             {props.treninzi && <TableCell align="right">Datum</TableCell>}
 
-                            {row.map((r, i) => (
+                            {row?.map((r, i) => (
                                 <TableCell key={i} align="right">{r}</TableCell>
                             ))}
                             <TableCell> </TableCell>
@@ -120,36 +113,39 @@ const RasporedTrener = (props) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {niz.map((t, i) => (
-                            <TableRow key={i}>
+                        {
+                            niz?.map((el, i) => (
+                                <TableRow key={i}>
+                                    {rowNames?.map((r, i) => (
+                                        <TableCell key={i} align="right">{el[r]}</TableCell>
+                                    ))}
 
-                                {t.datum && <TableCell align="right">{t.datum}</TableCell>}
-
-                                <TableCell align="right"> {t.vreme}</TableCell>
-                                <TableCell align="right">{t.trajanje}</TableCell>
-                                <TableCell align="right">{t.intenzitet}</TableCell>
-
-
-                                {t.imeK && <TableCell align="right">{t.imeK} {t.prezimeK}</TableCell>}
-                                {t.brojSlobodnihMesta && <TableCell align="right">{t.brojSlobodnihMesta}</TableCell>}
-                                <TableCell align="right">
-                                    <IconButton sx={{ p: 0, color: 'green' }} onClick={() => unesiEvidenciju(t.treningId, t.korisnikId)}>
-                                        <CheckCircleIcon sx={{ fontSize: "1em" }} />
-                                    </IconButton>
-                                    <IconButton sx={{ p: 0, color: 'red' }} onClick={() => obrisiTrening(t.treningId)} >
-                                        <CancelIcon sx={{ fontSize: "1em" }} />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                                    {!grupni &&
+                                        <TableCell align="right">
+                                            <IconButton sx={{ p: 0, color: 'green' }} onClick={() => unesiEvidenciju(el.treningId, el.korisnikId)}>
+                                                <CheckCircleIcon sx={{ fontSize: "1em" }} />
+                                            </IconButton>
+                                            <IconButton sx={{ p: 0, color: 'red' }} onClick={() => obrisiTrening(el.treningId)} >
+                                                <CancelIcon sx={{ fontSize: "1em" }} />
+                                            </IconButton>
+                                        </TableCell>
+                                    }
+                                </TableRow>
+                            ))
+                        }
+                    
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer >
         )
     }
 
-    const rowPersonalni = ['Vreme', 'Trajanje', 'Intenzitet', 'Klijent']
+    const rowPersonalni = ['Vreme', 'Trajanje', 'Intenzitet', 'Tip', 'Klijent',]
     const rowGrupni = ['Vreme', 'Trajanje', 'Intenzitet', 'Mesta']
+    const rowNamesGrupni = ['vreme', 'trajanje', 'intenzitet', 'brojSlobodnihMesta']
+    const rowNamesPersonalni = ['vreme', 'trajanje', 'intenzitet', 'tip', 'imeK', 'prezimeK']
+    const rowNamesOdbijeni = ['datum','vreme', 'trajanje', 'intenzitet', 'tip', 'imeK', 'prezimeK']
+
 
     return (
         <Fragment>
@@ -158,7 +154,7 @@ const RasporedTrener = (props) => {
                     <Typography variant='h5' >Personalni treninzi</Typography>
 
                     {termini.length !== 0 ?
-                        <Tabela row={rowPersonalni} niz={termini} />
+                        <Tabela row={rowPersonalni} niz={termini} grupni={false} rowNames={rowNamesPersonalni} />
                         :
                         <Typography color='error'>Nemate zakazanih personalnih treninga za danas</Typography>
                     }
@@ -167,7 +163,7 @@ const RasporedTrener = (props) => {
 
                     {grupniTreninzi.length !== 0 ?
 
-                        <Tabela row={rowGrupni} niz={grupniTreninzi} />
+                        <Tabela row={rowGrupni} niz={grupniTreninzi} grupni={true} rowNames={rowNamesGrupni} />
                         :
                         <Typography color='error'>Nemate zakazanih grupnih treninga za danas</Typography>
                     }
@@ -176,7 +172,7 @@ const RasporedTrener = (props) => {
                 <Fragment>
                     {props.treninzi.length !== 0 ?
 
-                        <Tabela row={rowPersonalni} niz={props.treninzi} />
+                        <Tabela row={rowPersonalni} niz={props.treninzi} grupni={false} rowNames={rowNamesOdbijeni} />
                         :
                         <Typography color='error'>sve treninge ste potvrdili</Typography>
                     }

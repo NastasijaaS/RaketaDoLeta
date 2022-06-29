@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import Blog from "../models/Blog.js"
-import multer from "multer";
+import {slika} from "./auth.js";
 
 //vrati sve blogove
 export const vratiBlogove = async (req, res) => {
@@ -62,6 +62,16 @@ export const vratiBlogTag = async (req, res) => {
 //dodajBlog
 export const dodajBlog = async (req, res) => {
 
+    const pom = await slika(req)
+
+    
+    if (pom === false) {
+        console.log('nema slika')
+ 
+    }
+
+    
+ 
     try {
         const datum = new Date();
         const blog = await new Blog({
@@ -69,9 +79,10 @@ export const dodajBlog = async (req, res) => {
             datum: datum,
             tekst: req.body.tekst,
             tagovi: req.body.tagovi,
-            slika: req.body.slika,
+            slika: pom,
             kratakopis: req.body.kratakopis
         })
+
 
         const blogSave = await blog.save()
         return res.status(200).json(blogSave)
@@ -112,6 +123,11 @@ export const obrisiBlog = async (req, res) => {
         return res.status(500).json(err);
     }
 };
+
+
+
+
+
 
 
 export default router;

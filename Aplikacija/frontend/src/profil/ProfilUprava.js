@@ -16,26 +16,26 @@ import Blogovi from "./Uprava/Blogovi";
 
 const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
-
+   
     return (
         <Box hidden={value !== index}>
-
             {value === index && (
                 <Box sx={{ p: 3 }}>
                     {children}
                 </Box>
             )}
-
         </Box>
     );
 }
 
 export const Uprava = () => {
 
-    const [tab, seTab] = useState(0);
+    const savedTab = parseInt(sessionStorage.getItem('tab'))
+    const [tab, seTab] = useState(savedTab ? savedTab : 0);
 
     const promeniTab = (event, newValue) => {
         seTab(newValue);
+        sessionStorage.setItem('tab', newValue)
     };
 
     return (
@@ -50,7 +50,7 @@ export const Uprava = () => {
                         value={tab}
                         onChange={promeniTab}
                     >
-                        <Tab label="Korisnici"  />
+                        <Tab label="Korisnici" value={0} />
                         <Tab label="Neverifikovani nalozi" />
                         <Tab label="Usluge" />
                         <Tab label="Treneri" />
@@ -65,7 +65,7 @@ export const Uprava = () => {
                         variant="scrollable"
                         value={tab}
                         onChange={promeniTab}
-                        sx={{ borderRight: 1, borderColor: 'divider',width: '100%' }} >
+                        sx={{ borderRight: 1, borderColor: 'divider', width: '100%' }} >
 
                         <Tab label="Korisnici" />
                         <Tab label="Neverifikovani nalozi" />
@@ -94,7 +94,7 @@ export const Uprava = () => {
                     </TabPanel>
 
                     <TabPanel value={tab} index={4}>
-                        <Blogovi/>
+                        <Blogovi />
                     </TabPanel>
                 </Grid>
             </Grid>
