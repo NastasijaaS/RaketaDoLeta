@@ -351,7 +351,7 @@ export default function Tabela(props) {
                             <TablePagination
                                 sx = {{overflow:'revert'}}
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                colSpan={2}
+                                colSpan={3}
                                 count={rows.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}

@@ -4,11 +4,13 @@ import { LoginMetoda, PostMetoda } from '../komponente/Fetch';
 import { useContext, useRef } from 'react';
 import { UserContext } from '../context/UserContext';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Button, TextField, Box, Typography } from '@mui/material';
+import { Button, TextField, Box, Typography, IconButton} from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import Info from '../komponente/Inputi/Info'
 import axios from 'axios';
 import { LoginSuccess } from '../context/UserActions';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 
 const upisiTrenera = (zahtev, setData, setGreskaa, setIsLoading) => {
     PostMetoda(zahtev, setData, setGreskaa, setIsLoading)
@@ -233,6 +235,15 @@ const Register = (props) => {
 
                     <Button size='small' variant="contained" onClick={upis}>Registruj se</Button>
                 </form>}
+
+                {success &&
+            <Box className = 'cardCenter marginS'>
+            <IconButton disableRipple = 'true' color = 'success'>
+                <CheckCircleIcon  sx = {{fontSize:'5rem'}}/>
+            </IconButton>
+               <Typography textAlign = 'center' variant = 'h4'>Uspesno ste dodali opis!</Typography>
+            </Box>
+            }
 
         </div >
 

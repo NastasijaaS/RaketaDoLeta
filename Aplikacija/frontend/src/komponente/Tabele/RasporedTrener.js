@@ -115,8 +115,12 @@ const RasporedTrener = (props) => {
                             {row?.map((r, i) => (
                                 <TableCell key={i} align="right">{r}</TableCell>
                             ))}
-                            <TableCell> </TableCell>
-
+                            {!grupni &&
+                                <TableCell></TableCell>
+                            }
+                            {!grupni &&
+                                <TableCell></TableCell>
+                            }
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -162,7 +166,7 @@ const RasporedTrener = (props) => {
         <Fragment>
             {props.datum ?
                 <Fragment>
-                    <Typography variant='h5' >Personalni treninzi</Typography>
+                    <Typography sx = {{margin: '2%'}} variant='h5' >Personalni treninzi</Typography>
 
                     {termini.length !== 0 ?
                         <Tabela row={rowPersonalni} niz={termini} grupni={false} rowNames={rowNamesPersonalni} />
@@ -170,7 +174,7 @@ const RasporedTrener = (props) => {
                         <Typography color='error'>Nemate zakazanih personalnih treninga za danas</Typography>
                     }
 
-                    <Typography variant='h5'>Grupni treninzi</Typography>
+                    <Typography sx = {{margin: '2%'}} variant='h5'>Grupni treninzi</Typography>
 
                     {grupniTreninzi.length !== 0 ?
 

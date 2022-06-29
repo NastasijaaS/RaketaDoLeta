@@ -2,7 +2,7 @@ import '../styles/usluge.css'
 import { useState, useEffect, Fragment } from 'react'
 import { GetData } from '../komponente/Fetch'
 import CircularProgress from '@mui/material/CircularProgress';
-import { Accordion, AccordionDetails, AccordionSummary, Button, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Typography, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const Usluge = () => {
@@ -10,16 +10,20 @@ const Usluge = () => {
     const [nizUsluga, setUsluge] = useState([])
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [prikaziOpis, setPrikaziOpis] = useState(-1)
+    const [prikaziOpis, setPrikaziOpis] = useState([])
 
     useEffect(() => {
 
         GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
+        // setPrikaziOpis(nizUsluga[1].opis.spilt('\n'))
+        console.log(nizUsluga)
+        console.log(prikaziOpis)
 
     }, [])
 
+
     return (
-        <div className="sveUsluge">
+        <Box className="sveUsluge">
             <Typography variant='h4' component="div" align="center" gutterBottom>Cenovnik usluga</Typography>
             {isLoading && <CircularProgress size='2rem' disableShrink />}
 
@@ -38,13 +42,15 @@ const Usluge = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography gutterBottom>
-                            {usl.opis}
+                            {
+                            usl.opis
+                            }
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
             ))}
 
-        </div >
+        </Box >
     )
 }
 
