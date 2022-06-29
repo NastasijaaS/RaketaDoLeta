@@ -1,26 +1,24 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Menu from '@mui/material/Menu';
 import Delete from '@mui/icons-material/Delete';
 import { DeleteMetoda } from '../Fetch';
 import { ListItemText, Typography, ListItem, Divider, Box, ListItemIcon, ButtonBase } from '@mui/material';
 import useAxiosPrivate from '../../api/useAxiosPrivate';
 import CheckIcon from '@mui/icons-material/Check';
+import { UserContext } from '../../context/UserContext';
 
 const Obavestenja = ({ handleClose, open, menuItems, anchorEl, refresh }) => {
   console.log(menuItems)
 
+  const { user } = useContext(UserContext)
+
   const axiosPrivate = useAxiosPrivate()
 
-  const [greska, setGreska] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
 
   const obrisiZahtev = async (id) => {
-    console.log(id)
     const zahtev = {
       url: 'http://localhost:8800/api/zahtev/obrisiZahtev/' + id
     }
-
-    // DeleteMetoda(zahtev, setGreska, setIsLoading)
 
     try {
       await axiosPrivate.delete('http://localhost:8800/api/zahtev/obrisiZahtev/' + id)
@@ -29,17 +27,34 @@ const Obavestenja = ({ handleClose, open, menuItems, anchorEl, refresh }) => {
       alert('Doslo je do greske')
     }
 
+    refresh()
+    handleClose()
+  }
 
-    if (greska !== false) {
+  const promeniTrening = async (poruka, idTreninga, idZahteva) => {
+
+    console.log(idTreninga)
+    const niz = poruka.split(' , ')
+    const trening = niz[1].split(' ; ')
+    console.log(trening)
+
+    try {
+      await axiosPrivate.put('http://localhost:8800/api/trening/prihvatiIzmene', {
+        idTreninga: idTreninga,
+        idZahteva: idZahteva,
+        idKorisnika: user.korisnikId,
+        intenzitet: trening[0],
+        tip: trening[1],
+        trajanje: trening[2]
+      })
+
+    } catch (err) {
+      console.log(err.response.data)
       alert('Doslo je do greske')
     }
 
     refresh()
     handleClose()
-  }
-
-  const promeniTrening = (id) => {
-
   }
 
   return (
@@ -68,9 +83,10 @@ const Obavestenja = ({ handleClose, open, menuItems, anchorEl, refresh }) => {
             />
             {
               item.predlog && <ButtonBase className='cardCenter' sx={{ marginTop: '0%', marginLeft: '2px', minWidth: '0px' }}>
-                <CheckIcon onClick={() => { promeniTrening(item._id) }} />
+                <CheckIcon onClick={() => { promeniTrening(item.poruka, item.treningId, item._id) }} />
               </ButtonBase>
             }
+
             <ButtonBase className='cardCenter' sx={{ marginTop: '0%', marginLeft: '2px', minWidth: '0px' }}>
               <Delete onClick={() => { obrisiZahtev(item._id) }} />
             </ButtonBase>

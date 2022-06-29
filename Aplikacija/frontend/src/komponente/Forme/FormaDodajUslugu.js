@@ -40,12 +40,17 @@ const FormaDodajUslugu = (props) => {
                 opis: opisUsluge.current.value,
                 trajanje: trajanjeUsluge.current.value,
                 treningGrupni: grupniTrening,
-                slika: slika.current.value
+                // slika: slika.current.value
             }
         }
 
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('naziv', nazivUsluge.current.value);
+        formData.append('opis', opisUsluge.current.value);
+        formData.append('cena', cenaUsluge.current.value);
+        formData.append('trajanje', trajanjeUsluge.current.value);
+        formData.append('treningGrupni', grupniTrening);
 
         try {
             await axiosPrivate.post(zahtev.url, formData, zahtev.body)

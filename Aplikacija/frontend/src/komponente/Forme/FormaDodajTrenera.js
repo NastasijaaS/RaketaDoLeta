@@ -48,9 +48,17 @@ function DodajTrenera(props) {
 
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('sertifikati', sertifikati.current.value.split(','));
+        formData.append('opis', opis.current.value);
+        formData.append('iskustvo', sertifikati.current.value.split(','));
+
 
         try {
-            await axiosPrivate.post(zahtev.url, formData, zahtev.body)
+            await axiosPrivate.post(zahtev.url, formData, {
+                opis: opis.current.value,
+                sertifikati: sertifikati.current.value.split(','),
+                iskustvo: sertifikati.current.value.split(','),
+            })
 
         } catch (err) {
             setAlert({ prikazi: true, tip: 'error', greska: 'Doslo je do greske prilikom upisa' })
