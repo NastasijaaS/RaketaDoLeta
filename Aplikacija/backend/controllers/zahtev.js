@@ -139,7 +139,9 @@ catch (err) {
 export const napraviZahtevTrener =async (req, res) => {
 
   try {
-    
+    const zahtev = await Zahtev.findById(req.params.idZahteva)
+    if(zahtev!=null)
+    {
     const korisnik = await Korisnik.findById(req.body.idKorisnika)
 
 
@@ -153,16 +155,15 @@ export const napraviZahtevTrener =async (req, res) => {
         let datumm1 = datumm.toLocaleDateString()
     
 
-      const zahtev = await new Zahtev({
+        const noviZahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, {
+          $set: {
         poruka: "Predlog izmene treninga za datum: " + datumm1 + "\n" + req.body.intezitet + "\n" + req.body.tip + "\n" + req.body.trajanje ,
         registrovaniKorisnikId:korisnik.registrovaniKorisnikId,
-        predlog:true
-      })
-
-
-
-      const zahtevSave = await zahtev.save()
-      return res.status(200).json(zahtev)
+        predlog:true,
+        status: "Odobreno"
+      }
+    })
+    return res.status(200).json(noviZahtev);
 
     }
     else
@@ -176,6 +177,11 @@ export const napraviZahtevTrener =async (req, res) => {
     {
       return res.status(404).json("Korisnik nije pronadjen")
     }
+  }
+  else{
+    return res.status(404).json("Zahtev nije pronadjen")
+
+  }
   }
   catch (err) {
     return res.status(500).json(err);
