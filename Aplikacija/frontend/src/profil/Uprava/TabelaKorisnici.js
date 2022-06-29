@@ -37,8 +37,6 @@ export default function Tabela(props) {
                 if (p.status === 200) {
                     p.data.sort((a, b) => new Date(a.clanarinaDo) - new Date(b.clanarinaDo));
 
-                    // console.log(p.data)
-
                     setKorisnici(p.data)
                     setRows(p.data)
                 }

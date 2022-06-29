@@ -16,24 +16,23 @@ export const izmeniEvidenciju = async (req, res) => {
         if (trener != null) {
             const korisnik = await Korisnik.findById(req.body.korisnikId)
             console.log(korisnik)
-            const trening=await Trening.findById(req.params.idTreninga)
-           
-            if (korisnik != null && trening!=null) {
+            const trening = await Trening.findById(req.params.idTreninga)
 
-                    const ev= await Evidencija.findOne({korisnikId:korisnik._id})
+            if (korisnik != null && trening != null) {
+
+                const ev = await Evidencija.findOne({ korisnikId: korisnik._id })
+                console.log(ev)
+
+                const termin = await Termin.findOne({ treningId: trening._id })
+
+                //let brTreninga=ev.brojTreninga+1
+
+                if (ev !== null) {
+
                     console.log(ev)
-
-                    const termin=await Termin.findOne({treningId:trening._id})
-
-                    //let brTreninga=ev.brojTreninga+1
-
-                    if (ev!==null){
-
-                        console.log(ev)
-                        if(ev.tipTreninga.count===5){
-                            const first = ev.tipTreninga[0];
-                            console.log(first);
-
+                    if (ev.tipTreninga.count === 6) {
+                        const first = ev.tipTreninga[0];
+                        //console.log(first);
 
                         const updated = ev.updateOne({
                             $pull: {
@@ -42,45 +41,45 @@ export const izmeniEvidenciju = async (req, res) => {
                         });
 
                         const final = await ev.updateOne({
-                            $push:{
-                                tipTreninga:trening.tipTreninga,
-                                intenzitet:trening.intenzitet
+                            $push: {
+                                tipTreninga: trening.tipTreninga,
+                                intenzitet: trening.intenzitet
                             }
                         })
                         return res.status(200).json(final)
 
-                        }
-                        else{
-                            if(termin!=null){
-                                const final = await Evidencija.findOneAndUpdate({korisnikId:korisnik._id}, {
-                                    $push:{
-                                        tipTreninga:trening.tip,
-                                        intenziteti:trening.intenzitet,
-                                        datumi:termin.datum
-                                    
-                                    }
-                                })
+                    }
+                    else {
+                        if (termin != null) {
+                            const final = await Evidencija.findOneAndUpdate({ korisnikId: korisnik._id }, {
+                                $push: {
+                                    tipTreninga: trening.tip,
+                                    intenziteti: trening.intenzitet,
+                                    datumi: termin.datum
 
-                                await Trening.findByIdAndDelete(trening._id)
-                                await Termin.findByIdAndDelete(termin._id)
-                                return res.status(200).json(final)
-                            }
-                            else{
-                                return res.status(404).json("termin nije pronadjen")
-                            }
-                            
-                            
+                                }
+                            })
+
+                            await Trening.findByIdAndDelete(trening._id)
+                            await Termin.findByIdAndDelete(termin._id)
+                            return res.status(200).json(final)
                         }
-                        
+                        else {
+                            return res.status(404).json("termin nije pronadjen")
+                        }
+
 
                     }
-                    else{
-                        
-                        return res.status(404).json("evidencija nije pronadjena")
-                    }
+
 
                 }
-                
+                else {
+
+                    return res.status(404).json("evidencija nije pronadjena")
+                }
+
+            }
+
             else {
                 return res.status(404).json("Korisnik nije pronadjen")
             }
@@ -90,7 +89,7 @@ export const izmeniEvidenciju = async (req, res) => {
             return res.status(404).json("Trener nije pronadjen")
         }
 
-        }
+    }
     catch (err) {
         console.log(err)
 
@@ -112,25 +111,23 @@ export const vidiEvidenciju = async (req, res) => {
             const korisnik = await Korisnik.findById(req.params.idKorisnika)
             if (korisnik != null) {
                 const regK = await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
-                if(regK!=null)
-                {
-              
+                if (regK != null) {
+
                     const evidencija = await Evidencija.findOne({ korisnikId: req.params.idKorisnika })
-                    
+
                     if (evidencija != null) {
                         let vratiDatume = []
-                        for (let i = 0; i < evidencija.datumi.length; i++) 
-                        {
-                            let tre= evidencija.datumi[i].toLocaleDateString()
+                        for (let i = 0; i < evidencija.datumi.length; i++) {
+                            let tre = evidencija.datumi[i].toLocaleDateString()
                             vratiDatume.push(tre)
                         }
-                        
+
                         let vrati = {
                             imeKorisnika: regK.ime,
                             prezimeKorisnika: regK.prezime,
                             tipTreninga: evidencija.tipTreninga,
                             intenziteti: evidencija.intenziteti,
-                            datumi:vratiDatume
+                            datumi: vratiDatume
                             //datumi:evidencija.datumi
                         }
                         return res.status(200).json(vrati)
@@ -139,7 +136,7 @@ export const vidiEvidenciju = async (req, res) => {
                         return res.status(404).json("ne postoji dodata evidencija za ovog klijenta")
                     }
                 }
-                else{
+                else {
                     return res.status(404).json("Nije pronadjen registrovani korisnik")
                 }
 

@@ -135,10 +135,12 @@ const ZahteviTrenera = () => {
                             <AccordionDetails>
                                 <Grid container spacing={2}>
 
-                                    <Grid item xs={12} md={2} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                                    <Grid item xs={12} md={2} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', }}>
                                         <Typography>Broj telefona: {z.brojtelefonaT}</Typography>
-                                        <Typography>Intenzitet: {z.intenzitet}</Typography>
-                                        <Typography>Tip: {z.tip}</Typography>
+                                        <Typography sx={{ fontWeight: 600 }}>Intenzitet: {z.intenzitet}</Typography>
+                                        <Typography sx={{ fontWeight: 600 }}>Tip: {z.tip}</Typography>
+                                        <Typography sx={{ fontWeight: 600 }}>Online: {z.isOnline.toString()}</Typography>
+
                                     </Grid>
 
                                     <Grid item xs={12} md={10}>

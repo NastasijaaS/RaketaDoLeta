@@ -1,10 +1,12 @@
 import { useState, Fragment, useEffect } from 'react'
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
-import { Box, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import { Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import useAxiosPrivate from '../../api/useAxiosPrivate'
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const RasporedTrener = (props) => {
 
@@ -48,14 +50,19 @@ const RasporedTrener = (props) => {
                 }
                 else {
 
-                    // const res = await axiosPrivate.get("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId)
-                    // console.log(res)
-                    // if (res.data) {
-                    //     setTreninzi(res.data)
-                    // }
+                    setIsLoading(true)
+                    const res = await axiosPrivate.get("http://localhost:8800/api/trening/vratiProsleTreninge/" + user.trenerId)
+                    console.log(res.data)
+                    if (res.data) {
+                        setTreninzi(res.data)
+                    }
+                    setIsLoading(false)
+
                 }
             }
             catch (err) {
+                setIsLoading(false)
+
                 if (err.response?.status !== 404) {
                     alert('Doslo je do greske')
                 }
@@ -122,9 +129,9 @@ const RasporedTrener = (props) => {
 
                                     {!grupni &&
                                         <TableCell align="right">
-                                            <IconButton sx={{ p: 0, color: 'green' }} onClick={() => unesiEvidenciju(el.treningId, el.korisnikId)}>
+                                            {el.tip && <IconButton sx={{ p: 0, color: 'green' }} onClick={() => unesiEvidenciju(el.treningId, el.korisnikId)}>
                                                 <CheckCircleIcon sx={{ fontSize: "1em" }} />
-                                            </IconButton>
+                                            </IconButton>}
                                             <IconButton sx={{ p: 0, color: 'red' }} onClick={() => obrisiTrening(el.treningId)} >
                                                 <CancelIcon sx={{ fontSize: "1em" }} />
                                             </IconButton>
@@ -133,7 +140,7 @@ const RasporedTrener = (props) => {
                                 </TableRow>
                             ))
                         }
-                    
+
                     </TableBody>
                 </Table>
             </TableContainer >
@@ -144,8 +151,12 @@ const RasporedTrener = (props) => {
     const rowGrupni = ['Vreme', 'Trajanje', 'Intenzitet', 'Mesta']
     const rowNamesGrupni = ['vreme', 'trajanje', 'intenzitet', 'brojslobodnih']
     const rowNamesPersonalni = ['vreme', 'trajanje', 'intenzitet', 'tip', 'imeK', 'prezimeK']
-    const rowNamesOdbijeni = ['datum','vreme', 'trajanje', 'intenzitet', 'tip', 'imeK', 'prezimeK']
+    const rowOdbijeni = ['Trening', 'Vreme', 'Trajanje', 'Intenzitet', 'Tip', 'Klijent']
+    const rowNamesOdbijeni = ['nazivTreninga', 'datum', 'vreme', 'trajanje', 'intenzitet', 'tip', 'imeK', 'prezimeK']
 
+    if (loading) {
+        return (<Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>)
+    }
 
     return (
         <Fragment>
@@ -170,9 +181,9 @@ const RasporedTrener = (props) => {
                 </Fragment>
                 :
                 <Fragment>
-                    {props.treninzi.length !== 0 ?
+                    {treninzi.length !== 0 ?
 
-                        <Tabela row={rowPersonalni} niz={props.treninzi} grupni={false} rowNames={rowNamesOdbijeni} />
+                        <Tabela row={rowOdbijeni} niz={treninzi} grupni={false} rowNames={rowNamesOdbijeni} />
                         :
                         <Typography color='error'>sve treninge ste potvrdili</Typography>
                     }

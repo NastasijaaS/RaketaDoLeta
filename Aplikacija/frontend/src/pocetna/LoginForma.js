@@ -11,21 +11,21 @@ import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 const LogIn = (props) => {
-    const [cookies, setCookie] = useCookies(['user']);
+    const [cookies, setCookie] = useCookies(['ref-token']);
 
     let navigate = useNavigate()
     const { ucitavaSe, error, dispatch } = useContext(UserContext);
     const [greska, setGreska] = useState({ mail: false, lozinka: false });
-    const [alert, setAlert] = useState({ prikazi: false, tip: 'error', greska: '' })
+    const [alertt, setAlert] = useState({ prikazi: false, tip: 'error', greska: '' })
 
     const [mail, setMail] = useState('');
     const [lozinka, setLozinka] = useState('');
 
     const proveriMail = (mail) => {
 
-        const Email = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+        //   const Email = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 
-        if (mail === '' || !mail.match(Email)) {
+        if (mail === '') {
             setGreska((greska) => ({ ...greska, mail: true }))
         }
         else {
@@ -47,9 +47,9 @@ const LogIn = (props) => {
         setGreska({ mail: false, lozinka: false })
 
         let pom = true
-        const Email = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+     //   const Email = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 
-        if (mail === '' || !mail.match(Email)) {
+        if (mail === '') {
             setGreska((greska) => ({ ...greska, mail: true }))
             pom = false
         }
@@ -62,17 +62,15 @@ const LogIn = (props) => {
     }
 
     const upis = async (ev) => {
-
         ev.preventDefault()
 
         let pom = validacija();
-
         if (pom === true) {
 
             let nesto = ''
 
             await axios.post('http://localhost:8800/api/auth/login', {
-                'email': mail, 'password': lozinka
+                'username': mail, 'password': lozinka
             }).then((p) => {
                 if (p.status === 200) {
                     dispatch(LoginSuccess(p.data))
@@ -115,6 +113,8 @@ const LogIn = (props) => {
 
             if (props.onClose)
                 props.onClose()
+        } else {
+            alert('Molimo  ispravno unesite sve podatke')
         }
     }
 
@@ -122,10 +122,10 @@ const LogIn = (props) => {
         <Box className="forma cardCenter marginB">
             <form className="login" >
                 <Greska
-                    open={alert.prikazi}
+                    open={alertt.prikazi}
                     onClose={() => setAlert({ prikazi: false, tip: 'success', greska: '' })}
-                    tip={alert.tip}
-                    greska={alert.greska}
+                    tip={alertt.tip}
+                    greska={alertt.greska}
                 />
 
                 <Typography variant="h5" component="div" sx={{ textAlign: 'center' }}>Prijavite se:</Typography>
@@ -136,8 +136,8 @@ const LogIn = (props) => {
                     value={mail}
                     error={greska.mail}
                     onChange={(ev) => { setMail(ev.target.value); proveriMail(ev.target.value) }}
-                    label="E-mail"
-                    type="email"
+                    label="username"
+                    type="text"
                     color="primary"
                     size="small"
                 />

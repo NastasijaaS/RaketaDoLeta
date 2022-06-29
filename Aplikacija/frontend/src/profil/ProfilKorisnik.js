@@ -3,7 +3,7 @@ import { UserContext } from '../context/UserContext'
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import { useNavigate } from "react-router-dom";
-import { Button,  Card,  Typography, Grid, CardActions, CardContent } from "@mui/material";
+import { Button, Card, Typography, Grid, CardActions, CardContent } from "@mui/material";
 import IzmeniLozinku from "../komponente/Inputi/IzmeniLozinku";
 import useAxiosPrivate from "../api/useAxiosPrivate";
 
@@ -132,13 +132,13 @@ const Korisnik = (props) => {
 
                             <Typography className='cardCenter' component="div" variant="h4" sx={{ height: '35%', textTransform: 'capitalize' }}>{user.ime} {user.prezime}</Typography>
 
-                            <Typography mb={2}>Clanarina vazi do: {new Date(clanarina.vaziDo).toLocaleDateString()}</Typography>
+                            <Typography mb={2}>Clanarina vazi do: {clanarina.vaziDo ? new Date(clanarina.vaziDo).toLocaleDateString() : ''}</Typography>
 
                             <Typography mb={2}>e-mail: {user.email}</Typography>
 
                             <Typography mb={2}>Broj telefona: {user.brojTelefona}</Typography>
 
-                            <Typography className = 'zelje'>
+                            <Typography className='zelje'>
                                 Godine:
                                 <input className='inputCSS'
                                     type='number'
@@ -150,7 +150,7 @@ const Korisnik = (props) => {
 
                             </Typography>
 
-                            <Typography className = 'zelje' >
+                            <Typography className='zelje' >
                                 Visina:
                                 <input className='inputCSS'
                                     type='number'
@@ -174,7 +174,7 @@ const Korisnik = (props) => {
                     <Card variant="outlined" sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                         <CardContent sx={{ flexGrow: '1' }}>
                             <Typography gutterBottom variant="h6">Zeljene vrednosti</Typography>
-                            <Box className = 'zelje' >
+                            <Box className='zelje' >
                                 Zeljena tezina:
                                 <input className='inputCSS'
                                     type='number'
@@ -186,7 +186,7 @@ const Korisnik = (props) => {
 
                             </Box>
 
-                            <Box className = 'zelje'>
+                            <Box className='zelje'>
                                 Zeljena tezina misica:
                                 <input className='inputCSS'
                                     type='number'
@@ -197,7 +197,7 @@ const Korisnik = (props) => {
                                     onChange={(ev) => setKorisnik((k) => ({ ...k, zeljenaTezinaMisica: ev.target.value }))} />
                             </Box>
 
-                            <Box className = 'zelje'>
+                            <Box className='zelje'>
                                 Zeljeni procenat masti:
                                 <input className='inputCSS'
                                     type='number'
@@ -208,7 +208,7 @@ const Korisnik = (props) => {
                                     onChange={(ev) => setKorisnik((k) => ({ ...k, zeljeniProcenatMasti: ev.target.value }))} />
                             </Box>
 
-                            <Box className = 'zelje'>
+                            <Box className='zelje'>
                                 Zeljeni procenat proteina:
                                 <input className='inputCSS'
                                     type='number'
@@ -220,8 +220,8 @@ const Korisnik = (props) => {
                             </Box>
                         </CardContent>
                         <CardActions>
-                            {!izmeniPodatke && <Button  fullWidth color = 'success' variant="contained" size='small' onClick={izmeniKorisnika}>OK</Button>}
-                            {!izmeniPodatke && <Button fullWidth color = 'error' variant="contained" size='small' onClick={() => {
+                            {!izmeniPodatke && <Button fullWidth color='success' variant="contained" size='small' onClick={izmeniKorisnika}>OK</Button>}
+                            {!izmeniPodatke && <Button fullWidth color='error' variant="contained" size='small' onClick={() => {
                                 setIzmeniPodatke(true); setKorisnik({
                                     visina: user.visina,
                                     zeljenaTezina: user.zeljenaTezina,

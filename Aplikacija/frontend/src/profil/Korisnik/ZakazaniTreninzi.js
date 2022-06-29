@@ -23,7 +23,7 @@ const ZakazaniTreninzi = () => {
 
     const [grupniTreninzi, setGrupni] = useState([])
 
-    const [greska, setGreska] = useState(false)
+    const [greska, setGreska] = useState({ personalni: false, grupni: false })
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -34,14 +34,25 @@ const ZakazaniTreninzi = () => {
 
     useEffect(() => {
         const get = async () => {
-            //  GetData("http://localhost:8800/api/trening/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
-            //  GetData("http://localhost:8800/api/trening/vidiZakazaneTreningeGrupni/" + user.korisnikId, setGrupni, setGreska, setIsLoading)
 
             try {
-
                 setIsLoading(true)
                 const res = await axiosPrivate.get("http://localhost:8800/api/trening/vidiZakazaneTreningePersonalni/" + user.korisnikId)
                 setZakazaniTreninzi(res.data)
+                setIsLoading(false)
+            }
+            catch (err) {
+                setIsLoading(false)
+                if (err.response.status !== 404)
+                    alert('Doslo je do greske prilikom ucitavanja')
+                else {
+                    setGreska((g) => ({ ...g, personalni: true }))
+                }
+
+            }
+
+            try {
+                setIsLoading(true)
                 const res1 = await axiosPrivate.get("http://localhost:8800/api/trening/vidiZakazaneTreningeGrupni/" + user.korisnikId)
                 console.log(res1.data)
                 setGrupni(res1.data)
@@ -51,6 +62,10 @@ const ZakazaniTreninzi = () => {
                 setIsLoading(false)
                 if (err.response.status !== 404)
                     alert('Doslo je do greske prilikom ucitavanja')
+                else {
+                    setGreska((g) => ({ ...g, grupni: true }))
+                }
+
             }
 
         }
@@ -97,6 +112,12 @@ const ZakazaniTreninzi = () => {
         return pom
     }
 
+
+
+    if (isLoading) {
+        return <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>
+    }
+
     return (
         <Box className='marginS'>
 
@@ -104,7 +125,6 @@ const ZakazaniTreninzi = () => {
                 <Typography gutterBottom variant="h4" component="div" textAlign="center">Personalni treninzi</Typography>
 
                 {isLoading && <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>}
-
 
                 <Grid container spacing={2} >
                     {zakazaniTreninzi.map((tr, i) => (
@@ -160,8 +180,10 @@ const ZakazaniTreninzi = () => {
                     ))}
                 </Grid>
                 {
-                    !zakazaniTreninzi &&
-                    <Typography>Nemate zakazanih personalnih treninga</Typography>
+                    greska.personalni &&
+                    <Box sx = {{margin: '10%'}} >
+                        <Typography sx={{ textAlign: 'center' }} color='error'>Nemate zakazanih personalnih treninga</Typography>
+                    </Box>
                 }
 
                 <Typography gutterBottom variant="h4" component="div" textAlign="center" mt={2}>Grupni treninzi</Typography>
@@ -199,8 +221,10 @@ const ZakazaniTreninzi = () => {
                 </Grid>
 
                 {
-                    !grupniTreninzi &&
-                    <Typography>Nemate zakazanih personalnih treninga</Typography>
+                    greska.grupni &&
+                    <Box sx = {{margin: '10%'}} >
+                        <Typography sx={{ textAlign: 'center' }} color='error'>Nemate zakazanih personalnih treninga</Typography>
+                    </Box>
                 }
 
             </Box>

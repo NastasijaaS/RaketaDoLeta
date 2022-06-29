@@ -72,7 +72,7 @@ const TabelaTreneri = () => {
                 const res = await axiosPrivate.get("http://localhost:8800/api/trener/vidiTrenereSvi")
                 if (res.data) {
                     setTreneri(res.data)
-                    console.log(res.data)
+               //     console.log(res.data)
                 }
                 setIsLoading(false)
 
@@ -90,10 +90,6 @@ const TabelaTreneri = () => {
             url: 'http://localhost:8800/api/trener/obrisiTrenera/' + id,
         }
 
-        //    console.log(zahtev)
-
-        //DeleteMetoda(zahtev, setGreska, setIsLoading)
-
         try {
             await axiosPrivate.delete('http://localhost:8800/api/trener/obrisiTrenera/' + id)
 
@@ -101,14 +97,11 @@ const TabelaTreneri = () => {
             alert('Doslo je do greske')
         }
 
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-        // }
         setRefresh(!refresh)
     }
 
-    const head = ['Ime', 'Prezime', 'E-mail']
-    const rowName = ['ime', 'prezime', 'email']
+    const head = ['Ime', 'Prezime', 'E-mail','Broj telefona']
+    const rowName = ['ime', 'prezime', 'email','brojtelefona']
 
     if (isLoading)
         return (<Box><CircularProgress /></Box>)
@@ -121,36 +114,6 @@ const TabelaTreneri = () => {
 
             <TabelaZaReciklazu head={head} rows={sviTreneri} rowName={rowName} onDelete={obrisiTrenera} search1='ime' search2='prezime' />
 
-
-            {/* <Table>
-                <TableHead>
-                    <TableRow>
-                        <th>ime</th>
-                        <th>prezime</th>
-                        <th>email</th>
-
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {sviTreneri.map((tr,i) => (
-                        <TableRow key={i}>
-                            <TableCell>{tr.ime}</TableCell>
-                            <TableCell>{tr.prezime}</TableCell>
-                            <TableCell>{tr.email}</TableCell>
-
-                            <TableCell><Button
-                                onClick={() => obrisiTrenera(tr.id)}
-                                size="small"
-                                variant="outlined"
-                                color="error"
-                                startIcon={<DeleteIcon />}>
-                                Obrisi
-                            </Button></TableCell>
-                        </TableRow>
-                    ))}
-
-                </TableBody>
-            </Table> */}
 
             {dodaj
                 &&

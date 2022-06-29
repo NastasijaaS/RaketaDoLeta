@@ -9,7 +9,10 @@ import LogIn from './LoginForma';
 import Register from './RegisterForma';
 import FormaZakaziPersonalni from '../komponente/Forme/FormaZakaziPersonalni';
 
+const PUTANJA = 'C:/Users/Milica/Desktop/si.22.39.raketadoleta/Aplikacija/backend/Photos/'
+
 const Treneri = () => {
+    // console.log(PUTANJA)
 
     const [sviTreneri, setTreneri] = useState([])
     const [greska, setGreska] = useState(false)
@@ -19,7 +22,7 @@ const Treneri = () => {
     const [login, setLogin] = useState(true)
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/trener/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/trener/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
     }, [])
 
     const { user, dispatch } = useContext(UserContext);
@@ -38,13 +41,16 @@ const Treneri = () => {
                             <CardMedia
                                 component="img"
                                 src={tr.slika}
-                                image={tr.slika ? tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
+                                // image={tr.slika ? tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
+                                image={tr.slika ? PUTANJA + tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
                                 alt={tr.ime}
-                                className="trImg" />
+                                className="trImg" 
+                                onClick = { () => {console.log( PUTANJA + tr.slika)}}
+                                />
                         </Grid>
                         <Grid item xs={12} sm={8}>
-                            <CardContent id={i}  sx={{display: 'flex', flexDirection:'column', minHeight: '100%' }}>
-                                <Box sx = {{flexGrow: '1'}}>
+                            <CardContent id={i} sx={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
+                                <Box sx={{ flexGrow: '1' }}>
                                     <Typography component="div" variant="h6">
                                         {tr.ime} {tr.prezime}
                                     </Typography>

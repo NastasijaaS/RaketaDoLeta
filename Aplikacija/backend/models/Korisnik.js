@@ -56,6 +56,10 @@ const KorisnikSchema = new mongoose.Schema({
     napredakId:{
         type:String,
         //required:true
+    },
+    probniTrening:{
+        type:Boolean,
+        default:false
     }
 
 },

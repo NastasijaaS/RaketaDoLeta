@@ -2,7 +2,7 @@ import RasporedTrener from "../../komponente/Tabele/RasporedTrener";
 import { useContext, useEffect, useState } from "react";
 import useAxiosPrivate from "../../api/useAxiosPrivate";
 import { UserContext } from "../../context/UserContext";
-import { CircularProgress, Box, Typography, getTouchRippleUtilityClass} from '@mui/material'
+import { CircularProgress, Box, Typography, getTouchRippleUtilityClass } from '@mui/material'
 
 const OdbijeniTreninzi = () => {
 
@@ -11,7 +11,7 @@ const OdbijeniTreninzi = () => {
     const [treninzi, setTreninzi] = useState([])
     const [loading, setIsLoading] = useState(true)
 
-    const rowGrupni = ['Vreme', 'Trajanje', 'Intenzitet', 'Mesta']
+    const rowGrupni = ['', 'Vreme', 'Trajanje', 'Intenzitet', 'Mesta']
 
 
     useEffect(() => {
@@ -36,17 +36,13 @@ const OdbijeniTreninzi = () => {
 
 
     return (
-        <Box className = "cardCenter marginS">
-           
+        <Box className="cardCenter marginS">
+
             <Typography gutterBottom component="div" variant="h4" textAlign="center">Prosli treninzi</Typography>
-            {
-                loading && <CircularProgress size='2rem' />
-            }
-            {
-                !loading && <RasporedTrener prosli={true} treninzi={treninzi} />
-            }
-           
-        </Box>  
+            <RasporedTrener prosli={true} treninzi={treninzi} />
+
+
+        </Box>
     )
 
 }

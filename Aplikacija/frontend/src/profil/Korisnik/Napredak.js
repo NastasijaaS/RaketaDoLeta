@@ -51,13 +51,21 @@ const Napredak = () => {
 
     useEffect(() => {
         const get = async () => {
-       const res = await axiosPrivate.get("http://localhost:8800/api/napredak/vidiNapredakKorisnik/" + user.korisnikId)
+            try {
+                const res = await axiosPrivate.get("http://localhost:8800/api/napredak/vidiNapredakKorisnik/" + user.korisnikId)
 
-            setNapredak(res.data)
-            setZeljeno(res.data.tezina)
+                setNapredak(res.data)
+                setZeljeno(res.data.tezina)
 
-            const res1 = await axiosPrivate.get("http://localhost:8800/api/napredak/vidiNapredakPoslednji/" + user.korisnikId)
-            setPoslednji(res1.data)
+                const res1 = await axiosPrivate.get("http://localhost:8800/api/napredak/vidiNapredakPoslednji/" + user.korisnikId)
+                setPoslednji(res1.data)
+            }
+            catch (error) {
+                if (error.response.status === 404) {
+                    alert('Nemate dodat napredak')
+                }
+                navigate('/profil')
+            }
         }
         get()
     }, [])
