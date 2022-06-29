@@ -9,7 +9,7 @@ import LogIn from './LoginForma';
 import Register from './RegisterForma';
 import FormaZakaziPersonalni from '../komponente/Forme/FormaZakaziPersonalni';
 
-const PUTANJA = 'C:/Users/Milica/Desktop/si.22.39.raketadoleta/Aplikacija/backend/Photos/'
+const PUTANJA = 'http://localhost:8800/'
 
 const Treneri = () => {
     // console.log(PUTANJA)
@@ -40,9 +40,9 @@ const Treneri = () => {
                         <Grid item xs={12} sm={4}>
                             <CardMedia
                                 component="img"
-                                src={tr.slika}
+                                src={tr.slika ? PUTANJA + tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
                                 // image={tr.slika ? tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
-                                image={tr.slika ? PUTANJA + tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
+                                // image={tr.slika ? PUTANJA + tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
                                 alt={tr.ime}
                                 className="trImg" 
                                 onClick = { () => {console.log( PUTANJA + tr.slika)}}
