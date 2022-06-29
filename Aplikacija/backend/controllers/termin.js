@@ -150,7 +150,7 @@ export const vratiZauzeteTermineZaTreneraPoDatumu = async (req, res) => {
                             prezimeK: regK.prezime,
                             trener: trener._id,
                             vreme: samovreme,
-                            trajanje: "1h",
+                            trajanje: trening.trajanje,
                             intenzitet: trening.intenzitet,
                             tip:trening.tip,
                             treningId: trening._id,
