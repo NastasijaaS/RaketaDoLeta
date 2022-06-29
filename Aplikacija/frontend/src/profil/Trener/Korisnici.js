@@ -93,7 +93,7 @@ const KorisniciTrenera = () => {
                             </CardActionArea>
 
                             <CardActions>
-                                <Button onClick={() => { izbaciKlijenta(k.idkorisnika) }}>Izbaci klijenta</Button>
+                                <Button onClick={() => { izbaciKlijenta(k.idkorisnika) }}>Ukloni klijenta</Button>
                             </CardActions>
 
                         </Card>

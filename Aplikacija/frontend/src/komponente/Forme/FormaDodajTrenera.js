@@ -97,7 +97,7 @@ function DodajTrenera(props) {
                     </Box>
 
 
-                    <Button fullWidth variant='outlined' onClick={dodajTrenera}>Unesi</Button>
+                    <Button sx = {{mt:'5%'}} fullWidth variant='outlined' onClick={dodajTrenera}>Unesi</Button>
 
                 </Box>}
 

@@ -4,6 +4,7 @@ import { Button, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { Carousel } from 'react-carousel-minimal';
 import { UserContext } from "../context/UserContext";
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 
 const Pocetna = () => {
     //const toTop = () => window.scrollTo(0,0)
@@ -72,7 +73,7 @@ const Pocetna = () => {
                 <Box fullWidth className = 'pozadinaPoruka'>
                     <Box className="poruka"> Krenimo zajedno u novu avanturu </Box>
                     <Link to='/treneri'>
-                        <Button variant="outlined" id='centralBtn' size='large' sx={{ backgroundColor: 'secondary.contrastText'}} >
+                        <Button variant="outlined" id='centralBtn' size='large' startIcon = {<FitnessCenterIcon/>} endIcon = {<FitnessCenterIcon/>} sx={{ backgroundColor: 'secondary.contrastText'}}>
                             Zakazite trening
                         </Button>
                     </Link>

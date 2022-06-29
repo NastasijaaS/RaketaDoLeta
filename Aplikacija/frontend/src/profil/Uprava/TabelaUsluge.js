@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, Fragment } from 'react'
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { TextField, Box, Paper, Input } from '@mui/material';
+import { TextField, Box, Paper, Input, TableHead } from '@mui/material';
 import '../../styles/input.css'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -139,6 +139,20 @@ const TabelaUsluge = () => {
             <Paper>
                 <TableContainer>
                     <Table>
+                        <TableHead>
+                                <TableRow>
+                                    <TableCell sx={{ 'textAlign': 'left' }}> Naziv </TableCell>
+                                    <TableCell sx={{ 'textAlign': 'left' }}>
+                                        Cena
+                                    </TableCell>
+
+                                    <TableCell sx={{ 'textAlign': 'left' }}>
+                                        Trajanje
+                                    </TableCell>    
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                </TableRow>
+                        </TableHead>
                         <TableBody>
                             {nizUsluga.map((usl, i) => (
 

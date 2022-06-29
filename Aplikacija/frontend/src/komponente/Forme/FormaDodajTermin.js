@@ -113,7 +113,7 @@ const FormaDodajTermin = (props) => {
 
             </LocalizationProvider>
 
-            <Button  fullWidth size='small' variant = 'outlined' onClick={unesiTermin}>unesi</Button>
+            <Button sx = {{mt:'5%'}} fullWidth size='small' variant = 'outlined' onClick={unesiTermin}>unesi</Button>
         </Box>
     )
 }

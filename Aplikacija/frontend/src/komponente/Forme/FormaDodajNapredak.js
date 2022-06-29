@@ -152,7 +152,7 @@ const DodajNapredak = (props) => {
             <Info labela='tezina' tip='number' reff={tezina} />
 
 
-            <Box>
+            <Box sx = {{mt:'5%'}}>
             {props.prvi && <Button fullWidth size='small' variant="outlined" className="btn" onClick={dodajNapredak}>Unesi</Button>}
             {!props.prvi && <Button fullWidth size='small' variant="outlined" className="btn" onClick={izmeniNapredak}>Unesi</Button>}
             </Box>

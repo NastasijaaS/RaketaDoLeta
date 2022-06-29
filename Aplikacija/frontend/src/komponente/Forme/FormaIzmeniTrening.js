@@ -2,7 +2,7 @@ import React, { useContext, useState,} from "react";
 import '../../styles/formaZakazi.css'
 import { UserContext } from "../../context/UserContext";
 import Button from "@mui/material/Button";
-import { FormControlLabel } from '@mui/material';
+import { FormControlLabel, Box, Typography } from '@mui/material';
 import { Checkbox } from "@mui/material";
 import Greska from '../Alert'
 import useAxiosPrivate from "../../api/useAxiosPrivate";
@@ -60,14 +60,17 @@ const FormaIzmeniTrening = (props) => {
 
 
     return (
-        <form className="formaZakazi" onSubmit={izmeniTrening}>
+        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding:{sm:'0% 20%' }, alignItems: "stretch", display: 'flex', flexDirection: 'column' }}>
 
             <Greska open={Boolean(error)} onClose={() => setError(false)} greska={error} />
+
+            <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Izmenite trening</Typography>
 
             <DropDown labela='Tip treninga' set={setTip} niz={tip} value={tipTreninga} />
             <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
             <DropDown labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
 
+            <Box className="cardCenter">
             <FormControlLabel
                 value="online"
                 onChange={onlineTrening}
@@ -75,13 +78,13 @@ const FormaIzmeniTrening = (props) => {
                 label="On-line trening"
                 labelPlacement="start"
             />
+            </Box>
 
-            <div>
-                <Button size='small' variant="outlined" className="btn" onClick={izmeniTrening}>Potvrdi</Button>
-                <Button size='small' variant="outlined" className="btn" onClick={props.onClose}>Otkazi</Button>
-            </div>
+            <Box className="cardCenter">
+                <Button size='small' variant="outlined" onClick={izmeniTrening}>Potvrdi</Button>
+            </Box>
 
-        </form>
+        </Box>
     )
 }
 

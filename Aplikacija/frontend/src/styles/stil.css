@@ -91,7 +91,7 @@ a{
     color: transparent;
     background-clip: text;
     -webkit-background-clip: text;
-    text-transform:capitalize;
+    /* text-transform:capitalize; */
 }
 
 .pozadinaPoruka{
