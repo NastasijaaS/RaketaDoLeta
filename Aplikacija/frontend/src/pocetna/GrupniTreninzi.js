@@ -4,6 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Card, CardActions, CardContent, CardMedia, Grid, Typography, Button, Box } from '@mui/material';
 import KalendarForma from '../komponente/Tabele/KalendarForma'
 
+const PUTANJA = 'http://localhost:8800/'
 
 const GrupniTreninzi = () => {
     const [treninzi, setTreninzi] = useState([])
@@ -15,7 +16,6 @@ const GrupniTreninzi = () => {
     useEffect(() => {
          GetData("http://localhost:8800/api/trening/vidiGrupneUsluge", setTreninzi, setGreska, setIsLoading) 
     }, [])
-
 
 
     const prikaziTermin = (index) => {
@@ -39,7 +39,8 @@ const GrupniTreninzi = () => {
                             <CardMedia                      
                                 sx = {{maxHeight: "50vh"}}
                                 component="img"
-                                src={tr.slika}
+                                crossorigin="anonymous"
+                                src={PUTANJA + tr.slika}
                                 alt={tr.naziv}
                                 className="trImg" />
 

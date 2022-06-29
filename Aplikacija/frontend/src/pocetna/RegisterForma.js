@@ -8,16 +8,13 @@ import { Button, TextField, Box, Typography } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import Info from '../komponente/Inputi/Info'
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
 import { LoginSuccess } from '../context/UserActions';
-
-
 
 const upisiTrenera = (zahtev, setData, setGreskaa, setIsLoading) => {
     PostMetoda(zahtev, setData, setGreskaa, setIsLoading)
 }
 
-const upisiKorisnika = async (zahtev, dispatch, setCookie) => {
+const upisiKorisnika = async (zahtev, dispatch) => {
     await axios.post(zahtev.url, zahtev.body).then((p) => {
         if (p.status === 200) {
             dispatch(LoginSuccess(p.data))
@@ -36,7 +33,7 @@ const upisiKorisnika = async (zahtev, dispatch, setCookie) => {
             // localStorage.setItem("user", JSON.stringify(state.user))
 
             localStorage.setItem("userId", userId)
-            setCookie('ref-token', p.data.refreshToken, { path: '/' });
+            document.cookie = 'token=' + p.data.refreshToken
         }
         return true
     }).catch((error) => {
@@ -59,8 +56,6 @@ const format = (str) => {
 const Register = (props) => {
 
     const { user, ucitavaSe, dispatch } = useContext(UserContext);
-
-    const [cookie, setCookie] = useCookies(['ref-token'])
 
 
     const [greska, setGreska] = useState(
@@ -181,11 +176,10 @@ const Register = (props) => {
             if (user && props.setIdTrenera) {
                 upisiTrenera(zahtev, setData, setGreskaa, setIsLoading)
             } else {
-                error = upisiKorisnika(zahtev, dispatch, setCookie)
+                error = upisiKorisnika(zahtev, dispatch)
             }
 
             if (error) return
-            //  user ? PostMetoda(zahtev, setData, setGreskaa, setIsLoading) : LoginMetoda(zahtev, dispatch, setGreskaa)
 
             if (greskaa !== false) {
                 alert(greskaa)

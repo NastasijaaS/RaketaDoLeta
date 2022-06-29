@@ -8,12 +8,9 @@ import Greska from '../komponente/Alert';
 import { LoginSuccess, LoginFailure, LoginStart } from '../context/UserActions.js'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 
 const LogIn = (props) => {
-    const [cookies, setCookie] = useCookies(['ref-token']);
 
-    let navigate = useNavigate()
     const { ucitavaSe, error, dispatch } = useContext(UserContext);
     const [greska, setGreska] = useState({ mail: false, lozinka: false });
     const [alertt, setAlert] = useState({ prikazi: false, tip: 'error', greska: '' })
@@ -47,7 +44,7 @@ const LogIn = (props) => {
         setGreska({ mail: false, lozinka: false })
 
         let pom = true
-     //   const Email = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+        //   const Email = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 
         if (mail === '') {
             setGreska((greska) => ({ ...greska, mail: true }))
@@ -74,7 +71,6 @@ const LogIn = (props) => {
             }).then((p) => {
                 if (p.status === 200) {
                     dispatch(LoginSuccess(p.data))
-                    console.log(p.data)
 
                     localStorage.setItem('token', p.data?.token)
 
@@ -86,11 +82,8 @@ const LogIn = (props) => {
                     else if (p.data?.upravaId)
                         userId = p.data.upravaId
 
-                    // localStorage.setItem("user", JSON.stringify(state.user))
-
                     localStorage.setItem("userId", userId)
-
-                    setCookie('ref-token', p.data.refreshToken, { path: '/' });
+                    document.cookie = 'token=' + p.data.refreshToken
 
                 }
             }).catch((error) => {

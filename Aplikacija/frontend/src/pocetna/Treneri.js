@@ -33,6 +33,7 @@ const Treneri = () => {
         <Box>
             {isLoading && <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>}
 
+
             {sviTreneri.map((tr, i) => (
                 <Card key={i} sx={{ margin: '5vh 5vw' }}>
                     <Grid container >
@@ -40,13 +41,12 @@ const Treneri = () => {
                         <Grid item xs={12} sm={4}>
                             <CardMedia
                                 component="img"
-                                src={tr.slika ? PUTANJA + tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
-                                // image={tr.slika ? tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
-                                // image={tr.slika ? PUTANJA + tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
+                                crossorigin="anonymous"
+                                src={PUTANJA + tr.slika}
                                 alt={tr.ime}
-                                className="trImg" 
-                                onClick = { () => {console.log( PUTANJA + tr.slika)}}
-                                />
+                                className="trImg"
+                                onClick={() => { console.log(PUTANJA + tr.slika) }}
+                            />
                         </Grid>
                         <Grid item xs={12} sm={8}>
                             <CardContent id={i} sx={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
@@ -81,25 +81,20 @@ const Treneri = () => {
                                 {zakazi && <Modal onClose={() => { setZakazi(false) }}>
 
                                     {user ? <FormaZakaziPersonalni idTrenera={trenerId} onClose={() => { setZakazi(false); }} /> : (login ? <Box><LogIn />
-                                        <Typography variant="body1" component="div" textAlign="center">Nemate nalog:
+                                        <Typography variant="caption" component="div" textAlign="center">Nemate nalog?
                                             <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
                                         </Typography>
                                     </Box>
-
                                         :
-
                                         <Box><Register />
-                                            <Typography variant="body1" component="div" textAlign="center">Imate nalog:
+                                            <Typography variant="caption" component="div" textAlign="center">Imate nalog?
                                                 <Button size='small' onClick={() => { setLogin(true) }}>Prijavi se</Button>
                                             </Typography>
                                         </Box>)
                                     }
 
-
                                 </Modal>}
-
                             </CardContent>
-
                         </Grid>
                     </Grid>
                 </Card>
