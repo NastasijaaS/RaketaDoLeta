@@ -155,7 +155,7 @@ export const napraviZahtevTrener = async (req, res) => {
 
           const noviZahtev = await Zahtev.findByIdAndUpdate(zahtev._id, {
             $set: {
-              poruka: "Predlog izmene treninga za datum: " + datumm1 + "\n" + req.body.intenzitet + "\n" + req.body.tip + "\n" + req.body.trajanje,
+              poruka: "Predlog izmene treninga za datum: " + datumm1 + " , " + req.body.intenzitet + " ; " + req.body.tip + " ; " + req.body.trajanje,
               registrovaniKorisnikId: korisnik.registrovaniKorisnikId,
               predlog: true,
               status: "Odobreno"
@@ -184,5 +184,7 @@ export const napraviZahtevTrener = async (req, res) => {
   }
 
 }
+
+
 
 export default router;

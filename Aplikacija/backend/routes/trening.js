@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-import { zakaziPersonalniTrening , izmeniTrening , ukiniTrening, vidiZakazaneTreningePersonalni, vidiZakazaneTreningeSve, vidiZakazaneTreningeGrupni, prijavaGrupniTrening, vidiGrupneTreninge, vidiGrupneUsluge, vidiTreningeZaUslugu,zakaziGrupniTrening,vratiTreningePersonalni,vratiTreningePersonalniC,vratiTreningeGrupni,prihvatiTrening,odbijTrening,vratiTreningePersonalniO,vratiProsleTreninge,obrisiTrening} from "../controllers/trening.js";
+import { zakaziPersonalniTrening , izmeniTrening , ukiniTrening, vidiZakazaneTreningePersonalni, vidiZakazaneTreningeSve, vidiZakazaneTreningeGrupni, prijavaGrupniTrening, vidiGrupneTreninge, vidiGrupneUsluge, vidiTreningeZaUslugu,zakaziGrupniTrening,vratiTreningePersonalni,vratiTreningePersonalniC,vratiTreningeGrupni,prihvatiTrening,odbijTrening,vratiTreningePersonalniO,vratiProsleTreninge,obrisiTrening,prihvatiIzmene} from "../controllers/trening.js";
 import {auth,trenerMethod} from "../auth.js";
 
 router.post('/zakaziPersonalniTrening/:idKorisnika/:idTrenera/:idTermina',auth, zakaziPersonalniTrening);
@@ -23,6 +23,8 @@ router.put('/odbijTrening/:idZahteva', auth,trenerMethod,odbijTrening);
 router.get('/vratiTreningePersonalniO/:id',auth, vratiTreningePersonalniO);
 router.get('/vratiProsleTreninge/:trenerId',auth,trenerMethod,vratiProsleTreninge);
 router.delete('/obrisiTrening/:treningId',auth,trenerMethod,obrisiTrening);
+router.put('/prihvatiIzmene',auth,prihvatiIzmene );
+
 
 
 

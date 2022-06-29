@@ -792,7 +792,7 @@ export const vratiTreningeGrupni = async (req, res) => {
                     let vremee = treninzi[i].vreme;
                     let samovreme = vremee.toLocaleTimeString(['hr-HR'], { hour: '2-digit', minute: '2-digit' });
                     let brojzauzetih = treninzi[i].clanovi.length
-                    let slobodanbroj = treninzi[i].brojMaxClanova - brojzauzetih;
+                    //let slobodanbroj = treninzi[i].brojMaxClanova - brojzauzetih;
 
                     let tr = {
 
@@ -803,8 +803,7 @@ export const vratiTreningeGrupni = async (req, res) => {
                         trajanje: treninzi[i].trajanje,
                         id: treninzi[i]._id,
                         isOnline: treninzi[i].isOnline,
-                        brojslobodnih: slobodanbroj
-
+                        brojslobodnih: brojzauzetih+"/"+treninzi[i].brojMaxClanova
                     }
                     vrati.push(tr)
                 }
@@ -844,7 +843,7 @@ export const prihvatiTrening = async (req, res) => {
         console.log(korisnik)
         let datumm = trening.datum
         let datumm1 = datumm.toLocaleDateString()
-        const noviZahtev = await Zahtev.findByIdAndUpdate(req.params.idZahteva, {
+        const noviZahtev = await Zahtev.findByIdAndUpdate(zahtev._id, {
             $set: {
                 poruka: "Postovani, vas trening za " + datumm1 + " je odobren",
                 status: "Odobreno",
@@ -1070,6 +1069,48 @@ export const obrisiTrening = async (req, res) => {
         return res.status(500).json(err);
     }
 };
+//prihvati izmene predloga treninga
+
+export const prihvatiIzmene = async (req, res) => {
+   
+    try {
+        const korisnik = await Korisnik.findById(req.body.idKorisnika);
+        
+        if (korisnik != null) {
+            const regkor=await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
+            const trening = await Trening.findById(req.body.idTreninga)
+            const trener=await Trener.findById(trening.trenerId)
+            if (trening != null) 
+            {
+                let datumm = trening.datum
+                let datumm1 = datumm.toLocaleDateString()
+         
+                 {
+                    await trening.updateOne({ $set: req.body })
+                    const noviZahtev = await new Zahtev({
+                        treningId: trening._id,
+                        poruka: "Korisnik " + regkor.ime + " " + regkor.prezime +  " je prihvatio izmene treninga za datum: " + datumm1,
+                        registrovaniKorisnikId: trener.registrovaniKorisnikId
+                    })
+                    const zahtevSave = await noviZahtev.save()
+                    return res.status(200).json(trening);
+                }
+
+            }
+            else {
+                return res.status(404).json("Trening nije pronadjen")
+            }
+
+        }
+        else {
+            return res.status(404).json("Korisnik nije pronadjen")
+        }
+
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+}
 
 
 export default router;
