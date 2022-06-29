@@ -1080,23 +1080,23 @@ export const prihvatiIzmene = async (req, res) => {
             const regkor=await RegistrovaniKorisnik.findById(korisnik.registrovaniKorisnikId)
             const trening = await Trening.findById(req.body.idTreninga)
             const trener=await Trener.findById(trening.trenerId)
+            const zahtev=await Trener.findById(req.body.idZahteva)
+
             if (trening != null) 
             {
                 let datumm = trening.datum
                 let datumm1 = datumm.toLocaleDateString()
          
-                 {
                     await trening.updateOne({ $set: req.body })
-                    const noviZahtev = await new Zahtev({
-                        treningId: trening._id,
+                    const noviZahtev = await Zahtev.findByIdAndUpdate(zahtev._id, {
+                        $set: {
                         poruka: "Korisnik " + regkor.ime + " " + regkor.prezime +  " je prihvatio izmene treninga za datum: " + datumm1,
                         registrovaniKorisnikId: trener.registrovaniKorisnikId
-                    })
-                    const zahtevSave = await noviZahtev.save()
-                    return res.status(200).json(trening);
-                }
-
+                    }
+                })
+                return res.status(200).json(noviZahtev);
             }
+            
             else {
                 return res.status(404).json("Trening nije pronadjen")
             }
