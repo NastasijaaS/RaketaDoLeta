@@ -78,37 +78,37 @@ export const refreshAuth = async (req, res) => {
         //Uzimamo refresh token i proveravamo da li je validan?
         const refreshToken = await req.body.refreshToken;
 
-        console.log('')
-        console.log(refreshTokens)
-        console.log('ref token ' + refreshToken)
-        console.log('')
+        // console.log('')
+        // console.log(refreshTokens)
+        // console.log('ref token ' + refreshToken)
+        // console.log('')
 
 
         //Ako nema refresh token-a?
-        if (!refreshToken)
-            return res.status(401).json("Niste autorizovani!");
+        // if (!refreshToken)
+        //     return res.status(401).json("Niste autorizovani!");
 
         // console.log(refreshTokens)
         // console.log(refreshToken)
         //Da li je refresh token validan?
-        if (!refreshTokens.includes(refreshToken))
-            return res.status(402).json("Refresh token nije validan!");
+        // if (!refreshTokens.includes(refreshToken))
+        //     return res.status(402).json("Refresh token nije validan!");
 
 
-        console.log('valid')
+        // console.log('valid')
 
         //Inace postoji refresh token u nasoj listi koji je validan, samo trebamo da refresh-ujemo tokene:
         jwt.verify(refreshToken, process.env.REFRESH_KEY, (err, user) => {
-            //Ako je doslo do greske, ne radimo nista!
-            if (err)
-                console.log(err);
+            //     //Ako je doslo do greske, ne radimo nista!
+            //     if (err)
+            //         console.log(err);
             //U nizu ostaju samo tokeni koji su razliciti od trenutno upotrebljenog
-        //    refreshTokens = refreshTokens.filter(token => token !== refreshToken);
+            //    refreshTokens = refreshTokens.filter(token => token !== refreshToken);
 
             //Pravimo novi i token i refresh token i saljemo ih korisniku na cuvanje:
 
             const newAccessToken = generateAccessToken(user.id);
-         //   const newRefreshToken = generateRefreshToken(user.id);
+            //   const newRefreshToken = generateRefreshToken(user.id);
 
             //Dodajemo refresh token u listu koja se cuva na serveru:
             // refreshTokens.push(newRefreshToken); // ne mora da se doda jer ga doda fja generateRefreshToken(user.id);
@@ -123,6 +123,7 @@ export const refreshAuth = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
+        res.status(500)
     }
 };
 
@@ -138,7 +139,7 @@ export const upravaMethod = async (req, res, next) => {
 
 
     } catch (err) {
-       
+
         return res.status(500).json(err.Message);
     }
 }
@@ -155,7 +156,7 @@ export const trenerMethod = async (req, res, next) => {
 
 
     } catch (err) {
-  
+
         return res.status(500).json(err.Message);
     }
 }
