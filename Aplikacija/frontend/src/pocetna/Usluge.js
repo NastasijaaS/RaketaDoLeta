@@ -11,13 +11,13 @@ const Usluge = () => {
     const [greska, setGreska] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [prikaziOpis, setPrikaziOpis] = useState([])
+    let nizOpisa = []
 
     useEffect(() => {
 
         GetData("http://localhost:8800/api/usluga/vidiUsluge", setUsluge, setGreska, setIsLoading)
-        // setPrikaziOpis(nizUsluga[1].opis.spilt('\n'))
-        console.log(nizUsluga)
-        console.log(prikaziOpis)
+
+        // console.log(nizUsluga[0].opis?.split(','))
 
     }, [])
 
@@ -38,13 +38,13 @@ const Usluge = () => {
                         <Typography sx={{ width: '77%', flexShrink: 0 }}>
                             {usl.naziv}
                         </Typography>
-                        <Typography color = 'primary' fontWeight={600}>Cena: {usl.cena}</Typography>
+                        <Typography color='primary' fontWeight={600} >Cena: {usl.cena}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography gutterBottom>
-                            {
-                            usl.opis
-                            }
+                        <Typography sx={{ dispay: 'flex', flexDirection: 'column' }} >
+                            {usl.opis?.split(',').map((el) => (
+                                <Typography>{el}</Typography>
+                            ))}
                         </Typography>
                     </AccordionDetails>
                 </Accordion>

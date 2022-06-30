@@ -2,12 +2,16 @@ import axios from "axios";
 import { useContext, useEffect } from 'react'
 import { UserContext } from '../context/UserContext'
 import useRefreshToken from "./useRefreshToken";
+import { useNavigate } from "react-router-dom";
+import { Odjavi } from "../context/UserActions";
+
 
 const useAxiosPrivate = () => {
 
-  const { user } = useContext(UserContext)
+  const { user, dispatch } = useContext(UserContext)
   // console.log(user)
   const refresh = useRefreshToken(user?.refreshToken)
+
 
   useEffect(() => {
     const refToken = user?.refreshToken
@@ -38,12 +42,17 @@ const useAxiosPrivate = () => {
       // console.log(error + '  ' + user)
       const prevRequest = error?.config;  // ovde nadjem gresku iz prethodnog
       if (error?.response?.status === 403 && !prevRequest?.sent) {
-        
-        prevRequest.sent = true;
-        const newAccessToken = await refresh();
-        prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
-        return axios(prevRequest);
+        prevRequest.sent = true;
+        // const newAccessToken = await refresh();
+        // prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+        // return axios(prevRequest);
+        // alert('Istekla vam je sesija molimo ulogujte se opet')
+        localStorage.clear()
+        // dispatch(Odjavi())
+        window.location.reload()
+
       }
 
       return Promise.reject(error);

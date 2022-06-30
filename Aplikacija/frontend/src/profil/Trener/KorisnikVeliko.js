@@ -24,7 +24,6 @@ const KorisnikVeliko = (props) => {
     console.log(k)
 
     const [napredak, setNapredak] = useState(false)
-    const [evidencija, setEvidencija] = useState(false)
 
     const [nizNapredaka, setNizNapredak] = useState([])
     const [zeljeno, setZeljeno] = useState([])
@@ -46,10 +45,7 @@ const KorisnikVeliko = (props) => {
                 // console.log(res.data)
                 // console.log(k)
 
-                res = await axiosPrivate.get("http://localhost:8800/api/evidencija/vidiEvidenciju/" + user.trenerId + '/' + k.idkorisnika)
-                //   console.log(res.data)
 
-                setEvidencija(res.data)
             }
             catch (error) {
                 if (!error?.response) {
@@ -62,7 +58,6 @@ const KorisnikVeliko = (props) => {
             }
 
         }
-        ///vidiEvidenciju/:idTrenera/:idKorisnika
         get()
     }, [])
 
@@ -99,8 +94,8 @@ const KorisnikVeliko = (props) => {
                         </CardContent>
 
                         <CardActions>
-                            {!nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
-                            {nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
+                            {nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
+                            {!nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
                         </CardActions>
                         {napredak && <Modal onClose={() => { setNapredak(false) }}>
                             <DodajNapredak prvi={prvi} napredakId={k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />

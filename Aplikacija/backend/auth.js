@@ -38,7 +38,7 @@ export const auth = (req, res, next) => {
                 jwt.verify(token, process.env.TOKEN_KEY, (err, user) => {
                     if (err) {
 
-                        return res.status(403).json("Token is not valid!");
+                        return res.status(403).json("Token nije validan!");
                     }
                     //Token je validan, vrati korisnika koji je poslao token kroz body:
 
@@ -58,11 +58,11 @@ export const auth = (req, res, next) => {
             }
             else {
                 //Za slucaj da nema tokena:
-                return res.status(401).json('You are not authorized!');
+                return res.status(401).json('Niste autorizovani!');
             }
         }
         else {
-            res.status(402).json("Auth token is missing!");
+            res.status(402).json("Nemate auth token!");
         }
     } catch (err) {
         console.log(err);
@@ -78,43 +78,42 @@ export const refreshAuth = async (req, res) => {
         //Uzimamo refresh token i proveravamo da li je validan?
         const refreshToken = await req.body.refreshToken;
 
-        console.log('')
-        console.log(refreshTokens)
-        console.log('ref token ' + refreshToken)
-        console.log('')
+        // console.log('')
+        // console.log(refreshTokens)
+        // console.log('ref token ' + refreshToken)
+        // console.log('')
 
 
         //Ako nema refresh token-a?
-        if (!refreshToken)
-            return res.status(401).json("You are not authenticated!");
+        // if (!refreshToken)
+        //     return res.status(401).json("Niste autorizovani!");
 
         // console.log(refreshTokens)
         // console.log(refreshToken)
         //Da li je refresh token validan?
-        if (!refreshTokens.includes(refreshToken))
-            return res.status(402).json("Refresh token is not valid!");
+        // if (!refreshTokens.includes(refreshToken))
+        //     return res.status(402).json("Refresh token nije validan!");
 
 
-        console.log('valid')
+        // console.log('valid')
 
         //Inace postoji refresh token u nasoj listi koji je validan, samo trebamo da refresh-ujemo tokene:
         jwt.verify(refreshToken, process.env.REFRESH_KEY, (err, user) => {
-            //Ako je doslo do greske, ne radimo nista!
-            if (err)
-                console.log(err);
+            //     //Ako je doslo do greske, ne radimo nista!
+            //     if (err)
+            //         console.log(err);
             //U nizu ostaju samo tokeni koji su razliciti od trenutno upotrebljenog
-        //    refreshTokens = refreshTokens.filter(token => token !== refreshToken);
+            refreshTokens = refreshTokens.filter(token => token !== refreshToken);
 
             //Pravimo novi i token i refresh token i saljemo ih korisniku na cuvanje:
 
             const newAccessToken = generateAccessToken(user.id);
-         //   const newRefreshToken = generateRefreshToken(user.id);
+            const newRefreshToken = generateRefreshToken(user.id);
 
             //Dodajemo refresh token u listu koja se cuva na serveru:
             // refreshTokens.push(newRefreshToken); // ne mora da se doda jer ga doda fja generateRefreshToken(user.id);
 
-            // console.log(refreshToken)
-            //  console.log(newRefreshToken)
+
 
             //Sve okej, vracamo tokene nazad:
             res.status(200).json({
@@ -124,6 +123,7 @@ export const refreshAuth = async (req, res) => {
         });
     } catch (err) {
         console.log(err);
+        res.status(500)
     }
 };
 
@@ -136,11 +136,10 @@ export const upravaMethod = async (req, res, next) => {
             return res.status(403).json("Samo uprava moze da pristupi!");
         else
             return next();
-        //Prelazi na obradjivanje same metode, sto znaci da je uprava i da ne treba da u metodi
-        //proveravas, pozvace se samo ako se izvrsi ova provera!
+
 
     } catch (err) {
-        //console.log("Poruka nastala u auth", err);
+
         return res.status(500).json(err.Message);
     }
 }
@@ -154,11 +153,10 @@ export const trenerMethod = async (req, res, next) => {
             return res.status(403).json("Samo trener moze da pristupi!");
         else
             return next();
-        //Prelazi na obradjivanje same metode, sto znaci da je uprava i da ne treba da u metodi
-        //proveravas, pozvace se samo ako se izvrsi ova provera!
+
 
     } catch (err) {
-        //console.log("Poruka nastala u auth", err);
+
         return res.status(500).json(err.Message);
     }
 }

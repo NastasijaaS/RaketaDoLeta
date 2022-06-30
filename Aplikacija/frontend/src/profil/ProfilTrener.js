@@ -29,7 +29,7 @@ const Trener = (props) => {
                     <Card className='cardShadow' sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} >
                     <CardMedia
                             component="img"
-                            crossorigin="anonymous"
+                            crossOrigin="anonymous"
                             image={PUTANJA + user.slika}
                             alt={user.ime}
                             className='imgTrProfil'

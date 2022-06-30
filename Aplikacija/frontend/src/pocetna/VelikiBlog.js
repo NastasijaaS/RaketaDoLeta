@@ -17,7 +17,7 @@ const VelikiBlog = (props) => {
                         component="img"
                         className="trImg"
                         // image={blog.slika}
-                        crossorigin="anonymous"
+                        crossOrigin="anonymous"
                         src={PUTANJA + blog.slika}
                         alt={blog.naslov}
                         height="250"
