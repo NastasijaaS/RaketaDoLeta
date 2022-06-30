@@ -70,7 +70,7 @@ const RasporedGrupni = (props) => {
             if (err.response?.status === 400) {
                 alert(err.response.data.toString())
             } else {
-                alert('Doslo je do greske')
+                alert(err.response.data.toString())
                 console.log(err)
             }
         }

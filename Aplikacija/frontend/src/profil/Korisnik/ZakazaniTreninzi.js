@@ -171,6 +171,7 @@ const ZakazaniTreninzi = () => {
                                         Online: {tr.isOnline.toString()}
                                     </Typography>
                                     <Typography
+                                        sx = {{fontWeight:600}}
                                         variant="body2"
                                         color={status(tr.status)}
                                     >
