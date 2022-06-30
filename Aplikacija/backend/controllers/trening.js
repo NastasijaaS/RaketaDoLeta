@@ -160,7 +160,7 @@ export const ukiniTrening = async (req, res) => {
 
             const noviZahtev = await Zahtev.findOneAndUpdate({ treningId: req.params.idTreninga }, {
                 $set: {
-                    poruka: "Postovani, otkazujem trening za  " + datumm1 + " " + ".Korisnik: " + regkor.ime + " " + regkor.prezime,
+                    poruka: "Postovani, otkazujem trening za  " + datumm1 + " " + ".Korisnik: " + regkor?.ime + " " + regkor?.prezime,
                     status: "Ukinuto",
                     registrovaniKorisnikId: trener.registrovaniKorisnikId
                 }
@@ -411,11 +411,19 @@ export const prijavaGrupniTrening = async (req, res) => {
 
 
                             if (usluga._id.toString() === clanarina.uslugaId) {
+                                
                                 if (tr.clanovi.length < tr.brojMaxClanova) {
-                                    //res.status(200).json(brojTren)
-                                    await tr.updateOne({ $push: { clanovi: korisnik._id } })
+                                    if(!tr.clanovi.includes(korisnik._id))
+                                    {
+                                        await tr.updateOne({ $push: { clanovi: korisnik._id } })
 
-                                    return res.status(200).json(tr);
+                                        return res.status(200).json(tr);
+                                    }
+                                    else{
+                                        return res.status(400).json("Vec ste prijavljeni na ovaj trening")
+                                    }
+                                    //res.status(200).json(brojTren)
+                                    
                                 }
                                 else {
                                     return res.status(404).json("Nema mesta u ovom terminu!")
@@ -486,21 +494,22 @@ export const vidiGrupneTreninge = async (req, res) => {
                         //const usluga=await Usluga.findbyId(treninzi[i].uslugaId)
                         let brojzauzetih = treninzi[i].clanovi.length
                         let slobodanbroj = treninzi[i].brojMaxClanova - brojzauzetih;
+                        if(slobodanbroj !== 0){
+                            let tr = {
 
-                        let tr = {
-
-                            imeT: regT.ime,
-                            prezimeT: regT.prezime,
-                            //nazivUsluge:usluga.naziv,
-                            datum: samoDatum,
-                            vreme: samovreme,
-                            nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
-                            intenzitet: treninzi[i].intenzitet,
-                            trajanje: treninzi[i].trajanje,
-                            brojslobodnih: slobodanbroj,
-                            treningID: treninzi[i]._id
+                                imeT: regT.ime,
+                                prezimeT: regT.prezime,
+                                //nazivUsluge:usluga.naziv,
+                                datum: samoDatum,
+                                vreme: samovreme,
+                                nazivGrupnogTreninga: treninzi[i].nazivGrupnogTreninga,
+                                intenzitet: treninzi[i].intenzitet,
+                                trajanje: treninzi[i].trajanje,
+                                brojslobodnih: slobodanbroj,
+                                treningID: treninzi[i]._id
+                            }
+                            vrati.push(tr)
                         }
-                        vrati.push(tr)
                     }
                     else {
                         return res.status(404).json("Nije pronadjen registrovani korisnik")

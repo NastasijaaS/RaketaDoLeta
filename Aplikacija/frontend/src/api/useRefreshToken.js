@@ -19,7 +19,7 @@ const useRefreshToken = () => {
 
         const cookie = splitCookies()
         // console.log(cookie)
-        // console.log(cookie['token'])
+        console.log(cookie['token'])
         // // alert('cekaj')
         // console.log('use refresh')
 
@@ -39,7 +39,7 @@ const useRefreshToken = () => {
             alert('Istekla vam je sesija molimo ulogujte se opet')
             console.log(err)
           //  document.cookie = 'token=' + ''
-            window.location.reload()
+            // window.location.reload()
         }
 
     }

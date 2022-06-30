@@ -230,7 +230,7 @@ const Korisnik = (props) => {
                                 <Typography variant="h6">Poslednje merenje</Typography>
                                 {
                                     !poslednji &&
-                                    <Typography color = 'error'>Nema potadaka sa poslednjeg merenja</Typography>
+                                    <Typography color = 'error'>Nema podataka sa poslednjeg merenja</Typography>
                                 }
                                 { poslednji
                                 &&

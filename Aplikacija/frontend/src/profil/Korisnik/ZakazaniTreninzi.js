@@ -84,6 +84,7 @@ const ZakazaniTreninzi = () => {
             .then((p) => {
                 if (p.status === 200) {
                     alert('Uspesno ukinut trening')
+                    window.location.reload(false)
                 }
             }).catch((error) => {
                 if (error.response.status)
@@ -118,6 +119,8 @@ const ZakazaniTreninzi = () => {
             .then((p) => {
                 if (p.status === 200) {
                     alert('Uspesno ukinut trening')
+                    window.location.reload(false)
+
                 }
             }).catch((error) => {
                 if (error.response.status)

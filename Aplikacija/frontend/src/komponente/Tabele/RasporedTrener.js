@@ -189,7 +189,7 @@ const RasporedTrener = (props) => {
 
                         <Tabela row={rowOdbijeni} niz={treninzi} grupni={false} rowNames={rowNamesOdbijeni} />
                         :
-                        <Typography color='error'>sve treninge ste potvrdili</Typography>
+                        <Typography color='error'>Nemate stare treninge!</Typography>
                     }
                 </Fragment>
             }

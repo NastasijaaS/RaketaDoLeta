@@ -25,32 +25,12 @@ export const izmeniEvidenciju = async (req, res) => {
 
                 const termin = await Termin.findOne({ treningId: trening._id })
 
-                //let brTreninga=ev.brojTreninga+1
+                if (ev !== null && termin!== null) {
 
-                if (ev !== null) {
-
-                    console.log(ev)
-                    if (ev.tipTreninga.count === 6) {
-                        const first = ev.tipTreninga[0];
-                        //console.log(first);
-
-                        const updated = ev.updateOne({
-                            $pull: {
-                                tipTreninga: first
-                            }
-                        });
-
-                        const final = await ev.updateOne({
-                            $push: {
-                                tipTreninga: trening.tipTreninga,
-                                intenzitet: trening.intenzitet
-                            }
-                        })
-                        return res.status(200).json(final)
-
-                    }
-                    else {
+                        console.log(ev)
+            
                         if (termin != null) {
+
                             const final = await Evidencija.findOneAndUpdate({ korisnikId: korisnik._id }, {
                                 $push: {
                                     tipTreninga: trening.tip,
@@ -64,35 +44,16 @@ export const izmeniEvidenciju = async (req, res) => {
                             await Termin.findByIdAndDelete(termin._id)
                             return res.status(200).json(final)
                         }
-                        else {
-                            return res.status(404).json("termin nije pronadjen")
-                        }
-
-
-                    }
-
-
+                        else return res.status(404).json("termin nije pronadjen")
+                    
                 }
-                else {
+                else{ return res.status(404).json("Korisnik nije pronadjen")}
 
-                    return res.status(404).json("evidencija nije pronadjena")
-                }
-
-            }
-
-            else {
-                return res.status(404).json("Korisnik nije pronadjen")
-            }
-
+            }else {return res.status(404).json("Trener nije pronadjen")}
         }
-        else {
-            return res.status(404).json("Trener nije pronadjen")
-        }
-
     }
     catch (err) {
         console.log(err)
-
         return res.status(500).json(err);
     }
 

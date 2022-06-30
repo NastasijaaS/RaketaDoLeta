@@ -241,7 +241,7 @@ const Register = (props) => {
             <IconButton disableRipple = 'true' color = 'success'>
                 <CheckCircleIcon  sx = {{fontSize:'5rem'}}/>
             </IconButton>
-               <Typography textAlign = 'center' variant = 'h4'>Uspesno ste dodali opis!</Typography>
+               <Typography textAlign = 'center' variant = 'h4'>Uspesno ste registrovali trenera!</Typography>
             </Box>
             }
 
