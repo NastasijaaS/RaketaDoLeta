@@ -12,7 +12,7 @@ let refreshTokens = [];
 export const generateAccessToken = (user) => {
     //Generise se na osnovu id-ja:
     //console.log(user._id)
-    return jwt.sign({ id: user }, process.env.TOKEN_KEY, { expiresIn: "1h" });
+    return jwt.sign({ id: user }, process.env.TOKEN_KEY, { expiresIn: "2h" });
 
 };
 
@@ -24,36 +24,27 @@ export const generateRefreshToken = (user) => {
     return token;
 };
 
-//Za proveru, neophodno je da korisnik negde na svom racunaru cuva svoj token, i da prilikom nekih interakcija
-//zajedno sa podacima neophodnim za obradu operacije posalje i svoj token u header-u:
+//autentifikacija
 export const auth = (req, res, next) => {
     try {
-        //Vadimo token iz header-a zahteva:
+        
         if (req.headers.authorization) {
-            console.log(req.headers.authorization)
+           // console.log(req.headers.authorization)
             const token = req.headers.authorization.split(" ")[1];
             if (token) {
-                console.log(token)
-                //Proveravamo da li je token ispravan:
+            
                 jwt.verify(token, process.env.TOKEN_KEY, (err, user) => {
                     if (err) {
 
                         return res.status(403).json("Token nije validan!");
                     }
-                    //Token je validan, vrati korisnika koji je poslao token kroz body:
-
-                    // if (user.id == req.params.id) {
-
+                    
                     req.user = user;
 
-                    console.log('valid')
-                    //Sve je u redu, autorizacija je uspesna, moze da se odradi zahtevana operacija:
+                    //console.log('valid')
+                   
                     return next();
-                    // }
-                    // else {
-                    //     return res.status(403).json('Nije tvoj token');
-
-                    // }
+                  
                 });
             }
             else {
@@ -78,47 +69,34 @@ export const refreshAuth = async (req, res) => {
         //Uzimamo refresh token i proveravamo da li je validan?
         const refreshToken = await req.body.refreshToken;
 
-        // console.log('')
-        // console.log(refreshTokens)
-        // console.log('ref token ' + refreshToken)
-        // console.log('')
-
 
         //Ako nema refresh token-a?
-        // if (!refreshToken)
-        //     return res.status(401).json("Niste autorizovani!");
+        if (!refreshToken)
+            return res.status(401).json("Niste autorizovani!");
 
         // console.log(refreshTokens)
         // console.log(refreshToken)
         //Da li je refresh token validan?
-        // if (!refreshTokens.includes(refreshToken))
-        //     return res.status(402).json("Refresh token nije validan!");
+        if (!refreshTokens.includes(refreshToken))
+            return res.status(402).json("Refresh token nije validan!");
 
 
-        // console.log('valid')
-
-        //Inace postoji refresh token u nasoj listi koji je validan, samo trebamo da refresh-ujemo tokene:
         jwt.verify(refreshToken, process.env.REFRESH_KEY, (err, user) => {
-            //     //Ako je doslo do greske, ne radimo nista!
-            //     if (err)
-            //         console.log(err);
-            //U nizu ostaju samo tokeni koji su razliciti od trenutno upotrebljenog
+                if (err)
+                    console.log(err);
+            
+
             refreshTokens = refreshTokens.filter(token => token !== refreshToken);
 
             //Pravimo novi i token i refresh token i saljemo ih korisniku na cuvanje:
 
             const newAccessToken = generateAccessToken(user.id);
-            const newRefreshToken = generateRefreshToken(user.id);
-
-            //Dodajemo refresh token u listu koja se cuva na serveru:
-            // refreshTokens.push(newRefreshToken); // ne mora da se doda jer ga doda fja generateRefreshToken(user.id);
-
-
+             const newRefreshToken = generateRefreshToken(user.id);
 
             //Sve okej, vracamo tokene nazad:
             res.status(200).json({
                 accessToken: newAccessToken,
-                refreshToken: refreshToken
+                refreshToken: newRefreshToken
             });
         });
     } catch (err) {
@@ -132,7 +110,7 @@ export const upravaMethod = async (req, res, next) => {
         //Pre ovoga je svakako bio auth, koji u req.user postavlja id korisnika koji je pozvao metodu
         const users = await RegistrovaniKorisnik.findById(req.user.id);
 
-        if (users.tipKorisnika != "Uprava")
+        if (users?.tipKorisnika != "Uprava")
             return res.status(403).json("Samo uprava moze da pristupi!");
         else
             return next();
@@ -149,7 +127,7 @@ export const trenerMethod = async (req, res, next) => {
         //Pre ovoga je svakako bio auth, koji u req.user postavlja id korisnika koji je pozvao metodu
         const users = await RegistrovaniKorisnik.findById(req.user.id);
 
-        if (users.tipKorisnika != "Trener")
+        if (users?.tipKorisnika != "Trener")
             return res.status(403).json("Samo trener moze da pristupi!");
         else
             return next();

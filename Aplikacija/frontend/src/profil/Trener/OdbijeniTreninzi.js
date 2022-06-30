@@ -11,8 +11,6 @@ const OdbijeniTreninzi = () => {
     const [treninzi, setTreninzi] = useState([])
     const [loading, setIsLoading] = useState(true)
 
-    const rowGrupni = ['', 'Vreme', 'Trajanje', 'Intenzitet', 'Mesta']
-
 
     useEffect(() => {
         const get = async () => {

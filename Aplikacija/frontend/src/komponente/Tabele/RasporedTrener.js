@@ -103,14 +103,14 @@ const RasporedTrener = (props) => {
     }
 
     const Tabela = ({ row, niz, grupni, rowNames }) => {
-        console.log(rowNames)
+        console.log(row)
         return (
             <TableContainer component={Paper} >
                 <Table
                     size="small" >
                     <TableHead>
                         <TableRow>
-                            {props.treninzi && <TableCell align="right">Datum</TableCell>}
+                            {/* {props.treninzi && <TableCell align="right">Datum</TableCell>} */}
 
                             {row?.map((r, i) => (
                                 <TableCell key={i} align="right">{r}</TableCell>
@@ -155,7 +155,7 @@ const RasporedTrener = (props) => {
     const rowGrupni = ['Vreme', 'Trajanje', 'Intenzitet', 'Mesta']
     const rowNamesGrupni = ['vreme', 'trajanje', 'intenzitet', 'brojslobodnih']
     const rowNamesPersonalni = ['vreme', 'trajanje', 'intenzitet', 'tip', 'imeK', 'prezimeK']
-    const rowOdbijeni = ['Trening', 'Vreme', 'Trajanje', 'Intenzitet', 'Tip', 'Klijent']
+    const rowOdbijeni = ['Trening', 'Datum','Vreme', 'Trajanje', 'Intenzitet', 'Tip', 'Klijent']
     const rowNamesOdbijeni = ['nazivTreninga', 'datum', 'vreme', 'trajanje', 'intenzitet', 'tip', 'imeK', 'prezimeK']
 
     if (loading) {

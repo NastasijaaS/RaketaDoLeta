@@ -53,6 +53,8 @@ const FormaDodajBlog = (props) => {
         }).then(p => {
             if (p.status === 200) {
                 alert('Uspesno dodat blog')
+                window.location.reload()
+
             }
         }).catch((error) => {
             alert('Doslo je do greske')

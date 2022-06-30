@@ -42,18 +42,19 @@ const KorisnikVeliko = (props) => {
 
                 setNizNapredak(res.data)
                 setZeljeno(res.data.tezina)
-                // console.log(res.data)
+                 console.log(res.data)
                 // console.log(k)
 
+                
 
             }
             catch (error) {
-                if (!error?.response) {
-                    setGreska('No Server Response')
-                } else
-                //if (error.response?.status !== 404) 
+                
+                if (error.response?.status !== 404) 
                 {
                     setGreska('Doslo je do greske prilikom ucitavanja')
+                }else{
+                    setPrvi(true)
                 }
             }
 
@@ -94,8 +95,8 @@ const KorisnikVeliko = (props) => {
                         </CardContent>
 
                         <CardActions>
-                            {nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
-                            {!nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
+                            {!nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(true); setNapredak(true) }}>Novi napredak</Button>}
+                            {nizNapredaka && <Button sx={{ marginTop: '2%' }} fullWidth variant="contained" size="small" onClick={() => { setPrvi(false); setNapredak(true) }}>Dodaj napredak</Button>}
                         </CardActions>
                         {napredak && <Modal onClose={() => { setNapredak(false) }}>
                             <DodajNapredak prvi={prvi} napredakId={k.napredakId} idKorisnika={k.idkorisnika} onClose={() => { setNapredak(false) }} />

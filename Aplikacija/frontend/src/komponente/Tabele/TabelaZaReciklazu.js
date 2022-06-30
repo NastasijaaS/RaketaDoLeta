@@ -121,7 +121,7 @@ const TabelaZaReciklazu = (props) => {
 
     const trazi1 = (ev) => {
         const filteredRows = rows.filter((row) => {
-            return row[props.search1]?.toString().includes(ev.target.value.toLowerCase());
+            return row[props.search1]?.toLowerCase().includes(ev.target.value.toLowerCase());
         })
         setPage(0);
         setRows(filteredRows)

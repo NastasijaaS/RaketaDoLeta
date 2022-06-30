@@ -44,10 +44,11 @@ const useAxiosPrivate = () => {
       if (error?.response?.status === 403 && !prevRequest?.sent) {
 
         prevRequest.sent = true;
-        // const newAccessToken = await refresh();
-        // prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+        const newAccessToken = await refresh();
+        prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
-        // return axios(prevRequest);
+        
+        return axios(prevRequest);
         // alert('Istekla vam je sesija molimo ulogujte se opet')
         localStorage.clear()
         // dispatch(Odjavi())

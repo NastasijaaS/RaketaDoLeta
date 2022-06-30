@@ -82,6 +82,7 @@ function App() {
               <Route path='/usluge' element={<Usluge />} />
               <Route path='/blog' element={<Blog />} />
               <Route path='/blog/:tag/:naslov' element={<VelikiBlog />} />
+              <Route path='/grupnitreninzi' element={<GrupniTreninzi />} /> 
 
               <Route path='/login' element=
                 {user ? <Navigate replace to="/profil" /> : <LogIn />} />
@@ -92,10 +93,20 @@ function App() {
               <Route path='/profil' element=
                 {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />} />
 
-
+{/* 
               <Route path='/napredak' element={<Napredak />} />
               <Route path='/vasitreninzi' element={<ZakazaniTreninzi />} />
-              <Route path='/grupnitreninzi' element={<GrupniTreninzi />} />
+           */}
+
+              <Route path='/napredak'
+                element={user?.tip === 'Korisnik' ?
+                  <Napredak /> : <Navigate replace to="/login" />} />
+
+              <Route path='/vasitreninzi'
+                element={user?.tip === 'Korisnik' ?
+                  <ZakazaniTreninzi /> : <Navigate replace to="/login" />} />
+
+
 
               <Route path='/RDL/trener/korisnici'
                 element={user?.tip === 'Trener' ?

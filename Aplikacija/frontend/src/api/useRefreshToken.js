@@ -19,7 +19,7 @@ const useRefreshToken = () => {
 
         const cookie = splitCookies()
         // console.log(cookie)
-        console.log(cookie['token'])
+        //console.log(cookie['token'])
         // // alert('cekaj')
         // console.log('use refresh')
 
