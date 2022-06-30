@@ -103,12 +103,12 @@ export const refreshAuth = async (req, res) => {
             //     if (err)
             //         console.log(err);
             //U nizu ostaju samo tokeni koji su razliciti od trenutno upotrebljenog
-            //    refreshTokens = refreshTokens.filter(token => token !== refreshToken);
+            refreshTokens = refreshTokens.filter(token => token !== refreshToken);
 
             //Pravimo novi i token i refresh token i saljemo ih korisniku na cuvanje:
 
             const newAccessToken = generateAccessToken(user.id);
-            //   const newRefreshToken = generateRefreshToken(user.id);
+            const newRefreshToken = generateRefreshToken(user.id);
 
             //Dodajemo refresh token u listu koja se cuva na serveru:
             // refreshTokens.push(newRefreshToken); // ne mora da se doda jer ga doda fja generateRefreshToken(user.id);

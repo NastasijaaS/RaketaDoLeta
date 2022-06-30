@@ -38,12 +38,14 @@ const useAxiosPrivate = () => {
       // console.log(error + '  ' + user)
       const prevRequest = error?.config;  // ovde nadjem gresku iz prethodnog
       if (error?.response?.status === 403 && !prevRequest?.sent) {
-        
-        prevRequest.sent = true;
-        const newAccessToken = await refresh();
-        prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
-        return axios(prevRequest);
+        // prevRequest.sent = true;
+        // const newAccessToken = await refresh();
+        // prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+        // return axios(prevRequest);
+        alert('Istekla vam je sesija molimo ulogujte se opet')
+        localStorage.clear()
       }
 
       return Promise.reject(error);
