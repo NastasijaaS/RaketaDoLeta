@@ -68,7 +68,7 @@ const Blog = () => {
                                     <CardMedia
                                         component="img"
                                         // image={usl.slika}
-                                        crossorigin="anonymous"
+                                        crossOrigin="anonymous"
                                         src={PUTANJA + usl.slika}
                                         alt={usl.naslov}
                                     />

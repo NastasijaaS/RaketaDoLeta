@@ -41,7 +41,7 @@ const Treneri = () => {
                         <Grid item xs={12} sm={4}>
                             <CardMedia
                                 component="img"
-                                crossorigin="anonymous"
+                                crossOrigin="anonymous"
                                 src={PUTANJA + tr.slika}
                                 alt={tr.ime}
                                 className="trImg"

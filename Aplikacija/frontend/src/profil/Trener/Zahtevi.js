@@ -89,13 +89,21 @@ const ZahteviTrenera = () => {
     }
 
     const vidiEvidenciju = async (id) => {
+        // console.log(id)
 
         await axiosPrivate.get("http://localhost:8800/api/evidencija/vidiEvidenciju/" + user.trenerId + '/' + id)
             .then(res => {
                 if (res.status === 200) {
 
                     if (res.data) {
-                        setEvidencija(res.data)
+                        // console.log(res.data)
+                        // setEvidencija(res.data)
+                        const intenziteti = res.data.intenziteti.slice(-5)
+                        const datumi = res.data.datumi.slice(-5)
+                        const tip = res.data.tipTreninga.slice(-5)
+
+                        setEvidencija({ intenziteti: intenziteti, tipTreninga: tip, datumi: datumi })
+
                     }
                 }
             }).catch((error) => {

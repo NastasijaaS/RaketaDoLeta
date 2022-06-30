@@ -50,14 +50,14 @@ function DodajTrenera(props) {
         formData.append('file', file);
         formData.append('sertifikati', sertifikati.current.value.split(','));
         formData.append('opis', opis.current.value);
-        formData.append('iskustvo', sertifikati.current.value.split(','));
+        formData.append('iskustvo', iskustvo.current.value.split(','));
 
 
         try {
             await axiosPrivate.post(zahtev.url, formData, {
                 opis: opis.current.value,
                 sertifikati: sertifikati.current.value.split(','),
-                iskustvo: sertifikati.current.value.split(','),
+                iskustvo: iskustvo.current.value.split(','),
             })
 
         } catch (err) {
