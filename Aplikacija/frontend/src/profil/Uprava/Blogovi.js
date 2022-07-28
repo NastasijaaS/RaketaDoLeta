@@ -68,7 +68,7 @@ const Blogovi = () => {
                     <FormaDodajBlog onClose={() => { setDodajBlog(false); setReload(!reload) }} />
                 </Modal>
             }
-            <Button onClick={() => setDodajBlog(true)}>novi blog</Button>
+            <Button variant = 'outlined' onClick={() => setDodajBlog(true)}>novi blog</Button>
 
             <TabelaZaReciklazu head={head} rows={blogovi} rowName={head} onDelete={obrisiBlog} search1='naslov' search2='tagovi' />
 

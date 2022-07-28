@@ -90,7 +90,7 @@ const FormaDodajUslugu = (props) => {
                 <Info sx={{ alignSelf: 'center', m: 1, }} fullWidth tip='file' onChange={(ev) => { setFile(ev.target.files[0]); }} />
             }
 
-            <Button fullWidth size='small' variant="outlined" onClick={dodajUslugu}>Unesi</Button>
+            <Button sx = {{mt:'5%'}} fullWidth size='small' variant="outlined" onClick={dodajUslugu}>Unesi</Button>
 
         </Box>
     )

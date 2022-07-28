@@ -31,7 +31,7 @@ const Info = ({ labela, tip, reff }) => {
 
 const DodajNapredak = (props) => {
 
-    console.log(props.napredakId)
+    console.log(props)
 
     const axiosPrivate = useAxiosPrivate()
 
@@ -53,8 +53,6 @@ const DodajNapredak = (props) => {
 
     const dodajNapredak = async () => {
 
-        console.log('napredak')
-
         const zahtev = {
             url: `http://localhost:8800/api/napredak/dodajNapredak/${user.trenerId}/${props.idKorisnika}`,
             body: {
@@ -75,6 +73,7 @@ const DodajNapredak = (props) => {
         try {
             await axiosPrivate.post(zahtev.url, zahtev.body)
             alert('Uspesno dodat napredak')
+            window.location.reload()
         } catch (err) {
             alert('Doslo je do greske')
         }
@@ -93,8 +92,6 @@ const DodajNapredak = (props) => {
     }
 
     const izmeniNapredak = async () => {
-
-        console.log('napredak')
 
         const zahtev = {
             url: `http://localhost:8800/api/napredak/izmeniNapredak/${props.napredakId}`,
@@ -116,6 +113,7 @@ const DodajNapredak = (props) => {
         try {
             await axiosPrivate.put(zahtev.url, zahtev.body)
             alert('Uspesno dodat napredak')
+            window.location.reload()
         } catch (err) {
             alert('Doslo je do greske')
         }
@@ -152,9 +150,9 @@ const DodajNapredak = (props) => {
             <Info labela='tezina' tip='number' reff={tezina} />
 
 
-            <Box>
-            {props.prvi && <Button fullWidth size='small' variant="outlined" className="btn" onClick={dodajNapredak}>Unesi</Button>}
-            {!props.prvi && <Button fullWidth size='small' variant="outlined" className="btn" onClick={izmeniNapredak}>Unesi</Button>}
+            <Box sx = {{mt:'5%'}}>
+            {!props.napredakId && <Button fullWidth size='small' variant="outlined" className="btn" onClick={dodajNapredak}>Unesi</Button>}
+            {props.napredakId && <Button fullWidth size='small' variant="outlined" className="btn" onClick={izmeniNapredak}>Unesi</Button>}
             </Box>
         </Box>
 

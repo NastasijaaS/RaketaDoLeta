@@ -1,10 +1,10 @@
-import { Checkbox, FormControlLabel, TextField, Button, Box, Typography } from '@mui/material'
+import { Checkbox, FormControlLabel, TextField, Button, Box, Typography, IconButton } from '@mui/material'
 import React, { useRef, useState, Fragment } from 'react'
 import { PostMetoda } from '../Fetch'
 import Greska from '../Alert'
 import useAxiosPrivate from '../../api/useAxiosPrivate'
 import Info from '../Inputi/Info'
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
 
@@ -50,14 +50,14 @@ function DodajTrenera(props) {
         formData.append('file', file);
         formData.append('sertifikati', sertifikati.current.value.split(','));
         formData.append('opis', opis.current.value);
-        formData.append('iskustvo', sertifikati.current.value.split(','));
+        formData.append('iskustvo', iskustvo.current.value.split(','));
 
 
         try {
             await axiosPrivate.post(zahtev.url, formData, {
                 opis: opis.current.value,
                 sertifikati: sertifikati.current.value.split(','),
-                iskustvo: sertifikati.current.value.split(','),
+                iskustvo: iskustvo.current.value.split(','),
             })
 
         } catch (err) {
@@ -69,7 +69,7 @@ function DodajTrenera(props) {
     }
 
     return (
-        <div className="forma">
+        <Box>
 
             <Greska
                 open={alert.prikazi}
@@ -81,7 +81,7 @@ function DodajTrenera(props) {
             {!success &&
 
                 <Box className="cardCenter" sx={{ gap: '1vh', padding: { sm: '0% 20%' }, alignItems: "stretch" }} >
-                    <Typography variant="h5" component="div" gutterBottom sx={{ textAlign: 'center' }}>Dodaj trenera</Typography>
+                    <Typography variant="h5" component="div" gutterBottom sx={{ textAlign: 'center' }}>Dodaj opis</Typography>
 
                     <Info multiline labela='opis' tip='text' reff={opis} />
                     <Info multiline labela='iskustvo' tip='text' reff={iskustvo} />
@@ -89,21 +89,20 @@ function DodajTrenera(props) {
 
                     <Info sx={{ width: '100%' }} fullWidth tip='file' onChange={(ev) => { setFile(ev.target.files[0]); }} />
 
-                    <Box className="cardCenter">
-                        <FormControlLabel
-                            onChange={(ev) => { grupni = ev.target.checked }}
-                            control={<Checkbox defaultChecked />}
-                            label="Drzi grupne treninge" />
-                    </Box>
-
-
-                    <Button fullWidth variant='outlined' onClick={dodajTrenera}>Unesi</Button>
+                    <Button sx = {{mt:'5%'}} fullWidth variant='outlined' onClick={dodajTrenera}>Unesi</Button>
 
                 </Box>}
 
-            {success && <div>animacija success</div>}
+            {success &&
+            <Box className = 'cardCenter marginS'>
+            <IconButton disableRipple = 'true' color = 'success'>
+                <CheckCircleIcon  sx = {{fontSize:'5rem'}}/>
+            </IconButton>
+               <Typography textAlign = 'center' variant = 'h4'>Uspesno ste dodali opis!</Typography>
+            </Box>
+            }
 
-        </div >
+        </Box >
     )
 }
 

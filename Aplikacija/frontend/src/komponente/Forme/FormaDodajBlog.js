@@ -53,6 +53,8 @@ const FormaDodajBlog = (props) => {
         }).then(p => {
             if (p.status === 200) {
                 alert('Uspesno dodat blog')
+                window.location.reload()
+
             }
         }).catch((error) => {
             alert('Doslo je do greske')
@@ -82,7 +84,7 @@ const FormaDodajBlog = (props) => {
 
     return (
 
-        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: '0% 20%', alignItems: "stretch" }}>
+        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: { sm: '0% 20%' }, alignItems: "stretch" }}>
 
             <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Blog</Typography>
 
@@ -93,7 +95,7 @@ const FormaDodajBlog = (props) => {
 
             <Info sx={{ width: '100%' }} fullWidth tip='file' onChange={(ev) => { setFile(ev.target.files[0]); }} />
 
-            <Box sx={{ alignItems: 'center' }} >
+            <Box sx = {{mt:'5%'}} >
                 <Button fullWidth variant='outlined' onClick={dodajBlog}>Unesi</Button>
             </Box>
 

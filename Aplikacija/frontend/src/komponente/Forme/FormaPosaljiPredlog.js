@@ -40,7 +40,7 @@ const FormaPosaljiPredlog = (props) => {
 
     return (
         <Modal onClose={props.onClose}>
-            <Box className='cardCenter marginS' sx={{ gap: '1vh', padding:{xs:'0% 2%', md:'0% 20%'}, alignItems: "stretch", display: 'flex', flexDirection: 'column' }}>
+            <Box className='cardCenter marginS' sx={{ gap: '1vh', padding:{sm:'0% 20%' }, alignItems: "stretch", display: 'flex', flexDirection: 'column' }}>
  
             <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Predlog treninga</Typography>
                    
@@ -48,8 +48,8 @@ const FormaPosaljiPredlog = (props) => {
                 <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
                 <DropDown labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
 
-                <Box sx={{ alignItems: 'center' }}>
-                    <Button fullWidth variant = "outlined" onClick={posaljiIzmenu}>Posalji</Button>
+                <Box sx = {{mt:'5%'}}>
+                    <Button fullWidth  size = 'small' variant = "outlined" onClick={posaljiIzmenu}>Posalji</Button>
                 </Box>
 
             </Box>

@@ -83,8 +83,11 @@ const FormaZakaziPersonalni = (props) => {
             await axiosPrivate.post(zahtev.url, zahtev.body)
             alert('Uspesno ste zakazali trening')
         } catch (err) {
-            console.log(err.response.data)
-            alert('Doslo je do greske')
+            console.log(err.response)
+            if (err.response.status === 405) {
+                alert(err.response.data)
+            }
+            else alert('Doslo je do greske')
         }
 
          props.onClose()
@@ -96,7 +99,7 @@ const FormaZakaziPersonalni = (props) => {
     datumDo.setDate((new Date()).getDate() + 14)
 
     return (
-        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: '0% 20%', alignItems: "stretch" }} onSubmit={zakaziTrening}>
+        <Box className='cardCenter marginS' sx={{ gap: '1vh', padding: {sm:'0% 20%' } , alignItems: "stretch" }} onSubmit={zakaziTrening}>
 
             <Typography gutterBottom variant="h5" component="div" textAlign={"center"}>Personalni trening</Typography>
 
@@ -104,7 +107,7 @@ const FormaZakaziPersonalni = (props) => {
 
             <LocalizationProvider dateAdapter={AdapterDateFns} >
                 <DatePicker
-                    label="izaberite datum"
+                    label="Izaberite datum"
                     value={date}
                     onChange={(newValue) => {
                         setDate(newValue);
@@ -121,7 +124,7 @@ const FormaZakaziPersonalni = (props) => {
             <FormControl sx={{ width: '100%' }}
                 disabled={termini.length === 0}
             >
-                <InputLabel>{termini.length === 0 ? 'nema slobodnih termina' : 'vreme'}</InputLabel>
+                <InputLabel size ='small'>{termini.length === 0 ? 'Nema slobodnih termina' : 'Vreme'}</InputLabel>
                 <Select
                     label='vreme'
                     value={termin.vreme}
@@ -144,9 +147,8 @@ const FormaZakaziPersonalni = (props) => {
             <DropDown labela='Intenzitet treninga' set={setIntenzitet} niz={intenzitet} value={intenzitetTreninga} />
             <DropDown className='marginForm' labela='Trajanje treninga' set={setTrajanje} niz={trajanje} value={trajanjeTreninga} />
 
-            <Box display='flex' flexDirection='row' justifyContent={"flex-end"}>
-                <Button size='small' variant="outlined" onClick={zakaziTrening}>Potvrdi</Button>
-                <Button sx={{ marginLeft: '2%' }} size='small' variant="outlined" onClick={props.onClose}>Otkazi</Button>
+            <Box sx = {{mt:'5%'}}>
+                <Button  fullWidth size='small' variant="outlined" onClick={zakaziTrening}>Potvrdi</Button>
             </Box>
 
         </Box>

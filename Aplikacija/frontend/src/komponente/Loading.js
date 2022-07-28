@@ -15,11 +15,11 @@ const Loading = () => {
     return (
         <ThemeProvider theme={theme}>
             <Paper>
-            <Box className = 'cardCenter'sx = {{width : '99vw', height: '100vh'}}>
+            <Box className = 'cardCenter'sx = {{width :'99vw', height: '100vh'}}>
                     <Box display = 'flex' alignItems = 'center'>
                         <RocketLaunchOutlinedIcon sx = {{color: 'primary.main', fontSize:'3rem'}} />
                         <Typography
-                            variant="h3"
+                            variant="h4"
                             noWrap
                             sx={{
                                 ml: 1,

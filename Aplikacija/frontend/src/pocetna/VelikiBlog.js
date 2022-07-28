@@ -1,14 +1,11 @@
 import { useLocation, } from "react-router-dom";
 import { Card, CardContent, CardMedia, Grid, Paper, Typography } from '@mui/material';
 
+const PUTANJA = 'http://localhost:8800/'
+
 const VelikiBlog = (props) => {
 
-    // console.log(props)
-
     const location = useLocation();
-
-    // console.log(location.state)
- //   console.log(JSON.parse(window.parameters))
 
     const blog = location.state ? location.state : JSON.parse(window.parameters)
 
@@ -19,7 +16,9 @@ const VelikiBlog = (props) => {
                     <CardMedia
                         component="img"
                         className="trImg"
-                        image={blog.slika}
+                        // image={blog.slika}
+                        crossOrigin="anonymous"
+                        src={PUTANJA + blog.slika}
                         alt={blog.naslov}
                         height="250"
                     />
@@ -27,7 +26,6 @@ const VelikiBlog = (props) => {
                 <Grid item xs={12} md={8}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div" align="center">{blog.naslov}</Typography>
-
                         <Typography variant="body1" align="justify" sx={{ padding: '2vh 3vw' }}> {blog.tekst} </Typography>
                     </CardContent>
                 </Grid>

@@ -1,28 +1,44 @@
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
+
+const splitCookies = () => {
+    const cookies = document.cookie.split(';')
+    let niz = {}
+    cookies.forEach(element => {
+        const [key, value] = element.split('=')
+        niz[key] = value
+    });
+    return niz
+}
 
 const useRefreshToken = () => {
-    
-    const [cookie, setCookie] = useCookies(['ref-token'])
 
-    const refresh = async (token) => {
+    const refresh = async () => {
+
+        // const tokeni = document.cookie.split('=')
+        // console.log(tokeni[1])
+
+        const cookie = splitCookies()
+        // console.log(cookie)
+        //console.log(cookie['token'])
+        // // alert('cekaj')
+        // console.log('use refresh')
 
         try {
             const response = await axios.post('http://localhost:8800/api/auth/refresh', {
-                refreshToken: token
+                refreshToken: cookie['token']
             });
 
             localStorage.setItem('token', response.data.accessToken)
-
-            // setCookie('ref-token', response.data.refreshToken)
+            document.cookie = 'token=' + response.data.refreshToken
+            
             return response.data.accessToken;
         }
         catch (err) {
-            // dispatch(Odjavi())
-            //localStorage.clear()
-            alert('Doslo je do greske use refresh ')
+            localStorage.clear()
+            console.log(err.response.data)
+            alert('Istekla vam je sesija molimo ulogujte se opet')
             console.log(err)
-
+          //  document.cookie = 'token=' + ''
             // window.location.reload()
         }
 

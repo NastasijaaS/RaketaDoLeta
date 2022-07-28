@@ -23,7 +23,7 @@ const ZakazaniTreninzi = () => {
 
     const [grupniTreninzi, setGrupni] = useState([])
 
-    const [greska, setGreska] = useState(false)
+    const [greska, setGreska] = useState({ personalni: false, grupni: false })
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -34,14 +34,25 @@ const ZakazaniTreninzi = () => {
 
     useEffect(() => {
         const get = async () => {
-            //  GetData("http://localhost:8800/api/trening/vidiZakazaneTreningePersonalni/" + user.korisnikId, setZakazaniTreninzi, setGreska, setIsLoading)
-            //  GetData("http://localhost:8800/api/trening/vidiZakazaneTreningeGrupni/" + user.korisnikId, setGrupni, setGreska, setIsLoading)
 
             try {
-
                 setIsLoading(true)
                 const res = await axiosPrivate.get("http://localhost:8800/api/trening/vidiZakazaneTreningePersonalni/" + user.korisnikId)
                 setZakazaniTreninzi(res.data)
+                setIsLoading(false)
+            }
+            catch (err) {
+                setIsLoading(false)
+                if (err.response.status !== 404)
+                    alert('Doslo je do greske prilikom ucitavanja')
+                else {
+                    setGreska((g) => ({ ...g, personalni: true }))
+                }
+
+            }
+
+            try {
+                setIsLoading(true)
                 const res1 = await axiosPrivate.get("http://localhost:8800/api/trening/vidiZakazaneTreningeGrupni/" + user.korisnikId)
                 console.log(res1.data)
                 setGrupni(res1.data)
@@ -51,6 +62,10 @@ const ZakazaniTreninzi = () => {
                 setIsLoading(false)
                 if (err.response.status !== 404)
                     alert('Doslo je do greske prilikom ucitavanja')
+                else {
+                    setGreska((g) => ({ ...g, grupni: true }))
+                }
+
             }
 
         }
@@ -69,6 +84,7 @@ const ZakazaniTreninzi = () => {
             .then((p) => {
                 if (p.status === 200) {
                     alert('Uspesno ukinut trening')
+                    window.location.reload(false)
                 }
             }).catch((error) => {
                 if (error.response.status)
@@ -97,6 +113,29 @@ const ZakazaniTreninzi = () => {
         return pom
     }
 
+    const otkaziTreningGrupni = async (id) => {
+
+        await axiosPrivate.put('http://localhost:8800/api/trening/otkaziGrupni/' + user.korisnikId + '/' + id)
+            .then((p) => {
+                if (p.status === 200) {
+                    alert('Uspesno ukinut trening')
+                    window.location.reload(false)
+
+                }
+            }).catch((error) => {
+                if (error.response.status)
+                    alert(error.response.data)
+                else
+                    alert('Doslo je do greske')
+            });
+        setRefresh(!refresh)
+    }
+
+
+    if (isLoading) {
+        return <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>
+    }
+
     return (
         <Box className='marginS'>
 
@@ -104,7 +143,6 @@ const ZakazaniTreninzi = () => {
                 <Typography gutterBottom variant="h4" component="div" textAlign="center">Personalni treninzi</Typography>
 
                 {isLoading && <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>}
-
 
                 <Grid container spacing={2} >
                     {zakazaniTreninzi.map((tr, i) => (
@@ -133,6 +171,7 @@ const ZakazaniTreninzi = () => {
                                         Online: {tr.isOnline.toString()}
                                     </Typography>
                                     <Typography
+                                        sx = {{fontWeight:600}}
                                         variant="body2"
                                         color={status(tr.status)}
                                     >
@@ -160,8 +199,10 @@ const ZakazaniTreninzi = () => {
                     ))}
                 </Grid>
                 {
-                    !zakazaniTreninzi &&
-                    <Typography>Nemate zakazanih personalnih treninga</Typography>
+                    greska.personalni &&
+                    <Box sx={{ margin: '10%' }} >
+                        <Typography sx={{ textAlign: 'center' }} color='error'>Nemate zakazanih personalnih treninga</Typography>
+                    </Box>
                 }
 
                 <Typography gutterBottom variant="h4" component="div" textAlign="center" mt={2}>Grupni treninzi</Typography>
@@ -191,7 +232,7 @@ const ZakazaniTreninzi = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button variant="contained" size='small' onClick={otkaziTrening.bind(undefined, tr.id)}>Otkazi trening</Button>
+                                    <Button variant="contained" size='small' onClick={otkaziTreningGrupni.bind(undefined, tr.id)}>Otkazi trening</Button>
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -199,8 +240,10 @@ const ZakazaniTreninzi = () => {
                 </Grid>
 
                 {
-                    !grupniTreninzi &&
-                    <Typography>Nemate zakazanih personalnih treninga</Typography>
+                    greska.grupni &&
+                    <Box sx={{ margin: '10%' }} >
+                        <Typography sx={{ textAlign: 'center' }} color='error'>Nemate zakazanih personalnih treninga</Typography>
+                    </Box>
                 }
 
             </Box>

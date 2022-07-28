@@ -33,12 +33,13 @@ const RasporedGrupni = (props) => {
                     if (res.status === 200) {
                         if (res.data) {
                             setTermini(res.data)
+                            console.log(res.data)
                         }
                     }
                 }).catch((error) => {
 
                     if (error.response?.status !== 404) {
-                        alert('Doslo je do greske')
+                        alert("Doslo je do greske!")
                     }
                 });
         }
@@ -67,9 +68,9 @@ const RasporedGrupni = (props) => {
         } catch (err) {
 
             if (err.response?.status === 400) {
-                alert('Nemate clanarinu za ovaj trening')
+                alert(err.response.data.toString())
             } else {
-                alert('Doslo je do greske')
+                alert(err.response.data.toString())
                 console.log(err)
             }
         }

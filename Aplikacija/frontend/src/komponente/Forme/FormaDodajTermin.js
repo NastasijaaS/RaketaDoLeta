@@ -1,8 +1,8 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import '../../styles/formaZakazi.css'
 import '../../styles/stil.css'
 import Button from "@mui/material/Button";
-import { Box,TextField, Typography } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -37,25 +37,31 @@ const FormaDodajTermin = (props) => {
     }
 
     const unesiTermin = async () => {
-        // console.log(vreme)
+        console.log(vreme)
         let uniqueArray = vreme.map(function (date) { return date.getTime() })
             .filter(function (date, i, array) {
+                // console.log(array.indexOf(date))
+                //  console.log(array)
+                //  console.log(date)
                 return array.indexOf(date) === i;
             })
             .map(function (time) { return new Date(time); });
 
-        //  console.log(uniqueArray)
-        if (uniqueArray.length === 0) {
-            alert('morate uneti razlicita vremena')
-            return
-        }
 
-        niz.forEach(async i => {
+        // if (uniqueArray.length <= 4) {
+        //     alert('morate uneti razlicita vremena')
+        //     return
+        // }
+
+        uniqueArray.forEach(async i => {
+            console.log(i)
+            console.log(uniqueArray)
+
             const zahtev = {
                 url: 'http://localhost:8800/api/termin/dodajTerminTreneru/' + props.idTrenera,
                 body: {
                     datum: new Date(date.toDateString()).toISOString(),
-                    vremePocetka: vreme[i]
+                    vremePocetka: i.toISOString(),
                 }
             }
             // await PostMetoda(zahtev, setData, setGreska, setIsLoading)
@@ -72,48 +78,48 @@ const FormaDodajTermin = (props) => {
     }
 
     return (
-        <Box className = "cardCenter marginS" sx = {{gap: '1vh', padding: {sm:'0% 20%'}, alignItems: "stretch"}}>
+        <Box className="cardCenter marginS" sx={{ gap: '1vh', padding: { sm: '0% 20%' }, alignItems: "stretch" }}>
 
-            <Typography variant="h5" component="div"  gutterBottom sx={{ textAlign: 'center' }}>Termini</Typography>
+            <Typography variant="h5" component="div" gutterBottom sx={{ textAlign: 'center' }}>Termini</Typography>
 
             <LocalizationProvider dateAdapter={AdapterDateFns}>
 
-                    <DatePicker
-                        sx={{ width: '100%' }}
-                        label="izaberite datum"
-                        value={date}
-                        onChange={(newValue) => {
-                            setDate(newValue);
-                        }}
-                        minDate={new Date()}
-                        renderInput={(params) => <TextField size='small' {...params} />}
-                        focused
-                    />
+                <DatePicker
+                    sx={{ width: '100%' }}
+                    label="izaberite datum"
+                    value={date}
+                    onChange={(newValue) => {
+                        setDate(newValue);
+                    }}
+                    minDate={new Date()}
+                    renderInput={(params) => <TextField size='small' {...params} />}
+                    focused
+                />
             </LocalizationProvider>
 
             <LocalizationProvider dateAdapter={AdapterDateFns}
                 adapterLocale={ruLocale}>
                 {
                     niz.map((i) => (
-                            <TimePicker
-                                key={i}
-                                renderInput={(params) => <TextField size='small' {...params} />}
-                                size='small'
-                                value={vreme[i]}
-                                minutesStep={15}
-                                label="pocetak termina"
-                                onChange={(newValue) => {
-                                    promeniVreme(newValue, i)
-                                }}
-                                minTime={new Date(0, 0, 0, 8)}
-                                maxTime={new Date(0, 0, 0, 18, 45)}
-                            />
+                        <TimePicker
+                            key={i}
+                            renderInput={(params) => <TextField size='small' {...params} />}
+                            size='small'
+                            value={vreme[i]}
+                            minutesStep={15}
+                            label="pocetak termina"
+                            onChange={(newValue) => {
+                                promeniVreme(newValue, i)
+                            }}
+                            minTime={new Date(0, 0, 0, 8)}
+                            maxTime={new Date(0, 0, 0, 18, 45)}
+                        />
                     ))
                 }
 
             </LocalizationProvider>
 
-            <Button  fullWidth size='small' variant = 'outlined' onClick={unesiTermin}>unesi</Button>
+            <Button sx={{ mt: '5%' }} fullWidth size='small' variant='outlined' onClick={unesiTermin}>unesi</Button>
         </Box>
     )
 }

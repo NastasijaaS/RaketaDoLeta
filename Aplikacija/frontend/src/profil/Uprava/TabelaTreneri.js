@@ -1,21 +1,16 @@
 import { useState, useEffect, useContext, Fragment } from 'react'
-import { GetData, DeleteMetoda, PutMetoda, PostMetoda } from '../../komponente/Fetch'
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-import TableHead from '@mui/material/TableHead';
 import { UserContext } from '../../context/UserContext';
 import Modal from '../../komponente/Modal'
-import { Step, StepLabel, Stepper, Typography } from '@mui/material';
+import { Step, StepLabel, Stepper, Typography,IconButton } from '@mui/material';
 import { Box } from '@mui/system';
 import Register from '../../pocetna/RegisterForma';
 import DodajTrenera from '../../komponente/Forme/FormaDodajTrenera';
 import useAxiosPrivate from '../../api/useAxiosPrivate';
 import TabelaZaReciklazu from "../../komponente/Tabele/TabelaZaReciklazu"
 import CircularProgress from '@mui/material/CircularProgress';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 
 
 const TabelaTreneri = () => {
@@ -72,7 +67,7 @@ const TabelaTreneri = () => {
                 const res = await axiosPrivate.get("http://localhost:8800/api/trener/vidiTrenereSvi")
                 if (res.data) {
                     setTreneri(res.data)
-                    console.log(res.data)
+               //     console.log(res.data)
                 }
                 setIsLoading(false)
 
@@ -90,10 +85,6 @@ const TabelaTreneri = () => {
             url: 'http://localhost:8800/api/trener/obrisiTrenera/' + id,
         }
 
-        //    console.log(zahtev)
-
-        //DeleteMetoda(zahtev, setGreska, setIsLoading)
-
         try {
             await axiosPrivate.delete('http://localhost:8800/api/trener/obrisiTrenera/' + id)
 
@@ -101,14 +92,11 @@ const TabelaTreneri = () => {
             alert('Doslo je do greske')
         }
 
-        // if (greska !== false) {
-        //     alert('doslo je do greske')
-        // }
         setRefresh(!refresh)
     }
 
-    const head = ['Ime', 'Prezime', 'E-mail']
-    const rowName = ['ime', 'prezime', 'email']
+    const head = ['Ime', 'Prezime', 'E-mail','Broj telefona']
+    const rowName = ['ime', 'prezime', 'email','brojtelefona']
 
     if (isLoading)
         return (<Box><CircularProgress /></Box>)
@@ -121,36 +109,6 @@ const TabelaTreneri = () => {
 
             <TabelaZaReciklazu head={head} rows={sviTreneri} rowName={rowName} onDelete={obrisiTrenera} search1='ime' search2='prezime' />
 
-
-            {/* <Table>
-                <TableHead>
-                    <TableRow>
-                        <th>ime</th>
-                        <th>prezime</th>
-                        <th>email</th>
-
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {sviTreneri.map((tr,i) => (
-                        <TableRow key={i}>
-                            <TableCell>{tr.ime}</TableCell>
-                            <TableCell>{tr.prezime}</TableCell>
-                            <TableCell>{tr.email}</TableCell>
-
-                            <TableCell><Button
-                                onClick={() => obrisiTrenera(tr.id)}
-                                size="small"
-                                variant="outlined"
-                                color="error"
-                                startIcon={<DeleteIcon />}>
-                                Obrisi
-                            </Button></TableCell>
-                        </TableRow>
-                    ))}
-
-                </TableBody>
-            </Table> */}
 
             {dodaj
                 &&
@@ -169,9 +127,12 @@ const TabelaTreneri = () => {
                         </Stepper>
                         {activeStep === steps.length ? (
                             <Fragment>
-                                <Typography component='div' variant='h4' className='cardCenter' sx={{ width: '100%', height: '50vh' }}>
-                                    Uspesno dodat trener!
-                                </Typography>
+                                <Box className = 'cardCenter marginS'>
+                                <IconButton disableRipple = 'true' color = 'success'>
+                                    <CheckCircleIcon  sx = {{fontSize:'5rem'}}/>
+                                </IconButton>
+                                <Typography textAlign = 'center' variant = 'h4'>Uspesno dodat trener!</Typography>
+                                </Box>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
                                     <Box sx={{ flex: '1 1 auto' }} />
                                     <Button onClick={handleReset}>Reset</Button>

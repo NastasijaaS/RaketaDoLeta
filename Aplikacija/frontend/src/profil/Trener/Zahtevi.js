@@ -89,13 +89,21 @@ const ZahteviTrenera = () => {
     }
 
     const vidiEvidenciju = async (id) => {
+        // console.log(id)
 
         await axiosPrivate.get("http://localhost:8800/api/evidencija/vidiEvidenciju/" + user.trenerId + '/' + id)
             .then(res => {
                 if (res.status === 200) {
 
                     if (res.data) {
-                        setEvidencija(res.data)
+                        // console.log(res.data)
+                        // setEvidencija(res.data)
+                        const intenziteti = res.data.intenziteti.slice(-5)
+                        const datumi = res.data.datumi.slice(-5)
+                        const tip = res.data.tipTreninga.slice(-5)
+
+                        setEvidencija({ intenziteti: intenziteti, tipTreninga: tip, datumi: datumi })
+
                     }
                 }
             }).catch((error) => {
@@ -135,10 +143,12 @@ const ZahteviTrenera = () => {
                             <AccordionDetails>
                                 <Grid container spacing={2}>
 
-                                    <Grid item xs={12} md={2} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                                    <Grid item xs={12} md={2} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', }}>
                                         <Typography>Broj telefona: {z.brojtelefonaT}</Typography>
-                                        <Typography>Intenzitet: {z.intenzitet}</Typography>
-                                        <Typography>Tip: {z.tip}</Typography>
+                                        <Typography sx={{ fontWeight: 600 }}>Intenzitet: {z.intenzitet}</Typography>
+                                        <Typography sx={{ fontWeight: 600 }}>Tip: {z.tip}</Typography>
+                                        <Typography sx={{ fontWeight: 600 }}>Online: {z.isOnline.toString()}</Typography>
+
                                     </Grid>
 
                                     <Grid item xs={12} md={10}>
@@ -186,7 +196,7 @@ const ZahteviTrenera = () => {
 
                         {
                             predlog === i &&
-                            <FormaPosaljiPredlog onClose={() => setPredlog(-1)} idKorisnika={z.idKorisnika} idTreninga={z.idTreninga} idZahteva={z.idZahteva} />
+                            <FormaPosaljiPredlog onClose={() => { setPredlog(-1); setRefresh(!refresh) }} idKorisnika={z.idKorisnika} idTreninga={z.idTreninga} idZahteva={z.idZahteva} />
                         }
 
                     </Box>

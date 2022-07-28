@@ -24,7 +24,6 @@ const KorisnikVeliko = (props) => {
     console.log(k)
 
     const [napredak, setNapredak] = useState(false)
-    const [evidencija, setEvidencija] = useState(false)
 
     const [nizNapredaka, setNizNapredak] = useState([])
     const [zeljeno, setZeljeno] = useState([])
@@ -43,26 +42,23 @@ const KorisnikVeliko = (props) => {
 
                 setNizNapredak(res.data)
                 setZeljeno(res.data.tezina)
-                // console.log(res.data)
+                 console.log(res.data)
                 // console.log(k)
 
-                res = await axiosPrivate.get("http://localhost:8800/api/evidencija/vidiEvidenciju/" + user.trenerId + '/' + k.idkorisnika)
-                //   console.log(res.data)
+                
 
-                setEvidencija(res.data)
             }
             catch (error) {
-                if (!error?.response) {
-                    setGreska('No Server Response')
-                } else
-                //if (error.response?.status !== 404) 
+                
+                if (error.response?.status !== 404) 
                 {
                     setGreska('Doslo je do greske prilikom ucitavanja')
+                }else{
+                    setPrvi(true)
                 }
             }
 
         }
-        ///vidiEvidenciju/:idTrenera/:idKorisnika
         get()
     }, [])
 

@@ -1,5 +1,5 @@
 import './App.css';
-import {  Pocetna } from './pocetna/Pocetna';
+import { Pocetna } from './pocetna/Pocetna';
 import LogIn from './pocetna/LoginForma'
 import Treneri from './pocetna/Treneri'
 import Onama from './pocetna/ONama'
@@ -11,7 +11,7 @@ import UserPocetna from './pocetna/UserPocetna';
 import React, { useContext, useMemo, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, NavigationType } from "react-router-dom";
 import { UserContext } from './context/UserContext';
-import { CssBaseline,  } from '@mui/material';
+import { CssBaseline, } from '@mui/material';
 import Uprava from './profil/ProfilUprava'
 import Footer from './komponente/Footer';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
@@ -82,6 +82,7 @@ function App() {
               <Route path='/usluge' element={<Usluge />} />
               <Route path='/blog' element={<Blog />} />
               <Route path='/blog/:tag/:naslov' element={<VelikiBlog />} />
+              <Route path='/grupnitreninzi' element={<GrupniTreninzi />} /> 
 
               <Route path='/login' element=
                 {user ? <Navigate replace to="/profil" /> : <LogIn />} />
@@ -91,11 +92,21 @@ function App() {
 
               <Route path='/profil' element=
                 {!user ? <Navigate replace to="/pocetna" /> : <UserPocetna />} />
-             
 
+{/* 
               <Route path='/napredak' element={<Napredak />} />
               <Route path='/vasitreninzi' element={<ZakazaniTreninzi />} />
-              <Route path='/grupnitreninzi' element={<GrupniTreninzi />} />
+           */}
+
+              <Route path='/napredak'
+                element={user?.tip === 'Korisnik' ?
+                  <Napredak /> : <Navigate replace to="/login" />} />
+
+              <Route path='/vasitreninzi'
+                element={user?.tip === 'Korisnik' ?
+                  <ZakazaniTreninzi /> : <Navigate replace to="/login" />} />
+
+
 
               <Route path='/RDL/trener/korisnici'
                 element={user?.tip === 'Trener' ?
@@ -104,7 +115,7 @@ function App() {
               <Route path='/RDL/trener/:username/zahtevi'
                 element={user?.tip === 'Trener' ?
                   <ZahteviTrenera /> : <Navigate replace to="/pocetna" />} />
-           
+
 
               <Route path='/trener/korisnik/:ime'
                 element={user?.tip === 'Trener' ?

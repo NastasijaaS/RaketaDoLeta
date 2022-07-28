@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, Fragment, useRef } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import {Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SearchIcon from '@mui/icons-material/Search';
@@ -11,8 +11,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Collapse from '@mui/material/Collapse';
 import useAxiosPrivate from '../../api/useAxiosPrivate';
-import { useRadioGroup, FormControlLabel,Paper,IconButton,FormControl,Grid,Radio,RadioGroup,Button} from '@mui/material';
-import {Input, InputAdornment} from  '@mui/material';
+import { useRadioGroup, FormControlLabel, Paper, IconButton, FormControl, Grid, Radio, RadioGroup, Button } from '@mui/material';
+import { Input, InputAdornment } from '@mui/material';
 
 export default function Tabela(props) {
 
@@ -36,8 +36,6 @@ export default function Tabela(props) {
             await axiosPrivate.get(url).then(p => {
                 if (p.status === 200) {
                     p.data.sort((a, b) => new Date(a.clanarinaDo) - new Date(b.clanarinaDo));
-
-                    // console.log(p.data)
 
                     setKorisnici(p.data)
                     setRows(p.data)
@@ -173,26 +171,25 @@ export default function Tabela(props) {
     const RadioButtons = (props) => {
 
         return (
-            <RadioGroup sx = {{display:'flex', alignItems:'center', padding:'2%'}}>
+            <RadioGroup sx={{ display: 'flex', alignItems: 'center', padding: '2%' }}>
                 <Grid container >
-                   
-                        {nizUsluga.map((usl) => (
-                             <Grid item xs = {6} sm={6} md ={4}>
 
+                    {nizUsluga.map((usl) => (
+                        <Grid item xs={6} sm={6} md={4} key={usl._id}>
                             <FormControlLabel
-                                sx = {{justifyContent: 'center', width: '100%'}}
+                                sx={{ justifyContent: 'center', width: '100%' }}
                                 key={usl._id}
                                 value={usl._id}
                                 control={<Radio />}
                                 onChange={handleRadioChange}
                                 label={usl.naziv} />
-                                                    </Grid>
+                        </Grid>
 
-                        ))}
+                    ))}
                 </Grid>
 
                 <Button
-                    sx = {{mt:'1%'}}
+                    sx={{ mt: '1%' }}
                     size="small"
                     variant="contained"
                     onClick={() => unesiClanarinu(props.idKorisnika)}
@@ -221,11 +218,11 @@ export default function Tabela(props) {
                         </IconButton>
                     </TableCell>}
 
-                    <TableCell  component="th" scope="row">
+                    <TableCell component="th" scope="row">
                         {row.ime + ' ' + row.prezime}
                     </TableCell>
 
-                    <TableCell  align="left">
+                    <TableCell align="left">
                         {row.email}
                     </TableCell>
 
@@ -263,15 +260,15 @@ export default function Tabela(props) {
                     </TableCell>
                 </TableRow>
                 {
-                props.verifikovan
-                &&
-                <TableRow>
-                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                            <RadioButtons idKorisnika={row.id} />
-                        </Collapse>
-                    </TableCell>
-                </TableRow>
+                    props.verifikovan
+                    &&
+                    <TableRow>
+                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                                <RadioButtons idKorisnika={row.id} />
+                            </Collapse>
+                        </TableCell>
+                    </TableRow>
                 }
             </Fragment>)
     }
@@ -279,57 +276,57 @@ export default function Tabela(props) {
     return (
         <Paper>
 
-            <Box sx = {{display: 'flex', flexDirection:'row', alignItems:'center'}}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 
-            <FormControl sx = {{m:'2%'}}>
-                <Input
-                placeholder="Ime"
-                value={searchName}
-                onChange={searchByName}
-                startAdornment={
-                    <InputAdornment position="start">
-                    <SearchIcon />
-                    </InputAdornment>
-                }
-                />
-            </FormControl>
+                <FormControl sx={{ m: '2%' }}>
+                    <Input
+                        placeholder="Ime"
+                        value={searchName}
+                        onChange={searchByName}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
 
-            <FormControl sx = {{m:'2%'}}>
-                <Input
-                placeholder="E-mail"
-                value={searchBroj}
-                onChange={searchByBroj}
-                startAdornment={
-                    <InputAdornment position="start">
-                    <SearchIcon />
-                    </InputAdornment>
-                }
-                />
-            </FormControl>
+                <FormControl sx={{ m: '2%' }}>
+                    <Input
+                        placeholder="E-mail"
+                        value={searchBroj}
+                        onChange={searchByBroj}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
             </Box>
 
             <TableContainer>
                 <Table>
                     <TableHead>
-                            <TableRow>
-                                {props.verifikovan && 
-                                    <TableCell></TableCell>
-                                }
-                                <TableCell sx={{ 'textAlign': 'left' }}>
-                                    Ime prezime
-                                </TableCell>
-
-                                <TableCell sx={{ 'textAlign': 'left' }}>
-                                    E-mail
-                                </TableCell>
-                                {props.verifikovan && <TableCell sx={{ 'textAlign': 'left' }}>
-                                    Datum isteka clanarine
-                                </TableCell>}
+                        <TableRow>
+                            {props.verifikovan &&
                                 <TableCell></TableCell>
-                                {!props.verifikovan && 
-                                    <TableCell></TableCell>
-                                }
-                            </TableRow>
+                            }
+                            <TableCell sx={{ 'textAlign': 'left' }}>
+                                Ime prezime
+                            </TableCell>
+
+                            <TableCell sx={{ 'textAlign': 'left' }}>
+                                E-mail
+                            </TableCell>
+                            {props.verifikovan && <TableCell sx={{ 'textAlign': 'left' }}>
+                                Datum isteka clanarine
+                            </TableCell>}
+                            <TableCell></TableCell>
+                            {!props.verifikovan &&
+                                <TableCell></TableCell>
+                            }
+                        </TableRow>
                     </TableHead>
                     <TableBody>
                         {
@@ -351,16 +348,16 @@ export default function Tabela(props) {
                         <TableRow>
 
                             <TablePagination
-                                sx = {{overflow:'revert'}}
+                                sx={{ overflow: 'revert' }}
                                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                                colSpan={2}
+                                colSpan={3}
                                 count={rows.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                             />
-                            
+
                         </TableRow>
                     </TableFooter>
                 </Table>

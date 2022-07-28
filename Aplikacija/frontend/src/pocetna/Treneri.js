@@ -9,7 +9,10 @@ import LogIn from './LoginForma';
 import Register from './RegisterForma';
 import FormaZakaziPersonalni from '../komponente/Forme/FormaZakaziPersonalni';
 
+const PUTANJA = 'http://localhost:8800/'
+
 const Treneri = () => {
+    // console.log(PUTANJA)
 
     const [sviTreneri, setTreneri] = useState([])
     const [greska, setGreska] = useState(false)
@@ -19,7 +22,7 @@ const Treneri = () => {
     const [login, setLogin] = useState(true)
 
     useEffect(() => {
-        GetData("http://localhost:8800/api/trener/vidiTrenerePersonalni", setTreneri, setGreska, setIsLoading)
+        GetData("http://localhost:8800/api/trener/vidiTrenereSvi", setTreneri, setGreska, setIsLoading)
     }, [])
 
     const { user, dispatch } = useContext(UserContext);
@@ -30,6 +33,7 @@ const Treneri = () => {
         <Box>
             {isLoading && <Box className='cardCenter' ><CircularProgress size='2rem' /> </Box>}
 
+
             {sviTreneri.map((tr, i) => (
                 <Card key={i} sx={{ margin: '5vh 5vw' }}>
                     <Grid container >
@@ -37,14 +41,16 @@ const Treneri = () => {
                         <Grid item xs={12} sm={4}>
                             <CardMedia
                                 component="img"
-                                src={tr.slika}
-                                image={tr.slika ? tr.slika : "https://www.ossrb.org/media/k2/items/cache/24c01e452493eba0f9e741ef09a2d61a_XL.jpg"}
+                                crossOrigin="anonymous"
+                                src={PUTANJA + tr.slika}
                                 alt={tr.ime}
-                                className="trImg" />
+                                className="trImg"
+                                onClick={() => { console.log(PUTANJA + tr.slika) }}
+                            />
                         </Grid>
                         <Grid item xs={12} sm={8}>
-                            <CardContent id={i}  sx={{display: 'flex', flexDirection:'column', minHeight: '100%' }}>
-                                <Box sx = {{flexGrow: '1'}}>
+                            <CardContent id={i} sx={{ display: 'flex', flexDirection: 'column', minHeight: '100%' }}>
+                                <Box sx={{ flexGrow: '1' }}>
                                     <Typography component="div" variant="h6">
                                         {tr.ime} {tr.prezime}
                                     </Typography>
@@ -75,25 +81,20 @@ const Treneri = () => {
                                 {zakazi && <Modal onClose={() => { setZakazi(false) }}>
 
                                     {user ? <FormaZakaziPersonalni idTrenera={trenerId} onClose={() => { setZakazi(false); }} /> : (login ? <Box><LogIn />
-                                        <Typography variant="body1" component="div" textAlign="center">Nemate nalog:
+                                        <Typography variant="caption" component="div" textAlign="center">Nemate nalog?
                                             <Button size='small' onClick={() => { setLogin(false) }}>Registruj se</Button>
                                         </Typography>
                                     </Box>
-
                                         :
-
                                         <Box><Register />
-                                            <Typography variant="body1" component="div" textAlign="center">Imate nalog:
+                                            <Typography variant="caption" component="div" textAlign="center">Imate nalog?
                                                 <Button size='small' onClick={() => { setLogin(true) }}>Prijavi se</Button>
                                             </Typography>
                                         </Box>)
                                     }
 
-
                                 </Modal>}
-
                             </CardContent>
-
                         </Grid>
                     </Grid>
                 </Card>

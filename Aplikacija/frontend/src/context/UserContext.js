@@ -17,30 +17,25 @@ const UserContextProvider = ({ children }) => {
     const axiosPrivate = useAxiosPrivate()
     const [state, dispatch] = useReducer(UserReducer, defaultValue);
 
-    const [cookie, setCookie] = useCookies(['user'])
 
     useEffect(() => {
         let userId = localStorage.getItem("userId")
         let token = localStorage.getItem("token")
-        console.log(token)
-        //dispatch(LoginSuccess(cookies.user))
 
         const getUser = async () => {
             try {
                 const res = await axiosPrivate.get('http://localhost:8800/api/auth/vratiKorisnikaPrekoTokena?userId=' + localStorage.getItem('userId'))
-                console.log(res)
+                // console.log(res)
                 if (res.data) {
                     dispatch(LoginSuccess(res.data))
-                    localStorage.setItem('token', res.data?.token)
-                    // console.log('')
-                    // console.log(res.data?.refreshToken)
-                    // console.log('')
-                    setCookie('ref-token', res.data?.refreshToken)
+                    localStorage.setItem('token', res.data.token)
+                    document.cookie = 'token=' + res.data.refreshToken
                 }
             }
             catch (err) {
                 console.log(err)
                 localStorage.clear()
+                document.cookie = 'token=' + ''
                 dispatch(LoginFailure())
             }
         }
@@ -50,6 +45,7 @@ const UserContextProvider = ({ children }) => {
             getUser()
         } else {
             dispatch(LoginFailure())
+            document.cookie = 'token=' + ''
         }
 
     }, [])

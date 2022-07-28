@@ -113,7 +113,7 @@ const NapraviGrupni = (props) => {
 
             <LocalizationProvider dateAdapter={AdapterDateFns} >
                 <DatePicker
-                    label="izaberite datum"
+                    label="Izaberite datum"
                     value={date}
                     onChange={(newValue) => {
                         setDate(newValue);
@@ -132,7 +132,7 @@ const NapraviGrupni = (props) => {
                         size='small'
                         value={vreme}
                         minutesStep={15}
-                        label="vreme treninga"
+                        label="Vreme treninga"
                         onChange={(newValue) => {
                             setVreme(newValue);
                         }}
@@ -152,7 +152,7 @@ const NapraviGrupni = (props) => {
                 <TextField
                     sx={{ width: '100%' }}
                     inputRef={naziv}
-                    label='naziv'
+                    label='Naziv'
                     type='text'
                     size="small"
                     placeholder='naziv'
@@ -170,7 +170,7 @@ const NapraviGrupni = (props) => {
                 <FormControl sx={{ width: '100%' }}>
                     <InputLabel>Usluga</InputLabel>
                     <Select
-                        label='usluga'
+                        label='Usluga'
                         value={usluga}
                         size='small'
                         onChange={(ev) => {
@@ -188,10 +188,8 @@ const NapraviGrupni = (props) => {
                 </FormControl>
             </Box>
 
-            <Box display='flex' flexDirection='row' justifyContent={"center"}>
-
+            <Box sx = {{mt:'5%'}}>
                 <Button fullWidth size='small' variant="outlined" onClick={zakaziGrupniTrening}>Potvrdi</Button>
-                {/* <Button sx={{ marginLeft: '2%' }} size='small' variant="outlined" onClick={props.onClose}>Otkazi</Button> */}
             </Box>
 
         </Box>
